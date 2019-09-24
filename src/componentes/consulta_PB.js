@@ -23,6 +23,20 @@ export default class consula_PB extends Component {
 
           <label>Nombre(s): </label>
           <input className="field" type="text" name="nombre" />
+
+          <div>
+            <label>Apellido Paterno: </label>
+            <input className="field" type="text" name="nombre" />
+          </div>
+
+          <div>
+            <label>Apellido Materno: </label>
+            <input className="field" type="text" name="nombre" />
+          </div>
+
+          <div>
+            <button></button>
+          </div>
         </form>
       </React.Fragment>
     );
