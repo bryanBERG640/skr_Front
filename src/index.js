@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-//import App from './App';
-import SolucionesKabec from "./componentes/SolucionesKabec";
+import App from "./App";
+import "bootstrap/dist/css/bootstrap.css";
 
-const container = document.getElementById("root");
-ReactDOM.render(<SolucionesKabec />, container);
+const container = document.getElementById("app");
+ReactDOM.render(<App />, container);
