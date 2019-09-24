@@ -69,7 +69,7 @@ class PrimarySearchAppBar extends React.Component {
                 selected={option === "Pyxis"}
                 onClick={this.handleClose}
               >
-                Prueba
+                {option}
               </MenuItem>
             ))}
           </Menu>

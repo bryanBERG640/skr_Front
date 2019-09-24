@@ -8,6 +8,8 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Datos from "./ficha.postulantes/Datos";
 import Citas from "./ficha.postulantes/Citas";
+import Entrevistas from "./ficha.postulantes/Citas";
+import Examenes from "./ficha.postulantes/Citas";
 
 function TabContainer(props) {
   return (
@@ -64,8 +66,8 @@ class NavTabs extends React.Component {
           </AppBar>
           {value === 0 && <TabContainer><Datos/></TabContainer>}
           {value === 1 && <TabContainer><Citas></Citas></TabContainer>}
-          {value === 2 && <TabContainer>entrevistas</TabContainer>}
-          {value === 3 && <TabContainer>examenes</TabContainer>}
+          {value === 2 && <TabContainer><Entrevistas/></TabContainer>}
+          {value === 3 && <TabContainer><Examenes/></TabContainer>}
         </div>
       </NoSsr>
     );
