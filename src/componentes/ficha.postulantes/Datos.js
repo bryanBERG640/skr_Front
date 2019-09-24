@@ -29,8 +29,8 @@ export default class Datos extends React.Component {
                     <Typography>Certificaciones: {datos.certificaciones}</Typography>
                     <Typography>Pretencion Economica Mensual: {datos.pretencion_economica}</Typography>
                     <Typography>Acuerdo Economico Mensual: {datos.acuerdo_economico}</Typography>
-                    <Typography>Estatus CV: {datos.estatus_cv.descripcion}</Typography>
-                    <Typography>Estatus Postulante: {datos.estatus_postulante.descripcion}</Typography>
+                    <Typography>Estatus CV: {datos.estatuscv.descripcion}</Typography>
+                    <Typography>Estatus Postulante: {datos.postulanteb.estatuspostulante.descripcion}</Typography>
                 </div>
             )
         })
