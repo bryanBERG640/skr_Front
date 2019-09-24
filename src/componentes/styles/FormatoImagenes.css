@@ -1,9 +1,9 @@
 .postulantes {
   height: 80 px;
   width: 80px;
-  margin-left: 42%;
+  margin-left: 2%;
   margin-right: 0%;
-  display: block;
+  display: flex;
 }
 
 .divIzq {

@@ -2,16 +2,35 @@ import React, { Component } from "react";
 import Icono from "../Imagenes/postulantes.png";
 import "./styles/Formatos.css";
 import "./styles/FormatoImagenes.css";
-import division from "../Imagenes/division.png";
+
+const ColoredLine = ({ color }) => (
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 2,
+      width: 500
+    }}
+  />
+);
 
 export default class consula_PB extends Component {
   render() {
     return (
       <React.Fragment>
-        <img className="divIzq" src={division} alt="div" />
-        <img className="postulantes" src={Icono} alt="postulantes" />
-        <img className="divDer" src={division} alt="div" />
+        <div align="center">
+          <td>
+            <ColoredLine color="black" />
+          </td>
+          <td>
+            <img className="postulantes" src={Icono} alt="postulantes" />
+          </td>
+          <td>
+            <ColoredLine color="black" />
+          </td>
+        </div>
         <h2 className="titulo">Consultar Postulantes</h2>
+
         <form className="form">
           <div className="form-group">
             <label>Perfil: </label>
@@ -35,7 +54,10 @@ export default class consula_PB extends Component {
           </div>
 
           <div>
-            <button></button>
+            <button>Agregar Postulante</button>
+            <button>Completar Datos</button>
+            <button>Agendar</button>
+            <button>Mostrar Ficha</button>
           </div>
         </form>
       </React.Fragment>
