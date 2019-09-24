@@ -9,32 +9,39 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
 const ColoredLine = ({ color }) => (
-    <hr
-        style={{
-            color: color,
-            backgroundColor: color,
-            height: 2,
-            width:500
-        }}
-    />
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 2,
+      width: 500
+    }}
+  />
 );
 
 class FichaPostulante extends React.Component {
   render() {
+    componentWillMount = () => {
+      getPostulanteC(1).then(response => {
+        let nuevoGet = [];
+        console.log(response);
+        nuevoGet.push(response)
+        this.setState({ resp: nuevoGet })
+      }).catch(console.log)
+    }
     return (
       <div>
-        <Navbar />
         <br />
         <div align="center">
-            <td><ColoredLine color="black" /></td>
-            <td>
-                <Typography style={{ "fontSize": "20px" }}>Perfil: Desarrollador</Typography>
-                <Typography style={{ "fontSize": "20px" }}>Salomon Angeles Guzman</Typography>
-                <Divider/>
-                <Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>Prueba@kabec.com</Typography>
-                <Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>Telefono: 55123456</Typography><Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>Celular: 5512345678</Typography>
-            </td>
-            <td><ColoredLine color="black" /></td>
+          <td><ColoredLine color="black" /></td>
+          <td>
+            <Typography style={{ "fontSize": "20px" }}>Perfil: Desarrollador</Typography>
+            <Typography style={{ "fontSize": "20px" }}>Salomon Angeles Guzman</Typography>
+            <Divider />
+            <Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>Prueba@kabec.com</Typography>
+            <Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>Telefono: 55123456</Typography><Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>Celular: 5512345678</Typography>
+          </td>
+          <td><ColoredLine color="black" /></td>
         </div>
         <tr>
           <td>

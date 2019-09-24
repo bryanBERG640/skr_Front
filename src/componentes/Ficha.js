@@ -8,8 +8,8 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Datos from "./ficha.postulantes/Datos";
 import Citas from "./ficha.postulantes/Citas";
-import Entrevistas from "./ficha.postulantes/Citas";
-import Examenes from "./ficha.postulantes/Citas";
+import Entrevistas from "./ficha.postulantes/Entrevistas";
+import Examenes from "./ficha.postulantes/Examenes";
 
 function TabContainer(props) {
   return (
