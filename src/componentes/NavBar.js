@@ -8,6 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import logo from '../Imagenes/logo.png'
+import './styles/NavBarLogo.css'
 
 const styles = theme => ({
   root: {
@@ -30,8 +32,6 @@ const options = [
     'Métricas',
     'Riesgos'
   ];
-
-const ITEM_HEIGHT = 48;
 
 class PrimarySearchAppBar extends React.Component {
   state = {
@@ -58,7 +58,9 @@ class PrimarySearchAppBar extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
-              Soluciones Kabec
+              <a className="Navbar__brand" href="/">
+                <img className="Navbar_logo" src ={logo} alt= "Logo"/>
+              </a>
             </Typography>
             <Menu id="long-menu" open={open} onClose={this.handleClose}>
             {options.map(option => (
@@ -67,7 +69,7 @@ class PrimarySearchAppBar extends React.Component {
                 selected={option === "Pyxis"}
                 onClick={this.handleClose}
               >
-                {option}
+                Prueba
               </MenuItem>
             ))}
           </Menu>
