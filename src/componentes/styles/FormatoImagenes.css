@@ -1,0 +1,20 @@
+.postulantes {
+  height: 80 px;
+  width: 80px;
+  margin-left: 42%;
+  margin-right: 0%;
+  display: block;
+}
+
+.divIzq {
+  height: 5px;
+  width: 500px;
+  margin-left: 2%;
+}
+
+.divDer {
+  height: 5px;
+  width: 500px;
+  margin-left: 60%;
+  display: inline-block;
+}
