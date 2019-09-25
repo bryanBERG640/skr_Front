@@ -1,5 +1,4 @@
 import React from 'react'
-import Navbar from './NavBar'
 import Ficha from './Ficha';
 import { Container, Typography } from '@material-ui/core';
 import avatar from '../Imagenes/avatar.png';
@@ -7,6 +6,8 @@ import Avatar from 'react-avatar';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import { getPostulanteC } from '../request/request';
+import '../App.css'
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -20,26 +21,40 @@ const ColoredLine = ({ color }) => (
 );
 
 class FichaPostulante extends React.Component {
+  state = {
+    resp: []
+  }
+  componentWillMount = () => {
+    getPostulanteC(2).then(response => {
+      let nuevoGet = [];
+      console.log(response);
+      nuevoGet.push(response)
+      this.setState({ resp: nuevoGet })
+    }).catch(console.log)
+  }
   render() {
-    componentWillMount = () => {
-      getPostulanteC(1).then(response => {
-        let nuevoGet = [];
-        console.log(response);
-        nuevoGet.push(response)
-        this.setState({ resp: nuevoGet })
-      }).catch(console.log)
-    }
+    const dato = this.state.resp.map((datos) => {
+      return (
+        <div>
+          <Typography style={{ "fontSize": "20px" }}><b id="div">Perfil: </b>{datos.postulanteb.perfil.descripcion}</Typography>
+          <Typography style={{ "fontSize": "20px" }}>{datos.postulanteb.nombre} {datos.postulanteb.apellido1} {datos.postulanteb.apellido2}</Typography>
+          <Divider />
+          <Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>{datos.postulanteb.correo}</Typography>
+          <Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}><b>Telefono: </b>{datos.postulanteb.telefono}</Typography>
+          <Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}><b>Celular: </b>{datos.postulanteb.celular}</Typography>
+        </div>
+      )
+    });
+    const foto = this.state.resp.map((photo)=>{
+      return <Avatar size="200" src={photo.foto_perfil} round="100px" />
+    })
     return (
       <div>
         <br />
         <div align="center">
           <td><ColoredLine color="black" /></td>
           <td>
-            <Typography style={{ "fontSize": "20px" }}>Perfil: Desarrollador</Typography>
-            <Typography style={{ "fontSize": "20px" }}>Salomon Angeles Guzman</Typography>
-            <Divider />
-            <Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>Prueba@kabec.com</Typography>
-            <Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>Telefono: 55123456</Typography><Typography style={{ "fontSize": "12px", "color": "#a2bd31" }}>Celular: 5512345678</Typography>
+            {dato}
           </td>
           <td><ColoredLine color="black" /></td>
         </div>
@@ -47,7 +62,9 @@ class FichaPostulante extends React.Component {
           <td>
             <Container>
               <tr>
-                <Avatar size="200" src={avatar} round="100px" />
+                  <Avatar size="200" src={avatar} round="100px" />
+                  {/*{foto}  
+                  Descomentar esta linea y quitar la de arriba cuando este la foto */}
               </tr>
               <tr>
                 <TextField

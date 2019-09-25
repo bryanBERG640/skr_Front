@@ -24,4 +24,11 @@
     width: 200px;
     height: 60px;
   }
-  
+
+  .item{
+    width: 100px;
+  }
+
+  .bar{
+    align-items: flex-start;
+  }

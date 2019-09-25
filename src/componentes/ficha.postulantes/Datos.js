@@ -8,9 +8,8 @@ export default class Datos extends React.Component {
         resp:[]
     }
     componentWillMount = () => {
-        getPostulanteC(1).then(response =>{
+        getPostulanteC(2).then(response =>{
             let nuevoGet = [];
-            console.log(response); 
             nuevoGet.push(response)
             this.setState({resp:nuevoGet})
         }).catch(console.log)

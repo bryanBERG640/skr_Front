@@ -13,7 +13,7 @@ import Examenes from "./ficha.postulantes/Examenes";
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div" style={{ padding: 1 * 1 }}>
       {props.children}
     </Typography>
   );
@@ -52,7 +52,7 @@ class NavTabs extends React.Component {
     return (
       <NoSsr>
         <div className={classes.root}>
-          <AppBar position="static" style={{ background: "#6D107D" }}>
+          <AppBar position="static" style={{ background: "#6D107D", alignContent:"center"}}>
             <Tabs
               variant="fullWidth"
               value={value}
