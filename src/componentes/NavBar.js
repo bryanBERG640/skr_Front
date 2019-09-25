@@ -1,9 +1,9 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
-import logo from '../Imagenes/logo.png'
-import './styles/NavBarLogo.css'
+import React from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Typography from "@material-ui/core/Typography";
+import MenuIcon from "@material-ui/icons/Menu";
+import logo from "../Imagenes/logo.png";
+import "./styles/NavBarLogo.css";
 import { makeStyles } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
@@ -11,6 +11,7 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   list: {
@@ -55,13 +56,13 @@ export default function SwipeableTemporaryDrawer() {
         ))}
       </List>
       <Divider />
-      <List>
-        {["Postulantes", "Citas"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      <Link to="/consultar-Postulantes" className="btn btn-default">
+        Postulantes
+      </Link>
+      <br />
+      <Link to="/consultarCita" className="btn btn-default">
+        Citas
+      </Link>
       <Divider />
       <List>
         {["Comparativo", "Metricas", "Riesgos"].map((text, index) => (
@@ -81,12 +82,14 @@ export default function SwipeableTemporaryDrawer() {
           onClick={toggleDrawer("left", true)}
           color="inherit"
         >
-            <div className="item"><MenuIcon /></div>
-            <Typography variant="h6" color="inherit" noWrap>
-              <a className="Navbar__brand" href="/">
-                <img className="Navbar_logo" src ={logo} alt= "Logo"/>
-              </a>
-            </Typography>
+          <div className="item">
+            <MenuIcon />
+          </div>
+          <Typography variant="h6" color="inherit" noWrap>
+            <a className="Navbar__brand" href="/">
+              <img className="Navbar_logo" src={logo} alt="Logo" />
+            </a>
+          </Typography>
         </IconButton>
 
         <SwipeableDrawer
