@@ -14,31 +14,28 @@
   margin-right: 7%;
 }
 
-#izquierda,
-#derecha,
-#centro {
-  width: 150 px;
-}
-
-#izquierda {
-  float: left;
-}
-
-#derecha {
-  float: right;
-}
-
-#centro {
-  margin-left: 160px;
-}
-
 .titulo {
-  height: 500px;
-  margin-left: 35%;
+  margin-bottom: 50px;
+  margin-left: 550px;
+  width: 500px;
+  height: 40px;
 }
 
-form {
-  width: 1000px;
-  display: block;
-  text-align: justify;
+.form-post {
+  margin-right: 100px;
+  margin-left: 350px;
+}
+
+.form-hor {
+  padding-left: 300px;
+  padding-top: 20px;
+  width: 1200px;
+  height: 100px;
+}
+
+.btn {
+  border-radius: 3px;
+  padding: 20 px 15 px;
+  text-decoration: none;
+  text-shadow: 0 1px;
 }

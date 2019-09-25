@@ -18,3 +18,12 @@
   margin-left: 60%;
   display: inline-block;
 }
+
+.lupa {
+  height: 100 px;
+  width: 150px;
+  margin-top: 50px;
+  margin-left: 2%;
+  margin-right: 0%;
+  display: flex;
+}
