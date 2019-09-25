@@ -67,26 +67,10 @@ class NavTabs extends React.Component {
               <LinkTab label="Examenes" href="page4" />
             </Tabs>
           </AppBar>
-          {value === 0 && (
-            <TabContainer>
-              <Datos />
-            </TabContainer>
-          )}
-          {value === 1 && (
-            <TabContainer>
-              <Citas></Citas>
-            </TabContainer>
-          )}
-          {value === 2 && (
-            <TabContainer>
-              <Entrevistas />
-            </TabContainer>
-          )}
-          {value === 3 && (
-            <TabContainer>
-              <Examenes />
-            </TabContainer>
-          )}
+          {value === 0 && (<TabContainer><Datos /></TabContainer>)}
+          {value === 1 && (<TabContainer><Citas></Citas></TabContainer>)}
+          {value === 2 && (<TabContainer><Entrevistas /></TabContainer>)}
+          {value === 3 && (<TabContainer><Examenes /></TabContainer>)}
         </div>
       </NoSsr>
     );

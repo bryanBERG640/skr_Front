@@ -4,7 +4,6 @@ import { Container, Typography } from "@material-ui/core";
 import avatar from "../Imagenes/avatar.png";
 import Avatar from "react-avatar";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import { getPostulanteC } from "../request/request";
@@ -82,8 +81,6 @@ class FichaPostulante extends React.Component {
             <Container>
               <tr>
                 <Avatar size="200" src={avatar} round="100px" />
-                {/*{foto}  
-                  Descomentar esta linea y quitar la de arriba cuando este la foto */}
               </tr>
               <tr>
                 <TextField
