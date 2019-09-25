@@ -1,6 +1,7 @@
 import React from 'react';
 import { TableHead,TableBody,Table,TableCell,TableRow } from '@material-ui/core';
 import {getPostulanteC} from '../../request/request';
+import Checkbox from '@material-ui/core/Checkbox';
 
 export default class Citas extends React.Component{
     state ={
@@ -96,7 +97,7 @@ export default class Citas extends React.Component{
                 return(
                     <div>
                         <TableRow>
-                            <TableCell>{date.estatuscita.descripcion}</TableCell>
+                        <Checkbox style={{color:"#6D107D"}}/>
                         </TableRow>
                     </div>
                 )
@@ -123,7 +124,7 @@ export default class Citas extends React.Component{
                             <TableCell style={{fontSize:"10px"}}>{citas4}</TableCell>
                             <TableCell style={{fontSize:"10px"}}>{citas5}</TableCell>
                             <TableCell style={{fontSize:"10px"}}>{citas6}</TableCell>
-                            <TableCell style={{fontSize:"10px"}}>{citas7}</TableCell>
+                            <TableCell>{citas7}</TableCell>
                         </TableBody>
                     </Table>
             </div>

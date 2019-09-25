@@ -70,7 +70,7 @@ class FichaPostulante extends React.Component {
                 <TextField
                   disabled
                   label="Estatus"
-                  value="Aceptado por Kabec"
+                  value="Aceptado por Kabec" 
                   margin="normal"
                   variant="outlined"
                   style={{ "backgroundColor": "#fae0ff" }}
