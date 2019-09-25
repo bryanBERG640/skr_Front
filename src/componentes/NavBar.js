@@ -1,87 +1,102 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import logo from '../Imagenes/logo.png'
 import './styles/NavBarLogo.css'
+import { makeStyles } from "@material-ui/core/styles";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-  },
-  grow: {
-    flexGrow: 1,
-  },
+const useStyles = makeStyles({
+  list: {
+    width: 250
+  }
 });
 
-const options = [
-    'Solicitud de Requerimiento',
-    'Definicion de Perfil',
-    'Reclutamiento y Selección',
-    '____________________________',
-    'Postulantes',
-    'Citas',
-    '____________________________',
-    'Comparativo',
-    'Métricas',
-    'Riesgos'
-  ];
+export default function SwipeableTemporaryDrawer() {
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    left: false
+  });
 
-class PrimarySearchAppBar extends React.Component {
-  state = {
-    anchorEl: null
+  const toggleDrawer = (side, open) => event => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [side]: open });
   };
 
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+  const sideList = side => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {[
+          "Solicitud de Requerimiento",
+          "Definicion de Perfil",
+          "Reclutamiento y Selección"
+        ].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {["Postulantes", "Citas"].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {["Comparativo", "Metricas", "Riesgos"].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
 
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  render() {
-    const { classes } = this.props;
-    const { anchorEl } = this.state;   
-    const open = Boolean(anchorEl);
-    return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton onClick={this.handleClick} className={classes.menuButton} color="inherit" aria-label="Open drawer">
-              <MenuIcon />
-            </IconButton>
+  return (
+    <div>
+      <AppBar className="bar" position="static">
+        <IconButton
+          style={{ alignContent: "left" }}
+          onClick={toggleDrawer("left", true)}
+          color="inherit"
+        >
+            <div className="item"><MenuIcon /></div>
             <Typography variant="h6" color="inherit" noWrap>
               <a className="Navbar__brand" href="/">
                 <img className="Navbar_logo" src ={logo} alt= "Logo"/>
               </a>
             </Typography>
-            <Menu id="long-menu" open={open} onClose={this.handleClose}>
-            {options.map(option => (
-              <MenuItem
-                key={option}
-                selected={option === "Pyxis"}
-                onClick={this.handleClose}
-              >
-                {option}
-              </MenuItem>
-            ))}
-          </Menu>
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
+        </IconButton>
+
+        <SwipeableDrawer
+          open={state.left}
+          onClose={toggleDrawer("left", false)}
+          onOpen={toggleDrawer("left", true)}
+        >
+          {sideList("left")}
+        </SwipeableDrawer>
+      </AppBar>
+    </div>
+  );
 }
-
-PrimarySearchAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(PrimarySearchAppBar);
