@@ -45,15 +45,12 @@ export default function SwipeableTemporaryDrawer() {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        {[
-          "Solicitud de Requerimiento",
-          "Definicion de Perfil",
-          "Reclutamiento y Selección"
-        ].map((text, index) => (
-          <ListItem button key={text}>
+        {["Solicitud de Requerimiento","Definicion de Perfil","Reclutamiento y Selección"].map((text, index) => (
+          <ListItem button key={text} disabled>
             <ListItemText primary={text} />
           </ListItem>
-        ))}
+           ))
+        }
       </List>
       <Divider />
       <Link to="/consultar-Postulantes" className="btn btn-default">
@@ -66,8 +63,8 @@ export default function SwipeableTemporaryDrawer() {
       <Divider />
       <List>
         {["Comparativo", "Metricas", "Riesgos"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
+          <ListItem button key={text} disabled>
+            <ListItemText primary={text}/>
           </ListItem>
         ))}
       </List>
