@@ -27,3 +27,8 @@
   margin-right: 0%;
   display: flex;
 }
+
+.lapiz {
+  height: 25px;
+  width: 25px;
+}

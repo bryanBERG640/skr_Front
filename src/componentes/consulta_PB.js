@@ -3,6 +3,9 @@ import Icono from "../Imagenes/postulantes.png";
 import "./styles/Formatos.css";
 import "./styles/FormatoImagenes.css";
 import lupa from "../Imagenes/lupa.png";
+import lapiz from "../Imagenes/lapiz.png";
+import { Link } from "react-router-dom";
+import { getPostulanteB } from "../request/request";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -21,20 +24,17 @@ export default class consula_PB extends Component {
     resp: []
   };
 
-  async componentDidMount() {
-    const response = await fetch("/postulanteB/get");
-    const body = await response.json().catch(console.log);
-    this.setState({ resp: body, isLoading: false });
-  }
-
-  /*componentDidMount() {
-    this.setState({ isLoading: true });
-
-    fetch("/postulanteB/get")
-      .then(response => response.json())
-      .then(data => this.setState({ resp: data, isLoading: false }))
+  componentWillMount = () => {
+    getPostulanteB()
+      .then(response => {
+        let nuevoGet = [];
+        nuevoGet.push(response);
+        this.setState({ resp: nuevoGet });
+        console.log(this.state.resp);
+      })
       .catch(console.log);
-  }*/
+    this.setState({ isLoading: false });
+  };
 
   render() {
     const { resp, isLoading } = this.state;
@@ -43,10 +43,66 @@ export default class consula_PB extends Component {
       return <p>Cargando...</p>;
     }
 
-    const groupPB = resp.map(group => {
-      const postB = `${group.nombre || ""} ${group.apellido1 || ""}
-      ${group.apellido2 || ""} ${group.telefono || ""} ${group.celular || ""}
-      ${group.correo || ""}`;
+    const groupPB = resp.map(arr => {
+      return arr.map(postulante => {
+        const n = `${postulante.nombre || ""}`;
+        const a1 = `${postulante.apellido1 || ""}`;
+        const a2 = `${postulante.apellido2 || ""}`;
+        const t = `${postulante.telefono || ""}`;
+        const c = `${postulante.celular || ""}`;
+        const co = `${postulante.correo || ""}`;
+        const d = `${postulante.perfil.descripcion || ""}`;
+        const ver = `${postulante.estatuspostulante.descripcion || ""}`;
+        if (ver == "Contactado") {
+          return (
+            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <td>
+                {n}
+                &nbsp;
+                {a1}
+                &nbsp;
+                {a2}
+              </td>
+              <td>{t}</td>
+              <td>{c}</td>
+              <td>{co}</td>
+              <td>{d}</td>
+              <td>
+                &nbsp; &nbsp;
+                <input type="checkbox" value="" checked />
+              </td>
+              <td>
+                <input type="image" className="lapiz" src={lapiz} />
+              </td>
+            </tr>
+          );
+        } else {
+          return (
+            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <td>
+                {n}
+                &nbsp;
+                {a1}
+                &nbsp;
+                {a2}
+              </td>
+
+              <td>{t}</td>
+              <td>{c}</td>
+              <td>{co}</td>
+              <td>{d}</td>
+              <td>
+                &nbsp; &nbsp;
+                <input type="checkbox" value="" />
+              </td>
+              <td>
+                <input type="image" className="lapiz" src={lapiz} />
+              </td>
+            </tr>
+          );
+        }
+        console.log(postulante.perfil.descripcion);
+      });
     });
 
     return (
@@ -115,30 +171,29 @@ export default class consula_PB extends Component {
                 Agendar
               </button>
               &nbsp; &nbsp;
-              <button type="button" className="btn btn-primary">
+              <Link to="/Ficha-Postulante" className="btn btn-primary">
                 Mostrar Ficha
-              </button>
+              </Link>
               &nbsp; &nbsp;
             </div>
           </form>
         </div>
-
-        <table className="mt-4">
-          <thead>
-            <tr>
-              <th width="15%">Nombre</th>
-              <th width="15%">Apellido Paterno</th>
-              <th width="15%">Apellido Materno</th>
-              <th width="10%">Telefono</th>
-              <th width="10%">Celular</th>
-              <th width="15%">Correo</th>
-              <th width="5%">Contactado</th>
-              <th width="10%">Perfil</th>
-              <th width="5%">Editar</th>
-            </tr>
-          </thead>
-          <tbody>{groupPB}</tbody>
-        </table>
+        <div>
+          <table className="mt-4">
+            <thead>
+              <tr>
+                <th width="15%">Nombre</th>
+                <th width="10%">Telefono</th>
+                <th width="10%">Celular</th>
+                <th width="15%">Correo</th>
+                <th width="10%">Perfil</th>
+                <th width="10%">Contactado</th>
+                <th width="5%">Editar</th>
+              </tr>
+            </thead>
+            <tbody>{groupPB}</tbody>
+          </table>
+        </div>
       </React.Fragment>
     );
   }

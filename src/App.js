@@ -13,7 +13,11 @@ function App() {
         <Layout>
           <Switch>
             <Route exact path="/Ficha-Postulante" component={FichaPostulante} />
-            <Route exact path="/consultar-PB" component={consulta_PB} />
+            <Route
+              exact
+              path="/consultar-Postulantes"
+              component={consulta_PB}
+            />
           </Switch>
         </Layout>
       </BrowserRouter>
