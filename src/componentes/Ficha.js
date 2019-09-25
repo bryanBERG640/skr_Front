@@ -8,12 +8,12 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Datos from "./ficha.postulantes/Datos";
 import Citas from "./ficha.postulantes/Citas";
-import Entrevistas from "./ficha.postulantes/Citas";
-import Examenes from "./ficha.postulantes/Citas";
+import Entrevistas from "./ficha.postulantes/Entrevistas";
+import Examenes from "./ficha.postulantes/Examenes";
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div" style={{ padding: 1 * 1 }}>
       {props.children}
     </Typography>
   );
@@ -52,7 +52,7 @@ class NavTabs extends React.Component {
     return (
       <NoSsr>
         <div className={classes.root}>
-          <AppBar position="static" style={{ background: "#6D107D" }}>
+          <AppBar position="static" style={{ background: "#6D107D", alignContent:"center"}}>
             <Tabs
               variant="fullWidth"
               value={value}
