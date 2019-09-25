@@ -1,3 +1,5 @@
+import axios from "axios";
+
 function getPostulanteC(idPostulante) {
   return fetch(
     "http://192.168.1.230:8088/skr_v1/postulanteComplemento/get/" +
@@ -30,4 +32,9 @@ function getPostulanteB() {
     .catch(console.log);
 }
 
-export { getPostulanteC, getPostulanteB };
+function getCita() {
+  const citas = axios.get("http://192.168.1.230:8088/skr_v1/postulanteB/get/");
+  return citas;
+}
+
+export { getPostulanteC, getPostulanteB, getCita };

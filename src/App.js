@@ -4,6 +4,7 @@ import consulta_PB from "./componentes/consulta_PB";
 import Layout from "./componentes/Layout";
 import SolucionesKabec from "./componentes/SolucionesKabec";
 import FichaPostulante from "./componentes/FichaPostulante";
+import consultarCita from "./componentes/consultarCita";
 import "./App.css";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
               path="/consultar-Postulantes"
               component={consulta_PB}
             />
+            <Route exact path="/consultarCita" component={consultarCita} />
           </Switch>
         </Layout>
       </BrowserRouter>
