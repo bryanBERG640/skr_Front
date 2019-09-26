@@ -53,11 +53,11 @@ export default class consultarCita extends Component {
                 value={datos.id_postulante_b}
                 onDoubleClick={() => this.selectCita(datos.id_postulante_b)}
               >
-                {datos.perfil.descripcion}
+                {cit.fecha}
               </td>
-              <td>{datos.estatuspostulante.descripcion}</td>
+              <td>{cit.hora}</td>
               <td>{cit.entrevistador}</td>
-              <td>{cit.fecha}</td>
+              <td>{cit.observaciones}</td>
               <td>
                 <label>
                   <input className="form-check-input" type="checkbox" checked />
@@ -75,11 +75,11 @@ export default class consultarCita extends Component {
                 value={datos.id_postulante_b}
                 onDoubleClick={() => this.selectCita(datos.id_postulante_b)}
               >
-                {datos.perfil.descripcion}
+                {cit.fecha}
               </td>
-              <td>{datos.estatuspostulante.descripcion}</td>
+              <td>{cit.hora}</td>
               <td>{cit.entrevistador}</td>
-              <td>{cit.fecha}</td>
+              <td>{cit.observaciones}</td>
               <td>
                 <label>
                   <input className="form-check-input" type="checkbox" />
@@ -181,30 +181,7 @@ export default class consultarCita extends Component {
                     <th scope="col">Asistió</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <th
-                      scope="row"
-                      value="Jose"
-                      onDoubleClick={() => this.selectCita()}
-                    >
-                      Jose Luis Valtierra Pizano
-                    </th>
-                    <td value="07-09-2019">07/09/2019</td>
-                    <td>9:30</td>
-                    <td>Lic. Amparo Torres</td>
-                    <td>Mala actitud</td>
-                    <td>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value=""
-                        checked=""
-                      />
-                    </td>
-                  </tr>
-                  {dato}
-                </tbody>
+                <tbody>{dato}</tbody>
               </table>
             </div>
           </div>
