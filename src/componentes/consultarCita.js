@@ -43,51 +43,36 @@ export default class consultarCita extends Component {
     const dato = this.state.postulanteB.map(datos => {
       return datos.cita.map(cit => {
         const valor = cit.estatuscita.id_estatus_cita;
-        if (valor === 1) {
-          return (
-            <tr name="citaPB" onDoubleClick={() => this.selectCita()}>
-              <th>
-                {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
-              </th>
-              <td
-                value={datos.id_postulante_b}
-                onDoubleClick={() => this.selectCita(datos.id_postulante_b)}
-              >
-                {cit.fecha}
-              </td>
-              <td>{cit.hora}</td>
-              <td>{cit.entrevistador}</td>
-              <td>{cit.observaciones}</td>
-              <td>
-                <label>
+        return (
+          <tr name="citaPB" onDoubleClick={() => this.selectCita()}>
+            <th>
+              {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
+            </th>
+            <td
+              value={datos.id_postulante_b}
+              onDoubleClick={() => this.selectCita(datos.id_postulante_b)}
+            >
+              {cit.fecha}
+            </td>
+            <td>{cit.hora}</td>
+            <td>{cit.entrevistador}</td>
+            <td>{cit.observaciones}</td>
+            <td>
+              <label>
+                {valor === 1 ? (
                   <input className="form-check-input" type="checkbox" checked />
-                </label>
-              </td>
-            </tr>
-          );
-        } else {
-          return (
-            <tr name="citaPB" onDoubleClick={() => this.selectCita()}>
-              <th>
-                {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
-              </th>
-              <td
-                value={datos.id_postulante_b}
-                onDoubleClick={() => this.selectCita(datos.id_postulante_b)}
-              >
-                {cit.fecha}
-              </td>
-              <td>{cit.hora}</td>
-              <td>{cit.entrevistador}</td>
-              <td>{cit.observaciones}</td>
-              <td>
-                <label>
-                  <input className="form-check-input" type="checkbox" />
-                </label>
-              </td>
-            </tr>
-          );
-        }
+                ) : (
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={cit.estatuscita.descripcion}
+                  />
+                )}
+                {cit.estatuscita.descripcion}
+              </label>
+            </td>
+          </tr>
+        );
       });
     });
     return (
@@ -134,7 +119,6 @@ export default class consultarCita extends Component {
           </form>
         </div>
 
-        {/**<h2 className="Title text-center">Consultar Cita</h2>*/}
         {/**Botones de Busqueda Diversos */}
         <br />
         <div className="container">
