@@ -55,7 +55,7 @@ export default class consulta_PB extends Component {
 
     const perfiles = respPerf.map(perf => {
       const des = `${perf.descripcion || ""}`;
-      console.log(perfiles);
+      //console.log(perfiles);
       return <option>{des}</option>;
     });
     const groupPB = resp.map(arr => {
@@ -116,23 +116,18 @@ export default class consulta_PB extends Component {
 
         <div className="row">
           <form className="form-post">
-            <div className="form-group">
-              <label>Perfil: </label>
-              <select className="form-control">{perfiles}</select>
-            </div>
+            <label>Perfil: </label>
+
+            <select className="form-control">{perfiles}</select>
 
             <label>Nombre(s): </label>
             <input className="form-control" type="text" name="nombre" />
 
-            <div>
-              <label>Apellido Paterno: </label>
-              <input className="form-control" type="text" name="nombre" />
-            </div>
+            <label>Apellido Paterno: </label>
+            <input className="form-control" type="text" name="nombre" />
 
-            <div>
-              <label>Apellido Materno: </label>
-              <input type="text" className="form-control" name="nombre" />
-            </div>
+            <label>Apellido Materno: </label>
+            <input type="text" className="form-control" name="nombre" />
           </form>
           <div>
             <input

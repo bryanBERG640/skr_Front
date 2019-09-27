@@ -105,7 +105,7 @@ export default class Citas extends React.Component {
         return (
           <div>
             <TableRow>
-              <Checkbox style={{ color: "#6D107D" }} checked/>
+              <Checkbox style={{ color: "#6D107D" }} checked />
             </TableRow>
           </div>
         );
