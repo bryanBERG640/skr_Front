@@ -23,7 +23,8 @@
 
 .form-post {
   margin-right: 200px;
-  margin-left: 450px;
+  margin-left: 200px;
+  height: 20%;
   display: flex;
 }
 

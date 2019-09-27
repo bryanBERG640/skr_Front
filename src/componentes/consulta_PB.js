@@ -68,7 +68,7 @@ export default class consulta_PB extends Component {
         const co = `${postulante.correo || ""}`;
         const d = `${postulante.perfil.descripcion || ""}`;
         const ver = `${postulante.estatuspostulante.descripcion || ""}`;
-        if (ver !== "Contactado") {
+        if (ver == "No Contactado") {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
               <td>
@@ -116,16 +116,19 @@ export default class consulta_PB extends Component {
 
         <div className="row">
           <form className="form-post">
-            <label>Perfil: </label>
+            <div>
+              <label>Perfil: </label>
 
-            <select className="form-control">{perfiles}</select>
-
-            <label>Nombre(s): </label>
-            <input className="form-control" type="text" name="nombre" />
-
+              <select className="form-control">{perfiles}</select>
+            </div>
+            <div>
+              <label>Nombre(s): </label>
+              <input className="form-control" type="text" name="nombre" />
+            </div>
+            &nbsp; &nbsp;
             <label>Apellido Paterno: </label>
             <input className="form-control" type="text" name="nombre" />
-
+            &nbsp; &nbsp;
             <label>Apellido Materno: </label>
             <input type="text" className="form-control" name="nombre" />
           </form>
