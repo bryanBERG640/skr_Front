@@ -25,6 +25,10 @@ export default class consulta_PB extends Component {
     respPerf: []
   };
 
+  handleClick = e => {
+    console.log("button was clicked");
+  };
+
   componentWillMount = () => {
     getPostulanteB()
       .then(response => {
@@ -49,7 +53,7 @@ export default class consulta_PB extends Component {
   render() {
     const { resp, isLoading, respPerf } = this.state;
 
-    if (isLoading) {
+    if (isLoading === true) {
       return <p>Cargando...</p>;
     }
 
@@ -68,7 +72,7 @@ export default class consulta_PB extends Component {
         const co = `${postulante.correo || ""}`;
         const d = `${postulante.perfil.descripcion || ""}`;
         const ver = `${postulante.estatuspostulante.descripcion || ""}`;
-        if (ver == "No Contactado") {
+        if (ver === "No Contactado") {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
               <td>
@@ -82,12 +86,14 @@ export default class consulta_PB extends Component {
               <td>{c}</td>
               <td>{co}</td>
               <td>{d}</td>
+              <td>{ver}</td>
               <td>
-                &nbsp; &nbsp;
-                <input type="checkbox" value="" />
-              </td>
-              <td>
-                <input type="image" className="lapiz" src={lapiz} />
+                <input
+                  type="image"
+                  className="lapiz"
+                  src={lapiz}
+                  alt="editar"
+                />
               </td>
             </tr>
           );
@@ -116,31 +122,34 @@ export default class consulta_PB extends Component {
 
         <div className="row">
           <form className="form-post">
-            <div>
+            <div className="col">
               <label>Perfil: </label>
-
               <select className="form-control">{perfiles}</select>
             </div>
-            <div>
+            <div className="col">
               <label>Nombre(s): </label>
               <input className="form-control" type="text" name="nombre" />
             </div>
-            &nbsp; &nbsp;
-            <label>Apellido Paterno: </label>
-            <input className="form-control" type="text" name="nombre" />
-            &nbsp; &nbsp;
-            <label>Apellido Materno: </label>
-            <input type="text" className="form-control" name="nombre" />
+            <div className="col">
+              <label>Apellido Paterno: </label>
+              <input className="form-control" type="text" name="nombre" />
+            </div>
+            <div className="col">
+              <label>Apellido Materno: </label>
+              <input type="text" className="form-control" name="nombre" />
+            </div>
+            <div className="col">
+              <input
+                onChange={this.props.onChange}
+                className="lupa"
+                type="image"
+                src={lupa}
+                width="50"
+                height="50"
+                alt="consulta"
+              />
+            </div>
           </form>
-          <div>
-            <input
-              className="lupa"
-              type="image"
-              src={lupa}
-              width="150"
-              height="150"
-            />
-          </div>
 
           <br />
 
@@ -174,7 +183,7 @@ export default class consulta_PB extends Component {
                 <th width="10%">Celular</th>
                 <th width="15%">Correo</th>
                 <th width="10%">Perfil</th>
-                <th width="10%">Contactado</th>
+                <th width="10%">Estatus</th>
                 <th width="5%">Editar</th>
               </tr>
             </thead>
