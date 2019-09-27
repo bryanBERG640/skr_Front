@@ -1,13 +1,8 @@
 import React from "react";
-import {
-  TableHead,
-  TableBody,
-  Table,
-  TableCell,
-  TableRow
-} from "@material-ui/core";
+import { TableHead, TableBody, Table, TableCell, TableRow} from "@material-ui/core";
 import { getPostulanteC } from "../../request/request";
 import Checkbox from "@material-ui/core/Checkbox";
+import Paper from '@material-ui/core/Paper';
 
 export default class Citas extends React.Component {
   state = {
@@ -26,6 +21,7 @@ export default class Citas extends React.Component {
     const citas = this.state.resp.map(datos => {
       return datos.postulanteb.cita.map(date => {
         return (
+<<<<<<< HEAD
           <div>
             <TableRow>
               <TableCell>{datos.postulanteb.nombre}</TableCell>
@@ -108,33 +104,42 @@ export default class Citas extends React.Component {
               <Checkbox style={{ color: "#6D107D" }} checked />
             </TableRow>
           </div>
+=======
+          <TableRow>
+            <TableCell style={{ fontSize: "12px" }}>{datos.postulanteb.nombre}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{datos.postulanteb.apellido1}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{datos.postulanteb.apellido2}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{date.fecha}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{date.hora}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{date.entrevistador}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{date.observaciones}</TableCell>
+            <TableCell><Checkbox style={{ color: "#6D107D" }} checked /></TableCell>
+          </TableRow>
+>>>>>>> d1b1a02363c2a8e833f6acb3134eeb3f07738ba6
         );
       });
     });
     return (
       <div>
-        <Table>
-          <TableHead style={{ background: "#b4e5f7" }}>
-            <TableCell style={{ fontSize: "12px" }}>Nombre</TableCell>
-            <TableCell style={{ fontSize: "12px" }}>Apellido Paterno</TableCell>
-            <TableCell style={{ fontSize: "12px" }}>Apellido Materno</TableCell>
-            <TableCell style={{ fontSize: "12px" }}>Fecha</TableCell>
-            <TableCell style={{ fontSize: "12px" }}>Hora</TableCell>
-            <TableCell style={{ fontSize: "12px" }}>Entrevistador</TableCell>
-            <TableCell style={{ fontSize: "12px" }}>Observaciones</TableCell>
-            <TableCell style={{ fontSize: "12px" }}>Asistió</TableCell>
-          </TableHead>
-          <TableBody>
-            <TableCell style={{ fontSize: "10px" }}>{citas}</TableCell>
-            <TableCell style={{ fontSize: "10px" }}>{citas1}</TableCell>
-            <TableCell style={{ fontSize: "10px" }}>{citas2}</TableCell>
-            <TableCell style={{ fontSize: "10px" }}>{citas3}</TableCell>
-            <TableCell style={{ fontSize: "10px" }}>{citas4}</TableCell>
-            <TableCell style={{ fontSize: "10px" }}>{citas5}</TableCell>
-            <TableCell style={{ fontSize: "10px" }}>{citas6}</TableCell>
-            <TableCell>{citas7}</TableCell>
-          </TableBody>
-        </Table>
+        <Paper>
+          <Table>
+            <TableHead style={{ background: "#bbe5f7" }}>
+              <TableRow>
+                <TableCell align="center" style={{ fontSize: "14px" }}>Nombre</TableCell>
+                <TableCell align="center" style={{ fontSize: "14px" }}>Apellido Paterno</TableCell>
+                <TableCell align="center" style={{ fontSize: "14px" }}>Apellido Materno</TableCell>
+                <TableCell align="center" style={{ fontSize: "14px" }}>Fecha</TableCell>
+                <TableCell align="center" style={{ fontSize: "14px" }}>Hora</TableCell>
+                <TableCell align="center" style={{ fontSize: "14px" }}>Entrevistador</TableCell>
+                <TableCell align="center" style={{ fontSize: "14px" }}>Observaciones</TableCell>
+                <TableCell align="center" style={{ fontSize: "14px" }}>Asistió</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {citas}
+            </TableBody>
+          </Table>
+        </Paper>
       </div>
     );
   }

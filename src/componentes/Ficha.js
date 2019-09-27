@@ -10,6 +10,7 @@ import Datos from "./ficha.postulantes/Datos";
 import Citas from "./ficha.postulantes/Citas";
 import Entrevistas from "./ficha.postulantes/Entrevistas";
 import Examenes from "./ficha.postulantes/Examenes";
+import { width } from "@material-ui/system";
 
 function TabContainer(props) {
   return (
@@ -54,17 +55,17 @@ class NavTabs extends React.Component {
         <div className={classes.root}>
           <AppBar
             position="static"
-            style={{ background: "#6D107D", alignContent: "center" }}
+            style={{alignContent: "center"}}
           >
             <Tabs
               variant="fullWidth"
               value={value}
               onChange={this.handleChange}
             >
-              <LinkTab label="Datos" href="page1" />
-              <LinkTab label="Citas" href="page2" />
-              <LinkTab label="Entrevistas" href="page3" />
-              <LinkTab label="Examenes" href="page4" />
+              <LinkTab label="Datos" href="page1" style={{background:"#9e5aaa"}}/>
+              <LinkTab label="Citas" href="page2" style={{background:"#6D107D"}}/>
+              <LinkTab label="Entrevistas" href="page3" style={{background:"#9e5aaa"}}/>
+              <LinkTab label="Examenes" href="page4"style={{background:"#6D107D"}} />
             </Tabs>
           </AppBar>
           {value === 0 && (<TabContainer><Datos /></TabContainer>)}
