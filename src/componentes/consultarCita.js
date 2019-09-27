@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Icono from "../Imagenes/consultarcita.png";
 import { getCita } from "../request/request";
+import TextField from '@material-ui/core/TextField';
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -14,6 +15,8 @@ const ColoredLine = ({ color }) => (
 );
 
 const fecha = new Date().toString();
+console.log(fecha);
+
 
 export default class consultarCita extends Component {
   constructor(props) {
@@ -42,7 +45,6 @@ export default class consultarCita extends Component {
   render() {
     const dato = this.state.postulanteB.map(datos => {
       return datos.cita.map(cit => {
-        const valor = cit.estatuscita.id_estatus_cita;
         return (
           <tr name="citaPB" onDoubleClick={() => this.selectCita()}>
             <th>
@@ -59,15 +61,6 @@ export default class consultarCita extends Component {
             <td>{cit.observaciones}</td>
             <td>
               <label>
-                {valor === 1 ? (
-                  <input className="form-check-input" type="checkbox" checked />
-                ) : (
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value={cit.estatuscita.descripcion}
-                  />
-                )}
                 {cit.estatuscita.descripcion}
               </label>
             </td>
@@ -88,10 +81,19 @@ export default class consultarCita extends Component {
             <ColoredLine color="black" />
           </td>
         </div>
-        <footer className="blockquote-footer text-center">
-          <h4>{fecha}</h4>
-        </footer>
-
+        <br />
+          <div className="text-center">
+          <TextField
+            label="Fecha Actual"
+            type="datetime-local"
+            defaultValue={fecha}
+            disabled
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          </div>
+          <br />
         {/** Botones de Consulta por Fechas*/}
         <div className="col-md-6 offset-md-4">
           <form>
