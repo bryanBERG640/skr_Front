@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import Icono from "../Imagenes/consultarcita.png";
+import Agenda from "../Imagenes/agenda.png";
 import { getCita } from "../request/request";
 import TextField from '@material-ui/core/TextField';
+import { Button } from "@material-ui/core";
+import './styles/Formatos.css'
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -14,7 +17,7 @@ const ColoredLine = ({ color }) => (
   />
 );
 
-const fecha = new Date().toString();
+const fecha = new Date();
 console.log(fecha);
 
 
@@ -75,48 +78,56 @@ export default class consultarCita extends Component {
             <ColoredLine color="black" />
           </td>
           <td>
-            <img className="consultaCita" src={Icono} alt="consultaCita" />
+            <img className="imagenAgenda" src={Agenda} alt="consultaCita" />
           </td>
           <td>
             <ColoredLine color="black" />
           </td>
         </div>
         <br />
-          <div className="text-center">
+        <div className="text-center">
           <TextField
             label="Fecha Actual"
-            type="datetime-local"
-            defaultValue={fecha}
+            type="date-local"
+            defaultValue={fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear()}
             disabled
             InputLabelProps={{
               shrink: true,
             }}
           />
-          </div>
-          <br />
+        </div>
+        <br />
         {/** Botones de Consulta por Fechas*/}
         <div className="col-md-6 offset-md-4">
           <form>
             <div className="form-row align-items-center">
-              <div className="col-auto">
-                <input
-                  type="date"
-                  className="form-control mb-2"
-                  id="inlineFormInput"
-                />
-              </div>
-              <div className="col-auto">
-                <input
-                  type="date"
-                  className="form-control mb-2"
-                  id="inlineFormInput"
-                />
-              </div>
-              <div className="col-auto">
-                <button type="submit" className="btn btn-primary mb-2">
-                  Consultar
-                </button>
-              </div>
+              <td>
+                <div>
+                  <TextField
+                    label="Fecha Inicial"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }} />
+                </div>
+              </td>
+              <td>
+                <div>
+                  <TextField
+                    label="Fecha Final"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }} />
+                </div>
+              </td>
+              <td>
+                <div>
+                  <Button className="logoBuscar">
+                    <img src={Icono} />
+                  </Button>
+                </div>
+              </td>
             </div>
           </form>
         </div>
