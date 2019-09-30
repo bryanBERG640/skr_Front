@@ -5,6 +5,7 @@ import "./styles/FormatoImagenes.css";
 import lupa from "../Imagenes/lupa.png";
 import lapiz from "../Imagenes/lapiz.png";
 import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
 import { getPostulanteB, getPerfil } from "../request/request";
 
 const ColoredLine = ({ color }) => (
@@ -22,11 +23,28 @@ export default class consulta_PB extends Component {
   state = {
     isLoading: true,
     resp: [],
-    respPerf: []
+    respPerf: [],
+    selecPerf: ""
+  };
+
+  handleSelect = e => {
+    /*this.setState({ selecPerf: e.target.value });
+    console.log(this.state.selecPerf);
+    this.state.respPerf.map((perf, i) => {
+      console.log(this.state.selecPerf[i]);
+      if (perf.descripcion === this.state.selecPerf)
+        console.log(this.state.respPerf.descripcion);
+      return perf[i];
+    });*/
+
+    const selecperf = this.state.respPerf.map((perf, i) => {
+      console.log(perf.descripcion);
+      return perf[i].descripcion;
+    });
   };
 
   handleClick = e => {
-    console.log("button was clicked");
+    console.log("click");
   };
 
   componentWillMount = () => {
@@ -58,10 +76,9 @@ export default class consulta_PB extends Component {
     }
 
     const perfiles = respPerf.map(perf => {
-      const des = `${perf.descripcion || ""}`;
-      //console.log(perfiles);
-      return <option>{des}</option>;
+      return <option value={perf.descripcion}>{perf.descripcion}</option>;
     });
+
     const groupPB = resp.map(arr => {
       return arr.map(postulante => {
         const n = `${postulante.nombre || ""}`;
@@ -124,7 +141,10 @@ export default class consulta_PB extends Component {
           <form className="form-post">
             <div className="col">
               <label>Perfil: </label>
-              <select className="form-control">{perfiles}</select>
+              <select className="form-control" onChange={this.handleSelect}>
+                <option>Perfiles</option>
+                {perfiles}
+              </select>
             </div>
             <div className="col">
               <label>Nombre(s): </label>
@@ -139,15 +159,9 @@ export default class consulta_PB extends Component {
               <input type="text" className="form-control" name="nombre" />
             </div>
             <div className="col">
-              <input
-                onChange={this.props.onChange}
-                className="lupa"
-                type="image"
-                src={lupa}
-                width="50"
-                height="50"
-                alt="consulta"
-              />
+              <Button onClick={this.handleClick}>
+                <img className="lupa" src={lupa} alt="consulta" height="50px" />
+              </Button>
             </div>
           </form>
 

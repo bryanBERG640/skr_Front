@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import Icono from "../Imagenes/consultarcita.png";
 import Agenda from "../Imagenes/agenda.png";
 import { getCita } from "../request/request";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
-import './styles/Formatos.css'
+import "./styles/Formatos.css";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -19,7 +19,6 @@ const ColoredLine = ({ color }) => (
 
 const fecha = new Date();
 console.log(fecha);
-
 
 export default class consultarCita extends Component {
   constructor(props) {
@@ -63,9 +62,7 @@ export default class consultarCita extends Component {
             <td>{cit.entrevistador}</td>
             <td>{cit.observaciones}</td>
             <td>
-              <label>
-                {cit.estatuscita.descripcion}
-              </label>
+              <label>{cit.estatuscita.descripcion}</label>
             </td>
           </tr>
         );
@@ -89,10 +86,16 @@ export default class consultarCita extends Component {
           <TextField
             label="Fecha Actual"
             type="date-local"
-            defaultValue={fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear()}
+            defaultValue={
+              fecha.getDate() +
+              "/" +
+              (fecha.getMonth() + 1) +
+              "/" +
+              fecha.getFullYear()
+            }
             disabled
             InputLabelProps={{
-              shrink: true,
+              shrink: true
             }}
           />
         </div>
@@ -106,20 +109,22 @@ export default class consultarCita extends Component {
                   label="Fecha Inicial"
                   type="date"
                   InputLabelProps={{
-                    shrink: true,
-                  }} />
+                    shrink: true
+                  }}
+                />
               </div>
               <div className="col-auto">
                 <TextField
                   label="Fecha Final"
                   type="date"
                   InputLabelProps={{
-                    shrink: true,
-                  }} />
+                    shrink: true
+                  }}
+                />
               </div>
               <div className="col-auto">
-                <Button style={{width:"80px"}}>
-                  <img src={Icono}/>
+                <Button style={{ width: "30px" }}>
+                  <img src={Icono} />
                 </Button>
               </div>
             </div>
