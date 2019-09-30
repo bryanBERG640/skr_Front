@@ -34,4 +34,17 @@ function getPerfil() {
   return perfil;
 }
 
-export { getPostulanteC, getPostulanteB, getCita, getPerfil };
+function getCitas() {
+  return fetch(
+    "http://192.168.1.230:8088/skr_v1/postulanteB/get/",
+    {
+      method: "GET"
+    }
+  )
+    .then(response => {
+      return response.json();
+    })
+    .catch(console.log);
+}
+
+export { getPostulanteC, getPostulanteB, getCita, getPerfil,  getCitas};
