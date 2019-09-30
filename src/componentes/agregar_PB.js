@@ -123,7 +123,7 @@ class agregar_PB extends React.Component {
             <div className="form-group">
               <select className="form-control">
                 <option>Contactado</option>
-                <option>No Contactado java</option>
+                <option>No Contactado</option>
               </select>
             </div>
 
