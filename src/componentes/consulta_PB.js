@@ -5,7 +5,8 @@ import "./styles/FormatoImagenes.css";
 import lupa from "../Imagenes/lupa.png";
 import lapiz from "../Imagenes/lapiz.png";
 import { Link } from "react-router-dom";
-import { getPostulanteB } from "../request/request";
+import { Button } from "@material-ui/core";
+import { getPostulanteB, getPerfil } from "../request/request";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -18,10 +19,33 @@ const ColoredLine = ({ color }) => (
   />
 );
 
-export default class consula_PB extends Component {
+export default class consulta_PB extends Component {
   state = {
     isLoading: true,
-    resp: []
+    resp: [],
+    respPerf: [],
+    selecPerf: ""
+  };
+
+  handleSelect = e => {
+    /*this.setState({ selecPerf: e.target.value });
+    console.log(this.state.selecPerf);
+    this.state.respPerf.map((perf, i) => {
+      console.log(this.state.selecPerf[i]);
+      if (perf.descripcion === this.state.selecPerf)
+        console.log(this.state.respPerf.descripcion);
+      return perf[i];
+    });*/
+
+    const selecperf = this.state.respPerf.map((perf, i = 0) => {
+      console.log(perf.descripcion);
+      console.log(i);
+      return <option>{perf.descripcion}</option>;
+    });
+  };
+
+  handleClick = e => {
+    console.log("click");
   };
 
   componentWillMount = () => {
@@ -33,15 +57,28 @@ export default class consula_PB extends Component {
         console.log(this.state.resp);
       })
       .catch(console.log);
+
+    this.getPerfil();
     this.setState({ isLoading: false });
   };
 
-  render() {
-    const { resp, isLoading } = this.state;
+  getPerfil = async () => {
+    const nuevoGet = await getPerfil();
+    this.setState({
+      respPerf: nuevoGet.data
+    });
+  };
 
-    if (isLoading) {
+  render() {
+    const { resp, isLoading, respPerf } = this.state;
+
+    if (isLoading === true) {
       return <p>Cargando...</p>;
     }
+
+    const perfiles = respPerf.map(perf => {
+      return <option value={perf.descripcion}>{perf.descripcion}</option>;
+    });
 
     const groupPB = resp.map(arr => {
       return arr.map(postulante => {
@@ -53,7 +90,7 @@ export default class consula_PB extends Component {
         const co = `${postulante.correo || ""}`;
         const d = `${postulante.perfil.descripcion || ""}`;
         const ver = `${postulante.estatuspostulante.descripcion || ""}`;
-        if (ver == "Contactado") {
+        if (ver === "No Contactado") {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
               <td>
@@ -67,36 +104,14 @@ export default class consula_PB extends Component {
               <td>{c}</td>
               <td>{co}</td>
               <td>{d}</td>
+              <td>{ver}</td>
               <td>
-                &nbsp; &nbsp;
-                <input type="checkbox" value="" checked />
-              </td>
-              <td>
-                <input type="image" className="lapiz" src={lapiz} />
-              </td>
-            </tr>
-          );
-        } else {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
-              <td>
-                {n}
-                &nbsp;
-                {a1}
-                &nbsp;
-                {a2}
-              </td>
-
-              <td>{t}</td>
-              <td>{c}</td>
-              <td>{co}</td>
-              <td>{d}</td>
-              <td>
-                &nbsp; &nbsp;
-                <input type="checkbox" value="" />
-              </td>
-              <td>
-                <input type="image" className="lapiz" src={lapiz} />
+                <input
+                  type="image"
+                  className="lapiz"
+                  src={lapiz}
+                  alt="editar"
+                />
               </td>
             </tr>
           );
@@ -118,50 +133,46 @@ export default class consula_PB extends Component {
             <ColoredLine color="black" />
           </td>
         </div>
+
         <div>
           <h2 className="titulo">Consultar Postulantes</h2>
         </div>
 
         <div className="row">
           <form className="form-post">
-            <div className="form-group">
+            <div className="col">
               <label>Perfil: </label>
-              <select className="form-control">
-                <option>prueba</option>
-                <option>prueba2</option>
+              <select className="form-control" onChange={this.handleSelect}>
+                <option>Perfiles</option>
+                {perfiles}
               </select>
             </div>
-
-            <label>Nombre(s): </label>
-            <input className="form-control" type="text" name="nombre" />
-
-            <div>
+            <div className="col">
+              <label>Nombre(s): </label>
+              <input className="form-control" type="text" name="nombre" />
+            </div>
+            <div className="col">
               <label>Apellido Paterno: </label>
               <input className="form-control" type="text" name="nombre" />
             </div>
-
-            <div>
+            <div className="col">
               <label>Apellido Materno: </label>
               <input type="text" className="form-control" name="nombre" />
             </div>
+            <div className="col">
+              <Button onClick={this.handleClick}>
+                <img className="lupa" src={lupa} alt="consulta" height="50px" />
+              </Button>
+            </div>
           </form>
-          <div>
-            <input
-              className="lupa"
-              type="image"
-              src={lupa}
-              width="150"
-              height="150"
-            />
-          </div>
 
           <br />
 
           <form className="form-hor" role="form">
             <div className="form-group">
-              <button type="button" className="btn btn-primary">
+              <Link to="/agregar_PB" className="btn btn-primary">
                 Agregar Postulante
-              </button>
+              </Link>
               &nbsp; &nbsp;
               <button type="button" className="btn btn-primary">
                 Completar Datos
@@ -187,8 +198,13 @@ export default class consula_PB extends Component {
                 <th width="10%">Celular</th>
                 <th width="15%">Correo</th>
                 <th width="10%">Perfil</th>
-                <th width="10%">Contactado</th>
+<<<<<<< HEAD
+                <th width="10%">Estatus</th>
                 <th width="5%">Editar</th>
+=======
+                <th width="10%">Contactado</th>
+                <th width="5%"  >Editar</th>
+>>>>>>> 77e4b8ccdf03d75043c9f8b5c24118acb6490285
               </tr>
             </thead>
             <tbody>{groupPB}</tbody>

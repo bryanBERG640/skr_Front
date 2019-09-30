@@ -22,8 +22,10 @@
 }
 
 .form-post {
-  margin-right: 100px;
-  margin-left: 350px;
+  margin-right: 200px;
+  margin-left: 200px;
+  height: 20%;
+  display: flex;
 }
 
 .form-hor {
@@ -66,8 +68,6 @@ thead {
   color: white;
 }
 
-
-.imagenAgenda{
-  width: 130px;
+.imagenAgenda {
+  width: 70px;
 }
-
