@@ -104,6 +104,7 @@ export default class consultarCita extends Component {
         <div className="col-md-6 offset-md-4">
           <form>
             <div className="form-row align-items-center">
+<<<<<<< HEAD
               <div className="col-auto">
                 <TextField
                   label="Fecha Inicial"
@@ -127,6 +128,35 @@ export default class consultarCita extends Component {
                   <img src={Icono} />
                 </Button>
               </div>
+=======
+              <td>
+                <div>
+                  <TextField
+                    label="Fecha Inicial"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }} />
+                </div>
+              </td>
+              <td>
+                <div>
+                  <TextField
+                    label="Fecha Final"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }} />
+                </div>
+              </td>
+              <td>
+                <div>
+                  <Button className="logoBuscar">
+                    <img src={Icono} />
+                  </Button>
+                </div>
+              </td>
+>>>>>>> 9881d6784e8bd2830b3fc34afb9b26efb64e5d6f
             </div>
           </form>
         </div>
