@@ -37,9 +37,10 @@ export default class consulta_PB extends Component {
       return perf[i];
     });*/
 
-    const selecperf = this.state.respPerf.map((perf, i) => {
+    const selecperf = this.state.respPerf.map((perf, i = 0) => {
       console.log(perf.descripcion);
-      return perf[i].descripcion;
+      console.log(i);
+      return <option>{perf.descripcion}</option>;
     });
   };
 
