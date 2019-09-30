@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import Icono from "../Imagenes/consultarcita.png";
 import Agenda from "../Imagenes/agenda.png";
 import { getCita } from "../request/request";
-import TextField from "@material-ui/core/TextField";
+import TextField from '@material-ui/core/TextField';
 import { Button } from "@material-ui/core";
-import "./styles/Formatos.css";
+import './styles/Formatos.css'
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -20,11 +20,14 @@ const ColoredLine = ({ color }) => (
 const fecha = new Date();
 console.log(fecha);
 
+
 export default class consultarCita extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postulanteB: []
+      postulanteB: [],
+      fecha: "",
+      fechafinal: ""
     };
   }
 
@@ -44,32 +47,49 @@ export default class consultarCita extends Component {
     console.log(e.value);
   };
 
+  handleChangeDate = e => {
+    console.log(e.target.value);
+    this.setState({fecha: e.target.value})
+  }
+
+  handleChangeDateFinal = e => {
+    console.log(e.target.value);
+    this.setState({fechafinal: e.target.value})
+  }
+
   render() {
-    const dato = this.state.postulanteB.map(datos => {
+    const { postulanteB } = this.state;
+    const dato = postulanteB.map(datos => {
       return datos.cita.map(cit => {
-        return (
-          <tr name="citaPB" onDoubleClick={() => this.selectCita()}>
-            <th>
-              {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
-            </th>
-            <td
-              value={datos.id_postulante_b}
-              onDoubleClick={() => this.selectCita(datos.id_postulante_b)}
-            >
-              {cit.fecha}
-            </td>
-            <td>{cit.hora}</td>
-            <td>{cit.entrevistador}</td>
-            <td>{cit.observaciones}</td>
-            <td>
-              <label>{cit.estatuscita.descripcion}</label>
-            </td>
-          </tr>
-        );
-      });
+        if (cit.fecha === this.state.fecha || cit.fecha === this.state.fechafinal) {
+          return (
+            <tr name="citaPB" onDoubleClick={() => this.selectCita()}>
+              <th>
+                {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
+              </th>
+              <td
+                value={datos.id_postulante_b}
+                onDoubleClick={() => this.selectCita(datos.id_postulante_b)}
+              >
+                {cit.fecha}
+              </td>
+              <td>{cit.hora}</td>
+              <td>{cit.entrevistador}</td>
+              <td>{cit.observaciones}</td>
+              <td>
+                <label>
+                  {cit.estatuscita.descripcion}
+                </label>
+              </td>
+            </tr>
+          );
+        }
+      }
+      );
     });
     return (
       <React.Fragment>
+        <br />
         <div align="center">
           <td>
             <ColoredLine color="black" />
@@ -86,16 +106,10 @@ export default class consultarCita extends Component {
           <TextField
             label="Fecha Actual"
             type="date-local"
-            defaultValue={
-              fecha.getDate() +
-              "/" +
-              (fecha.getMonth() + 1) +
-              "/" +
-              fecha.getFullYear()
-            }
+            defaultValue={fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear()}
             disabled
             InputLabelProps={{
-              shrink: true
+              shrink: true,
             }}
           />
         </div>
@@ -104,40 +118,15 @@ export default class consultarCita extends Component {
         <div className="col-md-6 offset-md-4">
           <form>
             <div className="form-row align-items-center">
-              {/*
-              <div className="col-auto">
-                <TextField
-                  label="Fecha Inicial"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-              </div>
-              <div className="col-auto">
-                <TextField
-                  label="Fecha Final"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-              </div>
-              <div className="col-auto">
-                <Button style={{ width: "30px" }}>
-                  <img src={Icono} />
-                </Button>
-              </div>
-*/}
               <td>
                 <div>
                   <TextField
                     label="Fecha Inicial"
                     type="date"
+                    onChange={this.handleChangeDate}
                     InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
+                      shrink: true,
+                    }} />
                 </div>
               </td>
               <td>
@@ -145,10 +134,10 @@ export default class consultarCita extends Component {
                   <TextField
                     label="Fecha Final"
                     type="date"
+                    onChange={this.handleChangeDateFinal}
                     InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
+                      shrink: true,
+                    }} />
                 </div>
               </td>
               <td>

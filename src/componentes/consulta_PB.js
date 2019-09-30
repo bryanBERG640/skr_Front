@@ -198,9 +198,14 @@ export default class consulta_PB extends Component {
                 <th width="10%">Celular</th>
                 <th width="15%">Correo</th>
                 <th width="10%">Perfil</th>
+<<<<<<< HEAD
 
                 <th width="10%">Estatus</th>
                 <th width="5%">Editar</th>
+=======
+                <th width="10%">Contactado</th>
+                <th width="5%"  >Editar</th>
+>>>>>>> 87de2f0ce809a49b63079e3661d3ab94ed5ee431
               </tr>
             </thead>
             <tbody>{groupPB}</tbody>
