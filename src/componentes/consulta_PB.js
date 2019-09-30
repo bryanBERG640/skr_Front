@@ -170,9 +170,9 @@ export default class consulta_PB extends Component {
 
           <form className="form-hor" role="form">
             <div className="form-group">
-              <button type="button" className="btn btn-primary">
+              <Link to="/agregar_PB" className="btn btn-primary">
                 Agregar Postulante
-              </button>
+              </Link>
               &nbsp; &nbsp;
               <button type="button" className="btn btn-primary">
                 Completar Datos
@@ -198,8 +198,13 @@ export default class consulta_PB extends Component {
                 <th width="10%">Celular</th>
                 <th width="15%">Correo</th>
                 <th width="10%">Perfil</th>
+<<<<<<< HEAD
                 <th width="10%">Estatus</th>
                 <th width="5%">Editar</th>
+=======
+                <th width="10%">Contactado</th>
+                <th width="5%"  >Editar</th>
+>>>>>>> 77e4b8ccdf03d75043c9f8b5c24118acb6490285
               </tr>
             </thead>
             <tbody>{groupPB}</tbody>

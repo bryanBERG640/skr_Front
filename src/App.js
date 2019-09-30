@@ -5,6 +5,7 @@ import Layout from "./componentes/Layout";
 import SolucionesKabec from "./componentes/SolucionesKabec";
 import FichaPostulante from "./componentes/FichaPostulante";
 import consultarCita from "./componentes/consultarCita";
+import Agregar_PB from "./componentes/agregar_PB";
 import "./App.css";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
               component={consulta_PB}
             />
             <Route exact path="/consultarCita" component={consultarCita} />
+            <Route exact path="/agregar_PB" component={Agregar_PB} />
           </Switch>
         </Layout>
       </BrowserRouter>
