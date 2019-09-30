@@ -34,4 +34,14 @@ function getPerfil() {
   return perfil;
 }
 
-export { getPostulanteC, getPostulanteB, getCita, getPerfil };
+function postSeccion(jsonRequest,estatus,perfil) {
+  return fetch("http://192.168.1.230:8088/skr_v1/postulanteB/"+estatus+"/"+perfil+"/post", {
+    method: 'POST',
+    body: JSON.stringify(jsonRequest),
+    headers:{'Accept' : 'application/json', 'Content-Type':'application/json'}, 
+  }).then(response => {
+    return response.json();
+  }).catch(console.log)
+}
+
+export { getPostulanteC, getPostulanteB, getCita, getPerfil, postSeccion};
