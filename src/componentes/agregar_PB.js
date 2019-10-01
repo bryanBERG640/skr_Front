@@ -2,28 +2,119 @@ import React from "react";
 import "../App.css";
 import "./styles/agregar_PB.css";
 import agregar from "../Imagenes/agregar.png";
-import { Link } from "react-router-dom";
+import { getPostulanteB, getPerfil, postSeccion } from "../request/request";
+import { number } from "prop-types";
 
 class agregar_PB extends React.Component {
-  constructor() {
-    super();
+  constructor(args) {
+    super(args);
 
     this.state = {
-      titulo: ""
+      respPerf: [],
+
+      postulante: {
+        perfil: number,
+        apellido1: "",
+        apellido2: "",
+        nombre: "",
+        correo: "",
+        telefono: number,
+        celular: number,
+        observaciones: ""
+      }
     };
   }
-  componentDidMount() {
-    this.setState({
-      titulo: "Agregar Postulante"
-    });
+  onChange(e) {
+    let pos = this.state.postulante;
+
+    if (e.target.name === "nombre") {
+      pos.nombre = e.target.value;
+      this.setState({
+        postulante: pos
+      });
+    }
+    if (e.target.name === "apellido1") {
+      pos.apellido1 = e.target.value;
+      this.setState({
+        postulante: pos
+      });
+    }
+    if (e.target.name === "apellido2") {
+      pos.apellido2 = e.target.value;
+      this.setState({
+        postulante: pos
+      });
+    }
+    if (e.target.name === "correo") {
+      pos.correo = e.target.value;
+      this.setState({
+        postulante: pos
+      });
+    }
+    if (e.target.name === "telefono") {
+      pos.telefono = e.target.value;
+      this.setState({
+        postulante: pos
+      });
+    }
+    if (e.target.name === "celular") {
+      pos.celular = e.target.value;
+      this.setState({
+        postulante: pos
+      });
+    }
+
+    if (e.target.name === "observaciones") {
+      pos.observaciones = e.target.value;
+      this.setState({
+        postulante: pos
+      });
+    }
   }
 
+  componentWillMount = () => {
+    getPostulanteB()
+      .then(response => {
+        let nuevoGet = [];
+        nuevoGet.push(response);
+        this.setState({ resp: nuevoGet });
+        console.log(this.state.resp);
+      })
+      .catch(console.log);
+
+    this.getPerfil();
+    this.setState({ isLoading: false });
+  };
+
+  getPerfil = async () => {
+    const nuevoGet = await getPerfil();
+    this.setState({
+      respPerf: nuevoGet.data
+    });
+  };
+
+  hanleClick = e => {
+    console.log(this.state.postulante);
+
+    postSeccion(this.state.postulante, 1, 1)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(console.log);
+    console.log("POST REALIZADO");
+  };
+
   render() {
+    const { respPerf } = this.state;
+    const perfiles = respPerf.map(perf => {
+      return <option value={perf.descripcion}>{perf.descripcion}</option>;
+    });
+
     return (
       <div className="Content">
         <div align="center">
           <td>
-            <h1>{this.state.titulo}</h1>
+            <h1>Agregar Postulantes</h1>
             <br />
             <br />
           </td>
@@ -31,116 +122,168 @@ class agregar_PB extends React.Component {
 
         <div class="row">
           <div class="column" align="right">
-            <p>Perfil:</p>
+            <p>
+              <label htmlFor="perfil">Perfil: </label>
+            </p>
+            <p>
+              <label htmlFor="name">Nombre(s): </label>
+            </p>
+            <p>
+              <br />
+              <label htmlFor="ap"> Apellido Paterno: </label>
+            </p>
+            <p>
+              <br />
+              <label htmlFor="am"> Apellido Materno: </label>
+            </p>
 
+            <label htmlFor="correo"> Correo(s) Electrónico(s): </label>
 
-            <p><br/>Nombre(s):</p>
+            <p>
+              <br />
+              <label htmlFor="telefono"> Teléfono: </label>
+            </p>
+            <br />
+            <p>
+              <label htmlFor="celular"> Celular: </label>
+            </p>
+            <br />
+            <p>
+              <label htmlFor="estatus"> Estatus: </label>
+            </p>
 
-            <p><br/>Apellido Paterno:</p>
-
-            <p><br/>Apellido Materno:</p>
-
-            <br/>Correo Electrónico:<br/>
-            
-            <p><br/>Teléfono:</p>
-            <br/>
-            <p>Celular:</p>
-            <br/>
-            <p>Estatus:</p>
-            <br/>
-            <p>Contactado por:</p>
-            <p>Descripción:</p>
+            <p>
+              <label htmlFor="descripcion"> Descripción: </label>
+            </p>
           </div>
 
           <div class="column" align="righ">
             <div className="form-group">
-              <select className="form-control">
-                <option>Tester</option>
-                <option>Programador java</option>
+              <select
+                id="perfil"
+                value={this.state.postulante.perfil}
+                onChange={this.onChange.bind(this)}
+                name="perfil"
+                className="form-control"
+              >
+                <option>Elija una opción</option>
+                {perfiles}
               </select>
             </div>
 
             <input
+              value={this.state.postulante.nombre}
+              onChange={this.onChange.bind(this)}
               className="form-control"
               placeholder="Escribe tu nombre"
               autocomplete="off"
-              name="Nombre"
+              id="name"
+              name="nombre"
               type="text"
             />
             <br />
             <input
+              value={this.state.postulante.apellido1}
+              onChange={this.onChange.bind(this)}
               className="form-control"
               placeholder="Escribe tu apellido paterno"
               autocomplete="off"
-              name="Apellido_1"
+              id="apellido1"
+              name="apellido1"
               type="text"
             />
             <br />
             <input
+              value={this.state.postulante.apellido2}
+              onChange={this.onChange.bind(this)}
               className="form-control"
               placeholder="Escribe tu apellido materno"
               autocomplete="off"
-              name="Apellido_2"
+              id="apellido2"
+              name="apellido2"
               type="text"
             />
             <br />
             <input
+              value={this.state.postulante.correo}
+              onChange={this.onChange.bind(this)}
               className="form-control"
               placeholder="Escribe tu correo electrónico"
               autocomplete="off"
-              name="Correo_electronico"
+              id="correo"
+              name="correo"
               type="text"
             />
             <br />
 
             <input
+              value={this.state.postulante.telefono}
+              onChange={this.onChange.bind(this)}
               className="form-control"
               placeholder="Escribe tu telefono"
               autocomplete="off"
-              name="Telefono"
+              id="telefono"
+              name="telefono"
               type="text"
             />
             <br />
 
             <input
+              value={this.state.postulante.celular}
+              onChange={this.onChange.bind(this)}
               className="form-control"
               placeholder="Escribe tu celular"
               autocomplete="off"
-              name="Estatus"
+              id="celular"
+              name="celular"
               type="text"
             />
-            <br />
-
-            <input
-              className="form-control"
-              placeholder="Escribe tu estatus"
-              autocomplete="off"
-              name="Celular"
-              type="text"
-            />
-
             <br />
             <div className="form-group">
-              <select className="form-control">
-                <option>Contactado</option>
-                <option>No Contactado</option>
+              <select
+                id="estatuspostulante"
+                name="estatuspostulante"
+                value={this.state.postulante.estatuspostulante}
+                onChange={this.onChange.bind(this)}
+                className="form-control"
+              >
+                <option>Elija una opción</option>
+                <option>Asistió</option>
+                <option>No asistió</option>
               </select>
             </div>
 
-            <textarea rows="4" cols="50" />
+            <br />
+            <textarea
+              value={this.state.postulante.observaciones}
+              onChange={this.onChange.bind(this)}
+              name="observaciones"
+              id="observaciones"
+              rows="4"
+              cols="50"
+            />
           </div>
 
           <div class="column" align="center">
             <input type="image" className="agregar" src={agregar} />
+            <h4> Guardar CV en formato PDF </h4>
             <br />
-            <button to="/" className="btn btn-primary">
+
+            <button
+              to="/"
+              className="btn btn-primary"
+              onClick={this.hanleClick}
+            >
               Guardar
             </button>
+
             <br />
             <br />
             <button to="/" className="btn btn-primary">
               Salir
             </button>
+
+            <p> {JSON.stringify(this.state.postulante)} </p>
           </div>
         </div>
       </div>

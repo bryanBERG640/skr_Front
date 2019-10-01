@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import { getPostulanteC } from "../request/request";
 import "../App.css";
+import {progresBar} from "./progress"
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -24,7 +25,7 @@ class FichaPostulante extends React.Component {
   state = {
     resp: []
   };
-  componentWillMount = () => {
+  componentDidMount = () => {
     getPostulanteC(2)
       .then(response => {
         let nuevoGet = [];
@@ -35,7 +36,10 @@ class FichaPostulante extends React.Component {
       .catch(console.log);
   };
   render() {
+    progresBar(true);
+    console.log(this.state.resp);
     const dato = this.state.resp.map(datos => {
+      progresBar(false);
       return (
         <div>
           <Typography style={{ fontSize: "20px" }}>

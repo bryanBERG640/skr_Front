@@ -85,7 +85,7 @@ export default class consulta_PB extends Component {
             <ColoredLine color="black" />
           </td>
         </div>
-
+        
         <div>
           <h2 className="titulo">Consultar Postulantes</h2>
         </div>
@@ -161,8 +161,19 @@ export default class consulta_PB extends Component {
                 <th width="10%">Celular</th>
                 <th width="15%">Correo</th>
                 <th width="10%">Perfil</th>
+<<<<<<< HEAD
                 <th width="10%">Estatus</th>
                 <th width="5%">Editar</th>
+=======
+<<<<<<< HEAD
+
+                <th width="10%">Estatus</th>
+                <th width="5%">Editar</th>
+=======
+                <th width="10%">Contactado</th>
+                <th width="5%"  >Editar</th>
+>>>>>>> 87de2f0ce809a49b63079e3661d3ab94ed5ee431
+>>>>>>> f26e79575da5b75ed2110568bd581c553e68cf75
               </tr>
             </thead>
             <tbody>

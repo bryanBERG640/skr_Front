@@ -1,2 +1,3 @@
 import fichapostulante from './fichaPostulanteReducer';
-export default {fichapostulante};
+import consultarcita from './ConsultarCitaReducer'
+export default {fichapostulante, consultarcita};
