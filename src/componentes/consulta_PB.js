@@ -6,7 +6,8 @@ import lupa from "../Imagenes/lupa.png";
 import lapiz from "../Imagenes/lapiz.png";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
-import { getPostulanteB, getPerfil } from "../request/request";
+import Fildef from "./filtros/PB";
+import { getPerfil } from "../request/request";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -19,49 +20,44 @@ const ColoredLine = ({ color }) => (
   />
 );
 
+function Boton() {
+  console.log("click");
+  return 1;
+}
+
+function Datos() {
+  const c = 0;
+  switch (c) {
+    case 0:
+      return <Fildef />;
+  }
+}
+
 export default class consulta_PB extends Component {
   state = {
-    isLoading: true,
-    resp: [],
     respPerf: [],
-    selecPerf: ""
+
+    nom: "",
+    A1: "",
+    A2: ""
   };
 
-  handleSelect = e => {
-    /*this.setState({ selecPerf: e.target.value });
-    console.log(this.state.selecPerf);
-    this.state.respPerf.map((perf, i) => {
-      console.log(this.state.selecPerf[i]);
-      if (perf.descripcion === this.state.selecPerf)
-        console.log(this.state.respPerf.descripcion);
-      return perf[i];
-    });*/
+  handleSelect(event) {
+    console.log(event.target.value);
+  }
 
-    const selecperf = this.state.respPerf.map((perf, i = 0) => {
-      console.log(perf.descripcion);
-      console.log(i);
-      return <option>{perf.descripcion}</option>;
-    });
-  };
-
-  handleClick = e => {
+  handleClick(event) {
+    console.log(event.target.nom);
     console.log("click");
-  };
+  }
+
+  handleWrite(event) {
+    console.log(event.target.value);
+  }
 
   componentWillMount = () => {
-    getPostulanteB()
-      .then(response => {
-        let nuevoGet = [];
-        nuevoGet.push(response);
-        this.setState({ resp: nuevoGet });
-        console.log(this.state.resp);
-      })
-      .catch(console.log);
-
     this.getPerfil();
-    this.setState({ isLoading: false });
   };
-
   getPerfil = async () => {
     const nuevoGet = await getPerfil();
     this.setState({
@@ -70,54 +66,10 @@ export default class consulta_PB extends Component {
   };
 
   render() {
-    const { resp, isLoading, respPerf } = this.state;
-
-    if (isLoading === true) {
-      return <p>Cargando...</p>;
-    }
+    const { respPerf } = this.state;
 
     const perfiles = respPerf.map(perf => {
-      return <option value={perf.descripcion}>{perf.descripcion}</option>;
-    });
-
-    const groupPB = resp.map(arr => {
-      return arr.map(postulante => {
-        const n = `${postulante.nombre || ""}`;
-        const a1 = `${postulante.apellido1 || ""}`;
-        const a2 = `${postulante.apellido2 || ""}`;
-        const t = `${postulante.telefono || ""}`;
-        const c = `${postulante.celular || ""}`;
-        const co = `${postulante.correo || ""}`;
-        const d = `${postulante.perfil.descripcion || ""}`;
-        const ver = `${postulante.estatuspostulante.descripcion || ""}`;
-        if (ver === "No Contactado") {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
-              <td>
-                {n}
-                &nbsp;
-                {a1}
-                &nbsp;
-                {a2}
-              </td>
-              <td>{t}</td>
-              <td>{c}</td>
-              <td>{co}</td>
-              <td>{d}</td>
-              <td>{ver}</td>
-              <td>
-                <input
-                  type="image"
-                  className="lapiz"
-                  src={lapiz}
-                  alt="editar"
-                />
-              </td>
-            </tr>
-          );
-        }
-        console.log(postulante.perfil.descripcion);
-      });
+      return <option>{perf.descripcion}</option>;
     });
 
     return (
@@ -142,14 +94,25 @@ export default class consulta_PB extends Component {
           <form className="form-post">
             <div className="col">
               <label>Perfil: </label>
-              <select className="form-control" onChange={this.handleSelect}>
+              <select
+                className="form-control"
+                value={this.state.value}
+                onChange={this.handleSelect}
+              >
                 <option>Perfiles</option>
                 {perfiles}
               </select>
             </div>
             <div className="col">
               <label>Nombre(s): </label>
-              <input className="form-control" type="text" name="nombre" />
+              <input
+                className="form-control"
+                type="text"
+                name="nombre"
+                onChange={this.handleWrite}
+                value={this.state.value}
+                nom={this.state.value}
+              />
             </div>
             <div className="col">
               <label>Apellido Paterno: </label>
@@ -198,16 +161,13 @@ export default class consulta_PB extends Component {
                 <th width="10%">Celular</th>
                 <th width="15%">Correo</th>
                 <th width="10%">Perfil</th>
-<<<<<<< HEAD
                 <th width="10%">Estatus</th>
                 <th width="5%">Editar</th>
-=======
-                <th width="10%">Contactado</th>
-                <th width="5%"  >Editar</th>
->>>>>>> 77e4b8ccdf03d75043c9f8b5c24118acb6490285
               </tr>
             </thead>
-            <tbody>{groupPB}</tbody>
+            <tbody>
+              <Datos />
+            </tbody>
           </table>
         </div>
       </React.Fragment>
