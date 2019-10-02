@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import Icono from "../Imagenes/consultarcita.png";
 import Agenda from "../Imagenes/agenda.png";
 import { getCita } from "../request/request";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
-import './styles/Formatos.css'
+import "./styles/Formatos.css";
+import { Link } from "react-router-dom";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -19,7 +20,6 @@ const ColoredLine = ({ color }) => (
 
 const fecha = new Date();
 console.log(fecha);
-
 
 export default class consultarCita extends Component {
   constructor(props) {
@@ -49,19 +49,22 @@ export default class consultarCita extends Component {
 
   handleChangeDate = e => {
     console.log(e.target.value);
-    this.setState({fecha: e.target.value})
-  }
+    this.setState({ fecha: e.target.value });
+  };
 
   handleChangeDateFinal = e => {
     console.log(e.target.value);
-    this.setState({fechafinal: e.target.value})
-  }
+    this.setState({ fechafinal: e.target.value });
+  };
 
   render() {
     const { postulanteB } = this.state;
     const dato = postulanteB.map(datos => {
       return datos.cita.map(cit => {
-        if (cit.fecha === this.state.fecha || cit.fecha === this.state.fechafinal) {
+        if (
+          cit.fecha === this.state.fecha ||
+          cit.fecha === this.state.fechafinal
+        ) {
           return (
             <tr name="citaPB" onDoubleClick={() => this.selectCita()}>
               <th>
@@ -77,15 +80,12 @@ export default class consultarCita extends Component {
               <td>{cit.entrevistador}</td>
               <td>{cit.observaciones}</td>
               <td>
-                <label>
-                  {cit.estatuscita.descripcion}
-                </label>
+                <label>{cit.estatuscita.descripcion}</label>
               </td>
             </tr>
           );
         }
-      }
-      );
+      });
     });
     return (
       <React.Fragment>
@@ -106,10 +106,16 @@ export default class consultarCita extends Component {
           <TextField
             label="Fecha Actual"
             type="date-local"
-            defaultValue={fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear()}
+            defaultValue={
+              fecha.getDate() +
+              "/" +
+              (fecha.getMonth() + 1) +
+              "/" +
+              fecha.getFullYear()
+            }
             disabled
             InputLabelProps={{
-              shrink: true,
+              shrink: true
             }}
           />
         </div>
@@ -125,8 +131,9 @@ export default class consultarCita extends Component {
                     type="date"
                     onChange={this.handleChangeDate}
                     InputLabelProps={{
-                      shrink: true,
-                    }} />
+                      shrink: true
+                    }}
+                  />
                 </div>
               </td>
               <td>
@@ -136,8 +143,9 @@ export default class consultarCita extends Component {
                     type="date"
                     onChange={this.handleChangeDateFinal}
                     InputLabelProps={{
-                      shrink: true,
-                    }} />
+                      shrink: true
+                    }}
+                  />
                 </div>
               </td>
               <td>
@@ -158,9 +166,9 @@ export default class consultarCita extends Component {
             <div className="col-lg-8 offset-md-3">
               <div className="btn-toolbar" role="toolbar">
                 <div className="btn-group mr-2" role="group">
-                  <button type="button" className="btn btn-primary btn-lg">
+                  <Link to="/agregar_comentario" className="btn btn-primary">
                     Agregar Comentarios
-                  </button>
+                  </Link>
                 </div>
                 <div className="btn-group mr-2" role="group">
                   <button type="button" className="btn btn-info">
@@ -194,7 +202,7 @@ export default class consultarCita extends Component {
                     <th scope="col">Hora</th>
                     <th scope="col">Entrevistador</th>
                     <th scope="col">Comentarios</th>
-                    <th scope="col">Asistió</th>
+                    <th scope="col">status</th>
                   </tr>
                 </thead>
                 <tbody>{dato}</tbody>

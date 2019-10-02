@@ -1,9 +1,29 @@
 import React from "react";
 import "../App.css";
 import "./styles/agregar_PB.css";
+import "./styles/Formatos.css";
+import "./styles/FormatoImagenes.css";
 import agregar from "../Imagenes/agregar.png";
-import { getPostulanteB, getPerfil, postSeccion } from "../request/request";
+import {
+  getPostulanteB,
+  getPerfil,
+  postSeccion,
+  getEstatusPostulante
+} from "../request/request";
 import { number } from "prop-types";
+import agrP from "../Imagenes/agregar-postulante.png";
+import { Link } from "react-router-dom";
+
+const ColoredLine = ({ color }) => (
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 2,
+      width: 500
+    }}
+  />
+);
 
 class agregar_PB extends React.Component {
   constructor(args) {
@@ -11,7 +31,7 @@ class agregar_PB extends React.Component {
 
     this.state = {
       respPerf: [],
-
+      respEstatus: [],
       postulante: {
         perfil: number,
         apellido1: "",
@@ -81,9 +101,16 @@ class agregar_PB extends React.Component {
         console.log(this.state.resp);
       })
       .catch(console.log);
-
+    this.getEstatusPostulante();
     this.getPerfil();
     this.setState({ isLoading: false });
+  };
+
+  getEstatusPostulante = async () => {
+    const nuevoGet = await getEstatusPostulante();
+    this.setState({
+      respEstatus: nuevoGet.data
+    });
   };
 
   getPerfil = async () => {
@@ -96,7 +123,7 @@ class agregar_PB extends React.Component {
   hanleClick = e => {
     console.log(this.state.postulante);
 
-    postSeccion(this.state.postulante, 1, 1)
+    postSeccion(this.state.postulante, 2, 2)
       .then(response => {
         console.log(response);
       })
@@ -104,22 +131,37 @@ class agregar_PB extends React.Component {
     console.log("POST REALIZADO");
   };
 
+  handleSelect(event) {
+    console.log(event.target.value);
+  }
+
   render() {
-    const { respPerf } = this.state;
+    const { respPerf, respEstatus } = this.state;
     const perfiles = respPerf.map(perf => {
       return <option value={perf.descripcion}>{perf.descripcion}</option>;
+    });
+
+    const estatus = respEstatus.map(st => {
+      return <option value={st.descripcion}>{st.descripcion}</option>;
     });
 
     return (
       <div className="Content">
         <div align="center">
           <td>
-            <h1>Agregar Postulantes</h1>
-            <br />
-            <br />
+            <ColoredLine color="black" />
+          </td>
+          <td>
+            <img className="agregarP" src={agrP} alt="agregarP" />
+          </td>
+          <td>
+            <ColoredLine color="black" />
           </td>
         </div>
 
+        <div>
+          <h2 className="titulo">Agregar Postulantes</h2>
+        </div>
         <div class="row">
           <div class="column" align="right">
             <p>
@@ -248,8 +290,7 @@ class agregar_PB extends React.Component {
                 className="form-control"
               >
                 <option>Elija una opción</option>
-                <option>Asistió</option>
-                <option>No asistió</option>
+                {estatus}
               </select>
             </div>
 
@@ -269,21 +310,19 @@ class agregar_PB extends React.Component {
             <h4> Guardar CV en formato PDF </h4>
             <br />
 
-            <button
-              to="/"
+            <Link
+              to="/agendar_cita"
               className="btn btn-primary"
               onClick={this.hanleClick}
             >
               Guardar
-            </button>
+            </Link>
 
             <br />
             <br />
-            <button to="/" className="btn btn-primary">
+            <Link to="/consultar-Postulantes" className="btn btn-primary">
               Salir
-            </button>
-
-            <p> {JSON.stringify(this.state.postulante)} </p>
+            </Link>
           </div>
         </div>
       </div>

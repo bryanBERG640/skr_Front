@@ -6,6 +6,8 @@ import SolucionesKabec from "./componentes/SolucionesKabec";
 import FichaPostulante from "./componentes/FichaPostulante";
 import consultarCita from "./componentes/consultarCita";
 import Agregar_PB from "./componentes/agregar_PB";
+import agendar from "./componentes/agendar";
+import agregar_comentario from "./componentes/agrcom";
 import "./App.css";
 
 function App() {
@@ -22,6 +24,12 @@ function App() {
             />
             <Route exact path="/consultarCita" component={consultarCita} />
             <Route exact path="/agregar_PB" component={Agregar_PB} />
+            <Route exact path="/agendar_cita" component={agendar} />
+            <Route
+              exact
+              path="/agregar_comentario"
+              component={agregar_comentario}
+            />
           </Switch>
         </Layout>
       </BrowserRouter>

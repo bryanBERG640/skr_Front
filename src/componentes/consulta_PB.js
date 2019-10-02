@@ -3,10 +3,10 @@ import Icono from "../Imagenes/postulantes.png";
 import "./styles/Formatos.css";
 import "./styles/FormatoImagenes.css";
 import lupa from "../Imagenes/lupa.png";
-import lapiz from "../Imagenes/lapiz.png";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import Fildef from "./filtros/PB";
+import { filtroDefault } from "./filtros/filtrosPB";
 import { getPerfil } from "../request/request";
 
 const ColoredLine = ({ color }) => (
@@ -20,30 +20,19 @@ const ColoredLine = ({ color }) => (
   />
 );
 
-function Boton() {
-  console.log("click");
-  return 1;
-}
-
-function Datos() {
-  const c = 0;
-  switch (c) {
-    case 0:
-      return <Fildef />;
-  }
-}
-
 export default class consulta_PB extends Component {
   state = {
     respPerf: [],
-
+    pf: "",
     nom: "",
     A1: "",
-    A2: ""
+    A2: "",
+    c: 0
   };
 
   handleSelect(event) {
     console.log(event.target.value);
+    this.setState({ pf: event.target.value });
   }
 
   handleClick(event) {
@@ -66,11 +55,13 @@ export default class consulta_PB extends Component {
   };
 
   render() {
-    const { respPerf } = this.state;
+    const { respPerf, c } = this.state;
 
     const perfiles = respPerf.map(perf => {
       return <option>{perf.descripcion}</option>;
     });
+
+    const postulantes = <Fildef />;
 
     return (
       <React.Fragment>
@@ -85,7 +76,7 @@ export default class consulta_PB extends Component {
             <ColoredLine color="black" />
           </td>
         </div>
-        
+
         <div>
           <h2 className="titulo">Consultar Postulantes</h2>
         </div>
@@ -161,24 +152,11 @@ export default class consulta_PB extends Component {
                 <th width="10%">Celular</th>
                 <th width="15%">Correo</th>
                 <th width="10%">Perfil</th>
-<<<<<<< HEAD
                 <th width="10%">Estatus</th>
                 <th width="5%">Editar</th>
-=======
-<<<<<<< HEAD
-
-                <th width="10%">Estatus</th>
-                <th width="5%">Editar</th>
-=======
-                <th width="10%">Contactado</th>
-                <th width="5%"  >Editar</th>
->>>>>>> 87de2f0ce809a49b63079e3661d3ab94ed5ee431
->>>>>>> f26e79575da5b75ed2110568bd581c553e68cf75
               </tr>
             </thead>
-            <tbody>
-              <Datos />
-            </tbody>
+            <tbody>{postulantes}</tbody>
           </table>
         </div>
       </React.Fragment>

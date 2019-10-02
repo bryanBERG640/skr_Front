@@ -71,3 +71,19 @@ thead {
 .imagenAgenda {
   width: 70px;
 }
+
+.label1 {
+  padding-right: 10px;
+}
+
+.form-agendar {
+  margin-left: 35%;
+}
+
+.datosCita {
+  color: #259ca5;
+}
+
+.cajatext {
+  width: 426px;
+}
