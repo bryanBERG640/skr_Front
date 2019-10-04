@@ -20,11 +20,12 @@
 }
 
 .lupa {
-  height: 50 px;
+  height: 80 px;
   width: 50px;
   margin-top: 25px;
   margin-left: 2%;
   margin-right: 0%;
+  background: white;
   display: flex;
 }
 

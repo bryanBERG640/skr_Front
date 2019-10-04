@@ -171,9 +171,9 @@ export default class consultarCita extends Component {
                   </Link>
                 </div>
                 <div className="btn-group mr-2" role="group">
-                  <button type="button" className="btn btn-info">
-                    Re agendar
-                  </button>
+                  <Link to="/agendar_cita" className="btn btn-info">
+                    Reagendar
+                  </Link>
                 </div>
                 <div className="btn-group mr-2" role="group">
                   <button type="button" className="btn btn-info">
