@@ -87,3 +87,105 @@ thead {
 .cajatext {
   width: 426px;
 }
+
+.label {
+  border: grey 2px solid;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  border-radius: 6%;
+}
+
+.textArea {
+  resize: none;
+}
+
+.columnTextArea {
+  padding-left: 3rem;
+}
+
+.marginBotton {
+  margin-bottom: 4rem;
+}
+
+.boton {
+  box-shadow: 7px 8px 0px -4px rgba(0,0,0,1);
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+  color: #fff;
+  text-shadow: 0 1px;
+}
+
+.boton2 {
+  box-shadow: 7px 8px 0px -4px rgba(0,0,0,1);
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 0.5rem 2.5rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+  color: #fff;
+  text-shadow: 0 1px;
+}
+
+.left {
+  text-align: end;
+}
+
+.right {
+ text-align: start;
+}
+
+.lineaEspacioDerecha {
+  padding-right: 0rem;
+}
+
+.lineaEspacioIzquierda {
+  padding-left: 0rem;
+}
+
+.lineaEspacioDerecha2 {
+  padding-right: 3rem;
+}
+
+.lineaEspacioIzquierda2 {
+  padding-left: 3rem;
+}
+
+.label {
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s;
+    overflow: visible;
+    margin: 0;
+    font-family: inherit;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    text-align: start;
+    -webkit-appearance: textfield;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+}
+
+.div {
+  padding-left: 6rem;
+}
+
+.seccion {
+  padding-right: 2rem;
+}
+

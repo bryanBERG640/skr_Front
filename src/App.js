@@ -8,6 +8,8 @@ import consultarCita from "./componentes/consultarCita";
 import Agregar_PB from "./componentes/agregar_PB";
 import agendar from "./componentes/agendar";
 import agregar_comentario from "./componentes/agrcom";
+import Examen from "./componentes/Examen";
+import Postulante from "./componentes/Postulante";
 import "./App.css";
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
               path="/agregar_comentario"
               component={agregar_comentario}
             />
+            <Route exact path="/Examen" component={Examen} />
+            <Route exact path="/Postulante" component={Postulante}/>
           </Switch>
         </Layout>
       </BrowserRouter>
