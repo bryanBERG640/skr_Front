@@ -59,3 +59,18 @@
   margin-top: 5px;
   display: flex;
 }
+
+.agciAvatar {
+  width: 10rem;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-top: 6rem;
+  display: flex;
+  text-align: start;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: 50%;
+  background-size: 100% auto;
+}
+
+
