@@ -120,11 +120,17 @@ thead {
   text-shadow: 0 1px;
 }
 
+.divBoton2 {
+  margin-top: 0.8rem;
+  margin-right: 0;
+  padding-right: 0;
+}
+
 .boton2 {
   box-shadow: 7px 8px 0px -4px rgba(0,0,0,1);
   background-color: #007bff;
   border-color: #007bff;
-  padding: 0.5rem 2.5rem;
+  padding: 0.7rem 2.7rem;
   font-size: 1.25rem;
   border-radius: 0.3rem;
   color: #fff;
@@ -189,3 +195,6 @@ thead {
   padding-right: 2rem;
 }
 
+.labelFecha {
+  margin-top: 0.2rem;
+}

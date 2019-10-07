@@ -20,7 +20,7 @@ const ColoredLine2 = ({ color }) => (
             color: color,
             backgroundColor: color,
             height: 2,
-            width: 200,
+            width: 200
         }}
     />
 );
@@ -152,9 +152,8 @@ class Examen extends React.Component {
                                                 <input className=" boton" type="submit" value="Guardar"></input>
                                             </div>
                                             <div className="col-2"></div>
-                                            <div className="col-5 center">
-                                                <button className="boton2" onClick="#">Salir</button>
-                                                <Link to="/consultarCita" className="boton2">Salirfdd</Link>
+                                            <div className="col-5 center divBoton2">
+                                                <Link to="/consultarCita" className="boton2"> Salir</Link>
                                             </div>
                                         </div>
                                     </div>
