@@ -4,6 +4,7 @@ import "./styles/agregar_PB.css";
 import "./styles/Formatos.css";
 import "./styles/FormatoImagenes.css";
 import agregar from "../Imagenes/agregar.png";
+import Agenda from "../componentes/agendar";
 import {
   getPostulanteB,
   getPerfil,
@@ -34,12 +35,13 @@ class agregar_PB extends React.Component {
       respEstatus: [],
       postulante: {
         perfil: number,
+        estatuspostulante: number,
         apellido1: "",
         apellido2: "",
         nombre: "",
         correo: "",
-        telefono: number,
-        celular: number,
+        telefono: "",
+        celular: "",
         observaciones: ""
       }
     };
@@ -123,7 +125,11 @@ class agregar_PB extends React.Component {
   hanleClick = e => {
     console.log(this.state.postulante);
 
-    postSeccion(this.state.postulante, 2, 2)
+    postSeccion(
+      this.state.postulante,
+      this.state.perfil,
+      this.state.estatuspostulante
+    )
       .then(response => {
         console.log(response);
       })
@@ -131,9 +137,23 @@ class agregar_PB extends React.Component {
     console.log("POST REALIZADO");
   };
 
-  handleSelect(event) {
-    console.log(event.target.value);
-  }
+  handleSelect1 = e => {
+    const perfiles = this.state.respPerf.map(perf => {
+      if (e.target.value === perf.descripcion) {
+        this.setState({ perfil: perf.id_perfil });
+      }
+      return perf.id_perfil;
+    });
+  };
+
+  handleSelect2 = e => {
+    const estatus = this.state.respEstatus.map(est => {
+      if (e.target.value === est.descripcion) {
+        this.setState({ estatuspostulante: est.id_estatus_postulante });
+      }
+      return est.id_estatus_postulante;
+    });
+  };
 
   render() {
     const { respPerf, respEstatus } = this.state;
@@ -144,7 +164,8 @@ class agregar_PB extends React.Component {
     const estatus = respEstatus.map(st => {
       return <option value={st.descripcion}>{st.descripcion}</option>;
     });
-
+    console.log(this.state.perfil);
+    console.log(this.state.estatuspostulante);
     return (
       <div className="Content">
         <div align="center">
@@ -202,9 +223,8 @@ class agregar_PB extends React.Component {
           <div class="column" align="righ">
             <div className="form-group">
               <select
-                id="perfil"
-                value={this.state.postulante.perfil}
-                onChange={this.onChange.bind(this)}
+                value={this.state.value}
+                onChange={this.handleSelect1}
                 name="perfil"
                 className="form-control"
               >
@@ -283,10 +303,9 @@ class agregar_PB extends React.Component {
             <br />
             <div className="form-group">
               <select
-                id="estatuspostulante"
                 name="estatuspostulante"
-                value={this.state.postulante.estatuspostulante}
-                onChange={this.onChange.bind(this)}
+                value={this.state.value}
+                onChange={this.handleSelect2}
                 className="form-control"
               >
                 <option>Elija una opción</option>
@@ -314,6 +333,7 @@ class agregar_PB extends React.Component {
               to="/agendar_cita"
               className="btn btn-primary"
               onClick={this.hanleClick}
+              nombre={this.state.nombre}
             >
               Guardar
             </Link>

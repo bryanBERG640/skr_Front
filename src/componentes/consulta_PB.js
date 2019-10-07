@@ -5,8 +5,7 @@ import "./styles/FormatoImagenes.css";
 import lupa from "../Imagenes/lupa.png";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
-import Fildef from "./filtros/PB";
-import { filtroDefault } from "./filtros/filtrosPB";
+import FiltrosPB from "./filtros/filtrosPB";
 import { getPerfil } from "../request/request";
 
 const ColoredLine = ({ color }) => (
@@ -23,26 +22,38 @@ const ColoredLine = ({ color }) => (
 export default class consulta_PB extends Component {
   state = {
     respPerf: [],
-    pf: "",
-    nom: "",
-    A1: "",
-    A2: "",
-    c: 0
+    perfil: "",
+    nombre: "",
+    apellido1: "",
+    apellido2: ""
   };
 
-  handleSelect(event) {
-    console.log(event.target.value);
-    this.setState({ pf: event.target.value });
+  constructor(props) {
+    super(props);
   }
 
+  handleSelect = e => {
+    //console.log(e.target.value);
+    this.setState({ perfil: e.target.value });
+  };
+
   handleClick(event) {
-    console.log(event.target.nom);
     console.log("click");
   }
 
-  handleWrite(event) {
-    console.log(event.target.value);
-  }
+  handleWrite = e => {
+    //console.log(e.target.value);
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log("form submit");
+    console.log(this.state.perfil);
+    console.log(this.state.nombre);
+    console.log(this.state.apellido1);
+    console.log(this.state.apellido2);
+  };
 
   componentWillMount = () => {
     this.getPerfil();
@@ -60,8 +71,6 @@ export default class consulta_PB extends Component {
     const perfiles = respPerf.map(perf => {
       return <option>{perf.descripcion}</option>;
     });
-
-    const postulantes = <Fildef />;
 
     return (
       <React.Fragment>
@@ -82,7 +91,7 @@ export default class consulta_PB extends Component {
         </div>
 
         <div className="row">
-          <form className="form-post">
+          <form className="form-post" onSubmit={this.handleSubmit}>
             <div className="col">
               <label>Perfil: </label>
               <select
@@ -101,21 +110,32 @@ export default class consulta_PB extends Component {
                 type="text"
                 name="nombre"
                 onChange={this.handleWrite}
-                value={this.state.value}
-                nom={this.state.value}
+                value={this.state.nombre}
               />
             </div>
             <div className="col">
               <label>Apellido Paterno: </label>
-              <input className="form-control" type="text" name="nombre" />
+              <input
+                className="form-control"
+                type="text"
+                name="apellido1"
+                onChange={this.handleWrite}
+                value={this.state.apellido1}
+              />
             </div>
             <div className="col">
               <label>Apellido Materno: </label>
-              <input type="text" className="form-control" name="nombre" />
+              <input
+                type="text"
+                className="form-control"
+                name="apellido2"
+                onChange={this.handleWrite}
+                value={this.state.apellido2}
+              />
             </div>
             <div className="col">
-              <Button onClick={this.handleClick}>
-                <img className="lupa" src={lupa} alt="consulta" height="50px" />
+              <Button type="submit" onClick={this.handleClick}>
+                <img className="lupa" src={lupa} alt="consulta" />
               </Button>
             </div>
           </form>
@@ -132,9 +152,9 @@ export default class consulta_PB extends Component {
                 Completar Datos
               </button>
               &nbsp; &nbsp;
-              <button type="button" className="btn btn-primary">
+              <Link to="/agendar_cita" className="btn btn-primary">
                 Agendar
-              </button>
+              </Link>
               &nbsp; &nbsp;
               <Link to="/Ficha-Postulante" className="btn btn-primary">
                 Mostrar Ficha
@@ -156,7 +176,13 @@ export default class consulta_PB extends Component {
                 <th width="5%">Editar</th>
               </tr>
             </thead>
-            <tbody>{postulantes}</tbody>
+            <tbody>
+              <FiltrosPB
+                perfil={this.state.perfil}
+                nombre={this.state.nombre}
+                apellido1={this.state.apellido1}
+              />
+            </tbody>
           </table>
         </div>
       </React.Fragment>
