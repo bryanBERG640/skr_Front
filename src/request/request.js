@@ -15,13 +15,10 @@ function getPostulanteC(idPostulante) {
 }
 
 function getPostulanteB() {
-  return fetch("http://192.168.1.230:8088/skr_v1/postulanteB/get", {
-    method: "GET"
-  })
-    .then(response => {
-      return response.json();
-    })
-    .catch(console.log);
+  const postulantes = axios.get(
+    "http://192.168.1.230:8088/skr_v1/postulanteB/get"
+  );
+  return postulantes;
 }
 
 function getCita() {

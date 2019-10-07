@@ -46,6 +46,7 @@ class agregar_PB extends React.Component {
       }
     };
   }
+
   onChange(e) {
     let pos = this.state.postulante;
 

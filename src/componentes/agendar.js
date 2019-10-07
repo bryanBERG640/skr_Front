@@ -2,6 +2,7 @@ import React from "react";
 import IconoAgendar from "../Imagenes/agendarcita.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
+import FiltrosPB from "../componentes/filtros/filtrosPB";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -20,6 +21,7 @@ class agendar extends React.Component {
   state = {
     fecha: ""
   };
+
   render() {
     console.log(this.props.nombre);
     return (
@@ -37,7 +39,7 @@ class agendar extends React.Component {
         </div>
 
         <div align="center">
-          <label>{this.props.nombre}</label>
+          <label></label>
         </div>
         <br />
         <br />

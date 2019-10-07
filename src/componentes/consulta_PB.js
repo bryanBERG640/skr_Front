@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import FiltrosPB from "./filtros/filtrosPB";
 import { getPerfil } from "../request/request";
+import Agendar from "../componentes/agendar";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -37,9 +38,9 @@ export default class consulta_PB extends Component {
     this.setState({ perfil: e.target.value });
   };
 
-  handleClick(event) {
-    console.log("click");
-  }
+  handleClick = e => {
+    console.log(this.props.nombre);
+  };
 
   handleWrite = e => {
     //console.log(e.target.value);
@@ -152,9 +153,14 @@ export default class consulta_PB extends Component {
                 Completar Datos
               </button>
               &nbsp; &nbsp;
-              <Link to="/agendar_cita" className="btn btn-primary">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={this.handleClick}
+                value={this.props.nombre}
+              >
                 Agendar
-              </Link>
+              </button>
               &nbsp; &nbsp;
               <Link to="/Ficha-Postulante" className="btn btn-primary">
                 Mostrar Ficha
@@ -167,6 +173,7 @@ export default class consulta_PB extends Component {
           <table className="mt-4">
             <thead>
               <tr>
+                <th width="10%">seleccionar</th>
                 <th width="15%">Nombre</th>
                 <th width="10%">Telefono</th>
                 <th width="10%">Celular</th>
