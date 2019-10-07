@@ -5,7 +5,6 @@ import "./styles/FormatoImagenes.css";
 import lupa from "../Imagenes/lupa.png";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
-import Fildef from "./filtros/PB";
 import FiltrosPB from "./filtros/filtrosPB";
 import { getPerfil } from "../request/request";
 

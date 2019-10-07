@@ -21,6 +21,7 @@ class agendar extends React.Component {
     fecha: ""
   };
   render() {
+    console.log(this.props.nombre);
     return (
       <React.Fragment>
         <div align="center">
@@ -36,7 +37,7 @@ class agendar extends React.Component {
         </div>
 
         <div align="center">
-          <label>NOMBRE</label>
+          <label>{this.props.nombre}</label>
         </div>
         <br />
         <br />
@@ -44,9 +45,11 @@ class agendar extends React.Component {
           <form className="form-agendar">
             <div className="col">
               <label className="label1">Entrevistador:</label>
-              <select className="form-control">
-                <option>seleccione uno</option>
-              </select>
+              <input
+                className="form-control"
+                name="entrevistador"
+                type="text"
+              />
             </div>
             <br />
             <div className="col">
