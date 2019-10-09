@@ -181,9 +181,9 @@ export default class consultarCita extends Component {
                   </button>
                 </div>
                 <div className="btn-group mr-2" role="group">
-                  <button type="button" className="btn btn-info">
+                  <Link to="/examen" className="btn btn-info">
                     Exámenes
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

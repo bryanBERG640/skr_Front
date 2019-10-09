@@ -53,6 +53,10 @@ class filtrosPB extends React.Component {
   };
 
   render() {
+    console.log(this.state.idp)
+    console.log(this.state.nombre)
+    console.log(this.state.apellido1)
+    console.log(this.state.apellido2)
     const { resp } = this.state;
     const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;
@@ -325,16 +329,7 @@ class filtrosPB extends React.Component {
         }
       }
     });
-    console.log(this.state.idp);
-    console.log(this.state.nombre);
-    console.log(this.state.apellido1);
-    console.log(this.state.apellido2);
-    return (
-      <React.Fragment>
-        {groupPB}
-        {this.state.nombre}
-      </React.Fragment>
-    );
+    return groupPB;
   }
 }
 

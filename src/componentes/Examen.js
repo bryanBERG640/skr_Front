@@ -149,7 +149,7 @@ class Examen extends React.Component {
                                     <div className="container">
                                         <div className="row">
                                             <div className="col-5 left">
-                                                <input className=" boton" type="submit" value="Guardar"></input>
+                                                <Link to="/consultarCita" className="btn btn-primary" >Guardar</Link>
                                             </div>
                                             <div className="col-2"></div>
                                             <div className="col-5 center divBoton2">

@@ -39,7 +39,7 @@ class agendar extends React.Component {
         </div>
 
         <div align="center">
-          <label></label>
+          <label>Luis Valtierra Pizano</label>
         </div>
         <br />
         <br />
