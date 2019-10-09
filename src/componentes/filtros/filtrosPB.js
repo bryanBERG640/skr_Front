@@ -56,14 +56,10 @@ class filtrosPB extends React.Component {
   };
 
   render() {
-<<<<<<< HEAD
     console.log(this.state.idp)
     console.log(this.state.nombre)
     console.log(this.state.apellido1)
     console.log(this.state.apellido2)
-=======
-    console.log("Valor nombre: " + this.state.nombre);
->>>>>>> aec3f469bb60ec4d6dcc165e2517a29130be94a8
     const { resp } = this.state;
     const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;
@@ -121,6 +117,12 @@ class filtrosPB extends React.Component {
         if (this.props.apellido1 === a1) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -152,6 +154,12 @@ class filtrosPB extends React.Component {
         if (this.props.nombre === n) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -183,6 +191,12 @@ class filtrosPB extends React.Component {
         if (this.props.nombre === n && this.props.apellido1 === a1) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -214,6 +228,12 @@ class filtrosPB extends React.Component {
         if (this.props.perfil === d) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -245,6 +265,12 @@ class filtrosPB extends React.Component {
         if (this.props.perfil === d && this.props.apellido1 === a1) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -276,6 +302,12 @@ class filtrosPB extends React.Component {
         if (this.props.perfil === d && this.props.nombre === n) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -311,6 +343,12 @@ class filtrosPB extends React.Component {
         ) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -336,22 +374,9 @@ class filtrosPB extends React.Component {
         }
       }
     });
-<<<<<<< HEAD
+
     return groupPB;
-=======
-    console.log("Valores al final de la vista.");
-    console.log(this.state.idp);
-    console.log(this.state.nombre);
-    console.log(this.state.apellido1);
-    console.log(this.state.apellido2);
-    return (
-      <React.Fragment>
-        {groupPB}
-        {this.state.nombre}
-        dsfsd
-      </React.Fragment>
-    );
->>>>>>> aec3f469bb60ec4d6dcc165e2517a29130be94a8
+
   }
 }
 

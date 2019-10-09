@@ -153,7 +153,6 @@ export default class consulta_PB extends Component {
                 Completar Datos
               </button>
               &nbsp; &nbsp;
-<<<<<<< HEAD
               <Link
                 to="/agendar_cita"
                 className="btn btn-primary"
@@ -161,17 +160,6 @@ export default class consulta_PB extends Component {
                 // value={this.props.nombre}
               >
                 Agendar
-=======
-              <Link to="/agendar_Cita" >
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.handleClick}
-                  value={this.props.nombre}
-                >
-                  Agendar
-              </button>
->>>>>>> aec3f469bb60ec4d6dcc165e2517a29130be94a8
               </Link>
               &nbsp; &nbsp;
               <Link to="/Ficha-Postulante" className="btn btn-primary">
