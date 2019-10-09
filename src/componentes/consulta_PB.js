@@ -69,7 +69,7 @@ export default class consulta_PB extends Component {
   render() {
     const { respPerf, c } = this.state;
 
-    const perfiles = respPerf.map(perf => {
+    const handleSelect = respPerf.map(perf => {
       return <option>{perf.descripcion}</option>;
     });
 
@@ -101,7 +101,7 @@ export default class consulta_PB extends Component {
                 onChange={this.handleSelect}
               >
                 <option>Perfiles</option>
-                {perfiles}
+                {handleSelect}
               </select>
             </div>
             <div className="col">
@@ -153,14 +153,16 @@ export default class consulta_PB extends Component {
                 Completar Datos
               </button>
               &nbsp; &nbsp;
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={this.handleClick}
-                value={this.props.nombre}
-              >
-                Agendar
+              <Link to="/agendar_Cita" >
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={this.handleClick}
+                  value={this.props.nombre}
+                >
+                  Agendar
               </button>
+              </Link>
               &nbsp; &nbsp;
               <Link to="/Ficha-Postulante" className="btn btn-primary">
                 Mostrar Ficha

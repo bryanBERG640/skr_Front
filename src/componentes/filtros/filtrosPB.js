@@ -41,6 +41,7 @@ class filtrosPB extends React.Component {
   };
 
   handleClick = e => {
+    console.log("Fucion handleClick");
     let pb = parseInt(e.target.value);
     this.state.resp.map(postulante => {
       if (pb === postulante.id_postulante_b) {
@@ -50,9 +51,12 @@ class filtrosPB extends React.Component {
         this.setState({ apellido2: postulante.apellido2 });
       }
     });
+    
+    console.log("Presionaste el boton y ahora estas dentro de handleClick");
   };
 
   render() {
+    console.log("Valor nombre: " + this.state.nombre);
     const { resp } = this.state;
     const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;
@@ -325,6 +329,7 @@ class filtrosPB extends React.Component {
         }
       }
     });
+    console.log("Valores al final de la vista.");
     console.log(this.state.idp);
     console.log(this.state.nombre);
     console.log(this.state.apellido1);
@@ -333,6 +338,7 @@ class filtrosPB extends React.Component {
       <React.Fragment>
         {groupPB}
         {this.state.nombre}
+        dsfsd
       </React.Fragment>
     );
   }

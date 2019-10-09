@@ -37,7 +37,7 @@ class FichaPostulante extends React.Component {
   };
   render() {
     progresBar(true);
-    console.log(this.state.resp);
+    console.log("Valores de la respuesta" + this.state.resp);
     const dato = this.state.resp.map(datos => {
       progresBar(false);
       return (
