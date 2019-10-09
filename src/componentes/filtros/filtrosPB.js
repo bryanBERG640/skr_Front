@@ -41,6 +41,7 @@ class filtrosPB extends React.Component {
   };
 
   handleClick = e => {
+    console.log("Fucion handleClick");
     let pb = parseInt(e.target.value);
     this.state.resp.map(postulante => {
       if (pb === postulante.id_postulante_b) {
@@ -50,13 +51,19 @@ class filtrosPB extends React.Component {
         this.setState({ apellido2: postulante.apellido2 });
       }
     });
+    
+    console.log("Presionaste el boton y ahora estas dentro de handleClick");
   };
 
   render() {
+<<<<<<< HEAD
     console.log(this.state.idp)
     console.log(this.state.nombre)
     console.log(this.state.apellido1)
     console.log(this.state.apellido2)
+=======
+    console.log("Valor nombre: " + this.state.nombre);
+>>>>>>> aec3f469bb60ec4d6dcc165e2517a29130be94a8
     const { resp } = this.state;
     const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;
@@ -329,7 +336,22 @@ class filtrosPB extends React.Component {
         }
       }
     });
+<<<<<<< HEAD
     return groupPB;
+=======
+    console.log("Valores al final de la vista.");
+    console.log(this.state.idp);
+    console.log(this.state.nombre);
+    console.log(this.state.apellido1);
+    console.log(this.state.apellido2);
+    return (
+      <React.Fragment>
+        {groupPB}
+        {this.state.nombre}
+        dsfsd
+      </React.Fragment>
+    );
+>>>>>>> aec3f469bb60ec4d6dcc165e2517a29130be94a8
   }
 }
 
