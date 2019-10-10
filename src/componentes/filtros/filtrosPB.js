@@ -1,21 +1,24 @@
 import React from "react";
+import { connect } from 'react-redux';//Sirve para conectar las librerias de react y redux, se utiliza para cada componente que se quiera dar acceso al store.
 import { getPostulanteB, getPerfil } from "../../request/request";
 import lapiz from "../../Imagenes/lapiz.png";
 import { number } from "prop-types";
 import Agendar from "../agendar";
+import { setPostulante } from '../../actions/index';
 
 class filtrosPB extends React.Component {
   state = {
     isLoading: true,
     resp: [],
-    respPerf: [],
-    selecPerf: "",
-    selpos: {
-      idp: number,
-      nombre: "",
-      apellido1: "",
-      apellido2: ""
-    }
+    pos: []
+    // respPerf: [],
+    // selecPerf: "",
+    // selpos: {
+    //   idp: number,
+    //   nombre: "",
+    //   apellido1: "",
+    //   apellido2: ""
+    // }
   };
 
   constructor(props) {
@@ -45,13 +48,15 @@ class filtrosPB extends React.Component {
     let pb = parseInt(e.target.value);
     this.state.resp.map(postulante => {
       if (pb === postulante.id_postulante_b) {
-        this.setState({ idp: postulante.id_postulante_b });
-        this.setState({ nombre: postulante.nombre });
-        this.setState({ apellido1: postulante.apellido1 });
-        this.setState({ apellido2: postulante.apellido2 });
+        // this.setState({ idp: postulante.id_postulante_b });
+        // this.setState({ nombre: postulante.nombre });
+        // this.setState({ apellido1: postulante.apellido1 });
+        // this.setState({ apellido2: postulante.apellido2 });
+
+        console.log("Valor del estate nobre:-- " + postulante)//Se imprime el valor de psotulante.nombre
+       this.props.dispatchSetPostulante(postulante);//Se almacena en el store una función.
       }
     });
-    
     console.log("Presionaste el boton y ahora estas dentro de handleClick");
   };
 
@@ -334,6 +339,9 @@ class filtrosPB extends React.Component {
     console.log(this.state.nombre);
     console.log(this.state.apellido1);
     console.log(this.state.apellido2);
+
+    const name = this.state.nombre;
+    console.log("Desde filtrosPB, valor del  nombre: " + name);
     return (
       <React.Fragment>
         {groupPB}
@@ -344,4 +352,9 @@ class filtrosPB extends React.Component {
   }
 }
 
-export default filtrosPB;
+const mapDispatchToProps = dispatch => ({
+    dispatchSetPostulante: value => dispatch(setPostulante(value))
+  });
+
+  export default connect(null, mapDispatchToProps)(filtrosPB);//El segundo parametro del metodo connect permitira trabajar con las acciones.
+  
