@@ -3,7 +3,6 @@ import reducers from "../reducers";
 import persistState from "redux-localstorage";
 import { routerReducer } from "react-router-redux";
 import thunk from "redux-thunk";
-import PBseleccion from "../reducers/PBSeleccionReducer";
 
 const enhancer = compose(persistState("user")); // nos permite hacer la persistenacia de datos aunque se recargue la pagina
 
