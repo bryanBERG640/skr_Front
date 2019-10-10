@@ -41,6 +41,7 @@ class agendar extends React.Component {
         </div>
         <div align="center">
           <label>{this.props.nombre.nombre}&nbsp;{this.props.nombre.apellido1}&nbsp;{this.props.nombre.apellido2}</label>
+
         </div>
         <br />
         <br />

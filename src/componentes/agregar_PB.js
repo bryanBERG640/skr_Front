@@ -331,7 +331,7 @@ class agregar_PB extends React.Component {
             <br />
 
             <Link
-              to="/agendar_cita"
+              to="/consultar-Postulantes"
               className="btn btn-primary"
               onClick={this.hanleClick}
               nombre={this.state.nombre}

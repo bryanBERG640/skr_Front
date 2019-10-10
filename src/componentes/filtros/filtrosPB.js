@@ -61,7 +61,10 @@ class filtrosPB extends React.Component {
   };
 
   render() {
-    console.log("Valor nombre: " + this.state.nombre);
+    console.log(this.state.idp)
+    console.log(this.state.nombre)
+    console.log(this.state.apellido1)
+    console.log(this.state.apellido2)
     const { resp } = this.state;
     const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;
@@ -119,6 +122,12 @@ class filtrosPB extends React.Component {
         if (this.props.apellido1 === a1) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -150,6 +159,12 @@ class filtrosPB extends React.Component {
         if (this.props.nombre === n) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -181,6 +196,12 @@ class filtrosPB extends React.Component {
         if (this.props.nombre === n && this.props.apellido1 === a1) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -212,6 +233,12 @@ class filtrosPB extends React.Component {
         if (this.props.perfil === d) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -243,6 +270,12 @@ class filtrosPB extends React.Component {
         if (this.props.perfil === d && this.props.apellido1 === a1) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -274,6 +307,12 @@ class filtrosPB extends React.Component {
         if (this.props.perfil === d && this.props.nombre === n) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -309,6 +348,12 @@ class filtrosPB extends React.Component {
         ) {
           return (
             <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+              <input
+                type="radio"
+                name="seleccionPB"
+                value={i}
+                onClick={this.handleClick}
+              />
               <td>
                 {n}
                 &nbsp;
@@ -334,21 +379,10 @@ class filtrosPB extends React.Component {
         }
       }
     });
-    console.log("Valores al final de la vista.");
-    console.log(this.state.idp);
-    console.log(this.state.nombre);
-    console.log(this.state.apellido1);
-    console.log(this.state.apellido2);
 
-    const name = this.state.nombre;
-    console.log("Desde filtrosPB, valor del  nombre: " + name);
-    return (
-      <React.Fragment>
-        {groupPB}
-        {this.state.nombre}
-        dsfsd
-      </React.Fragment>
-    );
+
+    return groupPB;
+
   }
 }
 

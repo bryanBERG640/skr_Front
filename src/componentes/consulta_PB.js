@@ -177,15 +177,13 @@ class consulta_PB extends Component {
                 Completar Datos
               </button>
               &nbsp; &nbsp;
-              <Link to="/agendar_Cita" >
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.handleClick}
-                  value={this.props.nombre}
-                >
-                  Agendar
-              </button>
+              <Link
+                to="/agendar_cita"
+                className="btn btn-primary"
+                //onClick={this.handleClick}
+                // value={this.props.nombre}
+              >
+                Agendar
               </Link>
               &nbsp; &nbsp;
               <Link to="/Ficha-Postulante" className="btn btn-primary">
