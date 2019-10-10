@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';//Sirve para conectar las librerias de react y redux, se utiliza para cada componente que se quiera dar acceso al store.
 import Icono from "../Imagenes/postulantes.png";
 import "./styles/Formatos.css";
 import "./styles/FormatoImagenes.css";
@@ -8,7 +9,17 @@ import { Button } from "@material-ui/core";
 import FiltrosPB from "./filtros/filtrosPB";
 import { getPerfil } from "../request/request";
 import Agendar from "../componentes/agendar";
+<<<<<<< HEAD
 import { connect } from "react-redux";
+=======
+//Se agregan las librerias necesarias para usar redux.
+import { clickAgendar } from '../actions/index';
+import { clickBuscar } from '../actions/index';
+import { clickAgregarPostulante } from '../actions/index';
+import { clickCompletarDatos } from '../actions/index';
+//Se exporta el filtrosPBReducer para capturar el valor------------
+import { filtrosPBReducer } from '../reducers/filtrosPBReducer';
+>>>>>>> e66e9683260a3d7f32203b8b93e2231373777e9d
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -39,8 +50,9 @@ class consulta_PB extends Component {
     this.setState({ perfil: e.target.value });
   };
 
-  handleClick = e => {
+  handleClickBuscar = e => {
     console.log(this.props.nombre);
+    this.props.dispatchClickBuscar("Buscando");//Se almacena en el store una función.
   };
 
   handleWrite = e => {
@@ -66,6 +78,21 @@ class consulta_PB extends Component {
       respPerf: nuevoGet.data
     });
   };
+
+  handleClick = e => {
+    console.log("Funciion handleClick");
+    this.props.dispatchClickAgendar(filtrosPBReducer);//Se almacena en el store una función.
+  }
+
+  handleClickAgregarPostulante =e => {
+    console.log("Funcion handleClickAgregarPostulante");
+    this.props.dispatchClickAgregarPostulante("Agregando");//Se almacena en el store una función.
+  }
+
+  handleClickCompletarDatos = e => {
+    console.log("Función handleClickCompletarDatos");
+    this.props.dispatchClickCompletarDatos("Completando");//Se almacena en el store una función.
+  }
 
   render() {
     /*const { PBSeleccionReducer } = this.props;
@@ -143,7 +170,7 @@ class consulta_PB extends Component {
               />
             </div>
             <div className="col">
-              <Button type="submit" onClick={this.handleClick}>
+              <Button type="submit" onClick={this.handleClickBuscar}>
                 <img className="lupa" src={lupa} alt="consulta" />
               </Button>
             </div>
@@ -153,11 +180,11 @@ class consulta_PB extends Component {
 
           <form className="form-hor" role="form">
             <div className="form-group">
-              <Link to="/agregar_PB" className="btn btn-primary">
+              <Link to="/agregar_PB" className="btn btn-primary" onClick={this.handleClickAgregarPostulante}>
                 Agregar Postulante
               </Link>
               &nbsp; &nbsp;
-              <button type="button" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" onClick={this.handleClickCompletarDatos}>
                 Completar Datos
               </button>
               &nbsp; &nbsp;
@@ -205,6 +232,7 @@ class consulta_PB extends Component {
   }
 }
 
+<<<<<<< HEAD
 /*const mapStateToProps = state => {
   return {
     postulante: state.postulante
@@ -227,3 +255,13 @@ const wrapper = connect(mapStateToProps);
 const component = wrapper(consulta_PB);
 
 export default component;
+=======
+const mapDispatchProps = dispatch => ({
+  dispatchClickAgendar: value => dispatch(clickAgendar(value)),
+  dispatchClickBuscar: value => dispatch(clickBuscar(value)),
+  dispatchClickAgregarPostulante: value => dispatch(clickAgregarPostulante(value)),
+  dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value))
+});
+
+export default connect(null,mapDispatchProps)(consulta_PB);//El segundo parametro del metodo connect permitira trabajar con las acciones.
+>>>>>>> e66e9683260a3d7f32203b8b93e2231373777e9d

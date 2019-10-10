@@ -2,7 +2,13 @@ import React from "react";
 import IconoAgendar from "../Imagenes/agendarcita.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 import { connect } from "react-redux";
+=======
+import FiltrosPB from "../componentes/filtros/filtrosPB";
+import { filtrosPBReducer } from '../reducers/filtrosPBReducer';
+import { connect } from 'react-redux';
+>>>>>>> e66e9683260a3d7f32203b8b93e2231373777e9d
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -38,9 +44,9 @@ class agendar extends React.Component {
             <ColoredLine color="black" />
           </td>
         </div>
-
         <div align="center">
-          <label>Luis Valtierra Pizano</label>
+          <label>{this.props.nombre.nombre}&nbsp;{this.props.nombre.apellido1}&nbsp;{this.props.nombre.apellido2}</label>
+
         </div>
         <br />
         <br />
@@ -88,6 +94,7 @@ class agendar extends React.Component {
 
 const mapStateToProps = state => {
   return {
+<<<<<<< HEAD
     postulante: state.postulante
   };
 };
@@ -96,3 +103,11 @@ export default connect(
   mapStateToProps,
   null
 )(agendar);
+=======
+    nombre: state.nombre
+  }
+}
+
+export default connect(mapStateToProps,null)(agendar);
+// export default agendar;
+>>>>>>> e66e9683260a3d7f32203b8b93e2231373777e9d

@@ -1,14 +1,28 @@
 import React from "react";
+import { connect } from 'react-redux';//Sirve para conectar las librerias de react y redux, se utiliza para cada componente que se quiera dar acceso al store.
 import { getPostulanteB, getPerfil } from "../../request/request";
 import lapiz from "../../Imagenes/lapiz.png";
 import { number } from "prop-types";
 import Agendar from "../agendar";
+import { setPostulante } from '../../actions/index';
 
 class filtrosPB extends React.Component {
   state = {
     isLoading: true,
     resp: [],
+<<<<<<< HEAD
     Postulante: []
+=======
+    pos: []
+    // respPerf: [],
+    // selecPerf: "",
+    // selpos: {
+    //   idp: number,
+    //   nombre: "",
+    //   apellido1: "",
+    //   apellido2: ""
+    // }
+>>>>>>> e66e9683260a3d7f32203b8b93e2231373777e9d
   };
 
   constructor(props) {
@@ -30,10 +44,23 @@ class filtrosPB extends React.Component {
     let pb = parseInt(e.target.value);
     this.state.resp.map(postulante => {
       if (pb === postulante.id_postulante_b) {
+<<<<<<< HEAD
         this.setState({ Postulante: postulante });
       }
     });
 
+=======
+        // this.setState({ idp: postulante.id_postulante_b });
+        // this.setState({ nombre: postulante.nombre });
+        // this.setState({ apellido1: postulante.apellido1 });
+        // this.setState({ apellido2: postulante.apellido2 });
+
+        console.log("Valor del estate nobre:-- " + postulante)//Se imprime el valor de psotulante.nombre
+       this.props.dispatchSetPostulante(postulante);//Se almacena en el store una función.
+      }
+    });
+    console.log("Presionaste el boton y ahora estas dentro de handleClick");
+>>>>>>> e66e9683260a3d7f32203b8b93e2231373777e9d
   };
 
   render() {
@@ -353,8 +380,14 @@ class filtrosPB extends React.Component {
       }
     });
 
+
     return groupPB;
   }
 }
 
-export default filtrosPB;
+const mapDispatchToProps = dispatch => ({
+    dispatchSetPostulante: value => dispatch(setPostulante(value))
+  });
+
+  export default connect(null, mapDispatchToProps)(filtrosPB);//El segundo parametro del metodo connect permitira trabajar con las acciones.
+  
