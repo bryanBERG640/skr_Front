@@ -2,7 +2,7 @@ import React from "react";
 import IconoAgendar from "../Imagenes/agendarcita.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
-import FiltrosPB from "../componentes/filtros/filtrosPB";
+import { connect } from "react-redux";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -23,7 +23,8 @@ class agendar extends React.Component {
   };
 
   render() {
-    console.log(this.props.nombre);
+    const { postulante } = this.props;
+    console.log(postulante);
     return (
       <React.Fragment>
         <div align="center">
@@ -85,4 +86,13 @@ class agendar extends React.Component {
   }
 }
 
-export default agendar;
+const mapStateToProps = state => {
+  return {
+    postulante: state.postulante
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(agendar);

@@ -1,25 +1,33 @@
-const defaultState = [
-  /*{
-        idp:0,
-        nombre:"",
-        apellido1:"",
-        apellido2:""
-    }*/
-];
-
-function reducer(state = defaultState, { type, payload }) {
-  switch (type) {
-    case "SAVE_GET_PostulanteB": {
-      return [
-        {
-          id: 1,
-          nombre: "bryan"
-        }
-      ];
-    }
+export default function PBseleccion(
+  state = {
+    postulanteB: []
+  },
+  action
+) {
+  switch (action.type) {
+    case "SAVE_GET_POSTULANTEB":
+      return Object.assign({}, state, { postulanteB: action.postulanteB });
     default:
       return state;
   }
 }
+/*const defaultState = [];
 
-export default reducer;
+const reducer = (state = defaultState, action) => {
+  switch(type)
+  {
+    case "SAVE_GET_POSTULANTEB":
+      {
+        return[
+          {
+            id:1,
+            nombre: bryan
+          }
+        ]
+      }
+    default:
+      return state;
+  }
+};
+
+export default reducer;*/

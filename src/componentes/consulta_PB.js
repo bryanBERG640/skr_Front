@@ -8,6 +8,7 @@ import { Button } from "@material-ui/core";
 import FiltrosPB from "./filtros/filtrosPB";
 import { getPerfil } from "../request/request";
 import Agendar from "../componentes/agendar";
+import { connect } from "react-redux";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -20,7 +21,7 @@ const ColoredLine = ({ color }) => (
   />
 );
 
-export default class consulta_PB extends Component {
+class consulta_PB extends Component {
   state = {
     respPerf: [],
     perfil: "",
@@ -67,6 +68,13 @@ export default class consulta_PB extends Component {
   };
 
   render() {
+    /*const { PBSeleccionReducer } = this.props;
+
+    console.log(PBSeleccionReducer);*/
+
+    const { postulanteB } = this.props;
+    console.log(postulanteB);
+
     const { respPerf, c } = this.state;
 
     const handleSelect = respPerf.map(perf => {
@@ -196,3 +204,26 @@ export default class consulta_PB extends Component {
     );
   }
 }
+
+/*const mapStateToProps = state => {
+  return {
+    postulante: state.postulante
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(consulta_PB);*/
+
+const mapStateToProps = state => {
+  return {
+    postulanteB: state.postulanteB
+    //PBSeleccionReducer: state.PBSeleccionReducer
+  };
+};
+
+const wrapper = connect(mapStateToProps);
+const component = wrapper(consulta_PB);
+
+export default component;

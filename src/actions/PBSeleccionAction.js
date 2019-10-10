@@ -1,10 +1,13 @@
-export const type = "SAVE_GET_PostulanteB";
+/*export const type = "SAVE_GET_PostulanteB";
 
 const Action = text => {
   return {
-    type,
-    payload: text
+    type
   };
 };
 
-export default Action;
+export default Action;*/
+
+export function saveGetPostulanteB(postulanteB) {
+  return { type: "SAVE_GET_POSTULANTEB", postulanteB };
+}

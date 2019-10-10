@@ -10,6 +10,7 @@ import agendar from "./componentes/agendar";
 import agregar_comentario from "./componentes/agrcom";
 import Examen from "./componentes/Examen";
 import Postulante from "./componentes/Postulante";
+import NotFound from "./componentes/paginas/NotFound";
 import "./App.css";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Switch>
+            <Route exact path="/" />
             <Route exact path="/Ficha-Postulante" component={FichaPostulante} />
             <Route
               exact
@@ -33,7 +35,8 @@ function App() {
               component={agregar_comentario}
             />
             <Route exact path="/Examen" component={Examen} />
-            <Route exact path="/Postulante" component={Postulante}/>
+            <Route exact path="/Postulante" component={Postulante} />
+            <Route component={NotFound} />
           </Switch>
         </Layout>
       </BrowserRouter>

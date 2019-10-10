@@ -8,14 +8,7 @@ class filtrosPB extends React.Component {
   state = {
     isLoading: true,
     resp: [],
-    respPerf: [],
-    selecPerf: "",
-    selpos: {
-      idp: number,
-      nombre: "",
-      apellido1: "",
-      apellido2: ""
-    }
+    Postulante: []
   };
 
   constructor(props) {
@@ -24,7 +17,6 @@ class filtrosPB extends React.Component {
 
   componentWillMount = () => {
     this.getPostulanteB();
-    this.getPerfil();
     this.setState({ isLoading: false });
   };
 
@@ -33,33 +25,19 @@ class filtrosPB extends React.Component {
     this.setState({ resp: nuevoGet.data });
   };
 
-  getPerfil = async () => {
-    const nuevoGet = await getPerfil();
-    this.setState({
-      respPerf: nuevoGet.data
-    });
-  };
-
   handleClick = e => {
-    console.log("Fucion handleClick");
+    console.log("Funcion handleClick");
     let pb = parseInt(e.target.value);
     this.state.resp.map(postulante => {
       if (pb === postulante.id_postulante_b) {
-        this.setState({ idp: postulante.id_postulante_b });
-        this.setState({ nombre: postulante.nombre });
-        this.setState({ apellido1: postulante.apellido1 });
-        this.setState({ apellido2: postulante.apellido2 });
+        this.setState({ Postulante: postulante });
       }
     });
-    
-    console.log("Presionaste el boton y ahora estas dentro de handleClick");
+
   };
 
   render() {
-    console.log(this.state.idp)
-    console.log(this.state.nombre)
-    console.log(this.state.apellido1)
-    console.log(this.state.apellido2)
+
     const { resp } = this.state;
     const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;
@@ -376,7 +354,6 @@ class filtrosPB extends React.Component {
     });
 
     return groupPB;
-
   }
 }
 
