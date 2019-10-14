@@ -22,7 +22,7 @@ function getPostulanteB() {
 }
 
 function getCita() {
-  const citas = axios.get("http://192.168.1.230:8088/skr_v1/postulanteB/get/");
+  const citas = axios.get("http://192.168.1.230:8088/skr_v1/cita/get/");
   return citas;
 }
 
@@ -37,6 +37,30 @@ function postSeccion(jsonRequest, estatus, perfil) {
       estatus +
       "/" +
       perfil +
+      "/post",
+    {
+      method: "POST",
+      body: JSON.stringify(jsonRequest),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }
+  )
+    .then(response => {
+      return response.json();
+    })
+    .catch(console.log);
+}
+
+function postCita(jsonRequest, estatusCita, idPostulanteB) {
+  console.log(estatusCita);
+  console.log(idPostulanteB);
+  return fetch(
+    "http://192.168.1.230:8088/skr_v1/cita/" +
+      estatusCita +
+      "/" +
+      idPostulanteB +
       "/post",
     {
       method: "POST",
@@ -70,6 +94,29 @@ function getEstatusPostulante() {
   return estatusPostulante;
 }
 
+function putCita(jsonRequest, estatusCita, idPostulanteB, idCita) {
+  return fetch(
+    "http://192.168.1.230:8088/skr_v1/cita/" +
+      estatusCita +
+      "/" +
+      idPostulanteB +
+      "/put/" +
+      idCita,
+    {
+      method: "PUT",
+      body: JSON.stringify(jsonRequest),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }
+  )
+    .then(response => {
+      return response.json();
+    })
+    .catch(console.log);
+}
+
 export {
   getPostulanteC,
   getPostulanteB,
@@ -77,5 +124,7 @@ export {
   getPerfil,
   getCitas,
   postSeccion,
-  getEstatusPostulante
+  getEstatusPostulante,
+  postCita,
+  putCita
 };

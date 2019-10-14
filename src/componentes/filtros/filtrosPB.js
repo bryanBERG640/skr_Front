@@ -38,6 +38,7 @@ class filtrosPB extends React.Component {
   };
 
   render() {
+    console.log(this.state.resp);
     const { resp } = this.state;
     const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;

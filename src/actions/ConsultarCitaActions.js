@@ -1,3 +1,5 @@
-export function saveGetCitas(citas){
-    return {type:"SAVE_GET_CITAS", citas}
-}
+export const SET_CITA = "SET_CITA";
+export const setCita = payload => ({
+  type: SET_CITA,
+  payload
+});
