@@ -3,6 +3,8 @@ import IconoAgendar from "../Imagenes/agendarcita.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { postCita } from "../request/request";
+import { setCita } from "../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -19,11 +21,75 @@ const fecha = new Date();
 
 class agendar extends React.Component {
   state = {
-    fecha: ""
+    fecha: "",
+    cita: {
+      fecha: "",
+      hora: "",
+      entrevistador: "",
+      idEstatusCita: 4,
+      idPostulante: this.props.postulante.id_postulante_b
+    },
+    c: this.props.cita
+  };
+
+  handleChange = e => {
+    //console.log(e.target.value);
+    let cit = this.state.cita;
+    cit.entrevistador = e.target.value;
+    this.setState({ cita: cit });
+  };
+
+  handleChangeDate = e => {
+    //console.log(e.target.value);
+    let cit = this.state.cita;
+    cit.fecha = e.target.value;
+    this.setState({ cita: cit });
+  };
+
+  handleChangeTime = e => {
+    //console.log(e.target.value);
+    let cit = this.state.cita;
+    cit.hora = e.target.value + ":00";
+    this.setState({ cita: cit });
+  };
+
+  handleClick = e => {
+    if (this.state.c !== "vacio") {
+      let upd = this.state.c;
+      upd.estatuscita.id_estatus_cita = 3;
+      this.setState({ c: upd });
+
+      //TERMINAR
+
+      /*putCita(
+        this.state.c,
+        this.state.c.estatuscita.idEstatusCita,
+        this.state.props.postulante.idPostulante,
+        this.state.cita.id_cita
+      )
+        .then(response => {
+          console.log(response);
+        })
+        .catch(console.log);*/
+    }
+    console.log(this.state.c);
+    /*postCita(
+      this.state.cita,
+      this.state.cita.idEstatusCita,
+      this.state.cita.idPostulante
+    )
+      .then(response => {
+        console.log(response);
+      })
+      .catch(console.log);*/
   };
 
   render() {
+<<<<<<< HEAD
     console.log("Valor----" + this.props.postulante.nombre)
+=======
+    console.log(this.state.c);
+>>>>>>> 80962c0f1c567e1eb15a37b15933f0a6a590a1a2
     return (
       <React.Fragment>
         <div align="center">
@@ -38,11 +104,11 @@ class agendar extends React.Component {
           </td>
         </div>
         <div align="center">
-          <label>
+          <h3>
             {this.props.postulante.nombre}&nbsp;
             {this.props.postulante.apellido1}&nbsp;
             {this.props.postulante.apellido2}
-          </label>
+          </h3>
         </div>
         <br />
         <br />
@@ -54,23 +120,37 @@ class agendar extends React.Component {
                 className="form-control"
                 name="entrevistador"
                 type="text"
+                value={this.state.entrevistador}
+                onChange={this.handleChange}
               />
             </div>
             <br />
             <div className="col">
               <label className="label1">Fecha:</label>
-              <TextField type="date" />
+              <TextField
+                type="date"
+                onChange={this.handleChangeDate}
+                InputLabelProps={{
+                  shrink: true
+                }}
+              />
             </div>
           </form>
           <form>
             <div className="col">
               <label className="label1">Hora:</label>
-              <input className="form-control" type="text" name="Hora" />
+              <input
+                className="form-control"
+                type="time"
+                name="hora"
+                value={this.state.hora}
+                onChange={this.handleChangeTime}
+              />
             </div>
             <br />
             <div>
               &nbsp; &nbsp;
-              <Link to="/consultarCita" className="btn btn-primary">
+              <Link className="btn btn-primary" onClick={this.handleClick}>
                 agendar
               </Link>
             </div>
@@ -92,10 +172,24 @@ class agendar extends React.Component {
 const mapStateToProps = state => {
   return {
     postulante: state.postulante,
+<<<<<<< HEAD
     postulantec: state.postulantec
+=======
+    cita: state.cita
+>>>>>>> 80962c0f1c567e1eb15a37b15933f0a6a590a1a2
   };
 };
 
+const mapDispatchToProps = dispatch => ({
+  dispatchSetCita: value => dispatch(setCita(value))
+});
+
 export default connect(
   mapStateToProps,
+<<<<<<< HEAD
   null)(agendar);
+=======
+  mapDispatchToProps,
+  null
+)(agendar);
+>>>>>>> 80962c0f1c567e1eb15a37b15933f0a6a590a1a2

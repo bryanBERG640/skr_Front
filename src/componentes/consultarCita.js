@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Icono from "../Imagenes/consultarcita.png";
 import Agenda from "../Imagenes/agenda.png";
-import { getCita } from "../request/request";
+import { getCita, getPostulanteB } from "../request/request";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import "./styles/Formatos.css";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { setCita, setPostulante } from "../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -21,26 +23,33 @@ const ColoredLine = ({ color }) => (
 const fecha = new Date();
 console.log(fecha);
 
-export default class consultarCita extends Component {
+class consultarCita extends Component {
   constructor(props) {
     super(props);
     this.state = {
       postulanteB: [],
+      citas: [],
       fecha: "",
       fechafinal: ""
     };
   }
 
   async componentDidMount() {
+    this.getPostulanteB();
     this.getCitas();
   }
 
   getCitas = async () => {
-    const citas = await getCita();
+    const cit = await getCita();
     this.setState({
-      postulanteB: citas.data
+      citas: cit.data
     });
     //console.log(citas.data[0].cita);
+  };
+
+  getPostulanteB = async () => {
+    const post = await getPostulanteB();
+    this.setState({ postulanteB: post.data });
   };
 
   selectCita = e => {
@@ -57,8 +66,26 @@ export default class consultarCita extends Component {
     this.setState({ fechafinal: e.target.value });
   };
 
+  handleClick = e => {
+    let sc = parseInt(e.target.value);
+    this.state.citas.map(cit => {
+      if (sc === cit.id_cita) {
+        this.props.dispatchSetCita(cit);
+      }
+    });
+    this.state.postulanteB.map(post => {
+      post.cita.map(cit => {
+        if (sc === cit.id_cita) {
+          this.props.dispatchSetPostulante(post);
+        }
+      });
+    });
+    console.log("fin de handleClick");
+  };
+
   render() {
     const { postulanteB } = this.state;
+    //const reload = this.reload();
     const dato = postulanteB.map(datos => {
       return datos.cita.map(cit => {
         if (
@@ -67,6 +94,14 @@ export default class consultarCita extends Component {
         ) {
           return (
             <tr name="citaPB" onDoubleClick={() => this.selectCita()}>
+              <th>
+                <input
+                  type="radio"
+                  name="seleccion"
+                  value={cit.id_cita}
+                  onClick={this.handleClick}
+                />
+              </th>
               <th>
                 {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
               </th>
@@ -197,6 +232,7 @@ export default class consultarCita extends Component {
               <table className="table table-hover">
                 <thead className="thead-dark">
                   <tr>
+                    <th scope="col">seleccion</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Hora</th>
@@ -214,3 +250,13 @@ export default class consultarCita extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  dispatchSetCita: value => dispatch(setCita(value)),
+  dispatchSetPostulante: value => dispatch(setPostulante(value))
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(consultarCita);

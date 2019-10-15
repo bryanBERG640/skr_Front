@@ -4,7 +4,6 @@ import "./styles/agregar_PB.css";
 import "./styles/Formatos.css";
 import "./styles/FormatoImagenes.css";
 import agregar from "../Imagenes/agregar.png";
-import Agenda from "../componentes/agendar";
 import {
   getPostulanteB,
   getPerfil,

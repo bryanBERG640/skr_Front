@@ -1,6 +1,8 @@
 import React from "react";
 import IconAge from "../Imagenes/agenda.png";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { putCita } from "../request/request";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -25,7 +27,48 @@ const ColoredLine2 = ({ color }) => (
 );
 
 class agrcom extends React.Component {
+  state = {
+    cita: {
+      id_cita: this.props.cita.id_cita,
+      fecha: this.props.cita.fecha,
+      hora: this.props.cita.hora,
+      entrevistador: this.props.cita.entrevistador,
+      idEstatusCita: this.props.cita.estatuscita.id_estatus_cita,
+      idPostulante: this.props.postulante.id_postulante_b,
+      observaciones: "",
+      usuario_actualiza: "Bryan Ramirez",
+      fecha_actualizacion: "2019-10-11"
+    }
+  };
+
+  handleSelect = e => {
+    let iec = parseInt(e.target.value);
+    let cit = this.state.cita;
+    cit.idEstatusCita = iec;
+    this.setState({ cita: cit });
+  };
+
+  handleChange = e => {
+    let cit = this.state.cita;
+    cit.observaciones = e.target.value;
+    this.setState({ cita: cit });
+  };
+
+  handleClick = e => {
+    putCita(
+      this.state.cita,
+      this.state.cita.idEstatusCita,
+      this.state.cita.idPostulante,
+      this.state.cita.id_cita
+    )
+      .then(response => {
+        console.log(response);
+      })
+      .catch(console.log);
+  };
+
   render() {
+    console.log(this.state.cita);
     return (
       <React.Fragment>
         <br />
@@ -46,7 +89,14 @@ class agrcom extends React.Component {
             <ColoredLine2 color="blue" />
           </td>
           <td>
-            <label className="label1">NOMBRE</label>
+            <h3 className="label1">
+              &nbsp;
+              {this.props.postulante.nombre +
+                " " +
+                this.props.postulante.apellido1 +
+                " " +
+                this.props.postulante.apellido2}
+            </h3>
           </td>
           <td>
             <ColoredLine2 color="blue" />
@@ -58,7 +108,10 @@ class agrcom extends React.Component {
             <div className="col">
               <h3>
                 Entrevistador: &nbsp; &nbsp;
-                <label className="datosCita"> NOMBRE-ENTREVISTADOR</label>
+                <label className="datosCita">
+                  {" "}
+                  {this.props.cita.entrevistador}
+                </label>
               </h3>
             </div>
           </div>
@@ -68,13 +121,13 @@ class agrcom extends React.Component {
             <div className="col">
               <h3>
                 Fecha: &nbsp; &nbsp;
-                <label className="datosCita">dd/mm/aaaa</label>
+                <label className="datosCita">{this.props.cita.fecha}</label>
               </h3>
             </div>
             <div className="col">
               <h3>
                 Hora: &nbsp; &nbsp;
-                <label className="datosCita">hh:mm</label>
+                <label className="datosCita">{this.props.cita.hora}</label>
               </h3>
             </div>
           </div>
@@ -83,14 +136,24 @@ class agrcom extends React.Component {
           <div className="row">
             <div className="radio">
               <h4>
-                <input type="radio" name="estatus" />
+                <input
+                  type="radio"
+                  name="estatus"
+                  value={6}
+                  onClick={this.handleSelect}
+                />
                 &nbsp; &nbsp; Completada
               </h4>
             </div>
             &nbsp; &nbsp; &nbsp; &nbsp;
             <div className="radio">
               <h4>
-                <input type="radio" name="estatus" />
+                <input
+                  type="radio"
+                  name="estatus"
+                  value={5}
+                  onClick={this.handleSelect}
+                />
                 &nbsp; &nbsp; Cancelada
               </h4>
             </div>
@@ -101,16 +164,25 @@ class agrcom extends React.Component {
             <h4>
               Comentarios:
               <div>
-                <textarea class="cajatext" rows="3"></textarea>
+                <textarea
+                  class="cajatext"
+                  rows="3"
+                  value={this.state.comentarios}
+                  onChange={this.handleChange}
+                ></textarea>
               </div>
             </h4>
           </div>
         </form>
         <form className="form-agendar">
           <div className="row">
-            <Link to="/consultarCita" className="btn btn-primary">
+            <a
+              href="/consultarCita"
+              className="btn btn-primary"
+              onClick={this.handleClick}
+            >
               Guardar
-            </Link>
+            </a>
             &nbsp; &nbsp;
             <Link to="/consultarCita" className="btn btn-secondary">
               Cancelar
@@ -122,4 +194,14 @@ class agrcom extends React.Component {
   }
 }
 
-export default agrcom;
+const mapStateToProps = state => {
+  return {
+    cita: state.cita,
+    postulante: state.postulante
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(agrcom);
