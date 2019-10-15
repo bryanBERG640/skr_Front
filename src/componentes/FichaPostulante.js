@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import { getPostulanteC } from "../request/request";
 import "../App.css";
-import {progresBar} from "./progress"
+import {progresBar} from "./progress";
+import FiltrosFichaPostulante from './filtros/FiltrosFichaPostulante';
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -38,33 +39,6 @@ class FichaPostulante extends React.Component {
   render() {
     progresBar(true);
     console.log("Valores de la respuesta" + this.state.resp);
-    const dato = this.state.resp.map(datos => {
-      progresBar(false);
-      return (
-        <div>
-          <Typography style={{ fontSize: "20px" }}>
-            <b id="div">Perfil: </b>
-            {datos.postulanteb.perfil.descripcion}
-          </Typography>
-          <Typography style={{ fontSize: "20px" }}>
-            {datos.postulanteb.nombre} {datos.postulanteb.apellido1}{" "}
-            {datos.postulanteb.apellido2}
-          </Typography>
-          <Divider />
-          <Typography style={{ fontSize: "12px", color: "#a2bd31" }}>
-            {datos.postulanteb.correo}
-          </Typography>
-          <Typography style={{ fontSize: "12px", color: "#a2bd31" }}>
-            <b>Telefono: </b>
-            {datos.postulanteb.telefono}
-          </Typography>
-          <Typography style={{ fontSize: "12px", color: "#a2bd31" }}>
-            <b>Celular: </b>
-            {datos.postulanteb.celular}
-          </Typography>
-        </div>
-      );
-    });
     const foto = this.state.resp.map(photo => {
       return <Avatar size="200" src={photo.foto_perfil} round="100px" />;
     });
@@ -75,7 +49,7 @@ class FichaPostulante extends React.Component {
           <td>
             <ColoredLine color="black" />
           </td>
-          <td>{dato}</td>
+          <td><FiltrosFichaPostulante/></td>
           <td>
             <ColoredLine color="black" />
           </td>

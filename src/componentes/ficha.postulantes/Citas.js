@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   TableHead,
   TableBody,
@@ -9,13 +9,14 @@ import {
 import { getPostulanteC } from "../../request/request";
 import Checkbox from "@material-ui/core/Checkbox";
 import Paper from "@material-ui/core/Paper";
+import { connect } from 'react-redux';
 
-export default class Citas extends React.Component {
+class Citas extends Component {
   state = {
     resp: []
   };
   componentWillMount = () => {
-    getPostulanteC(2)
+    getPostulanteC(this.props.postulantec.id_postulante_c)
       .then(response => {
         let nuevoGet = [];
         nuevoGet.push(response);
@@ -93,3 +94,13 @@ export default class Citas extends React.Component {
     );
   }
 }
+
+//Se accede al storo de postlantec.
+const mapStateToProps = state => {
+  return {
+    postulantec: state.postulantec
+  };
+};
+
+export default connect(
+  mapStateToProps, null)(Citas);

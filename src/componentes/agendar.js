@@ -23,6 +23,7 @@ class agendar extends React.Component {
   };
 
   render() {
+    console.log("Valor----" + this.props.postulante.nombre)
     return (
       <React.Fragment>
         <div align="center">
@@ -87,13 +88,14 @@ class agendar extends React.Component {
   }
 }
 
+//Se accede al store de postulante y postulante. Pude usar los valores de cualquiera de los dos.
 const mapStateToProps = state => {
   return {
-    postulante: state.postulante
+    postulante: state.postulante,
+    postulantec: state.postulantec
   };
 };
 
 export default connect(
   mapStateToProps,
-  null
-)(agendar);
+  null)(agendar);

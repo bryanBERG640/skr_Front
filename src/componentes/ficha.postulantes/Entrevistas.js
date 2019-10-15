@@ -2,13 +2,14 @@ import React from 'react';
 import { TableHead, TableBody, Table, TableCell, TableRow, Paper } from '@material-ui/core';
 import { getPostulanteC } from '../../request/request';
 import Checkbox from '@material-ui/core/Checkbox';
+import { connect } from 'react-redux';
 
-export default class Entrevistas extends React.Component {
+class Entrevistas extends React.Component {
     state = {
         resp: []
     }
     componentWillMount = () => {
-        getPostulanteC(2).then(response => {
+        getPostulanteC(this.props.postulantec.id_postulante_c).then(response => {
             let nuevoGet = [];
             nuevoGet.push(response)
             this.setState({ resp: nuevoGet })
@@ -52,3 +53,13 @@ export default class Entrevistas extends React.Component {
         )
     }
 }
+
+//Se accede al store postulantec.
+const mapStateToProps = state => {
+    return {
+        postulantec: state.postulantec
+    };
+};
+
+export default connect(
+    mapStateToProps,null)(Entrevistas);

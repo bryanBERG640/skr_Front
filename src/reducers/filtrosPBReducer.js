@@ -1,9 +1,12 @@
 import { SET_POSTULANTE } from "../actions/postulanteB";
+import { SET_POSTULANTE_C } from '../actions/postulanteB';
 
 export const filtrosPBReducer = (state = {}, action) => {
   switch (action.type) {
     case SET_POSTULANTE:
       return { ...state, postulante: action.payload };
+    case SET_POSTULANTE_C:
+      return { ...state, postulantec: action.payload};
     default:
       return state;
   }

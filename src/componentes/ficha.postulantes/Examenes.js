@@ -1,14 +1,14 @@
 import React from 'react';
 import { TableHead, TableBody, Table, TableRow, TableCell, Paper } from '@material-ui/core';
-
 import { getPostulanteC } from '../../request/request';
+import { connect } from 'react-redux';
 
-export default class Citas extends React.Component {
+class Citas extends React.Component {
     state = {
         resp: []
     }
     componentWillMount = () => {
-        getPostulanteC(2).then(response => {
+        getPostulanteC(this.props.postulantec.id_postulante_c).then(response => {
             let nuevoGet = [];
             nuevoGet.push(response)
             this.setState({ resp: nuevoGet })
@@ -25,7 +25,7 @@ export default class Citas extends React.Component {
                     })
                 })
             })
-        }) 
+        })
         const examenes = this.state.resp.map((datos) => {
             return datos.postulanteb.cita.map((date) => {
                 return date.examen.map((exa) => {
@@ -59,7 +59,7 @@ export default class Citas extends React.Component {
                             <TableCell>Observaciones</TableCell>
                         </TableHead>
                         <TableBody>
-                          {examenes}
+                            {examenes}
                         </TableBody>
                     </Table>
                 </Paper>
@@ -67,3 +67,12 @@ export default class Citas extends React.Component {
         )
     }
 }
+
+//Se accede al store postulantec.
+const mapStateToProps = state => {
+    return {
+        postulantec: state.postulantec
+    };
+};
+
+export default connect(mapStateToProps, null)(Citas);

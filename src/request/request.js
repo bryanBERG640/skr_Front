@@ -14,6 +14,13 @@ function getPostulanteC(idPostulante) {
     .catch(console.log);
 }
 
+//Se crea una función para consultar todos los datos de postulanteC.
+function getPostulanteTodo() {
+  const postulantesCT = axios.get(
+    "http://192.168.1.230:8088/skr_v1/postulanteComplemento/get/");
+    return postulantesCT;
+}
+
 function getPostulanteB() {
   const postulantes = axios.get(
     "http://192.168.1.230:8088/skr_v1/postulanteB/get"
@@ -77,5 +84,6 @@ export {
   getPerfil,
   getCitas,
   postSeccion,
-  getEstatusPostulante
+  getEstatusPostulante,
+  getPostulanteTodo
 };

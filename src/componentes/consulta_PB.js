@@ -9,13 +9,14 @@ import { Button } from "@material-ui/core";
 import FiltrosPB from "./filtros/filtrosPB";
 import { getPerfil } from "../request/request";
 import Agendar from "../componentes/agendar";
-
+import ButtonMostarFicha from '../reducers/ButtonMostrarFicha';
 //Se agregan las librerias necesarias para usar redux.
 import {
   clickAgendar,
   clickBuscar,
   clickAgregarPostulante,
-  clickCompletarDatos
+  clickCompletarDatos,
+  clickMostrarFicha
 } from "../actions/postulanteB";
 
 //Se exporta el filtrosPBReducer para capturar el valor------------
@@ -93,6 +94,10 @@ class consulta_PB extends Component {
     console.log("Función handleClickCompletarDatos");
     this.props.dispatchClickCompletarDatos("Completando"); //Se almacena en el store una función.
   };
+
+  handleClickMostrarFicha = e => {
+    this.props.dispatchClickMostrarFicha("MostrarFicha");//Se almacena en el store una función.
+  }
 
   render() {
     const { respPerf, c } = this.state;
@@ -192,16 +197,16 @@ class consulta_PB extends Component {
               <Link
                 to="/agendar_cita"
                 className="btn btn-primary"
-                //onClick={this.handleClick}
-                // value={this.props.nombre}
               >
                 Agendar
               </Link>
               &nbsp; &nbsp;
-              <Link to="/Ficha-Postulante" className="btn btn-primary">
+              <Link  to="/Ficha-Postulante" className="btn btn-primary" onClick={this.handleClickMostrarFicha}>
                 Mostrar Ficha
               </Link>
               &nbsp; &nbsp;
+              <ButtonMostarFicha/>
+              
             </div>
           </form>
         </div>
@@ -238,7 +243,9 @@ const mapDispatchProps = dispatch => ({
   dispatchClickBuscar: value => dispatch(clickBuscar(value)),
   dispatchClickAgregarPostulante: value =>
     dispatch(clickAgregarPostulante(value)),
-  dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value))
+  dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value)),
+  dispatchClickMostrarFicha: value => dispatch(clickMostrarFicha(value)),
+
 });
 
 export default connect(

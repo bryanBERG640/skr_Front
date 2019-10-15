@@ -1,39 +1,49 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
-import { getPostulanteC } from '../../request/request';
+import { getPostulanteTodo } from '../../request/request';
 import '../../App.css';
+import { connect } from 'react-redux';//Se utiliza para conectar al store.
 
-export default class Datos extends React.Component {
-    state ={
-        resp:[]
-    }
+class Datos extends Component {
+    state = {
+        postulanteC: [],
+        isLoading: true,
+        postulanteB: this.props.postulante
+    };
+
     componentWillMount = () => {
-        getPostulanteC(2).then(response =>{
-            let nuevoGet = [];
-            nuevoGet.push(response)
-            this.setState({resp:nuevoGet})
-        }).catch(console.log)
+        this.getPostulanteTodo();
+        this.setState({ isLoading: false });
+    }
+    getPostulanteTodo = async () => {
+        const nuevoGet = await getPostulanteTodo();
+        this.setState({ postulanteC: nuevoGet.data });
     }
     render() {
-        const dato = this.state.resp.map((datos) => {
-            return(
-                <div>
-                    <Typography><b id="div">Fecha de Nacimiento: </b>{datos.fecha_nacimiento}</Typography>
-                    <Typography><b id="div">Edad: </b>{datos.edad}</Typography>
-                    <Typography><b id="div">Sexo: </b>{datos.sexo.descripcion}</Typography>
-                    <Typography><b id="div">CURP: </b>{datos.curp}</Typography>
-                    <Typography><b id="div">RFC: </b>{datos.rfc}</Typography>
-                    <Typography><b id="div">Escuela: </b>{datos.escuela.descripcion}</Typography>
-                    <Typography><b id="div">Carrera: </b>{datos.carrera.descripcion}</Typography>
-                    <Typography><b id="div">Estatus Titulación: </b>{datos.estatustitulacion.descripcion}</Typography>
-                    <Typography><b id="div">Certificaciones: </b>{datos.certificaciones}</Typography>
-                    <Typography><b id="div">Pretencion Economica Mensual: </b>{datos.pretencion_economica}</Typography>
-                    <Typography><b id="div">Acuerdo Economico Mensual: </b>{datos.acuerdo_economico}</Typography>
-                    <Typography><b id="div">Estatus CV: </b>{datos.estatuscv.descripcion}</Typography>
-                    <Typography><b id="div">Estatus Postulante: </b>{datos.postulanteb.estatuspostulante.descripcion}</Typography>
-                </div>
-            )
-        })
+        const { postulanteC } = this.state;
+
+        const dato = postulanteC.map(postulante => {
+            if (postulante.postulanteb.id_postulante_b === this.state.postulanteB.id_postulante_b) {
+
+                return (
+                    <div>
+                        <Typography><b id="div">Fecha de nacimineot:</b> {postulante.fecha_nacimiento}</Typography>
+                        <Typography><b id="div">Edad:</b> {postulante.edad}</Typography>
+                        <Typography><b id="div">Sexo:</b> {postulante.sexo.descripcion}</Typography>
+                        <Typography><b id="div">CURP:</b> {postulante.curp}</Typography>
+                        <Typography><b id="div">RFC:</b> {postulante.rfc}</Typography>
+                        <Typography><b id="div">Escuela:</b> {postulante.escuela.descripcion}</Typography>
+                        <Typography><b id="div">Carrera:</b> {postulante.carrera.descripcion}</Typography>
+                        <Typography><b id="div">Estatus Titulación:</b> {postulante.estatustitulacion.descripcion}</Typography>
+                        <Typography><b id="div">Certificaciones:</b> {postulante.certificaciones}</Typography>
+                        <Typography><b id="div">Pretencion Economica Mensual:</b> {postulante.pretencion_economica}</Typography>
+                        <Typography><b id="div">Acuerdo Economico Mensual:</b> {postulante.acuerdo_economico}</Typography>
+                        <Typography><b id="div">Estatus CV:</b> {postulante.estatuscv.descripcion}</Typography>
+                        <Typography><b id="div">Estatus Postulante:</b> {postulante.postulanteb.estatuspostulante.descripcion}</Typography>
+                    </div>
+                )
+            }
+        });
         return (
             <div>
                 {dato}
@@ -41,3 +51,11 @@ export default class Datos extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        postulante: state.postulante
+    };
+};
+
+export default connect(mapStateToProps, null)(Datos);
