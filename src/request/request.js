@@ -54,8 +54,8 @@ function postSeccion(jsonRequest, estatus, perfil) {
 }
 
 function postCita(jsonRequest, estatusCita, idPostulanteB) {
-  console.log(estatusCita);
-  console.log(idPostulanteB);
+  /*console.log(estatusCita);
+  console.log(idPostulanteB);*/
   return fetch(
     "http://192.168.1.230:8088/skr_v1/cita/" +
       estatusCita +
@@ -95,6 +95,9 @@ function getEstatusPostulante() {
 }
 
 function putCita(jsonRequest, estatusCita, idPostulanteB, idCita) {
+  /*console.log(estatusCita);
+  console.log(idPostulanteB);
+  console.log(idCita);*/
   return fetch(
     "http://192.168.1.230:8088/skr_v1/cita/" +
       estatusCita +
@@ -117,12 +120,54 @@ function putCita(jsonRequest, estatusCita, idPostulanteB, idCita) {
     .catch(console.log);
 }
 
+function getEstatusTitulacion() {
+  const EstatusTitulacion = axios.get(
+    "http://192.168.1.230:8088/skr_v1/estatusTitulacion/get/"
+  );
+  return EstatusTitulacion;
+}
+
+function getEscuela() {
+  const escuela = axios.get("http://192.168.1.230:8088/skr_v1/escuela/get/");
+  return escuela;
+}
+
+function getCarrera() {
+  const carrera = axios.get("http://192.168.1.230:8088/skr_v1/carrera/get/");
+  return carrera;
+}
+
+function getSexo() {
+  const sexo = axios.get("http://192.168.1.230:8088/skr_v1/sexo/get/");
+  return sexo;
+}
+
+function getEstatusCV() {
+  const estatusCV = axios.get(
+    "http://192.168.1.230:8088/skr_v1/estatusCV/get/"
+  );
+  return estatusCV;
+}
+
+function getEstatusAprobacion() {
+  const EstatusAprobacion = axios.get(
+    "http://192.168.1.230:8088/skr_v1/estatusAprobacion/get/"
+  );
+  return EstatusAprobacion;
+}
+
 export {
   getPostulanteC,
   getPostulanteB,
   getCita,
   getPerfil,
   getCitas,
+  getCarrera,
+  getEscuela,
+  getEstatusAprobacion,
+  getEstatusCV,
+  getEstatusTitulacion,
+  getSexo,
   postSeccion,
   getEstatusPostulante,
   postCita,

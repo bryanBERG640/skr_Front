@@ -3,7 +3,7 @@ import IconoAgendar from "../Imagenes/agendarcita.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { postCita } from "../request/request";
+import { postCita, putCita } from "../request/request";
 import { setCita } from "../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
@@ -55,25 +55,18 @@ class agendar extends React.Component {
 
   handleClick = e => {
     if (this.state.c !== "vacio") {
-      let upd = this.state.c;
-      upd.estatuscita.id_estatus_cita = 3;
-      this.setState({ c: upd });
-
-      //TERMINAR
-
-      /*putCita(
+      putCita(
         this.state.c,
-        this.state.c.estatuscita.idEstatusCita,
-        this.state.props.postulante.idPostulante,
-        this.state.cita.id_cita
+        3,
+        this.props.postulante.id_postulante_b,
+        this.state.c.id_cita
       )
         .then(response => {
           console.log(response);
         })
-        .catch(console.log);*/
+        .catch(console.log);
     }
-    console.log(this.state.c);
-    /*postCita(
+    postCita(
       this.state.cita,
       this.state.cita.idEstatusCita,
       this.state.cita.idPostulante
@@ -81,11 +74,11 @@ class agendar extends React.Component {
       .then(response => {
         console.log(response);
       })
-      .catch(console.log);*/
+      .catch(console.log);
   };
 
   render() {
-    console.log(this.state.c);
+    //console.log(this.state.c);
     return (
       <React.Fragment>
         <div align="center">
@@ -146,9 +139,13 @@ class agendar extends React.Component {
             <br />
             <div>
               &nbsp; &nbsp;
-              <Link className="btn btn-primary" onClick={this.handleClick}>
+              <a
+                className="btn btn-primary"
+                href="/consultarCita"
+                onClick={this.handleClick}
+              >
                 agendar
-              </Link>
+              </a>
             </div>
             <br />
             <div>
