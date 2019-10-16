@@ -3,7 +3,7 @@ import IconoAgendar from "../Imagenes/agendarcita.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { postCita } from "../request/request";
+import { postCita, putCita } from "../request/request";
 import { setCita } from "../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
@@ -55,6 +55,7 @@ class agendar extends React.Component {
 
   handleClick = e => {
     if (this.state.c !== "vacio") {
+<<<<<<< HEAD
       let upd = this.state.c;
       upd.estatuscita.id_estatus_cita = 3;
       this.setState({ c: upd });
@@ -62,6 +63,32 @@ class agendar extends React.Component {
   };
 
   render() {
+=======
+      putCita(
+        this.state.c,
+        3,
+        this.props.postulante.id_postulante_b,
+        this.state.c.id_cita
+      )
+        .then(response => {
+          console.log(response);
+        })
+        .catch(console.log);
+    }
+    postCita(
+      this.state.cita,
+      this.state.cita.idEstatusCita,
+      this.state.cita.idPostulante
+    )
+      .then(response => {
+        console.log(response);
+      })
+      .catch(console.log);
+  };
+
+  render() {
+    //console.log(this.state.c);
+>>>>>>> b1488dbe5ab1b56f3e9fd734f0a5e898866f6c34
     return (
       <React.Fragment>
         <div align="center">
@@ -129,6 +156,7 @@ class agendar extends React.Component {
                 />
               </div>
             </div>
+<<<<<<< HEAD
           </form>&nbsp; &nbsp;&nbsp; &nbsp;
           <div className="row"></div>
             <form >
@@ -152,6 +180,34 @@ class agendar extends React.Component {
               <br />
               <div>
                 &nbsp; &nbsp;
+=======
+          </form>
+          <form>
+            <div className="col">
+              <label className="label1">Hora:</label>
+              <input
+                className="form-control"
+                type="time"
+                name="hora"
+                value={this.state.hora}
+                onChange={this.handleChangeTime}
+              />
+            </div>
+            <br />
+            <div>
+              &nbsp; &nbsp;
+              <a
+                className="btn btn-primary"
+                href="/consultarCita"
+                onClick={this.handleClick}
+              >
+                agendar
+              </a>
+            </div>
+            <br />
+            <div>
+              &nbsp; &nbsp;
+>>>>>>> b1488dbe5ab1b56f3e9fd734f0a5e898866f6c34
               <Link to="/consultar-Postulantes" className="btn btn-primary">
                   Cancelar
               </Link>

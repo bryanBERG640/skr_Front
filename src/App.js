@@ -35,7 +35,11 @@ function App() {
               component={agregar_comentario}
             />
             <Route exact path="/Examen" component={Examen} />
-            <Route exact path="/Postulante" component={Postulante} />
+            <Route
+              exact
+              path="/Completar_Datos_postulante"
+              component={Postulante}
+            />
             <Route component={NotFound} />
           </Switch>
         </Layout>

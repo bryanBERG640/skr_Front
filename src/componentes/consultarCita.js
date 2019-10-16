@@ -57,12 +57,12 @@ class consultarCita extends Component {
   };
 
   handleChangeDate = e => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     this.setState({ fecha: e.target.value });
   };
 
   handleChangeDateFinal = e => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     this.setState({ fechafinal: e.target.value });
   };
 
@@ -80,7 +80,7 @@ class consultarCita extends Component {
         }
       });
     });
-    console.log("fin de handleClick");
+    //console.log("fin de handleClick");
   };
 
   render() {
