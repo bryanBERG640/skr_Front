@@ -132,10 +132,8 @@ export {
   getCitas,
   postSeccion,
   getEstatusPostulante,
-<<<<<<< HEAD
-  getPostulanteTodo
-=======
+  getPostulanteTodo,
   postCita,
   putCita
->>>>>>> 80962c0f1c567e1eb15a37b15933f0a6a590a1a2
+
 };

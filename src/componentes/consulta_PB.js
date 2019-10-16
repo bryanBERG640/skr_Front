@@ -205,7 +205,7 @@ class consulta_PB extends Component {
                 Mostrar Ficha
               </Link>
               &nbsp; &nbsp;
-              <ButtonMostarFicha/>
+              {/* <ButtonMostarFicha/> */}
               
             </div>
           </form>

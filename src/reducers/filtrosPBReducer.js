@@ -1,21 +1,16 @@
 import { SET_POSTULANTE } from "../actions/postulanteB";
-<<<<<<< HEAD
 import { SET_POSTULANTE_C } from '../actions/postulanteB';
-=======
 import { SET_CITA } from "../actions/ConsultarCitaActions";
->>>>>>> 80962c0f1c567e1eb15a37b15933f0a6a590a1a2
+
 
 export const filtrosPBReducer = (state = {}, action) => {
   switch (action.type) {
     case SET_POSTULANTE:
       return { ...state, postulante: action.payload };
-<<<<<<< HEAD
     case SET_POSTULANTE_C:
       return { ...state, postulantec: action.payload};
-=======
     case SET_CITA:
       return { ...state, cita: action.payload };
->>>>>>> 80962c0f1c567e1eb15a37b15933f0a6a590a1a2
     default:
       return state;
   }

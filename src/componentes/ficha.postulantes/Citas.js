@@ -25,34 +25,43 @@ class Citas extends Component {
       .catch(console.log);
   };
   render() {
+    debugger
     const citas = this.state.resp.map(datos => {
       return datos.postulanteb.cita.map(date => {
-        return (
-          //segunda parte
+        return date.seccion.map((entre) => {
+          return (
+            //segunda parte
 
-          <TableRow>
-            <TableCell style={{ fontSize: "12px" }}>
-              {datos.postulanteb.nombre}
-            </TableCell>
-            <TableCell style={{ fontSize: "12px" }}>
-              {datos.postulanteb.apellido1}
-            </TableCell>
-            <TableCell style={{ fontSize: "12px" }}>
-              {datos.postulanteb.apellido2}
-            </TableCell>
-            <TableCell style={{ fontSize: "12px" }}>{date.fecha}</TableCell>
-            <TableCell style={{ fontSize: "12px" }}>{date.hora}</TableCell>
-            <TableCell style={{ fontSize: "12px" }}>
-              {date.entrevistador}
-            </TableCell>
-            <TableCell style={{ fontSize: "12px" }}>
-              {date.observaciones}
-            </TableCell>
-            <TableCell>
-              <Checkbox style={{ color: "#6D107D" }} checked />
-            </TableCell>
-          </TableRow>
-        );
+            <TableRow>
+              <TableCell style={{ fontSize: "12px" }}>
+                {datos.postulanteb.nombre}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {datos.postulanteb.apellido1}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {datos.postulanteb.apellido2}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>{date.fecha}</TableCell>
+              <TableCell style={{ fontSize: "12px" }}>{date.hora}</TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {date.entrevistador}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {entre.cliente.descripcion} 
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {date.observaciones}
+              </TableCell>
+              <TableCell>
+                <Checkbox style={{ color: "#6D107D" }} checked />
+              </TableCell>
+            </TableRow>
+          );
+        })
       });
     });
     return (
@@ -78,6 +87,12 @@ class Citas extends Component {
                 </TableCell>
                 <TableCell align="center" style={{ fontSize: "14px" }}>
                   Entrevistador
+                </TableCell>
+                <TableCell align="center" style={{ fontSize: "14px" }}>
+                  Cliente
+                </TableCell>
+                <TableCell align="center" style={{ fontSize: "14px" }}>
+                  Empresa
                 </TableCell>
                 <TableCell align="center" style={{ fontSize: "14px" }}>
                   Observaciones

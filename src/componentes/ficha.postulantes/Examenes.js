@@ -32,12 +32,13 @@ class Citas extends React.Component {
                     return date.seccion.map((entre) => {
                         console.log(entre);
                         console.log(exa);
+                        debugger
                         return (
                             <TableRow>
                                 <TableCell style={{ fontSize: "12px" }}>{exa.tipoexamen.examen_tipo}</TableCell>
                                 <TableCell style={{ fontSize: "12px" }}>{exa.tipoexamen.descripcion}</TableCell>
                                 <TableCell style={{ fontSize: "12px" }}>{exa.calificacion_global}</TableCell>
-                                <TableCell style={{ fontSize: "12px" }}>{entre.cliente.descricion}</TableCell>
+                                <TableCell style={{ fontSize: "12px" }}>{exa.cliente.descripcion}</TableCell>
                                 <TableCell style={{ fontSize: "12px" }}>{date.entrevistador}</TableCell>
                                 <TableCell style={{ fontSize: "12px" }}>{date.observaciones}</TableCell>
                             </TableRow>

@@ -26,6 +26,7 @@ class Entrevistas extends React.Component {
                             <TableCell style={{ fontSize: "12px" }}>{date.hora}</TableCell>
                             <TableCell style={{ fontSize: "12px" }}>{date.entrevistador}</TableCell>
                             <TableCell style={{ fontSize: "12px" }}>{entre.cliente.descripcion}</TableCell>
+                            <TableCell style={{ fontSize: "12px" }}></TableCell>
                             <TableCell style={{ fontSize: "12px" }}>{date.observaciones}</TableCell>
                         </TableRow>
                     )
@@ -42,6 +43,7 @@ class Entrevistas extends React.Component {
                             <TableCell style={{ fontSize: "14px" }}>Hora</TableCell>
                             <TableCell style={{ fontSize: "14px" }}>Entrevistador</TableCell>
                             <TableCell style={{ fontSize: "14px" }}>Cliente</TableCell>
+                            <TableCell style={{ fontSize: "14px" }}>Empresa</TableCell>
                             <TableCell style={{ fontSize: "14px" }}>Observaciones</TableCell>
                         </TableHead>
                         <TableBody>

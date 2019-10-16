@@ -46,7 +46,7 @@ class Postulante extends React.Component {
     render() {
         return (
             <React.Fragment className="cuerpo">
-                 <br/>
+                <br />
                 <div align="center">
                     <div align="center">
                         <td className="lineaEspacioDerecha">
@@ -60,7 +60,7 @@ class Postulante extends React.Component {
                         </td>
                     </div>
                 </div>
-                <br/><br/>
+                <br /><br />
                 <form align="center">
                     <div className="row">
                         <div className="col-sm-10">
@@ -250,7 +250,7 @@ class Postulante extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <br/><br/>
+                    <br /><br />
                     <div className="" align="center">
                         <td className="lineaEspacioDerecha2">
                             <ColoredLine2 color="black" />
@@ -262,7 +262,7 @@ class Postulante extends React.Component {
                             <ColoredLine2 color="black" />
                         </td>
                     </div>
-                    <br/><br/>
+                    <br /><br />
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-4">
@@ -271,11 +271,7 @@ class Postulante extends React.Component {
                                         <label>Escuela:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <select className="form-control labelBorder" required name="tipoExamen">
-                                            <option value="1" selected disabled>Selecciona</option>
-                                            <option value="2">ITSOEH</option>
-                                            <option value="3">UMB</option>
-                                        </select>
+                                        <input type="text" className="form-control"></input>
                                     </div>
                                 </div>
                             </div>
@@ -285,11 +281,7 @@ class Postulante extends React.Component {
                                         <label>Carrera:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <select className="form-control labelBorder" required name="tipoExamen">
-                                            <option value="1" selected disabled>Selecciona</option>
-                                            <option value="2">ITICS</option>
-                                            <option value="3">I.S.C</option>
-                                        </select>
+                                        <input type="text" className="form-control"></input>
                                     </div>
                                 </div>
                             </div>
@@ -344,7 +336,7 @@ class Postulante extends React.Component {
                             <ColoredLine2 color="black" />
                         </td>
                     </div>
-                    <br/><br/>
+                    <br /><br />
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-3">
@@ -397,7 +389,7 @@ class Postulante extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <br/><br/>
+                    <br /><br />
                     <div align="center">
                         <div className="container">
                             <div className="row justify-content-md-center">

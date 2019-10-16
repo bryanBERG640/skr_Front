@@ -58,38 +58,10 @@ class agendar extends React.Component {
       let upd = this.state.c;
       upd.estatuscita.id_estatus_cita = 3;
       this.setState({ c: upd });
-
-      //TERMINAR
-
-      /*putCita(
-        this.state.c,
-        this.state.c.estatuscita.idEstatusCita,
-        this.state.props.postulante.idPostulante,
-        this.state.cita.id_cita
-      )
-        .then(response => {
-          console.log(response);
-        })
-        .catch(console.log);*/
     }
-    console.log(this.state.c);
-    /*postCita(
-      this.state.cita,
-      this.state.cita.idEstatusCita,
-      this.state.cita.idPostulante
-    )
-      .then(response => {
-        console.log(response);
-      })
-      .catch(console.log);*/
   };
 
   render() {
-<<<<<<< HEAD
-    console.log("Valor----" + this.props.postulante.nombre)
-=======
-    console.log(this.state.c);
->>>>>>> 80962c0f1c567e1eb15a37b15933f0a6a590a1a2
     return (
       <React.Fragment>
         <div align="center">
@@ -114,54 +86,77 @@ class agendar extends React.Component {
         <br />
         <div className="row">
           <form className="form-agendar">
-            <div className="col">
-              <label className="label1">Entrevistador:</label>
-              <input
-                className="form-control"
-                name="entrevistador"
-                type="text"
-                value={this.state.entrevistador}
-                onChange={this.handleChange}
-              />
+            <div className="row">
+              <div className="col">
+                <label>Empresa: </label>
+                <select
+                  className="form-control"
+                  value={this.state.value}
+                  onChange={this.handleSelect}
+                >
+                </select>
+              </div>
+              <div className="col">
+                <label className="label1">Cliente:</label>
+                <input
+                  className="form-control"
+                  name="entrevistador"
+                  type="text"
+                  value={this.state.entrevistador}
+                  onChange={this.handleChange}
+                />
+              </div>
             </div>
-            <br />
-            <div className="col">
-              <label className="label1">Fecha:</label>
-              <TextField
-                type="date"
-                onChange={this.handleChangeDate}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
+            <div className="row">
+              <div className="col">
+                <label className="label1">Entrevistador:</label>
+                <input
+                  className="form-control"
+                  name="entrevistador"
+                  type="text"
+                  value={this.state.entrevistador}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="col">
+                <label className="label1">Fecha:</label>
+                <TextField
+                  type="date"
+                  onChange={this.handleChangeDate}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+              </div>
             </div>
-          </form>
-          <form>
-            <div className="col">
-              <label className="label1">Hora:</label>
-              <input
-                className="form-control"
-                type="time"
-                name="hora"
-                value={this.state.hora}
-                onChange={this.handleChangeTime}
-              />
-            </div>
-            <br />
-            <div>
-              &nbsp; &nbsp;
+          </form>&nbsp; &nbsp;&nbsp; &nbsp;
+          <div className="row"></div>
+            <form >
+              <div className="col">
+                <label className="label1">Hora:</label>
+                <input
+                  className="form-control"
+                  type="time"
+                  name="hora"
+                  value={this.state.hora}
+                  onChange={this.handleChangeTime}
+                />
+              </div>
+              <br />
+              <div>
+                &nbsp; &nbsp;
               <Link className="btn btn-primary" onClick={this.handleClick}>
-                agendar
+                  agendar
               </Link>
-            </div>
-            <br />
-            <div>
-              &nbsp; &nbsp;
+              </div>
+              <br />
+              <div>
+                &nbsp; &nbsp;
               <Link to="/consultar-Postulantes" className="btn btn-primary">
-                Cancelar
+                  Cancelar
               </Link>
-            </div>
-          </form>
+              </div>
+            </form>
         </div>
       </React.Fragment>
     );
@@ -172,11 +167,9 @@ class agendar extends React.Component {
 const mapStateToProps = state => {
   return {
     postulante: state.postulante,
-<<<<<<< HEAD
-    postulantec: state.postulantec
-=======
+    postulantec: state.postulantec,
     cita: state.cita
->>>>>>> 80962c0f1c567e1eb15a37b15933f0a6a590a1a2
+
   };
 };
 
@@ -186,10 +179,6 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-<<<<<<< HEAD
   null)(agendar);
-=======
-  mapDispatchToProps,
-  null
-)(agendar);
->>>>>>> 80962c0f1c567e1eb15a37b15933f0a6a590a1a2
+
+

@@ -68,12 +68,24 @@ class Examen extends React.Component {
                                              <label className="datosCita"> Lic. Amparo Torres</label>
                                         </h3>
                                     </div>
+                                    <div className="row justify-content-md-center">
+                                        <h4>
+                                            Empresa: &nbsp; &nbsp;
+                                            <label className="datosCita"> Nombre de la empresa.</label>
+                                        </h4>
+                                    </div>
+                                    <div className="row justify-content-md-center">
+                                        <h4>
+                                            Cliente: &nbsp; &nbsp;
+                                            <label className="datosCita"> Nombre del cliente.</label>
+                                        </h4>
+                                    </div>
                                 </div>
                             </div>
                             <div className="center">
                                 <div className="container">
                                     <div className="row">
-                                        <div className="col-sm-3">
+                                        <div className="col-sm-4">
                                             <div className="row">
                                                 <div className="col-sm-12">
                                                     <label>Tipo de exámen:</label>
@@ -97,7 +109,7 @@ class Examen extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-sm-3">
+                                        {/* <div className="col-sm-3">
                                             <div className="row">
                                                 <div className="col-sm-12">
                                                     <label>Cliente:</label>
@@ -120,8 +132,8 @@ class Examen extends React.Component {
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="col-sm-2">
+                                        </div> */}
+                                        <div className="col-sm-3">
                                             <div className="row">
                                                 <div className="col-sm-12">
                                                     <label>Calificación global:</label>
@@ -131,7 +143,7 @@ class Examen extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-sm-4">
+                                        <div className="col-sm-5">
                                             <div className="row columnTextArea">
                                                 <div className="col-sm-12">
                                                     <label>Comentarios:</label>
