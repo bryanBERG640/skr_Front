@@ -103,9 +103,10 @@ class consulta_PB extends Component {
     const { respPerf, c } = this.state;
 
     const handleSelect = respPerf.map(perf => {
+      // console.log("----"  + perf.descripcion)
       return <option>{perf.descripcion}</option>;
+      
     });
-
     return (
       <React.Fragment>
         <div align="center">

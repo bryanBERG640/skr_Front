@@ -14,6 +14,11 @@ function getPostulanteC(idPostulante) {
     .catch(console.log);
 }
 
+function getCliente() {
+  const cliente = axios.get("http://192.168.1.230:8088/skr_v1/cliente/get");
+  return cliente;
+}
+
 //Se crea una función para consultar todos los datos de postulanteC.
 function getPostulanteTodo() {
   const postulantesCT = axios.get(
@@ -26,6 +31,12 @@ function getPostulanteB() {
     "http://192.168.1.230:8088/skr_v1/postulanteB/get"
   );
   return postulantes;
+}
+
+
+function getEmpresa() { 
+    const  empresa = axios.get("http://192.168.1.230:8088/skr_v1/empresa/get");
+    return empresa;
 }
 
 function getCita() {
@@ -164,6 +175,8 @@ function getEstatusAprobacion() {
 }
 
 export {
+  getCliente,
+  getEmpresa,
   getPostulanteC,
   getPostulanteB,
   getCita,
@@ -179,6 +192,7 @@ export {
   getEstatusPostulante,
   getPostulanteTodo,
   postCita,
-  putCita
-
+  putCita,
+ 
+  
 };

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { postCita, putCita } from "../request/request";
 import { setCita } from "../actions/postulanteB";
+import { getEmpresa } from "../request/request";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -20,16 +21,30 @@ const ColoredLine = ({ color }) => (
 const fecha = new Date();
 
 class agendar extends React.Component {
-  state = {
-    fecha: "",
-    cita: {
+
+  constructor(args) { 
+    super(args);
+    this.state = {
+      respEmpr: [],
       fecha: "",
-      hora: "",
-      entrevistador: "",
-      idEstatusCita: 4,
-      idPostulante: this.props.postulante.id_postulante_b
-    },
-    c: this.props.cita
+      cita: {
+        fecha: "",
+        hora: "",
+        entrevistador: "",
+        idEstatusCita: 4,
+        idPostulante: this.props.postulante.id_postulante_b
+      }
+    };
+  }
+
+  componentWillMount = () => {
+    this.getEmpresa();
+  };
+  getEmpresa = async () => {
+    const nuevoGet = await getEmpresa();
+    this.setState({
+      respEmpr: nuevoGet.data
+    });
   };
 
   handleChange = e => {
@@ -55,15 +70,6 @@ class agendar extends React.Component {
 
   handleClick = e => {
     if (this.state.c !== "vacio") {
-<<<<<<< HEAD
-      let upd = this.state.c;
-      upd.estatuscita.id_estatus_cita = 3;
-      this.setState({ c: upd });
-    }
-  };
-
-  render() {
-=======
       putCita(
         this.state.c,
         3,
@@ -87,8 +93,12 @@ class agendar extends React.Component {
   };
 
   render() {
-    //console.log(this.state.c);
->>>>>>> b1488dbe5ab1b56f3e9fd734f0a5e898866f6c34
+
+    console.log("Empresa.- " + getEmpresa())
+    const { respEmpr } = this.state;
+    const empresa = respEmpr.map(empr => {
+      return <option value={empr.descripcion}>{empr.descripcion}</option>;
+    });
     return (
       <React.Fragment>
         <div align="center">
@@ -118,9 +128,9 @@ class agendar extends React.Component {
                 <label>Empresa: </label>
                 <select
                   className="form-control"
-                  value={this.state.value}
-                  onChange={this.handleSelect}
                 >
+                  <option>Empresas</option>
+                  {empresa}
                 </select>
               </div>
               <div className="col">
@@ -129,8 +139,6 @@ class agendar extends React.Component {
                   className="form-control"
                   name="entrevistador"
                   type="text"
-                  value={this.state.entrevistador}
-                  onChange={this.handleChange}
                 />
               </div>
             </div>
@@ -156,31 +164,6 @@ class agendar extends React.Component {
                 />
               </div>
             </div>
-<<<<<<< HEAD
-          </form>&nbsp; &nbsp;&nbsp; &nbsp;
-          <div className="row"></div>
-            <form >
-              <div className="col">
-                <label className="label1">Hora:</label>
-                <input
-                  className="form-control"
-                  type="time"
-                  name="hora"
-                  value={this.state.hora}
-                  onChange={this.handleChangeTime}
-                />
-              </div>
-              <br />
-              <div>
-                &nbsp; &nbsp;
-              <Link className="btn btn-primary" onClick={this.handleClick}>
-                  agendar
-              </Link>
-              </div>
-              <br />
-              <div>
-                &nbsp; &nbsp;
-=======
           </form>
           <form>
             <div className="col">
@@ -207,7 +190,6 @@ class agendar extends React.Component {
             <br />
             <div>
               &nbsp; &nbsp;
->>>>>>> b1488dbe5ab1b56f3e9fd734f0a5e898866f6c34
               <Link to="/consultar-Postulantes" className="btn btn-primary">
                   Cancelar
               </Link>
@@ -224,14 +206,11 @@ const mapStateToProps = state => {
   return {
     postulante: state.postulante,
     postulantec: state.postulantec,
-    cita: state.cita
+    cita: state.cita,
+    state: value => state(setCita(value))
 
   };
 };
-
-const mapDispatchToProps = dispatch => ({
-  dispatchSetCita: value => dispatch(setCita(value))
-});
 
 export default connect(
   mapStateToProps,

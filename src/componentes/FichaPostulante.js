@@ -39,9 +39,9 @@ class FichaPostulante extends React.Component {
   render() {
     progresBar(true);
     console.log("Valores de la respuesta" + this.state.resp);
-    const foto = this.state.resp.map(photo => {
-      return <Avatar size="200" src={photo.foto_perfil} round="100px" />;
-    });
+    // const foto = this.state.resp.map(photo => {
+    //   return <Avatar size="200" src={photo.foto_perfil} round="100px" />;
+    // });
     return (
       <div>
         <br />

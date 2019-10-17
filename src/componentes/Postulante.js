@@ -421,14 +421,10 @@ sexo:[],
                                         <label>Escuela:</label>
                                     </div>
                                     <div className="col-sm-6">
-<<<<<<< HEAD
-                                        <input type="text" className="form-control"></input>
-=======
                                         <select className="form-control labelBorder" required name="tipoExamen">
                                             <option value="1" selected disabled>Selecciona</option>
                                             {escuelas}
                                         </select>
->>>>>>> b1488dbe5ab1b56f3e9fd734f0a5e898866f6c34
                                     </div>
                                 </div>
                             </div>
@@ -438,14 +434,10 @@ sexo:[],
                                         <label>Carrera:</label>
                                     </div>
                                     <div className="col-sm-6">
-<<<<<<< HEAD
-                                        <input type="text" className="form-control"></input>
-=======
                                         <select className="form-control labelBorder" required name="tipoExamen">
                                             <option value="1" selected disabled>Selecciona</option>
                                             {carreras}
                                         </select>
->>>>>>> b1488dbe5ab1b56f3e9fd734f0a5e898866f6c34
                                     </div>
                                 </div>
                             </div>
