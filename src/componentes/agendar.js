@@ -3,7 +3,7 @@ import IconoAgendar from "../Imagenes/agendarcita.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { postCita, putCita } from "../request/request";
+import { postCita, putCita, getEmpresa } from "../request/request";
 import { setCita } from "../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
@@ -22,6 +22,7 @@ const fecha = new Date();
 class agendar extends React.Component {
   state = {
     fecha: "",
+    respEmp: [],
     cita: {
       fecha: "",
       hora: "",
@@ -30,6 +31,17 @@ class agendar extends React.Component {
       idPostulante: this.props.postulante.id_postulante_b
     },
     c: this.props.cita
+  };
+
+  componentWillMount = () => {
+    this.getEmpresa();
+  };
+
+  getEmpresa = async () => {
+    const nuevoGet = await getEmpresa();
+    //console.log(nuevoGet.data);
+
+    this.setState({ respEmp: nuevoGet.data });
   };
 
   handleChange = e => {
@@ -78,7 +90,7 @@ class agendar extends React.Component {
   };
 
   render() {
-    //console.log(this.state.c);
+    console.log(this.state.respEmp); //este es el que esta imprimiendo vacio
     return (
       <React.Fragment>
         <div align="center">

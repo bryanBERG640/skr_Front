@@ -14,6 +14,13 @@ function getPostulanteC(idPostulante) {
     .catch(console.log);
 }
 
+function getEmpresa() {
+  console.log("function");
+
+  const empresa = axios.get("http://192.168.1.230:8088/skr_v1/empresa/get");
+  return empresa;
+}
+
 function getPostulanteB() {
   const postulantes = axios.get(
     "http://192.168.1.230:8088/skr_v1/postulanteB/get"
@@ -32,6 +39,9 @@ function getPerfil() {
 }
 
 function postSeccion(jsonRequest, estatus, perfil) {
+  /*console.log(jsonRequest);
+  console.log(estatus);
+  console.log(perfil);*/
   return fetch(
     "http://192.168.1.230:8088/skr_v1/postulanteB/" +
       estatus +
@@ -158,6 +168,7 @@ function getEstatusAprobacion() {
 
 export {
   getPostulanteC,
+  getEmpresa,
   getPostulanteB,
   getCita,
   getPerfil,
