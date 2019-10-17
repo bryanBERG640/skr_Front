@@ -26,16 +26,6 @@ class FichaPostulante extends React.Component {
   state = {
     resp: []
   };
-  componentDidMount = () => {
-    getPostulanteC(2)
-      .then(response => {
-        let nuevoGet = [];
-        console.log(response);
-        nuevoGet.push(response);
-        this.setState({ resp: nuevoGet });
-      })
-      .catch(console.log);
-  };
   render() {
     progresBar(true);
     console.log("Valores de la respuesta" + this.state.resp);
