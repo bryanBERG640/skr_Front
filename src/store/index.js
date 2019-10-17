@@ -14,3 +14,9 @@ export const store = createStore(
   initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 ); //Se realiza la vinculacion con el plugin que se intalo en chrome de redux.
+
+export const store2 = createStore(
+  filtrosPBReducer,
+  initialState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);

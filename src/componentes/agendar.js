@@ -20,28 +20,29 @@ const ColoredLine = ({ color }) => (
 const fecha = new Date();
 
 class agendar extends React.Component {
-  state = {
-    fecha: "",
-    respEmp: [],
-    cita: {
+  constructor(args) {
+    super(args);
+    this.state = {
+      respEmpr: [],
       fecha: "",
-      hora: "",
-      entrevistador: "",
-      idEstatusCita: 4,
-      idPostulante: this.props.postulante.id_postulante_b
-    },
-    c: this.props.cita
-  };
+      cita: {
+        fecha: "",
+        hora: "",
+        entrevistador: "",
+        idEstatusCita: 4,
+        idPostulante: this.props.postulante.id_postulante_b
+      }
+    };
+  }
 
   componentWillMount = () => {
     this.getEmpresa();
   };
-
   getEmpresa = async () => {
     const nuevoGet = await getEmpresa();
-    //console.log(nuevoGet.data);
-
-    this.setState({ respEmp: nuevoGet.data });
+    this.setState({
+      respEmpr: nuevoGet.data
+    });
   };
 
   handleChange = e => {
@@ -90,7 +91,11 @@ class agendar extends React.Component {
   };
 
   render() {
-    console.log(this.state.respEmp); //este es el que esta imprimiendo vacio
+    console.log("Empresa.- " + getEmpresa());
+    const { respEmpr } = this.state;
+    const empresa = respEmpr.map(empr => {
+      return <option value={empr.descripcion}>{empr.descripcion}</option>;
+    });
     return (
       <React.Fragment>
         <div align="center">
@@ -115,26 +120,44 @@ class agendar extends React.Component {
         <br />
         <div className="row">
           <form className="form-agendar">
-            <div className="col">
-              <label className="label1">Entrevistador:</label>
-              <input
-                className="form-control"
-                name="entrevistador"
-                type="text"
-                value={this.state.entrevistador}
-                onChange={this.handleChange}
-              />
+            <div className="row">
+              <div className="col">
+                <label>Empresa: </label>
+                <select className="form-control">
+                  <option>Empresas</option>
+                  {empresa}
+                </select>
+              </div>
+              <div className="col">
+                <label className="label1">Cliente:</label>
+                <input
+                  className="form-control"
+                  name="entrevistador"
+                  type="text"
+                />
+              </div>
             </div>
-            <br />
-            <div className="col">
-              <label className="label1">Fecha:</label>
-              <TextField
-                type="date"
-                onChange={this.handleChangeDate}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
+            <div className="row">
+              <div className="col">
+                <label className="label1">Entrevistador:</label>
+                <input
+                  className="form-control"
+                  name="entrevistador"
+                  type="text"
+                  value={this.state.entrevistador}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="col">
+                <label className="label1">Fecha:</label>
+                <TextField
+                  type="date"
+                  onChange={this.handleChangeDate}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+              </div>
             </div>
           </form>
           <form>
@@ -173,19 +196,17 @@ class agendar extends React.Component {
   }
 }
 
+//Se accede al store de postulante y postulante. Pude usar los valores de cualquiera de los dos.
 const mapStateToProps = state => {
   return {
     postulante: state.postulante,
-    cita: state.cita
+    postulantec: state.postulantec,
+    cita: state.cita,
+    state: value => state(setCita(value))
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  dispatchSetCita: value => dispatch(setCita(value))
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
   null
 )(agendar);

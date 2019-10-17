@@ -1,14 +1,14 @@
 import React from 'react';
 import { TableHead, TableBody, Table, TableRow, TableCell, Paper } from '@material-ui/core';
-
 import { getPostulanteC } from '../../request/request';
+import { connect } from 'react-redux';
 
-export default class Citas extends React.Component {
+class Citas extends React.Component {
     state = {
         resp: []
     }
     componentWillMount = () => {
-        getPostulanteC(2).then(response => {
+        getPostulanteC(this.props.postulantec.id_postulante_c).then(response => {
             let nuevoGet = [];
             nuevoGet.push(response)
             this.setState({ resp: nuevoGet })
@@ -25,19 +25,20 @@ export default class Citas extends React.Component {
                     })
                 })
             })
-        }) 
+        })
         const examenes = this.state.resp.map((datos) => {
             return datos.postulanteb.cita.map((date) => {
                 return date.examen.map((exa) => {
                     return date.seccion.map((entre) => {
                         console.log(entre);
                         console.log(exa);
+                        debugger
                         return (
                             <TableRow>
                                 <TableCell style={{ fontSize: "12px" }}>{exa.tipoexamen.examen_tipo}</TableCell>
                                 <TableCell style={{ fontSize: "12px" }}>{exa.tipoexamen.descripcion}</TableCell>
                                 <TableCell style={{ fontSize: "12px" }}>{exa.calificacion_global}</TableCell>
-                                <TableCell style={{ fontSize: "12px" }}>{entre.cliente.descricion}</TableCell>
+                                <TableCell style={{ fontSize: "12px" }}>{exa.cliente.descripcion}</TableCell>
                                 <TableCell style={{ fontSize: "12px" }}>{date.entrevistador}</TableCell>
                                 <TableCell style={{ fontSize: "12px" }}>{date.observaciones}</TableCell>
                             </TableRow>
@@ -59,7 +60,7 @@ export default class Citas extends React.Component {
                             <TableCell>Observaciones</TableCell>
                         </TableHead>
                         <TableBody>
-                          {examenes}
+                            {examenes}
                         </TableBody>
                     </Table>
                 </Paper>
@@ -67,3 +68,12 @@ export default class Citas extends React.Component {
         )
     }
 }
+
+//Se accede al store postulantec.
+const mapStateToProps = state => {
+    return {
+        postulantec: state.postulantec
+    };
+};
+
+export default connect(mapStateToProps, null)(Citas);

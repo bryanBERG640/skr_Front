@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { routerMiddleware } from "react-router-redux";
 import { Provider } from "react-redux";
 import createHistory from "history/createBrowserHistory";
-import configureStore from "./store/ConfigureStore";
+// import configureStore from "./store/ConfigureStore";
 import { store } from "./store/index";
 
 const history = createHistory(); //configuramos history

@@ -192,7 +192,7 @@ sexo:[],
 
         return (
             <React.Fragment className="cuerpo">
-                 <br/>
+                <br />
                 <div align="center">
                     <div align="center">
                         <td className="lineaEspacioDerecha">
@@ -206,7 +206,7 @@ sexo:[],
                         </td>
                     </div>
                 </div>
-                <br/><br/>
+                <br /><br />
                 <form align="center">
                     <div className="row">
                         <div className="col-sm-10">
@@ -400,7 +400,7 @@ sexo:[],
                             </div>
                         </div>
                     </div>
-                    <br/><br/>
+                    <br /><br />
                     <div className="" align="center">
                         <td className="lineaEspacioDerecha2">
                             <ColoredLine2 color="blue" />
@@ -412,7 +412,7 @@ sexo:[],
                             <ColoredLine2 color="blue" />
                         </td>
                     </div>
-                    <br/><br/>
+                    <br /><br />
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-4">
@@ -497,7 +497,7 @@ sexo:[],
                             <ColoredLine2 color="blue" />
                         </td>
                     </div>
-                    <br/><br/>
+                    <br /><br />
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-3">
@@ -541,7 +541,7 @@ sexo:[],
                             </div>
                         </div>
                     </div>
-                    <br/><br/>
+                    <br /><br />
                     <div align="center">
                         <div className="container">
                             <div className="row justify-content-md-center">

@@ -3,12 +3,16 @@ import { connect } from "react-redux"; //Sirve para conectar las librerias de re
 import { getPostulanteB } from "../../request/request";
 import lapiz from "../../Imagenes/lapiz.png";
 import { setPostulante } from "../../actions/postulanteB";
+import { setPostulanteC } from '../../actions/postulanteB';
+import { getPostulanteTodo } from '../../request/request';
 
 class filtrosPB extends React.Component {
   state = {
     isLoading: true,
+    isLoadingPC:  true,
     resp: [],
-    pos: []
+    pos: [],
+    postulanteC: []
   };
 
   constructor(props) {
@@ -17,21 +21,35 @@ class filtrosPB extends React.Component {
 
   componentWillMount = () => {
     this.getPostulanteB();
+    this.getPostulanteTodo();
     this.setState({ isLoading: false });
+    this.setState({ isLoadingPC: false})
   };
-
   getPostulanteB = async () => {
     const nuevoGet = await getPostulanteB();
     this.setState({ resp: nuevoGet.data });
   };
-
+  getPostulanteTodo = async () => {
+    const nuevoGet = await getPostulanteTodo();
+    this.setState({ postulanteC: nuevoGet.data });
+  }
   handleClick = e => {
     console.log("Funcion handleClick");
+    console.log("Valor del nombre: " + this.state.resp)
     let pb = parseInt(e.target.value);
-    this.state.resp.map(postulante => {
-      if (pb === postulante.id_postulante_b) {
-        console.log("Valor del estate nobre:-- " + postulante); //Se imprime el valor de psotulante.nombre
-        this.props.dispatchSetPostulante(postulante); //Se almacena en el store una función.
+    console.log("PB: " +pb)
+    
+      this.state.resp.map(postulante => {
+        if (pb === postulante.id_postulante_b) {
+          this.props.dispatchSetPostulante(postulante); //Se almacena en el store una función.
+          console.log("PostulanteB id: " + postulante.id_postulante_b);
+        }
+      });
+
+    this.state.postulanteC.map(postulante => {
+      if (pb === postulante.postulanteb.id_postulante_b) {
+        this.props.dispatchSetPostulantC(postulante); //Se almacena en el store una función si el postulanteB es un postulanteC.
+        console.log("PostulanteC id: " + postulante.postulanteb.id_postulante_b);
       }
     });
     console.log("Presionaste el boton y ahora estas dentro de handleClick");
@@ -359,7 +377,8 @@ class filtrosPB extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  dispatchSetPostulante: value => dispatch(setPostulante(value))
+  dispatchSetPostulante: value => dispatch(setPostulante(value)),
+  dispatchSetPostulantC: value => dispatch(setPostulanteC(value))
 });
 
 export default connect(
