@@ -177,8 +177,22 @@ function getEstatusAprobacion() {
   return EstatusAprobacion;
 }
 
+function getExamenes() {
+  const examenes = axios.get("http://192.168.1.230:8088/skr_v1/examen/get/");
+  return examenes;
+}
+
+function getEntrevista() {
+  const entrevistas = axios.get(
+    "http://192.168.1.230:8088/skr_v1/entrevista/get"
+  );
+  return entrevistas;
+}
+
 export {
   getCliente,
+  getEntrevista,
+  getExamenes,
   getPostulanteC,
   getEmpresa,
   getPostulanteB,

@@ -10,7 +10,6 @@ import {
   postSeccion,
   getEstatusPostulante
 } from "../request/request";
-import { number } from "prop-types";
 import agrP from "../Imagenes/agregar-postulante.png";
 import { Link } from "react-router-dom";
 
@@ -143,6 +142,7 @@ class agregar_PB extends React.Component {
       if (e.target.value === perf.descripcion) {
         this.setState({ perfil: perf.id_perfil });
       }
+      return perf.descripcion
     });
   };
 
@@ -152,6 +152,7 @@ class agregar_PB extends React.Component {
       if (e.target.value === est.descripcion) {
         this.setState({ estatuspostulante: est.id_estatus_postulante });
       }
+      return est.descripcion
     });
   };
 

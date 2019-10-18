@@ -6,63 +6,45 @@ import {
   TableCell,
   TableRow
 } from "@material-ui/core";
-import { getPostulanteC } from "../../request/request";
-import Checkbox from "@material-ui/core/Checkbox";
+import { getPostulanteB } from "../../request/request";
 import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
 
 class Citas extends Component {
   state = {
-    resp: this.props.postulantec
+    resp: this.props.postulantec,
+    postB: []
   };
-  /*componentWillMount = () => {
-    getPostulanteC(this.props.postulantec.id_postulante_c)
-      .then(response => {
-        let nuevoGet = [];
-        nuevoGet.push(response);
-        this.setState({ resp: nuevoGet });
-      })
-      .catch(console.log);
-  };*/
+  componentWillMount = () => {
+    this.getPostulanteB();
+  };
+
+  getPostulanteB = async () => {
+    const nuevoGet = await getPostulanteB();
+    this.setState({ postB: nuevoGet.data });
+  };
 
   render() {
-    console.log(this.state.resp.curp);
-    // const citas = this.state.resp.map(datos => {
-    //   return datos.postulanteb.cita.map(date => {
-    //     return date.seccion.map(entre => {
-    //       return (
-    //         //segunda parte
+    console.log(this.state.resp);
+    console.log(this.state.postB);
+    const citas = this.state.postB.map(cit => {
+      if (this.state.resp.postulanteb.id_postulante_b === cit.id_postulante_b) {
+        return cit.cita.map(c => {
+          return (
+            <TableRow>
+              <TableCell>{c.fecha}</TableCell>
+              <TableCell>{c.hora}</TableCell>
+              <TableCell>{c.entrevistador}</TableCell>
+              <TableCell>{c.cliente.descripcion}</TableCell>
+              <TableCell>{c.empresa.descripcion}</TableCell>
+              <TableCell>{c.observaciones}</TableCell>
+              <TableCell>{c.estatuscita.descripcion}</TableCell>
+            </TableRow>
+          );
+        });
+      }
+    });
 
-    //         <TableRow>
-    //           <TableCell style={{ fontSize: "12px" }}>
-    //             {datos.postulanteb.nombre}
-    //           </TableCell>
-    //           <TableCell style={{ fontSize: "12px" }}>
-    //             {datos.postulanteb.apellido1}
-    //           </TableCell>
-    //           <TableCell style={{ fontSize: "12px" }}>
-    //             {datos.postulanteb.apellido2}
-    //           </TableCell>
-    //           <TableCell style={{ fontSize: "12px" }}>{date.fecha}</TableCell>
-    //           <TableCell style={{ fontSize: "12px" }}>{date.hora}</TableCell>
-    //           <TableCell style={{ fontSize: "12px" }}>
-    //             {date.entrevistador}
-    //           </TableCell>
-    //           <TableCell style={{ fontSize: "12px" }}>
-    //             {entre.cliente.descripcion}
-    //           </TableCell>
-    //           <TableCell style={{ fontSize: "12px" }}></TableCell>
-    //           <TableCell style={{ fontSize: "12px" }}>
-    //             {date.observaciones}
-    //           </TableCell>
-    //           <TableCell>
-    //             <Checkbox style={{ color: "#6D107D" }} checked />
-    //           </TableCell>
-    //         </TableRow>
-    //       );
-    //     });
-    //   });
-    // });
     return (
       <div>
         <Paper>
@@ -91,32 +73,8 @@ class Citas extends Component {
                   Estatus
                 </TableCell>
               </TableRow>
-              <br />
             </TableHead>
-            <TableRow>
-              <TableCell style={{ fontSize: "12px" }}>
-                {this.state.resp.postulanteb.cita.fecha}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {this.state.resp.postulanteb.cita.hora}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {this.state.resp.postulanteb.cita.entrevistador}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {/* {this.state.resp.postulanteb.cita.cliente.descripcion} */}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}></TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {/* {this.state.resp.postulanteb.cita.empresa.descripcion} */}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {this.state.resp.postulanteb.cita.observaciones}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {/* {this.state.resp.postulanteb.cita.estatuscita.descripcion} */}
-              </TableCell>
-            </TableRow>
+            <TableBody>{citas}</TableBody>
           </Table>
         </Paper>
       </div>

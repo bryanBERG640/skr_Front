@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import { getPostulanteC } from "../request/request";
 import "../App.css";
-import {progresBar} from "./progress";
-import FiltrosFichaPostulante from './filtros/FiltrosFichaPostulante';
+import { progresBar } from "./progress";
+import FiltrosFichaPostulante from "./filtros/FiltrosFichaPostulante";
+import { connect } from "react-redux";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -24,11 +25,13 @@ const ColoredLine = ({ color }) => (
 
 class FichaPostulante extends React.Component {
   state = {
-    resp: []
+    resp: [],
+    postB: this.props.postulanteB
   };
   render() {
     progresBar(true);
-    console.log("Valores de la respuesta" + this.state.resp);
+    //console.log(this.state.postB.estatuspostulante);
+    //console.log("Valores de la respuesta" + this.state.resp);
     // const foto = this.state.resp.map(photo => {
     //   return <Avatar size="200" src={photo.foto_perfil} round="100px" />;
     // });
@@ -39,7 +42,9 @@ class FichaPostulante extends React.Component {
           <td>
             <ColoredLine color="black" />
           </td>
-          <td><FiltrosFichaPostulante/></td>
+          <td>
+            <FiltrosFichaPostulante />
+          </td>
           <td>
             <ColoredLine color="black" />
           </td>
@@ -54,7 +59,7 @@ class FichaPostulante extends React.Component {
                 <TextField
                   disabled
                   label="Estatus"
-                  value="Aceptado por Kabec" 
+                  value={this.state.postB.estatuspostulante.descripcion}
                   margin="normal"
                   variant="outlined"
                   style={{ backgroundColor: "#fae0ff" }}
@@ -78,4 +83,13 @@ class FichaPostulante extends React.Component {
   }
 }
 
-export default FichaPostulante;
+const mapStateToProps = state => {
+  return {
+    postulanteB: state.postulante
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(FichaPostulante);
