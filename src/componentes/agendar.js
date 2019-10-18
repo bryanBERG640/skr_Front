@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { postCita, putCita } from "../request/request";
 import { setCita } from "../actions/postulanteB";
-import { getEmpresa } from "../request/request";
+import { getEmpresa, getCliente } from "../request/request";
+import { clickCompletarDatos } from '../actions/postulanteB';
+import Autompletado from './Autocompletado/Autompletado';
+import "./styles/FormatoImagenes.css";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -17,7 +20,6 @@ const ColoredLine = ({ color }) => (
     }}
   />
 );
-
 const fecha = new Date();
 
 class agendar extends React.Component {
@@ -25,6 +27,8 @@ class agendar extends React.Component {
   constructor(args) { 
     super(args);
     this.state = {
+      clientes: [],
+      copiaClientes: [],
       respEmpr: [],
       fecha: "",
       cita: {
@@ -38,7 +42,12 @@ class agendar extends React.Component {
   }
 
   componentWillMount = () => {
+    this.getCliente();
     this.getEmpresa();
+  };
+  getCliente = async () => {
+    const nuevoGet = await getCliente();
+    this.setState({clientes: nuevoGet.data });
   };
   getEmpresa = async () => {
     const nuevoGet = await getEmpresa();
@@ -92,9 +101,18 @@ class agendar extends React.Component {
       .catch(console.log);
   };
 
-  render() {
+  handleWrite = e => {
+    console.log("-.-.-."+e.target.value);
+    this.setState({[e.target.name]: e.target.value })
+  }
 
-    console.log("Empresa.- " + getEmpresa())
+  render() {
+    const { clientes } = this.state;
+    const handleSelect = clientes.map(perf => {
+      return <option>{perf.descripcion}</option>;
+      
+    });
+
     const { respEmpr } = this.state;
     const empresa = respEmpr.map(empr => {
       return <option value={empr.descripcion}>{empr.descripcion}</option>;
@@ -135,11 +153,7 @@ class agendar extends React.Component {
               </div>
               <div className="col">
                 <label className="label1">Cliente:</label>
-                <input
-                  className="form-control"
-                  name="entrevistador"
-                  type="text"
-                />
+                <Autompletado className=" autocompletado"/>
               </div>
             </div>
             <div className="row">
@@ -150,7 +164,8 @@ class agendar extends React.Component {
                   name="entrevistador"
                   type="text"
                   value={this.state.entrevistador}
-                  onChange={this.handleChange}
+                  onChange={this.handleWrite}
+                  value={this.state.nombre}
                 />
               </div>
               <div className="col">
@@ -212,8 +227,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null)(agendar);
+const mapDispatchProps = dispatch => ({
+  dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value))
+  
+
+});
+
+export default connect(mapStateToProps,mapDispatchProps)(agendar);
 
 

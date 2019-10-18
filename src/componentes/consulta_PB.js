@@ -57,7 +57,7 @@ class consulta_PB extends Component {
   };
 
   handleWrite = e => {
-    //console.log(e.target.value);
+    console.log("-.-.-."+e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -242,8 +242,7 @@ class consulta_PB extends Component {
 const mapDispatchProps = dispatch => ({
   dispatchClickAgendar: value => dispatch(clickAgendar(value)),
   dispatchClickBuscar: value => dispatch(clickBuscar(value)),
-  dispatchClickAgregarPostulante: value =>
-    dispatch(clickAgregarPostulante(value)),
+  dispatchClickAgregarPostulante: value => dispatch(clickAgregarPostulante(value)),
   dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value)),
   dispatchClickMostrarFicha: value => dispatch(clickMostrarFicha(value)),
 

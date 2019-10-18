@@ -16,6 +16,7 @@ function getPostulanteC(idPostulante) {
 
 function getCliente() {
   const cliente = axios.get("http://192.168.1.230:8088/skr_v1/cliente/get");
+  // const cliente = axios.get("http://localhost:8080/cliente/get");
   return cliente;
 }
 
