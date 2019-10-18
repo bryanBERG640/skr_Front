@@ -9,7 +9,7 @@ import { Button } from "@material-ui/core";
 import FiltrosPB from "./filtros/filtrosPB";
 import { getPerfil } from "../request/request";
 import Agendar from "../componentes/agendar";
-import ButtonMostarFicha from '../reducers/ButtonMostrarFicha';
+import ButtonMostarFicha from "../reducers/ButtonMostrarFicha";
 //Se agregan las librerias necesarias para usar redux.
 import {
   clickAgendar,
@@ -52,7 +52,6 @@ class consulta_PB extends Component {
   };
 
   handleClickBuscar = e => {
-    console.log(this.props.nombre);
     this.props.dispatchClickBuscar("Buscando"); //Se almacena en el store una función.
   };
 
@@ -81,23 +80,20 @@ class consulta_PB extends Component {
   };
 
   handleClick = e => {
-    console.log("Funciion handleClick");
     this.props.dispatchClickAgendar(filtrosPBReducer); //Se almacena en el store una función.
   };
 
   handleClickAgregarPostulante = e => {
-    console.log("Funcion handleClickAgregarPostulante");
     this.props.dispatchClickAgregarPostulante("Agregando"); //Se almacena en el store una función.
   };
 
   handleClickCompletarDatos = e => {
-    console.log("Función handleClickCompletarDatos");
     this.props.dispatchClickCompletarDatos("Completando"); //Se almacena en el store una función.
   };
 
   handleClickMostrarFicha = e => {
-    this.props.dispatchClickMostrarFicha("MostrarFicha");//Se almacena en el store una función.
-  }
+    this.props.dispatchClickMostrarFicha("MostrarFicha"); //Se almacena en el store una función.
+  };
 
   render() {
     const { respPerf, c } = this.state;
@@ -105,7 +101,6 @@ class consulta_PB extends Component {
     const handleSelect = respPerf.map(perf => {
       // console.log("----"  + perf.descripcion)
       return <option>{perf.descripcion}</option>;
-      
     });
     return (
       <React.Fragment>
@@ -169,9 +164,7 @@ class consulta_PB extends Component {
               />
             </div>
             <div className="col">
-              <Button type="submit" onClick={this.handleClickBuscar}>
                 <img className="lupa" src={lupa} alt="consulta" />
-              </Button>
             </div>
           </form>
 
@@ -187,27 +180,25 @@ class consulta_PB extends Component {
                 Agregar Postulante
               </Link>
               &nbsp; &nbsp;
-              <button
-                type="button"
+              <Link
+                to="/Completar_Datos_postulante"
                 className="btn btn-primary"
-                onClick={this.handleClickCompletarDatos}
               >
                 Completar Datos
-              </button>
+              </Link>
               &nbsp; &nbsp;
-              <Link
-                to="/agendar_cita"
-                className="btn btn-primary"
-              >
+              <Link to="/agendar_cita" className="btn btn-primary">
                 Agendar
               </Link>
               &nbsp; &nbsp;
-              <Link  to="/Ficha-Postulante" className="btn btn-primary" onClick={this.handleClickMostrarFicha}>
+              <Link
+                to="/Ficha-Postulante"
+                className="btn btn-primary"
+                onClick={this.handleClickMostrarFicha}
+              >
                 Mostrar Ficha
               </Link>
               &nbsp; &nbsp;
-              {/* <ButtonMostarFicha/> */}
-              
             </div>
           </form>
         </div>
@@ -244,8 +235,7 @@ const mapDispatchProps = dispatch => ({
   dispatchClickBuscar: value => dispatch(clickBuscar(value)),
   dispatchClickAgregarPostulante: value => dispatch(clickAgregarPostulante(value)),
   dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value)),
-  dispatchClickMostrarFicha: value => dispatch(clickMostrarFicha(value)),
-
+  dispatchClickMostrarFicha: value => dispatch(clickMostrarFicha(value))
 });
 
 export default connect(

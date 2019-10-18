@@ -10,7 +10,6 @@ import {
   postSeccion,
   getEstatusPostulante
 } from "../request/request";
-import { number } from "prop-types";
 import agrP from "../Imagenes/agregar-postulante.png";
 import { Link } from "react-router-dom";
 
@@ -32,16 +31,18 @@ class agregar_PB extends React.Component {
     this.state = {
       respPerf: [],
       respEstatus: [],
+      perfil: 0,
+      estatuspostulante: 0,
       postulante: {
-        perfil: number,
-        estatuspostulante: number,
         apellido1: "",
         apellido2: "",
         nombre: "",
         correo: "",
         telefono: "",
         celular: "",
-        observaciones: ""
+        observaciones: "",
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: "2019-10-17"
       }
     };
   }
@@ -123,35 +124,35 @@ class agregar_PB extends React.Component {
   };
 
   hanleClick = e => {
-    console.log(this.state.postulante);
-
+    //console.log(this.state.postulante);
     postSeccion(
       this.state.postulante,
-      this.state.perfil,
-      this.state.estatuspostulante
+      this.state.estatuspostulante,
+      this.state.perfil
     )
       .then(response => {
         console.log(response);
       })
       .catch(console.log);
-    console.log("POST REALIZADO");
   };
 
   handleSelect1 = e => {
-    const perfiles = this.state.respPerf.map(perf => {
+    // console.log(e.target.value);
+    this.state.respPerf.map(perf => {
       if (e.target.value === perf.descripcion) {
         this.setState({ perfil: perf.id_perfil });
       }
-      return perf.id_perfil;
+      return perf.descripcion
     });
   };
 
   handleSelect2 = e => {
-    const estatus = this.state.respEstatus.map(est => {
+    //console.log(e.target.value);
+    this.state.respEstatus.map(est => {
       if (e.target.value === est.descripcion) {
         this.setState({ estatuspostulante: est.id_estatus_postulante });
       }
-      return est.id_estatus_postulante;
+      return est.descripcion
     });
   };
 
@@ -164,8 +165,6 @@ class agregar_PB extends React.Component {
     const estatus = respEstatus.map(st => {
       return <option value={st.descripcion}>{st.descripcion}</option>;
     });
-    console.log(this.state.perfil);
-    console.log(this.state.estatuspostulante);
     return (
       <div className="Content">
         <div align="center">
@@ -329,14 +328,14 @@ class agregar_PB extends React.Component {
             <h4> Guardar CV en formato PDF </h4>
             <br />
 
-            <Link
-              to="/consultar-Postulantes"
+            <a
+              href="/consultar-Postulantes"
               className="btn btn-primary"
-              onClick={this.hanleClick}
+              onClick={this.handleClick}
               nombre={this.state.nombre}
             >
               Guardar
-            </Link>
+            </a>
 
             <br />
             <br />

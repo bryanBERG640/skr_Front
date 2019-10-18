@@ -6,79 +6,51 @@ import {
   TableCell,
   TableRow
 } from "@material-ui/core";
-import { getPostulanteC } from "../../request/request";
-import Checkbox from "@material-ui/core/Checkbox";
+import { getPostulanteB } from "../../request/request";
 import Paper from "@material-ui/core/Paper";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 class Citas extends Component {
   state = {
-    resp: []
+    resp: this.props.postulantec,
+    postB: []
   };
   componentWillMount = () => {
-    getPostulanteC(this.props.postulantec.id_postulante_c)
-      .then(response => {
-        let nuevoGet = [];
-        nuevoGet.push(response);
-        this.setState({ resp: nuevoGet });
-      })
-      .catch(console.log);
+    this.getPostulanteB();
   };
-  render() {
-    debugger
-    const citas = this.state.resp.map(datos => {
-      return datos.postulanteb.cita.map(date => {
-        return date.seccion.map((entre) => {
-          return (
-            //segunda parte
 
+  getPostulanteB = async () => {
+    const nuevoGet = await getPostulanteB();
+    this.setState({ postB: nuevoGet.data });
+  };
+
+  render() {
+    console.log(this.state.resp);
+    console.log(this.state.postB);
+    const citas = this.state.postB.map(cit => {
+      if (this.state.resp.postulanteb.id_postulante_b === cit.id_postulante_b) {
+        return cit.cita.map(c => {
+          return (
             <TableRow>
-              <TableCell style={{ fontSize: "12px" }}>
-                {datos.postulanteb.nombre}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {datos.postulanteb.apellido1}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {datos.postulanteb.apellido2}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>{date.fecha}</TableCell>
-              <TableCell style={{ fontSize: "12px" }}>{date.hora}</TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {date.entrevistador}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {entre.cliente.descripcion} 
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {date.observaciones}
-              </TableCell>
-              <TableCell>
-                <Checkbox style={{ color: "#6D107D" }} checked />
-              </TableCell>
+              <TableCell>{c.fecha}</TableCell>
+              <TableCell>{c.hora}</TableCell>
+              <TableCell>{c.entrevistador}</TableCell>
+              <TableCell>{c.cliente.descripcion}</TableCell>
+              <TableCell>{c.empresa.descripcion}</TableCell>
+              <TableCell>{c.observaciones}</TableCell>
+              <TableCell>{c.estatuscita.descripcion}</TableCell>
             </TableRow>
           );
-        })
-      });
+        });
+      }
     });
+
     return (
       <div>
         <Paper>
           <Table>
             <TableHead style={{ background: "#bbe5f7" }}>
               <TableRow>
-                <TableCell align="center" style={{ fontSize: "14px" }}>
-                  Nombre
-                </TableCell>
-                <TableCell align="center" style={{ fontSize: "14px" }}>
-                  Apellido Paterno
-                </TableCell>
-                <TableCell align="center" style={{ fontSize: "14px" }}>
-                  Apellido Materno
-                </TableCell>
                 <TableCell align="center" style={{ fontSize: "14px" }}>
                   Fecha
                 </TableCell>
@@ -98,7 +70,7 @@ class Citas extends Component {
                   Observaciones
                 </TableCell>
                 <TableCell align="center" style={{ fontSize: "14px" }}>
-                  Asistió
+                  Estatus
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -118,4 +90,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(
-  mapStateToProps, null)(Citas);
+  mapStateToProps,
+  null
+)(Citas);

@@ -23,8 +23,9 @@ function getCliente() {
 //Se crea una función para consultar todos los datos de postulanteC.
 function getPostulanteTodo() {
   const postulantesCT = axios.get(
-    "http://192.168.1.230:8088/skr_v1/postulanteComplemento/get/");
-    return postulantesCT;
+    "http://192.168.1.230:8088/skr_v1/postulanteComplemento/get/"
+  );
+  return postulantesCT;
 }
 
 function getPostulanteB() {
@@ -34,10 +35,9 @@ function getPostulanteB() {
   return postulantes;
 }
 
-
-function getEmpresa() { 
-    const  empresa = axios.get("http://192.168.1.230:8088/skr_v1/empresa/get");
-    return empresa;
+function getEmpresa() {
+  const empresa = axios.get("http://192.168.1.230:8088/skr_v1/empresa/get");
+  return empresa;
 }
 
 function getCita() {
@@ -51,6 +51,9 @@ function getPerfil() {
 }
 
 function postSeccion(jsonRequest, estatus, perfil) {
+  /*console.log(jsonRequest);
+  console.log(estatus);
+  console.log(perfil);*/
   return fetch(
     "http://192.168.1.230:8088/skr_v1/postulanteB/" +
       estatus +
@@ -175,10 +178,24 @@ function getEstatusAprobacion() {
   return EstatusAprobacion;
 }
 
+function getExamenes() {
+  const examenes = axios.get("http://192.168.1.230:8088/skr_v1/examen/get/");
+  return examenes;
+}
+
+function getEntrevista() {
+  const entrevistas = axios.get(
+    "http://192.168.1.230:8088/skr_v1/entrevista/get"
+  );
+  return entrevistas;
+}
+
 export {
   getCliente,
-  getEmpresa,
+  getEntrevista,
+  getExamenes,
   getPostulanteC,
+  getEmpresa,
   getPostulanteB,
   getCita,
   getPerfil,
@@ -193,7 +210,5 @@ export {
   getEstatusPostulante,
   getPostulanteTodo,
   postCita,
-  putCita,
- 
-  
+  putCita
 };
