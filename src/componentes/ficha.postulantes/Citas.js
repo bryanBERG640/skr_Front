@@ -9,13 +9,13 @@ import {
 import { getPostulanteC } from "../../request/request";
 import Checkbox from "@material-ui/core/Checkbox";
 import Paper from "@material-ui/core/Paper";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 class Citas extends Component {
   state = {
-    resp: []
+    resp: this.props.postulantec
   };
-  componentWillMount = () => {
+  /*componentWillMount = () => {
     getPostulanteC(this.props.postulantec.id_postulante_c)
       .then(response => {
         let nuevoGet = [];
@@ -23,62 +23,52 @@ class Citas extends Component {
         this.setState({ resp: nuevoGet });
       })
       .catch(console.log);
-  };
-  render() {
-    debugger
-    const citas = this.state.resp.map(datos => {
-      return datos.postulanteb.cita.map(date => {
-        return date.seccion.map((entre) => {
-          return (
-            //segunda parte
+  };*/
 
-            <TableRow>
-              <TableCell style={{ fontSize: "12px" }}>
-                {datos.postulanteb.nombre}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {datos.postulanteb.apellido1}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {datos.postulanteb.apellido2}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>{date.fecha}</TableCell>
-              <TableCell style={{ fontSize: "12px" }}>{date.hora}</TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {date.entrevistador}
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {entre.cliente.descripcion} 
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                
-              </TableCell>
-              <TableCell style={{ fontSize: "12px" }}>
-                {date.observaciones}
-              </TableCell>
-              <TableCell>
-                <Checkbox style={{ color: "#6D107D" }} checked />
-              </TableCell>
-            </TableRow>
-          );
-        })
-      });
-    });
+  render() {
+    console.log(this.state.resp.curp);
+    // const citas = this.state.resp.map(datos => {
+    //   return datos.postulanteb.cita.map(date => {
+    //     return date.seccion.map(entre => {
+    //       return (
+    //         //segunda parte
+
+    //         <TableRow>
+    //           <TableCell style={{ fontSize: "12px" }}>
+    //             {datos.postulanteb.nombre}
+    //           </TableCell>
+    //           <TableCell style={{ fontSize: "12px" }}>
+    //             {datos.postulanteb.apellido1}
+    //           </TableCell>
+    //           <TableCell style={{ fontSize: "12px" }}>
+    //             {datos.postulanteb.apellido2}
+    //           </TableCell>
+    //           <TableCell style={{ fontSize: "12px" }}>{date.fecha}</TableCell>
+    //           <TableCell style={{ fontSize: "12px" }}>{date.hora}</TableCell>
+    //           <TableCell style={{ fontSize: "12px" }}>
+    //             {date.entrevistador}
+    //           </TableCell>
+    //           <TableCell style={{ fontSize: "12px" }}>
+    //             {entre.cliente.descripcion}
+    //           </TableCell>
+    //           <TableCell style={{ fontSize: "12px" }}></TableCell>
+    //           <TableCell style={{ fontSize: "12px" }}>
+    //             {date.observaciones}
+    //           </TableCell>
+    //           <TableCell>
+    //             <Checkbox style={{ color: "#6D107D" }} checked />
+    //           </TableCell>
+    //         </TableRow>
+    //       );
+    //     });
+    //   });
+    // });
     return (
       <div>
         <Paper>
           <Table>
             <TableHead style={{ background: "#bbe5f7" }}>
               <TableRow>
-                <TableCell align="center" style={{ fontSize: "14px" }}>
-                  Nombre
-                </TableCell>
-                <TableCell align="center" style={{ fontSize: "14px" }}>
-                  Apellido Paterno
-                </TableCell>
-                <TableCell align="center" style={{ fontSize: "14px" }}>
-                  Apellido Materno
-                </TableCell>
                 <TableCell align="center" style={{ fontSize: "14px" }}>
                   Fecha
                 </TableCell>
@@ -98,11 +88,35 @@ class Citas extends Component {
                   Observaciones
                 </TableCell>
                 <TableCell align="center" style={{ fontSize: "14px" }}>
-                  Asistió
+                  Estatus
                 </TableCell>
               </TableRow>
+              <br />
             </TableHead>
-            <TableBody>{citas}</TableBody>
+            <TableRow>
+              <TableCell style={{ fontSize: "12px" }}>
+                {this.state.resp.postulanteb.cita.fecha}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {this.state.resp.postulanteb.cita.hora}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {this.state.resp.postulanteb.cita.entrevistador}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {/* {this.state.resp.postulanteb.cita.cliente.descripcion} */}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}></TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {/* {this.state.resp.postulanteb.cita.empresa.descripcion} */}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {this.state.resp.postulanteb.cita.observaciones}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
+                {/* {this.state.resp.postulanteb.cita.estatuscita.descripcion} */}
+              </TableCell>
+            </TableRow>
           </Table>
         </Paper>
       </div>
@@ -118,4 +132,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(
-  mapStateToProps, null)(Citas);
+  mapStateToProps,
+  null
+)(Citas);

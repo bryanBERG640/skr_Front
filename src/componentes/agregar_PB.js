@@ -42,8 +42,8 @@ class agregar_PB extends React.Component {
         telefono: "",
         celular: "",
         observaciones: "",
-        usuario_actualiza:"Bryan Ramirez",
-        fecha_actualizacion:"2019-10-17"
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: "2019-10-17"
       }
     };
   }
@@ -153,13 +153,6 @@ class agregar_PB extends React.Component {
         this.setState({ estatuspostulante: est.id_estatus_postulante });
       }
     });
-    /*let pos = this.state.postulante;
-    this.state.respEstatus.map(est => {
-      if (e.target.value === est.descripcion) {
-        pos.estatuspostulante = est.id_estatus_postulante;
-      }
-    });
-    this.setState({ postulante: pos });*/
   };
 
   render() {
@@ -171,9 +164,6 @@ class agregar_PB extends React.Component {
     const estatus = respEstatus.map(st => {
       return <option value={st.descripcion}>{st.descripcion}</option>;
     });
-    /*console.log(this.state.postulante);
-    console.log(this.state.perfil);
-    console.log(this.state.estatuspostulante);*/
     return (
       <div className="Content">
         <div align="center">
@@ -337,14 +327,14 @@ class agregar_PB extends React.Component {
             <h4> Guardar CV en formato PDF </h4>
             <br />
 
-            <Link
-              to="/consultar-Postulantes"
+            <a
+              href="/consultar-Postulantes"
               className="btn btn-primary"
-              onClick={this.hanleClick}
+              onClick={this.handleClick}
               nombre={this.state.nombre}
             >
               Guardar
-            </Link>
+            </a>
 
             <br />
             <br />

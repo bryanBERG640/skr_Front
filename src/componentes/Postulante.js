@@ -546,11 +546,11 @@ sexo:[],
                         <div className="container">
                             <div className="row justify-content-md-center">
                                 <div className="col col-lg-2">
-                                    <Link to="/consultarCita" className="btn btn-primary">Guardar</Link>
+                                    <Link to="/consultar-Postulantes" className="btn btn-primary">Guardar</Link>
                                 </div>
                                 <div className="col-md-auto"></div>
                                 <div className="col col-lg-2">
-                                    <Link to="/consultarCita" className="btn btn-secondary"> Cancelar</Link>
+                                    <Link to="/consultar-Postulantes" className="btn btn-secondary"> Cancelar</Link>
                                 </div>
                             </div>
                         </div>

@@ -34,29 +34,22 @@ class filtrosPB extends React.Component {
     this.setState({ postulanteC: nuevoGet.data });
   }
   handleClick = e => {
-    console.log("Funcion handleClick");
-    console.log("Valor del nombre: " + this.state.resp)
     let pb = parseInt(e.target.value);
-    console.log("PB: " +pb)
-    
       this.state.resp.map(postulante => {
         if (pb === postulante.id_postulante_b) {
           this.props.dispatchSetPostulante(postulante); //Se almacena en el store una función.
-          console.log("PostulanteB id: " + postulante.id_postulante_b);
         }
       });
 
     this.state.postulanteC.map(postulante => {
       if (pb === postulante.postulanteb.id_postulante_b) {
         this.props.dispatchSetPostulantC(postulante); //Se almacena en el store una función si el postulanteB es un postulanteC.
-        console.log("PostulanteC id: " + postulante.postulanteb.id_postulante_b);
       }
     });
-    console.log("Presionaste el boton y ahora estas dentro de handleClick");
   };
 
   render() {
-    console.log(this.state.resp);
+    // console.log(this.state.resp);
     const { resp } = this.state;
     const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;

@@ -27,8 +27,6 @@ class FiltrosFichaPostulante extends Component {
         postulanteC: [],
         isLoading: true,
         postulanteB: this.props.postulante,
-        // id: this.props.postulante.id_postulante_b,
-        // nombre: this.props.postulante.nombre
     };
 
     //Se crea una funcón para llamar la función que ejecutra una consulta  a la base de datos.
@@ -45,19 +43,10 @@ class FiltrosFichaPostulante extends Component {
 
     render() {
         progresBar(true);
-        console.log("Valores de postulanteB:  " + this.state.postulanteB);
-        console.log("Valores de postulanteB:  " + this.state.postulanteB.nombre);
-        console.log("Valores de postulanteB:  " + this.state.postulanteB.id_postulante_b);
-        console.log("Valores de postulantec:  " + this.state.postulanteC);
-
-
         const { postulanteC } = this.state;
         let existeId = false;
         const groupPC = postulanteC.map(postulante => {
-            // const id_postulante_cb = postulante.postulanteb.id_postulante_b;
-            // console.log("Valor del id del postulante c: " + id_postulante_cb);
             if (postulante.postulanteb.id_postulante_b === this.state.postulanteB.id_postulante_b) {
-                // console.log("El valor existe en postulante C: " + id_postulante_cb);
                 console.log("Valor inicial del state existeId: " + existeId);
                 existeId = true;
                 console.log("El valor modificado del state existeId: " + existeId);
