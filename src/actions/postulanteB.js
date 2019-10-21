@@ -7,6 +7,9 @@ export const setPostulanteC = payload => ({ type: SET_POSTULANTE_C, payload })
 export const AGENDAR = 'CLICK_AGENDAR'
 export const clickAgendar = value => ({ type: AGENDAR, value})
 
+export const SELECCIONAR = 'SELECCIONAR_VALOR'
+export const changeValor = payload => ({ type: SELECCIONAR, payload })
+
 export const BUSCAR = "CLICK_BUSCAR";
 export const clickBuscar = value => ({ type: BUSCAR, value });
 

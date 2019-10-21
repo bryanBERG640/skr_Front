@@ -46,6 +46,18 @@ const divStyle = {
 class Postulante extends React.Component {
     state = {
         postulanteC: {
+            estatus_cv: "",
+            estatus_titulacion: "",
+            sex: "",
+            perf: "",
+            estatusPostulante: "",
+            comentarios: "",
+            correo: "",
+            celular: "",
+            telefono: "",
+            nombre: "",
+            apellido1:  "", 
+            apellido2: "",
             fecha_nacimiento: "",
             edad: number,
             id_escuela: number,
@@ -56,7 +68,7 @@ class Postulante extends React.Component {
             id_sexo: number,
             pretencion_economica: number,
             certificaciones: "",
-            tiempo_experiencia: "",
+            experiencia: "",
             id_estatus_cv: number,
             id_estatus_aprobacion: number,
             acuerdo_economico: number,
@@ -67,7 +79,7 @@ class Postulante extends React.Component {
         EstatusTitulacion: [],
         EstatusPostulante: [],
         carrera: [],
-        escuela: [],
+        escuelas: [],
         sexo: [],
     }
 
@@ -89,7 +101,7 @@ class Postulante extends React.Component {
 
     getEscuela = async () => {
         const nuevoGet = await getEscuelas()
-        this.setState({ escuela: nuevoGet.data })
+        this.setState({ escuelas: nuevoGet.data })
     }
 
     getEstatusAprobacion = async () => {
@@ -127,33 +139,39 @@ class Postulante extends React.Component {
     };
 
     handleWrite = e => {
-        if (e.target.name === "edad" || e.target.name === "pretencion"
-            || e.target.name === "acuerdo") {
+        if (e.target.name === "edad" || e.target.name === "pretencion_economica"
+            || e.target.name === "acuerdo_economico" || e.target.name === "telefono"
+            || e.target.name === "celular") {
             let ed = parseInt(e.target.value)
             this.setState({ [e.target.name]: ed })
-        }
-        else {
+        }else{
             this.setState({ [e.target.name]: e.target.value })
         }
-
     }
 
     render() {
+        console.log("escuela: " + this.props.postulante.value)
+        console.log("estatus_cv: " + this.state.estatus_cv)
+        console.log("estatus_titulacion: " + this.state.estatus_titulacion)
+        console.log("sexo: " + this.state.sex)
+        console.log("perfil: " + this.state.perf)
+        console.log("estatus_postulante: " + this.state.estatusPostulante)
+        console.log("comentarios: " + this.state.comentarios)
+        console.log("correo: " + this.state.correo)
+        console.log("celular: " + this.state.celular)
+        console.log("telefono_fijo: " + this.state.telefono)
+        console.log("nombe: " + this.state.nombre)
+        console.log("apellido1: " + this.state.apellido1)
+        console.log("apellido2: " + this.state.apellido2)
         console.log("fecha naci: " + this.state.fecha_nacimiento)
         console.log("edad: " + this.state.edad)
         console.log("curp: " + this.state.curp)
         console.log("rfc: " + this.state.rfc)
-        console.log("pretencion: " + this.state.pretencion_economica)
+        console.log("pretencion_economica: " + this.state.pretencion_economica)
         console.log("certificaciones: " + this.state.certificaciones)
-        console.log("experiencia: " + this.state.tiempo_experiencia)
-        console.log("acuerdo: " + this.state.acuerdo_economico)
+        console.log("experiencia: " + this.state.experiencia)
+        console.log("acuerdo_economico: " + this.state.acuerdo_economico)
 
-        const carreras = this.state.carrera.map(carr => {
-            return <option>{carr.descripcion}</option>
-        })
-        const escuelas = this.state.escuela.map(esc => {
-            return <option>{esc.descripcion}</option>
-        })
         const EstatusAprobaciones = this.state.EstatusAprobacion.map(EA => {
             return <option>{EA.descripcion}</option>
         })
@@ -201,7 +219,11 @@ class Postulante extends React.Component {
                                                 <label className="">Apellido Paterno:</label>
                                             </div>
                                             <div className="col">
-                                                <input className="form-control" type="text" name="apellido1"></input>
+                                                <input
+                                                     className="form-control" 
+                                                     type="text" 
+                                                     name="apellido1"
+                                                     onChange={this.handleWrite}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -211,7 +233,11 @@ class Postulante extends React.Component {
                                                 <label class="">Apellido Materno:</label>
                                             </div>
                                             <div className="col">
-                                                <input className="form-control" type="text" name="apellido2"></input>
+                                                <input 
+                                                    className="form-control" 
+                                                    type="text" 
+                                                    name="apellido2"
+                                                    onChange={this.handleWrite}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -221,7 +247,11 @@ class Postulante extends React.Component {
                                                 <label className="">Nombre(s):</label>
                                             </div>
                                             <div className="col">
-                                                <input className="form-control" type="text" name="nombre"></input>
+                                                <input 
+                                                    className="form-control" 
+                                                    type="text" 
+                                                    name="nombre"
+                                                    onChange={this.handleWrite}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -234,7 +264,11 @@ class Postulante extends React.Component {
                                                 <label>Teléfono Fijo:</label>
                                             </div>
                                             <div className="col-sm">
-                                                <input type="text" className="form-control" name="telefono"></input>
+                                                <input 
+                                                    type="text" 
+                                                    className="form-control" 
+                                                    name="telefono"
+                                                    onChange={this.handleWrite}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -244,7 +278,11 @@ class Postulante extends React.Component {
                                                 <label>Celular:</label>
                                             </div>
                                             <div className="col-sm">
-                                                <input type="text" className="form-control" name="celular"></input>
+                                                <input 
+                                                    type="text" 
+                                                    className="form-control" 
+                                                    name="celular"
+                                                    onChange={this.handleWrite}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -254,7 +292,11 @@ class Postulante extends React.Component {
                                                 <label>Correo:</label>
                                             </div>
                                             <div className="col-sm-10">
-                                                <input type="text" className="form-control" name="correo"></input>
+                                                <input 
+                                                    type="text" 
+                                                    className="form-control" 
+                                                    name="correo"
+                                                    onChange={this.handleWrite}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -267,7 +309,7 @@ class Postulante extends React.Component {
                                                 <label>Estatus Postulante:</label>
                                             </div>
                                             <div className="col">
-                                                <select className="form-control" required name="tipoExamen">
+                                                <select className="form-control" required name="estatusPostulante" onChange={this.handleWrite}>
                                                     <option value="1" selected disabled>Selecciona</option>
                                                     {EstPost}
                                                 </select>
@@ -279,7 +321,7 @@ class Postulante extends React.Component {
                                                 <label>Perfil:</label>
                                             </div>
                                             <div className="col-sm-6">
-                                                <select className="form-control labelBorder" required name="tipoExamen">
+                                                <select className="form-control labelBorder" required name="perf" onChange={this.handleWrite}>
                                                     <option value="1" selected disabled>Selecciona</option>
                                                     {perfiles}
                                                 </select>
@@ -292,7 +334,12 @@ class Postulante extends React.Component {
                                                 <label >Comentarios:</label>
                                             </div>
                                             <div className="col-sm-8">
-                                                <textarea class="textArea form-control" rows="3" cols="60" name="comentarios"></textarea>
+                                                <textarea 
+                                                class="textArea form-control" 
+                                                rows="3" 
+                                                cols="60" 
+                                                name="comentarios"
+                                                onChange={this.handleWrite}></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -336,7 +383,7 @@ class Postulante extends React.Component {
                                                 <label>Sexo:</label>
                                             </div>
                                             <div className="col-sm-6">
-                                                <select className="form-control labelBorder" required name="tipoExamen">
+                                                <select className="form-control labelBorder" required name="sex" onChange={this.handleWrite}>
                                                     <option value="1" selected disabled>Sexo</option>
                                                     {sexos}
                                                 </select>
@@ -404,7 +451,8 @@ class Postulante extends React.Component {
                                         <label>Escuela:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <Autocompletado valores={this.state.escuela}/>
+                                        <Autocompletado 
+                                            valores={this.state.escuelas}/>
                                     </div>
                                 </div>
                             </div>
@@ -424,7 +472,7 @@ class Postulante extends React.Component {
                                         <label>Estatus Titulación:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <select className="form-control labelBorder" required name="tipoExamen">
+                                        <select className="form-control labelBorder" required name="estatus_titulacion" onChange={this.handleWrite}>
                                             <option value="1" selected disabled>Selecciona</option>
                                             {EstTit}
                                         </select>
@@ -485,7 +533,7 @@ class Postulante extends React.Component {
                                     <div className="col-sm-6">
                                         <input type="text"
                                             className="form-control"
-                                            name="pretencion"
+                                            name="pretencion_economica"
                                             onChange={this.handleWrite}></input>
                                     </div>
                                 </div>
@@ -496,7 +544,7 @@ class Postulante extends React.Component {
                                         <label>Estatus CV:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <select className="form-control labelBorder" required name="tipoExamen">
+                                        <select className="form-control labelBorder" required name="estatus_cv" onChange={this.handleWrite}>
                                             <option value="1" selected disabled>Selecciona</option>
                                             {CV}
                                         </select>
@@ -511,7 +559,7 @@ class Postulante extends React.Component {
                                     <div className="col-sm-6">
                                         <input type="text"
                                             className="form-control"
-                                            name="acuerdo"
+                                            name="acuerdo_economico"
                                             onChange={this.handleWrite} />
                                     </div>
                                 </div>

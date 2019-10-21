@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { getCliente } from "../../request/request";
+import { connect } from 'react-redux';//Sirve para conectar las librerias de react y redux, se utiliza para cada componente que se quiera  dar acceso al store
+import { changeValor } from '../../actions/postulanteB';
 
 class Autompletado extends Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class Autompletado extends Component {
     }
 
     suggestionSelected(value) {
+        this.props.dispatchChangeValor(value)//Se almacena en el store una funcion
         this.setState(() => ({
             text: value,
             suggestions: [],
@@ -63,4 +65,8 @@ class Autompletado extends Component {
     }
 }
 
-export default Autompletado;
+const mapDispatchProps = dispatch => ({
+    dispatchChangeValor: value => dispatch(changeValor(value))
+});
+
+export default connect(null,mapDispatchProps)(Autompletado);
