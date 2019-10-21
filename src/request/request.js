@@ -69,7 +69,7 @@ function postSeccion(jsonRequest, estatus, perfil) {
     .catch(console.log);
 }
 
-function postCita(jsonRequest, estatusCita, idPostulanteB) {
+function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
   /*console.log(estatusCita);
   console.log(idPostulanteB);*/
   return fetch(
@@ -77,6 +77,10 @@ function postCita(jsonRequest, estatusCita, idPostulanteB) {
       estatusCita +
       "/" +
       idPostulanteB +
+      "/" +
+      empresa +
+      "/" +
+      cliente +
       "/post",
     {
       method: "POST",
