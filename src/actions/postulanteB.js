@@ -28,8 +28,8 @@ export const setCita = payload => ({
   payload
 });
 
-export const SET_CATALOGO = "SET_CATALOGO";
-export const setCatalogo = payload => ({
-  type: SET_CATALOGO,
+export const SET_CLIENTE = "SET_CLIENTE";
+export const setCliente = payload => ({
+  type: SET_CLIENTE,
   payload
 });

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getCliente } from "../../request/request";
 import { connect } from "react-redux";
-import { setCatalogo } from "../../actions/postulanteB";
+import { setCliente } from "../../actions/postulanteB";
 
 class Autompletado extends Component {
   constructor(props) {
@@ -55,7 +55,7 @@ class Autompletado extends Component {
     const { text } = this.state;
     const variable = this.props.valores.map(vari => {
       if (vari.descripcion === text) {
-        this.props.dispatchSetCatalogo(vari);
+        this.props.dispatchSetCliente(vari);
         return vari;
       }
     });
@@ -74,7 +74,7 @@ class Autompletado extends Component {
 }
 
 const mapDispatchProps = dispatch => ({
-  dispatchSetCatalogo: value => dispatch(setCatalogo(value))
+  dispatchSetCliente: value => dispatch(setCliente(value))
 });
 
 export default connect(

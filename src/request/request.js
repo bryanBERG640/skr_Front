@@ -114,7 +114,14 @@ function getEstatusPostulante() {
   return estatusPostulante;
 }
 
-function putCita(jsonRequest, estatusCita, idPostulanteB, idCita) {
+function putCita(
+  jsonRequest,
+  estatusCita,
+  idPostulanteB,
+  idEmpresa,
+  idCliente,
+  idCita
+) {
   /*console.log(estatusCita);
   console.log(idPostulanteB);
   console.log(idCita);*/
@@ -123,6 +130,10 @@ function putCita(jsonRequest, estatusCita, idPostulanteB, idCita) {
       estatusCita +
       "/" +
       idPostulanteB +
+      "/" +
+      idEmpresa +
+      "/" +
+      idCliente +
       "/put/" +
       idCita,
     {

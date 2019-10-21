@@ -185,9 +185,7 @@ class consultarCita extends Component {
               </td>
               <td>
                 <div>
-                  <Button className="logoBuscar">
-                    <img src={Icono} />
-                  </Button>
+                    <img src={Icono} className="logoBuscar"/>
                 </div>
               </td>
             </div>

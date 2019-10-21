@@ -1,7 +1,7 @@
 import { SET_POSTULANTE } from "../actions/postulanteB";
 import { SET_POSTULANTE_C } from "../actions/postulanteB";
 import { SET_CITA } from "../actions/ConsultarCitaActions";
-import { SET_CATALOGO } from "../actions/postulanteB";
+import { SET_CLIENTE } from "../actions/postulanteB";
 
 export const filtrosPBReducer = (state = {}, action) => {
   switch (action.type) {
@@ -11,8 +11,8 @@ export const filtrosPBReducer = (state = {}, action) => {
       return { ...state, postulantec: action.payload };
     case SET_CITA:
       return { ...state, cita: action.payload };
-    case SET_CATALOGO:
-      return { ...state, catalogo: action.payload };
+    case SET_CLIENTE:
+      return { ...state, cliente: action.payload };
     default:
       return state;
   }
