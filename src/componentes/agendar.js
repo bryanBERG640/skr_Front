@@ -7,7 +7,7 @@ import { postCita, putCita } from "../request/request";
 import { setCita } from "../actions/postulanteB";
 import { getEmpresa, getCliente } from "../request/request";
 import { clickCompletarDatos } from '../actions/postulanteB';
-import Autompletado from './Autocompletado/Autompletado';
+import Autocompletado from './Autocompletado/Autocommpletado';
 import "./styles/FormatoImagenes.css";
 
 const ColoredLine = ({ color }) => (
@@ -51,9 +51,7 @@ class agendar extends React.Component {
   };
   getEmpresa = async () => {
     const nuevoGet = await getEmpresa();
-    this.setState({
-      respEmpr: nuevoGet.data
-    });
+    this.setState({ respEmpr: nuevoGet.data });
   };
 
   handleChange = e => {
@@ -153,7 +151,7 @@ class agendar extends React.Component {
               </div>
               <div className="col">
                 <label className="label1">Cliente:</label>
-                <Autompletado className=" autocompletado"/>
+                <Autocompletado valores={this.state.clientes} />
               </div>
             </div>
             <div className="row">

@@ -14,12 +14,6 @@ function getPostulanteC(idPostulante) {
     .catch(console.log);
 }
 
-function getCliente() {
-  const cliente = axios.get("http://192.168.1.230:8088/skr_v1/cliente/get");
-  // const cliente = axios.get("http://localhost:8080/cliente/get");
-  return cliente;
-}
-
 //Se crea una función para consultar todos los datos de postulanteC.
 function getPostulanteTodo() {
   const postulantesCT = axios.get(
@@ -149,9 +143,15 @@ function getEstatusTitulacion() {
   return EstatusTitulacion;
 }
 
-function getEscuela() {
+function getEscuelas() {
   const escuela = axios.get("http://192.168.1.230:8088/skr_v1/escuela/get/");
+  console.log(escuela);
   return escuela;
+}
+
+function getCliente() {
+  const cliente = axios.get("http://192.168.1.230:8088/skr_v1/cliente/get");
+  return cliente;
 }
 
 function getCarrera() {
@@ -201,7 +201,7 @@ export {
   getPerfil,
   getCitas,
   getCarrera,
-  getEscuela,
+  getEscuelas,
   getEstatusAprobacion,
   getEstatusCV,
   getEstatusTitulacion,
