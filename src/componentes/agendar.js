@@ -6,9 +6,10 @@ import { connect } from "react-redux";
 import { postCita, putCita } from "../request/request";
 import { setCita } from "../actions/postulanteB";
 import { getEmpresa, getCliente } from "../request/request";
-import { clickCompletarDatos } from '../actions/postulanteB';
-import Autocompletado from './Autocompletado/Autocommpletado';
+import { clickCompletarDatos } from "../actions/postulanteB";
+import Autocompletado from "./Autocompletado/Autocommpletado";
 import "./styles/FormatoImagenes.css";
+import { number } from "prop-types";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -23,21 +24,24 @@ const ColoredLine = ({ color }) => (
 const fecha = new Date();
 
 class agendar extends React.Component {
-
-  constructor(args) { 
+  constructor(args) {
     super(args);
     this.state = {
       clientes: [],
-      copiaClientes: [],
       respEmpr: [],
       fecha: "",
+      idEmpresa: number,
+      idCliente: this.props.catalogo.id_cliente,
       cita: {
         fecha: "",
         hora: "",
         entrevistador: "",
-        idEstatusCita: 4,
-        idPostulante: this.props.postulante.id_postulante_b
-      }
+        idEstatusCita: 1,
+        idPostulante: this.props.postulante.id_postulante_b,
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: "2019-10-21"
+      },
+      c: this.props.cita
     };
   }
 
@@ -47,7 +51,7 @@ class agendar extends React.Component {
   };
   getCliente = async () => {
     const nuevoGet = await getCliente();
-    this.setState({clientes: nuevoGet.data });
+    this.setState({ clientes: nuevoGet.data });
   };
   getEmpresa = async () => {
     const nuevoGet = await getEmpresa();
@@ -75,42 +79,58 @@ class agendar extends React.Component {
     this.setState({ cita: cit });
   };
 
+  handleSelect = e => {
+    this.state.respEmpr.map(emp => {
+      if (emp.descripcion === e.target.value) {
+        this.setState({ idEmpresa: emp.id_empresa });
+      }
+    });
+  };
+
   handleClick = e => {
     if (this.state.c !== "vacio") {
-      putCita(
-        this.state.c,
-        3,
-        this.props.postulante.id_postulante_b,
-        this.state.c.id_cita
-      )
-        .then(response => {
-          console.log(response);
-        })
-        .catch(console.log);
+      console.log("realizar put");
+      console.log(this.state.c);
+      console.log(2);
+      console.log(this.props.postulante.id_postulante_b);
+      console.log(this.state.c.id_cita);
+      // putCita(
+      //   this.state.c,
+      //   3,
+      //   this.props.postulante.id_postulante_b,
+      //   this.state.c.id_cita
+      // )
+      //   .then(response => {
+      //     console.log(response);
+      //   })
+      //   .catch(console.log);
     }
-    postCita(
-      this.state.cita,
-      this.state.cita.idEstatusCita,
-      this.state.cita.idPostulante
-    )
-      .then(response => {
-        console.log(response);
-      })
-      .catch(console.log);
+    let idCliente = this.props.catalogo.id_cliente;
+    console.log(idCliente);
+    console.log(this.state.cita);
+    console.log(this.state.idEmpresa);
+    // postCita(
+    //   this.state.cita,
+    //   this.state.cita.idEstatusCita,
+    //   this.state.cita.idPostulante,
+    //   this.state.idEmpresa,
+    //   idCliente
+    // )
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(console.log);
   };
 
   handleWrite = e => {
-    console.log("-.-.-."+e.target.value);
-    this.setState({[e.target.name]: e.target.value })
-  }
+    let cit = this.state.cita;
+    if (e.target.name === "entrevistador") {
+      cit.entrevistador = e.target.value;
+      this.setState({ cita: cit });
+    }
+  };
 
   render() {
-    const { clientes } = this.state;
-    const handleSelect = clientes.map(perf => {
-      return <option>{perf.descripcion}</option>;
-      
-    });
-
     const { respEmpr } = this.state;
     const empresa = respEmpr.map(empr => {
       return <option value={empr.descripcion}>{empr.descripcion}</option>;
@@ -144,6 +164,8 @@ class agendar extends React.Component {
                 <label>Empresa: </label>
                 <select
                   className="form-control"
+                  value={this.state.value}
+                  onChange={this.handleSelect}
                 >
                   <option>Empresas</option>
                   {empresa}
@@ -161,9 +183,8 @@ class agendar extends React.Component {
                   className="form-control"
                   name="entrevistador"
                   type="text"
-                  value={this.state.entrevistador}
+                  value={this.state.value}
                   onChange={this.handleWrite}
-                  value={this.state.nombre}
                 />
               </div>
               <div className="col">
@@ -192,22 +213,29 @@ class agendar extends React.Component {
             <br />
             <div>
               &nbsp; &nbsp;
-              <a
+              {/* <a
                 className="btn btn-primary"
                 href="/consultarCita"
                 onClick={this.handleClick}
               >
                 agendar
-              </a>
+              </a> */}
+              <button
+                classname="btn btn-primary"
+                type="button"
+                onClick={this.handleClick}
+              >
+                guardar
+              </button>
             </div>
             <br />
             <div>
               &nbsp; &nbsp;
               <Link to="/consultar-Postulantes" className="btn btn-primary">
-                  Cancelar
+                Cancelar
               </Link>
-              </div>
-            </form>
+            </div>
+          </form>
         </div>
       </React.Fragment>
     );
@@ -220,17 +248,16 @@ const mapStateToProps = state => {
     postulante: state.postulante,
     postulantec: state.postulantec,
     cita: state.cita,
+    catalogo: state.catalogo,
     state: value => state(setCita(value))
-
   };
 };
 
 const mapDispatchProps = dispatch => ({
   dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value))
-  
-
 });
 
-export default connect(mapStateToProps,mapDispatchProps)(agendar);
-
-
+export default connect(
+  mapStateToProps,
+  mapDispatchProps
+)(agendar);
