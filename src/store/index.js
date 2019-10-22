@@ -6,7 +6,9 @@ import { Cita } from "../reducers/ConsultarCitaReducer";
 const initialState = {
   postulante: "Vacio",
   cita: "vacio",
-  catalogo: "vacio"
+  catalogo: "vacio",
+  escuela: "vacio",
+  carrera: "vacio"
 };
 
 //Se crea el store y este almacenara información.

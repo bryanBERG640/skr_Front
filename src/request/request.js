@@ -97,6 +97,39 @@ function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
     .catch(console.log);
 }
 
+function postPostulanteC(request, idPostulanteB, idEscuela, 
+  idTitulacion, idCarrera, idSexo, idCv, idAprobacion) {
+    debugger
+  console.log("Deentro de request:")
+  console.log("JSON: " + request)
+  console.log("Id_posttulanteB: " + idPostulanteB);
+  console.log("Id_escuela: " + idEscuela)
+  console.log("Id_titulacion: " + idTitulacion)
+  console.log("Id_carrera: " + idCarrera)
+  console.log("Id_sexo: " + idSexo)
+  console.log("Id_cv: " + idCv)
+  console.log("Id_aprobacion: " + idAprobacion)
+
+  const url = "http://192.168.1.230:8088/skr_v1/postulanteComplemento/";
+
+  return fetch(
+    url + "/" + idPostulanteB + "/" + idEscuela + "/" + idTitulacion
+    + "/" + idCarrera + "/" + idSexo + "/" + idCv + "/" + idAprobacion + "/post",
+    {
+      method: "POST",
+      body: JSON.stringify(request),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }
+  ).then(response => {
+    console.log("Se realizo correctamente")
+    return response.json();
+  }).catch(console.log("Error"));
+  
+}
+
 function getCitas() {
   return fetch("http://192.168.1.230:8088/skr_v1/postulanteB/get/", {
     method: "GET"
@@ -214,5 +247,6 @@ export {
   getEstatusPostulante,
   getPostulanteTodo,
   postCita,
-  putCita
+  putCita,
+  postPostulanteC
 };

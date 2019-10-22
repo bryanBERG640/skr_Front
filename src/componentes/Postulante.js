@@ -9,6 +9,7 @@ import {
     , getSexo, getEstatusCV, getPerfil, getEstatusPostulante
 } from "../request/request";
 import Autocompletado from './Autocompletado/Autocommpletado';
+import { postPostulanteC } from '../request/request'
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -56,23 +57,25 @@ class Postulante extends React.Component {
             celular: "",
             telefono: "",
             nombre: "",
-            apellido1:  "", 
+            apellido1: "",
             apellido2: "",
             fecha_nacimiento: "",
             edad: number,
-            id_escuela: number,
-            id_estatus_titulacion: number,
             id_carrera: number,
             curp: "",
             rfc: "",
-            id_sexo: number,
             pretencion_economica: number,
             certificaciones: "",
             experiencia: "",
-            id_estatus_cv: number,
-            id_estatus_aprobacion: number,
             acuerdo_economico: number,
         },
+        id_estatus_aprobacion: number,
+        id_estatus_cv: number,
+        id_sexo: number,
+        id_estatus_titulacion: number,
+        id_perfil: number,
+        id_status_postulante: number,
+        id_escuela: number,
         perfil: [],
         EstatusCV: [],
         EstatusAprobacion: [],
@@ -144,13 +147,94 @@ class Postulante extends React.Component {
             || e.target.name === "celular") {
             let ed = parseInt(e.target.value)
             this.setState({ [e.target.name]: ed })
-        }else{
+        } else {
             this.setState({ [e.target.name]: e.target.value })
         }
     }
 
+    handleClick = e => {
+        const request = {
+            fecha_nacimiento: this.state.fecha_nacimiento,
+            edad: this.state.edad,
+            curp: this.state.curp,
+            rfc: this.state.rfc,
+            pretencion_economica: this.state.pretencion_economica,
+            certiicaciones: this.state.certificaciones,
+            tiempo_experiencia: this.state.experiencia,
+            acuerdo_economico: this.state.acuerdo_economico,
+            foto_perfil: null,
+            usuario_actualiza: "Bryan Ramirez",
+            fecha_actualizacion: "2019-10-15"
+        }
+        const idPostulanteB = this.props.postulante.id_postulante_b;
+        const idEscuela = this.props.escuela.id_escuela;
+        const idTitulacion = this.state.id_estatus_titulacion;
+        const idCarrera = this.props.carrera.id_carrera;
+        const idSexo = this.state.id_sexo;
+        const idCv = this.state.id_estatus_cv;
+        const idEstatusAprobacion = this.state.id_estatus_aprobacion;
+
+
+        postPostulanteC(request, idPostulanteB, idEscuela,
+            idTitulacion, idCarrera, idSexo, idCv, idEstatusAprobacion);
+    }
+
+
+    handleSelectEstatusPostulante = e => {
+        console.log("Dentro de handleSelect:");
+        this.state.EstatusPostulante.map(estatusP => {
+            if (estatusP.descripcion === e.target.value) {
+                this.setState({ id_status_postulante: estatusP.id_estatus_postulante });
+            }
+        });
+    };
+    handleSelectPerfil = e => {
+        console.log("Dentro de handleSelect.");
+        this.state.perfil.map(perfil => {
+            if (perfil.descripcion === e.target.value) {
+                this.setState({ id_perfil: perfil.id_perfil });
+            }
+        })
+    }
+    handleSelectEstatusTitulacion = e => {
+        console.log("Detnro de handle select:")
+        this.state.EstatusTitulacion.map(estatusT => {
+            if (estatusT.descripcion === e.target.value) {
+                this.setState({ id_estatus_titulacion: estatusT.id_estatus_titulacion })
+            }
+        })
+    }
+    handleSexo = e => {
+        console.log("Dentro de handleSelect: ")
+        this.state.sexo.map(sexo => {
+            if (sexo.descripcion === e.target.value) {
+                this.setState({ id_sexo: sexo.id_sexo })
+            }
+        })
+    }
+    handleSelectEstatusCV = e => {
+        console.log("Dentro de handleSelect:")
+        this.state.EstatusCV.map(estatusCV => {
+            if (estatusCV.descripcion === e.target.value) {
+                this.setState({ id_estatus_cv: estatusCV.id_estatus_cv });
+            }
+        })
+    }
+    handleSelectEstatusAprobacion = e => {
+        debugger
+        console.log("Dentro de handleSelect:")
+        this.state.EstatusAprobacion.map(estatusApr => {
+            if(estatusApr.descripcion === e.target.value) {
+                this.setState({ id_estatus_aprobacion: estatusApr.id_estatus_aprobacion });
+            }
+        })
+    }
+
     render() {
-        console.log("escuela: " + this.props.postulante.value)
+
+        console.log("Valor carrera---: " + this.props.carrera.id_carrera)
+        console.log("Valores escuela----: " + this.props.escuela.id_escuela)
+        console.log("escuela: " + this.state.id_escuela)
         console.log("estatus_cv: " + this.state.estatus_cv)
         console.log("estatus_titulacion: " + this.state.estatus_titulacion)
         console.log("sexo: " + this.state.sex)
@@ -171,6 +255,12 @@ class Postulante extends React.Component {
         console.log("certificaciones: " + this.state.certificaciones)
         console.log("experiencia: " + this.state.experiencia)
         console.log("acuerdo_economico: " + this.state.acuerdo_economico)
+        console.log("IdEstatusPostulante: " + this.state.id_status_postulante)
+        console.log("IdPerfil: " + this.state.id_perfil)
+        console.log("IdEstatusTitulacion: " + this.state.id_estatus_titulacion)
+        console.log("IdSexo: " + this.state.id_sexo)
+        console.log("IdEstatusCV: " + this.state.id_estatus_cv)
+        console.log("IdEstatusAprobacion: " + this.state.id_estatus_aprobacion)
 
         const EstatusAprobaciones = this.state.EstatusAprobacion.map(EA => {
             return <option>{EA.descripcion}</option>
@@ -220,10 +310,11 @@ class Postulante extends React.Component {
                                             </div>
                                             <div className="col">
                                                 <input
-                                                     className="form-control" 
-                                                     type="text" 
-                                                     name="apellido1"
-                                                     onChange={this.handleWrite}></input>
+                                                    className="form-control"
+                                                    type="text"
+                                                    name="apellido1"
+                                                    onChange={this.handleWrite}
+                                                    value={this.props.postulante.apellido1}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -233,11 +324,12 @@ class Postulante extends React.Component {
                                                 <label class="">Apellido Materno:</label>
                                             </div>
                                             <div className="col">
-                                                <input 
-                                                    className="form-control" 
-                                                    type="text" 
+                                                <input
+                                                    className="form-control"
+                                                    type="text"
                                                     name="apellido2"
-                                                    onChange={this.handleWrite}></input>
+                                                    onChange={this.handleWrite}
+                                                    value={this.props.postulante.apellido2}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -247,11 +339,12 @@ class Postulante extends React.Component {
                                                 <label className="">Nombre(s):</label>
                                             </div>
                                             <div className="col">
-                                                <input 
-                                                    className="form-control" 
-                                                    type="text" 
+                                                <input
+                                                    className="form-control"
+                                                    type="text"
                                                     name="nombre"
-                                                    onChange={this.handleWrite}></input>
+                                                    onChange={this.handleWrite}
+                                                    value={this.props.postulante.nombre}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -264,11 +357,12 @@ class Postulante extends React.Component {
                                                 <label>Teléfono Fijo:</label>
                                             </div>
                                             <div className="col-sm">
-                                                <input 
-                                                    type="text" 
-                                                    className="form-control" 
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
                                                     name="telefono"
-                                                    onChange={this.handleWrite}></input>
+                                                    onChange={this.handleWrite}
+                                                    value={this.props.postulante.telefono}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -278,11 +372,12 @@ class Postulante extends React.Component {
                                                 <label>Celular:</label>
                                             </div>
                                             <div className="col-sm">
-                                                <input 
-                                                    type="text" 
-                                                    className="form-control" 
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
                                                     name="celular"
-                                                    onChange={this.handleWrite}></input>
+                                                    onChange={this.handleWrite}
+                                                    value={this.props.postulante.celular}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -292,11 +387,12 @@ class Postulante extends React.Component {
                                                 <label>Correo:</label>
                                             </div>
                                             <div className="col-sm-10">
-                                                <input 
-                                                    type="text" 
-                                                    className="form-control" 
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
                                                     name="correo"
-                                                    onChange={this.handleWrite}></input>
+                                                    onChange={this.handleWrite}
+                                                    value={this.props.postulante.correo}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -309,8 +405,8 @@ class Postulante extends React.Component {
                                                 <label>Estatus Postulante:</label>
                                             </div>
                                             <div className="col">
-                                                <select className="form-control" required name="estatusPostulante" onChange={this.handleWrite}>
-                                                    <option value="1" selected disabled>Selecciona</option>
+                                                <select className="form-control" required name="estatusPostulante" onChange={this.handleSelectEstatusPostulante}>
+                                                    <option value="1" selected disabled>{this.props.postulante.estatuspostulante.descripcion}</option>
                                                     {EstPost}
                                                 </select>
                                             </div>
@@ -321,8 +417,8 @@ class Postulante extends React.Component {
                                                 <label>Perfil:</label>
                                             </div>
                                             <div className="col-sm-6">
-                                                <select className="form-control labelBorder" required name="perf" onChange={this.handleWrite}>
-                                                    <option value="1" selected disabled>Selecciona</option>
+                                                <select className="form-control labelBorder" required name="perf" onChange={this.handleSelectPerfil}>
+                                                    <option value="1" selected disabled>{this.props.postulante.perfil.descripcion}</option>
                                                     {perfiles}
                                                 </select>
                                             </div>
@@ -334,12 +430,13 @@ class Postulante extends React.Component {
                                                 <label >Comentarios:</label>
                                             </div>
                                             <div className="col-sm-8">
-                                                <textarea 
-                                                class="textArea form-control" 
-                                                rows="3" 
-                                                cols="60" 
-                                                name="comentarios"
-                                                onChange={this.handleWrite}></textarea>
+                                                <textarea
+                                                    class="textArea form-control"
+                                                    rows="3"
+                                                    cols="60"
+                                                    name="comentarios"
+                                                    onChange={this.handleWrite}
+                                                    value={this.props.postulante.observaciones}></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -383,7 +480,7 @@ class Postulante extends React.Component {
                                                 <label>Sexo:</label>
                                             </div>
                                             <div className="col-sm-6">
-                                                <select className="form-control labelBorder" required name="sex" onChange={this.handleWrite}>
+                                                <select className="form-control labelBorder" required name="sex" onChange={this.handleSexo}>
                                                     <option value="1" selected disabled>Sexo</option>
                                                     {sexos}
                                                 </select>
@@ -393,7 +490,7 @@ class Postulante extends React.Component {
                                 </div>
                                 <br />
                                 <div className="row">
-                                    <div className="col-sm-3">
+                                    <div className="col-sm-4">
                                         <div className="row">
                                             <div className="col-sm-6">
                                                 <label>CURP:</label>
@@ -406,7 +503,7 @@ class Postulante extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-sm-3">
+                                    <div className="col-sm-4">
                                         <div className="row">
                                             <div className="col-sm-6">
                                                 <label>RFC:</label>
@@ -416,6 +513,19 @@ class Postulante extends React.Component {
                                                     className="form-control"
                                                     name="rfc"
                                                     onChange={this.handleWrite} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <div className="row">
+                                            <div className="col-sm-6">
+                                                <label>Estatus Aprobación:</label>
+                                            </div>
+                                            <div className="col-sm-6">
+                                                <select className="form-control" required name="estatusPostulante" onChange={this.handleSelectEstatusAprobacion}>
+                                                    <option value="1" selected disabled>{this.props.postulante.estatuspostulante.descripcion}</option>
+                                                    {EstatusAprobaciones}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -451,8 +561,8 @@ class Postulante extends React.Component {
                                         <label>Escuela:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <Autocompletado 
-                                            valores={this.state.escuelas}/>
+                                        <Autocompletado
+                                            valores={this.state.escuelas} />
                                     </div>
                                 </div>
                             </div>
@@ -462,7 +572,7 @@ class Postulante extends React.Component {
                                         <label>Carrera:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <Autocompletado valores={this.state.carrera}/>
+                                        <Autocompletado valores={this.state.carrera} />
                                     </div>
                                 </div>
                             </div>
@@ -472,7 +582,7 @@ class Postulante extends React.Component {
                                         <label>Estatus Titulación:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <select className="form-control labelBorder" required name="estatus_titulacion" onChange={this.handleWrite}>
+                                        <select className="form-control labelBorder" required name="estatus_titulacion" onChange={this.handleSelectEstatusTitulacion}>
                                             <option value="1" selected disabled>Selecciona</option>
                                             {EstTit}
                                         </select>
@@ -544,7 +654,7 @@ class Postulante extends React.Component {
                                         <label>Estatus CV:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <select className="form-control labelBorder" required name="estatus_cv" onChange={this.handleWrite}>
+                                        <select className="form-control labelBorder" required name="estatus_cv" onChange={this.handleSelectEstatusCV}>
                                             <option value="1" selected disabled>Selecciona</option>
                                             {CV}
                                         </select>
@@ -571,7 +681,11 @@ class Postulante extends React.Component {
                         <div className="container">
                             <div className="row justify-content-md-center">
                                 <div className="col col-lg-2">
-                                    <Link to="/consultar-Postulantes" className="btn btn-primary">Guardar</Link>
+                                    {/* <Link  to="" className="btn btn-primary">Guardar</Link> */}
+                                    <button
+                                        className="btn btn-primary"
+                                        type="button"
+                                        onClick={this.handleClick}>Guardar</button>
                                 </div>
                                 <div className="col-md-auto"></div>
                                 <div className="col col-lg-2">
@@ -590,7 +704,9 @@ class Postulante extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        postulante: state.postulante
+        postulante: state.postulante,
+        carrera: state.carrera,
+        escuela: state.escuela
     }
 }
 

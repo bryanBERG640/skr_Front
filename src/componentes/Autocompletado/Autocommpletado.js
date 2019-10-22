@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 import React, { Component } from 'react';
-import { connect } from 'react-redux';//Sirve para conectar las librerias de react y redux, se utiliza para cada componente que se quiera  dar acceso al store
 import { changeValor } from '../../actions/postulanteB';
-=======
-import React, { Component } from "react";
 import { getCliente } from "../../request/request";
 import { connect } from "react-redux";
-import { setCatalogo } from "../../actions/postulanteB";
->>>>>>> 6cecd87d1742565ca13f7095401fb58adfe8f0ee
+import { setCatalogo, setCarreraID, setEscuelaID } from "../../actions/postulanteB";
 
 class Autompletado extends Component {
   constructor(props) {
@@ -34,22 +29,20 @@ class Autompletado extends Component {
     this.setState(() => ({ suggestions, text: value }));
   };
 
-<<<<<<< HEAD
-    suggestionSelected(value) {
-        this.props.dispatchChangeValor(value)//Se almacena en el store una funcion
-        this.setState(() => ({
-            text: value,
-            suggestions: [],
-        }))
-    }
-=======
+
+    // suggestionSelected(value) {
+    //     this.props.dispatchChangeValor(value)//Se almacena en el store una funcion
+    //     this.setState(() => ({
+    //         text: value,
+    //         suggestions: [],
+    //     }))
+    // }
   suggestionSelected(value) {
     this.setState(() => ({
       text: value,
       suggestions: []
     }));
   }
->>>>>>> 6cecd87d1742565ca13f7095401fb58adfe8f0ee
 
   renderSuggestions() {
     const { suggestions } = this.state;
@@ -70,9 +63,17 @@ class Autompletado extends Component {
   render() {
     const { text } = this.state;
     const variable = this.props.valores.map(vari => {
-      if (vari.descripcion === text) {
-        this.props.dispatchSetCatalogo(vari);
-        return vari;
+      if(vari.id_carrera !== undefined) {
+        if (vari.descripcion === text) {
+          this.props.dispatchSetCarrera(vari);
+          return vari;
+        }
+      }
+      if(vari.id_escuela !== undefined) {
+        if (vari.descripcion === text) {
+          this.props.dispatchSetEscuela(vari);
+          return vari;
+        }
       }
     });
     return (
@@ -90,17 +91,13 @@ class Autompletado extends Component {
 }
 
 const mapDispatchProps = dispatch => ({
-<<<<<<< HEAD
-    dispatchChangeValor: value => dispatch(changeValor(value))
-});
-
-export default connect(null,mapDispatchProps)(Autompletado);
-=======
-  dispatchSetCatalogo: value => dispatch(setCatalogo(value))
+    dispatchSetCatalogo: value => dispatch(setCatalogo(value)),
+    dispatchSetCarrera: value => dispatch(setCarreraID(value)),
+    dispatchSetEscuela: value => dispatch(setEscuelaID(value)),
 });
 
 export default connect(
   null,
   mapDispatchProps
 )(Autompletado);
->>>>>>> 6cecd87d1742565ca13f7095401fb58adfe8f0ee
+
