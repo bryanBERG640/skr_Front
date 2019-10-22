@@ -147,7 +147,14 @@ function getEstatusPostulante() {
   return estatusPostulante;
 }
 
-function putCita(jsonRequest, estatusCita, idPostulanteB, idCita) {
+function putCita(
+  jsonRequest,
+  estatusCita,
+  idPostulanteB,
+  idEmpresa,
+  idCliente,
+  idCita
+) {
   /*console.log(estatusCita);
   console.log(idPostulanteB);
   console.log(idCita);*/
@@ -156,6 +163,10 @@ function putCita(jsonRequest, estatusCita, idPostulanteB, idCita) {
       estatusCita +
       "/" +
       idPostulanteB +
+      "/" +
+      idEmpresa +
+      "/" +
+      idCliente +
       "/put/" +
       idCita,
     {
@@ -227,8 +238,15 @@ function getEntrevista() {
   return entrevistas;
 }
 
+function getTipoExamen()
+{
+  const tipoExamenes=axios.get("http://192.168.1.230:8088/skr_v1/tipoExamen/get")
+  return tipoExamenes
+}
+
 export {
   getCliente,
+  getTipoExamen,
   getEntrevista,
   getExamenes,
   getPostulanteC,

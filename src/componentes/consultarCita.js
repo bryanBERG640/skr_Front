@@ -21,7 +21,7 @@ const ColoredLine = ({ color }) => (
 );
 
 const fecha = new Date();
-console.log(fecha);
+//console.log(fecha);
 
 class consultarCita extends Component {
   constructor(props) {
@@ -105,10 +105,7 @@ class consultarCita extends Component {
               <th>
                 {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
               </th>
-              <td
-                value={datos.id_postulante_b}
-                onDoubleClick={() => this.selectCita(datos.id_postulante_b)}
-              >
+              <td>
                 {cit.fecha}
               </td>
               <td>{cit.hora}</td>
@@ -185,9 +182,7 @@ class consultarCita extends Component {
               </td>
               <td>
                 <div>
-                  <Button className="logoBuscar">
-                    <img src={Icono} />
-                  </Button>
+                    <img src={Icono} className="logoBuscar"/>
                 </div>
               </td>
             </div>

@@ -24,6 +24,14 @@ const ColoredLine = ({ color }) => (
   />
 );
 
+const fecha = new Date();
+const dia = fecha.getDate();
+const mes = fecha.getMonth() + 1;
+const anio = fecha.getFullYear();
+const date=anio+"-"+mes+"-"+dia
+
+
+
 class agregar_PB extends React.Component {
   constructor(args) {
     super(args);
@@ -42,7 +50,7 @@ class agregar_PB extends React.Component {
         celular: "",
         observaciones: "",
         usuario_actualiza: "Bryan Ramirez",
-        fecha_actualizacion: "2019-10-17"
+        fecha_actualizacion:date 
       }
     };
   }
@@ -142,7 +150,7 @@ class agregar_PB extends React.Component {
       if (e.target.value === perf.descripcion) {
         this.setState({ perfil: perf.id_perfil });
       }
-      return perf.descripcion
+      return perf.descripcion;
     });
   };
 
@@ -152,7 +160,7 @@ class agregar_PB extends React.Component {
       if (e.target.value === est.descripcion) {
         this.setState({ estatuspostulante: est.id_estatus_postulante });
       }
-      return est.descripcion
+      return est.descripcion;
     });
   };
 

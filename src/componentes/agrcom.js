@@ -26,25 +26,22 @@ const ColoredLine2 = ({ color }) => (
   />
 );
 
+const fecha = new Date();
+const dia = fecha.getDate();
+const mes = fecha.getMonth() + 1;
+const anio = fecha.getFullYear();
+const date = anio + "-" + mes + "-" + dia;
+
 class agrcom extends React.Component {
   state = {
-    cita: {
-      id_cita: this.props.cita.id_cita,
-      fecha: this.props.cita.fecha,
-      hora: this.props.cita.hora,
-      entrevistador: this.props.cita.entrevistador,
-      idEstatusCita: this.props.cita.estatuscita.id_estatus_cita,
-      idPostulante: this.props.postulante.id_postulante_b,
-      observaciones: "",
-      usuario_actualiza: "Bryan Ramirez",
-      fecha_actualizacion: "2019-10-11"
-    }
+    cita: this.props.cita
   };
 
   handleSelect = e => {
     let iec = parseInt(e.target.value);
     let cit = this.state.cita;
     cit.idEstatusCita = iec;
+    cit.fecha_actualizacion = date;
     this.setState({ cita: cit });
   };
 
@@ -55,10 +52,18 @@ class agrcom extends React.Component {
   };
 
   handleClick = e => {
+    // console.log(this.state.cita);
+    // console.log(this.state.cita.idEstatusCita);
+    // console.log(this.props.postulante.id_postulante_b);
+    // console.log(this.state.cita.empresa.id_empresa);
+    // console.log(this.state.cita.cliente.id_cliente);
+    // console.log(this.state.cita.id_cita);
     putCita(
       this.state.cita,
       this.state.cita.idEstatusCita,
-      this.state.cita.idPostulante,
+      this.props.postulante.id_postulante_b,
+      this.state.cita.empresa.id_empresa,
+      this.state.cita.cliente.id_cliente,
       this.state.cita.id_cita
     )
       .then(response => {
@@ -68,7 +73,7 @@ class agrcom extends React.Component {
   };
 
   render() {
-    console.log(this.state.cita);
+    //console.log(this.state.cita);
     return (
       <React.Fragment>
         <br />
@@ -139,7 +144,7 @@ class agrcom extends React.Component {
                 <input
                   type="radio"
                   name="estatus"
-                  value={6}
+                  value={4}
                   onClick={this.handleSelect}
                 />
                 &nbsp; &nbsp; Completada
@@ -151,7 +156,7 @@ class agrcom extends React.Component {
                 <input
                   type="radio"
                   name="estatus"
-                  value={5}
+                  value={3}
                   onClick={this.handleSelect}
                 />
                 &nbsp; &nbsp; Cancelada

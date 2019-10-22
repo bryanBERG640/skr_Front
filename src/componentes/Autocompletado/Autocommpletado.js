@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { changeValor } from '../../actions/postulanteB';
 import { getCliente } from "../../request/request";
 import { connect } from "react-redux";
-import { setCatalogo, setCarreraID, setEscuelaID } from "../../actions/postulanteB";
+import {setCarreraID, setEscuelaID } from "../../actions/postulanteB";
 
 class Autompletado extends Component {
   constructor(props) {
@@ -91,9 +91,9 @@ class Autompletado extends Component {
 }
 
 const mapDispatchProps = dispatch => ({
-    dispatchSetCatalogo: value => dispatch(setCatalogo(value)),
     dispatchSetCarrera: value => dispatch(setCarreraID(value)),
     dispatchSetEscuela: value => dispatch(setEscuelaID(value)),
+
 });
 
 export default connect(

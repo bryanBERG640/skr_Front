@@ -22,6 +22,10 @@ const ColoredLine = ({ color }) => (
   />
 );
 const fecha = new Date();
+const dia = fecha.getDate();
+const mes = fecha.getMonth() + 1;
+const anio = fecha.getFullYear();
+const date = anio + "-" + mes + "-" + dia;
 
 class agendar extends React.Component {
   constructor(args) {
@@ -31,7 +35,7 @@ class agendar extends React.Component {
       respEmpr: [],
       fecha: "",
       idEmpresa: number,
-      idCliente: this.props.catalogo.id_cliente,
+      idCliente: this.props.cliente.id_cliente,
       cita: {
         fecha: "",
         hora: "",
@@ -39,7 +43,7 @@ class agendar extends React.Component {
         idEstatusCita: 1,
         idPostulante: this.props.postulante.id_postulante_b,
         usuario_actualiza: "Bryan Ramirez",
-        fecha_actualizacion: "2019-10-21"
+        fecha_actualizacion: date
       },
       c: this.props.cita
     };
@@ -88,38 +92,41 @@ class agendar extends React.Component {
   };
 
   handleClick = e => {
-    if (this.state.c !== "vacio") {
-      console.log("realizar put");
-      console.log(this.state.c);
-      console.log(2);
-      console.log(this.props.postulante.id_postulante_b);
-      console.log(this.state.c.id_cita);
-      // putCita(
-      //   this.state.c,
-      //   3,
-      //   this.props.postulante.id_postulante_b,
-      //   this.state.c.id_cita
-      // )
-      //   .then(response => {
-      //     console.log(response);
-      //   })
-      //   .catch(console.log);
-    }
     let idCliente = this.props.catalogo.id_cliente;
-    console.log(idCliente);
-    console.log(this.state.cita);
-    console.log(this.state.idEmpresa);
-    // postCita(
-    //   this.state.cita,
-    //   this.state.cita.idEstatusCita,
-    //   this.state.cita.idPostulante,
-    //   this.state.idEmpresa,
-    //   idCliente
-    // )
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(console.log);
+    if (this.state.c !== "vacio") {
+      // console.log("realizar put");
+      // console.log(this.state.c);
+      // console.log(2);
+      // console.log(this.props.postulante.id_postulante_b);
+      // console.log(this.state.c.id_cita);
+      putCita(
+        this.state.c,
+        2,
+        this.props.postulante.id_postulante_b,
+        this.state.idEmpresa,
+        idCliente,
+        this.state.c.id_cita
+      )
+        .then(response => {
+          console.log(response);
+        })
+        .catch(console.log);
+    }
+
+    // console.log(idCliente);
+    // console.log(this.state.cita);
+    // console.log(this.state.idEmpresa);
+    postCita(
+      this.state.cita,
+      this.state.cita.idEstatusCita,
+      this.state.cita.idPostulante,
+      this.state.idEmpresa,
+      idCliente
+    )
+      .then(response => {
+        console.log(response);
+      })
+      .catch(console.log);
   };
 
   handleWrite = e => {
@@ -213,20 +220,13 @@ class agendar extends React.Component {
             <br />
             <div>
               &nbsp; &nbsp;
-              {/* <a
+              <a
                 className="btn btn-primary"
                 href="/consultarCita"
                 onClick={this.handleClick}
               >
                 agendar
-              </a> */}
-              <button
-                classname="btn btn-primary"
-                type="button"
-                onClick={this.handleClick}
-              >
-                guardar
-              </button>
+              </a>
             </div>
             <br />
             <div>
@@ -248,7 +248,7 @@ const mapStateToProps = state => {
     postulante: state.postulante,
     postulantec: state.postulantec,
     cita: state.cita,
-    catalogo: state.catalogo,
+    cliente: state.cliente,
     state: value => state(setCita(value))
   };
 };

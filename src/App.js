@@ -8,7 +8,7 @@ import consultarCita from "./componentes/consultarCita";
 import Agregar_PB from "./componentes/agregar_PB";
 import agendar from "./componentes/agendar";
 import agregar_comentario from "./componentes/agrcom";
-import Examen from "./componentes/Examen";
+import Examen from "./componentes/examen/Examen";
 import Postulante from "./componentes/Postulante";
 import NotFound from "./componentes/paginas/NotFound";
 import "./App.css";
