@@ -205,8 +205,15 @@ function getEntrevista() {
   return entrevistas;
 }
 
+function getTipoExamen()
+{
+  const tipoExamenes=axios.get("http://192.168.1.230:8088/skr_v1/tipoExamen/get")
+  return tipoExamenes
+}
+
 export {
   getCliente,
+  getTipoExamen,
   getEntrevista,
   getExamenes,
   getPostulanteC,

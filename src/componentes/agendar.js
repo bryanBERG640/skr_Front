@@ -22,6 +22,10 @@ const ColoredLine = ({ color }) => (
   />
 );
 const fecha = new Date();
+const dia = fecha.getDate();
+const mes = fecha.getMonth() + 1;
+const anio = fecha.getFullYear();
+const date = anio + "-" + mes + "-" + dia;
 
 class agendar extends React.Component {
   constructor(args) {
@@ -39,7 +43,7 @@ class agendar extends React.Component {
         idEstatusCita: 1,
         idPostulante: this.props.postulante.id_postulante_b,
         usuario_actualiza: "Bryan Ramirez",
-        fecha_actualizacion: "2019-10-21"
+        fecha_actualizacion: date
       },
       c: this.props.cita
     };

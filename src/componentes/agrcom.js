@@ -26,6 +26,12 @@ const ColoredLine2 = ({ color }) => (
   />
 );
 
+const fecha = new Date();
+const dia = fecha.getDate();
+const mes = fecha.getMonth() + 1;
+const anio = fecha.getFullYear();
+const date = anio + "-" + mes + "-" + dia;
+
 class agrcom extends React.Component {
   state = {
     cita: this.props.cita
@@ -35,6 +41,7 @@ class agrcom extends React.Component {
     let iec = parseInt(e.target.value);
     let cit = this.state.cita;
     cit.idEstatusCita = iec;
+    cit.fecha_actualizacion = date;
     this.setState({ cita: cit });
   };
 
