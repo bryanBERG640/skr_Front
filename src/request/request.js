@@ -97,47 +97,67 @@ function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
     .catch(console.log);
 }
 
-<<<<<<< HEAD
-// function getCitas() {
-//   return fetch("http://192.168.1.230:8088/skr_v1/postulanteB/get/", {
-//     method: "GET"
-//   })
-//     .then(response => {
-//       return response.json();
-//     })
-//     .catch(console.log);
-// }
-=======
-function putPostulanteC(jsonRequest,idPostulanteB, idEscuela,idTitulacion, idCarrera,idSexo,idCv, idAprobacion) {
+function putPostulanteC(
+  jsonRequest,
+  idPostulanteB,
+  idEscuela,
+  idTitulacion,
+  idCarrera,
+  idSexo,
+  idCv,
+  idAprobacion
+) {
   console.log("Dentro de la funcion putPostulanteC");
   console.log("Valores del jsonRequest: " + jsonRequest);
-  console.log("Valores del idPostulanteB: " + idPostulanteB)
-  console.log("Valores del idEscuela: " + idEscuela)
-  console.log("Valores del idTitulacion: " + idTitulacion)
-  console.log("Valores del idCarrera: " + idCarrera)
-  console.log("Valores del idSexo: " + idSexo)
-  console.log("Valores del idCv: " + idCv)
-  console.log("Valores del idAprobacion: " + idAprobacion)
+  console.log("Valores del idPostulanteB: " + idPostulanteB);
+  console.log("Valores del idEscuela: " + idEscuela);
+  console.log("Valores del idTitulacion: " + idTitulacion);
+  console.log("Valores del idCarrera: " + idCarrera);
+  console.log("Valores del idSexo: " + idSexo);
+  console.log("Valores del idCv: " + idCv);
+  console.log("Valores del idAprobacion: " + idAprobacion);
 }
 
-function postPostulanteC(request, idPostulanteB, idEscuela, 
-  idTitulacion, idCarrera, idSexo, idCv, idAprobacion) {
-    debugger
-  console.log("Deentro de request:")
-  console.log("JSON: " + request)
+function postPostulanteC(
+  request,
+  idPostulanteB,
+  idEscuela,
+  idTitulacion,
+  idCarrera,
+  idSexo,
+  idCv,
+  idAprobacion
+) {
+  debugger;
+  console.log("Deentro de request:");
+  console.log("JSON: " + request);
   console.log("Id_posttulanteB: " + idPostulanteB);
-  console.log("Id_escuela: " + idEscuela)
-  console.log("Id_titulacion: " + idTitulacion)
-  console.log("Id_carrera: " + idCarrera)
-  console.log("Id_sexo: " + idSexo)
-  console.log("Id_cv: " + idCv)
-  console.log("Id_aprobacion: " + idAprobacion)
+  console.log("Id_escuela: " + idEscuela);
+  console.log("Id_titulacion: " + idTitulacion);
+  console.log("Id_carrera: " + idCarrera);
+  console.log("Id_sexo: " + idSexo);
+  console.log("Id_cv: " + idCv);
+  console.log("Id_aprobacion: " + idAprobacion);
 
   const url = "http://192.168.1.230:8088/skr_v1/postulanteComplemento/";
 
   return fetch(
-    url + "/" + idPostulanteB + "/" + idEscuela + "/" + idTitulacion
-    + "/" + idCarrera + "/" + idSexo + "/" + idCv + "/" + idAprobacion + "/post",
+    url +
+      "/" +
+      idPostulanteB +
+      "/" +
+      idEscuela +
+      "/" +
+      idTitulacion +
+      "/" +
+      idCarrera +
+      "/" +
+      idSexo +
+      "/" +
+      idCv +
+      "/" +
+      idAprobacion +
+      "/post",
     {
       method: "POST",
       body: JSON.stringify(request),
@@ -146,11 +166,12 @@ function postPostulanteC(request, idPostulanteB, idEscuela,
         "Content-Type": "application/json"
       }
     }
-  ).then(response => {
-    console.log("Se realizo correctamente")
-    return response.json();
-  }).catch(console.log("Error"));
-  
+  )
+    .then(response => {
+      console.log("Se realizo correctamente");
+      return response.json();
+    })
+    .catch(console.log("Error"));
 }
 
 function getCitas() {
@@ -162,7 +183,6 @@ function getCitas() {
     })
     .catch(console.log);
 }
->>>>>>> b07a679d2c0de989755519044131a4ebb6e850a8
 
 function getEstatusPostulante() {
   const estatusPostulante = axios.get(
@@ -336,13 +356,9 @@ export {
   getEstatusPostulante,
   getPostulanteTodo,
   postCita,
-<<<<<<< HEAD
   postExamen,
   postSecciones,
-  putCita
-=======
   putCita,
   postPostulanteC,
   putPostulanteC
->>>>>>> b07a679d2c0de989755519044131a4ebb6e850a8
 };

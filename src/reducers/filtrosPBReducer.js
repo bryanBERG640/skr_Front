@@ -6,12 +6,8 @@ import {
 } from "../actions/postulanteB";
 
 import { SET_CITA } from "../actions/ConsultarCitaActions";
-<<<<<<< HEAD
-=======
 import { SET_CARRERA } from "../actions/postulanteB";
 import { SET_ESCUELA } from "../actions/postulanteB";
-import { SET_CLIENTE } from "../actions/postulanteB";
->>>>>>> b07a679d2c0de989755519044131a4ebb6e850a8
 
 export const filtrosPBReducer = (state = {}, action) => {
   switch (action.type) {
