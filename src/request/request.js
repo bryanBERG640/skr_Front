@@ -97,6 +97,18 @@ function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
     .catch(console.log);
 }
 
+function putPostulanteC(jsonRequest,idPostulanteB, idEscuela,idTitulacion, idCarrera,idSexo,idCv, idAprobacion) {
+  console.log("Dentro de la funcion putPostulanteC");
+  console.log("Valores del jsonRequest: " + jsonRequest);
+  console.log("Valores del idPostulanteB: " + idPostulanteB)
+  console.log("Valores del idEscuela: " + idEscuela)
+  console.log("Valores del idTitulacion: " + idTitulacion)
+  console.log("Valores del idCarrera: " + idCarrera)
+  console.log("Valores del idSexo: " + idSexo)
+  console.log("Valores del idCv: " + idCv)
+  console.log("Valores del idAprobacion: " + idAprobacion)
+}
+
 function postPostulanteC(request, idPostulanteB, idEscuela, 
   idTitulacion, idCarrera, idSexo, idCv, idAprobacion) {
     debugger
@@ -266,5 +278,6 @@ export {
   getPostulanteTodo,
   postCita,
   putCita,
-  postPostulanteC
+  postPostulanteC,
+  putPostulanteC
 };

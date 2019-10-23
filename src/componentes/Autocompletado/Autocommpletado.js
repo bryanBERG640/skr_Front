@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { changeValor } from '../../actions/postulanteB';
 import { getCliente } from "../../request/request";
 import { connect } from "react-redux";
-import {setCarreraID, setEscuelaID } from "../../actions/postulanteB";
+import { setCarreraID, setEscuelaID } from "../../actions/postulanteB";
+import { setCliente } from "../../actions/postulanteB";
 
 class Autompletado extends Component {
   constructor(props) {
@@ -10,33 +11,21 @@ class Autompletado extends Component {
     this.state = {
       valores: [],
       suggestions: [],
-      text: ""
+      text: this.props.valor
     };
   }
 
   onTextChanged = e => {
     const handleSelect = this.props.valores.map(perf => perf.descripcion);
     const value = e.target.value;
-    //console.log(value)
     let suggestions = [];
     if (value.length > 0) {
       const regex = new RegExp(`^${value}`, "i");
       suggestions = handleSelect.sort().filter(v => regex.test(v));
-      // console.log("Regex " + regex)
-      // console.log("Suggestions: " + suggestions)
-      // console.log("Tamaño suggestion: " + suggestions.length)
     }
     this.setState(() => ({ suggestions, text: value }));
   };
 
-
-    // suggestionSelected(value) {
-    //     this.props.dispatchChangeValor(value)//Se almacena en el store una funcion
-    //     this.setState(() => ({
-    //         text: value,
-    //         suggestions: [],
-    //     }))
-    // }
   suggestionSelected(value) {
     this.setState(() => ({
       text: value,
@@ -47,14 +36,12 @@ class Autompletado extends Component {
   renderSuggestions() {
     const { suggestions } = this.state;
     if (suggestions.length === 0) {
-      //console.log("El tamaño de suggestion es 0:")
       return null;
     }
-    //console.log("El tamaño de suggestion no es 0: " + suggestions.length)
     return (
       <ul>
-        {suggestions.map(cliente => (
-          <li onClick={() => this.suggestionSelected(cliente)}>{cliente}</li>
+        {
+          suggestions.map(cliente => (<li onClick={() => this.suggestionSelected(cliente)}>{cliente}</li>
         ))}
       </ul>
     );
@@ -74,8 +61,12 @@ class Autompletado extends Component {
           this.props.dispatchSetEscuela(vari);
           return vari;
         }
+      if (vari.descripcion === text) {
+        this.props.dispatchSetCliente(vari);
+        return vari;
       }
-    });
+    }
+  });
     return (
       <div>
         <input
@@ -88,12 +79,11 @@ class Autompletado extends Component {
       </div>
     );
   }
-}
-
+  }
 const mapDispatchProps = dispatch => ({
     dispatchSetCarrera: value => dispatch(setCarreraID(value)),
     dispatchSetEscuela: value => dispatch(setEscuelaID(value)),
-
+  dispatchSetCliente: value => dispatch(setCliente(value))
 });
 
 export default connect(

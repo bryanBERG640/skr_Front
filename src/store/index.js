@@ -8,7 +8,8 @@ const initialState = {
   cita: "vacio",
   catalogo: "vacio",
   escuela: "vacio",
-  carrera: "vacio"
+  carrera: "vacio",
+  cliente: "vacio"
 };
 
 //Se crea el store y este almacenara información.

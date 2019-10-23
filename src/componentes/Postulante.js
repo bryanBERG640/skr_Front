@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { number } from "prop-types";
 import {
     getCarrera, getEscuelas, getEstatusAprobacion, getEstatusTitulacion
-    , getSexo, getEstatusCV, getPerfil, getEstatusPostulante
+    , getSexo, getEstatusCV, getPerfil, getEstatusPostulante,putPostulanteC
 } from "../request/request";
 import Autocompletado from './Autocompletado/Autocommpletado';
 import { postPostulanteC } from '../request/request'
@@ -47,34 +47,36 @@ const divStyle = {
 class Postulante extends React.Component {
     state = {
         postulanteC: {
-            estatus_cv: "",
-            estatus_titulacion: "",
-            sex: "",
-            perf: "",
-            estatusPostulante: "",
-            comentarios: "",
-            correo: "",
-            celular: "",
-            telefono: "",
-            nombre: "",
-            apellido1: "",
-            apellido2: "",
-            fecha_nacimiento: "",
-            edad: number,
+            ap: '',
             id_carrera: number,
-            curp: "",
-            rfc: "",
-            pretencion_economica: number,
-            certificaciones: "",
-            experiencia: "",
-            acuerdo_economico: number,
         },
-        id_estatus_aprobacion: number,
-        id_estatus_cv: number,
-        id_sexo: number,
-        id_estatus_titulacion: number,
-        id_perfil: number,
-        id_status_postulante: number,
+        acuerdo_economico: this.props.postulantec.acuerdo_economico,
+        estatus_cv: this.props.postulantec.estatuscv.descripcion,
+        pretencion_economica: this.props.postulantec.pretencion_economica,
+        experiencia: this.props.postulantec.tiempo_experiencia,
+        certificaciones: this.props.postulantec.certificaciones,
+        estatusTit: this.props.postulantec.estatustitulacion.descripcion,
+        estatusAp: this.props.postulantec.estatusprobacion.descripcion,
+        rfc: this.props.postulantec.rfc,
+        curp: this.props.postulantec.curp,
+        sex: this.props.postulantec.sexo.descripcion,
+        edad: this.props.postulantec.edad,
+        fecha_nacimiento: this.props.postulantec.fecha_nacimiento,
+        perf: this.props.postulantec.postulanteb.perfil.descripcion,
+        estatusPostulante: this.props.postulantec.postulanteb.estatuspostulante.descripcion,
+        comentarios: this.props.postulantec.postulanteb.observaciones,
+        correo: this.props.postulantec.postulanteb.correo,
+        celular: this.props.postulantec.postulanteb.celular,
+        telefono: this.props.postulantec.postulanteb.telefono,
+        nombre: this.props.postulantec.postulanteb.nombre,
+        apellido2: this.props.postulantec.postulanteb.apellido2,
+        apellido1: this.props.postulantec.postulanteb.apellido1,
+        id_estatus_aprobacion: this.props.postulantec.estatusprobacion.id_estatus_aprobacion,
+        id_estatus_cv: this.props.postulantec.estatuscv.id_estatus_cv,
+        id_sexo: this.props.postulantec.sexo.id_sexo,
+        id_estatus_titulacion: this.props.postulantec.estatustitulacion.id_estatus_titulacion,
+        id_perfil: this.props.postulante.perfil.id_perfil,
+        id_status_postulante: this.props.postulante.estatuspostulante.id_estatus_postulante,
         id_escuela: number,
         perfil: [],
         EstatusCV: [],
@@ -84,6 +86,7 @@ class Postulante extends React.Component {
         carrera: [],
         escuelas: [],
         sexo: [],
+        pc: this.props.postulantec,
     }
 
     componentWillMount = () => {
@@ -149,11 +152,18 @@ class Postulante extends React.Component {
             this.setState({ [e.target.name]: ed })
         } else {
             this.setState({ [e.target.name]: e.target.value })
+            console.log("Apellido------------: " + this.state.postulanteC.apellido1)
         }
     }
 
+    syncHandle(valor) {
+        this.setState({ ap: valor })
+    }
+
     handleClick = e => {
-        const request = {
+        debugger
+        console.log("Dentro de handleClick:")
+        const requestPut = {
             fecha_nacimiento: this.state.fecha_nacimiento,
             edad: this.state.edad,
             curp: this.state.curp,
@@ -166,17 +176,43 @@ class Postulante extends React.Component {
             usuario_actualiza: "Bryan Ramirez",
             fecha_actualizacion: "2019-10-15"
         }
-        const idPostulanteB = this.props.postulante.id_postulante_b;
-        const idEscuela = this.props.escuela.id_escuela;
-        const idTitulacion = this.state.id_estatus_titulacion;
-        const idCarrera = this.props.carrera.id_carrera;
-        const idSexo = this.state.id_sexo;
-        const idCv = this.state.id_estatus_cv;
-        const idEstatusAprobacion = this.state.id_estatus_aprobacion;
+        const idPostulanteB = this.props.postulantec.postulanteb.id_postulante_b;
+        const idEscuela =  this.props.postulantec.escuela.id_escuela;
+        const idTitulacion = this.props.postulantec.estatustitulacion.id_estatus_titulacion;
+        const idCarrera = this.props.postulantec.carrera.id_carrera;
+        const idSexo = this.props.postulantec.sexo.id_sexo;
+        const idCv = this.props.postulantec.estatuscv.id_estatus_cv;
+        const idAprobacion = this.props.postulantec.estatusprobacion.id_estatus_aprobacion;
+        console.log("Request del putt: " + requestPut)
+        if (this.state.pc !== undefined) {
+            console.log("Dentro de condicional if")
+            putPostulanteC(requestPut, idPostulanteB, idEscuela, idTitulacion, idCarrera,
+                idSexo, idCv, idAprobacion);
+        } else {
+            const request = {
+                fecha_nacimiento: this.state.fecha_nacimiento,
+                edad: this.state.edad,
+                curp: this.state.curp,
+                rfc: this.state.rfc,
+                pretencion_economica: this.state.pretencion_economica,
+                certiicaciones: this.state.certificaciones,
+                tiempo_experiencia: this.state.experiencia,
+                acuerdo_economico: this.state.acuerdo_economico,
+                foto_perfil: null,
+                usuario_actualiza: "Bryan Ramirez",
+                fecha_actualizacion: "2019-10-15"
+            }
+            const idPostulanteB = this.props.postulante.id_postulante_b;
+            const idEscuela = this.props.escuela.id_escuela;
+            const idTitulacion = this.state.id_estatus_titulacion;
+            const idCarrera = this.props.carrera.id_carrera;
+            const idSexo = this.state.id_sexo;
+            const idCv = this.state.id_estatus_cv;
+            const idEstatusAprobacion = this.state.id_estatus_aprobacion;
 
-
-        postPostulanteC(request, idPostulanteB, idEscuela,
-            idTitulacion, idCarrera, idSexo, idCv, idEstatusAprobacion);
+            postPostulanteC(request, idPostulanteB, idEscuela,
+                idTitulacion, idCarrera, idSexo, idCv, idEstatusAprobacion);
+        }
     }
 
 
@@ -184,7 +220,10 @@ class Postulante extends React.Component {
         console.log("Dentro de handleSelect:");
         this.state.EstatusPostulante.map(estatusP => {
             if (estatusP.descripcion === e.target.value) {
-                this.setState({ id_status_postulante: estatusP.id_estatus_postulante });
+                this.setState({
+                    id_status_postulante: estatusP.id_estatus_postulante,
+                    estatusPostulante: estatusP.descripcion
+                });
             }
         });
     };
@@ -192,7 +231,10 @@ class Postulante extends React.Component {
         console.log("Dentro de handleSelect.");
         this.state.perfil.map(perfil => {
             if (perfil.descripcion === e.target.value) {
-                this.setState({ id_perfil: perfil.id_perfil });
+                this.setState({
+                    id_perfil: perfil.id_perfil,
+                    perf: perfil.descripcion
+                });
             }
         })
     }
@@ -200,7 +242,10 @@ class Postulante extends React.Component {
         console.log("Detnro de handle select:")
         this.state.EstatusTitulacion.map(estatusT => {
             if (estatusT.descripcion === e.target.value) {
-                this.setState({ id_estatus_titulacion: estatusT.id_estatus_titulacion })
+                this.setState({
+                    id_estatus_titulacion: estatusT.id_estatus_titulacion,
+                    estatusTit: estatusT.descripcion
+                })
             }
         })
     }
@@ -208,7 +253,10 @@ class Postulante extends React.Component {
         console.log("Dentro de handleSelect: ")
         this.state.sexo.map(sexo => {
             if (sexo.descripcion === e.target.value) {
-                this.setState({ id_sexo: sexo.id_sexo })
+                this.setState({
+                    id_sexo: sexo.id_sexo,
+                    sex: sexo.descripcion
+                })
             }
         })
     }
@@ -216,27 +264,31 @@ class Postulante extends React.Component {
         console.log("Dentro de handleSelect:")
         this.state.EstatusCV.map(estatusCV => {
             if (estatusCV.descripcion === e.target.value) {
-                this.setState({ id_estatus_cv: estatusCV.id_estatus_cv });
+                this.setState({
+                    id_estatus_cv: estatusCV.id_estatus_cv,
+                    estatus_cv: estatusCV.descripcion
+                });
             }
         })
     }
     handleSelectEstatusAprobacion = e => {
-        debugger
         console.log("Dentro de handleSelect:")
         this.state.EstatusAprobacion.map(estatusApr => {
-            if(estatusApr.descripcion === e.target.value) {
-                this.setState({ id_estatus_aprobacion: estatusApr.id_estatus_aprobacion });
+            if (estatusApr.descripcion === e.target.value) {
+                this.setState({
+                    id_estatus_aprobacion: estatusApr.id_estatus_aprobacion,
+                    estatusAp: estatusApr.descripcion
+                });
             }
         })
     }
 
     render() {
-
         console.log("Valor carrera---: " + this.props.carrera.id_carrera)
         console.log("Valores escuela----: " + this.props.escuela.id_escuela)
         console.log("escuela: " + this.state.id_escuela)
         console.log("estatus_cv: " + this.state.estatus_cv)
-        console.log("estatus_titulacion: " + this.state.estatus_titulacion)
+        console.log("estatus_titulacion: " + this.state.estatusTit)
         console.log("sexo: " + this.state.sex)
         console.log("perfil: " + this.state.perf)
         console.log("estatus_postulante: " + this.state.estatusPostulante)
@@ -251,6 +303,7 @@ class Postulante extends React.Component {
         console.log("edad: " + this.state.edad)
         console.log("curp: " + this.state.curp)
         console.log("rfc: " + this.state.rfc)
+        console.log("estatusAprobacion: " + this.state.estatusAp)
         console.log("pretencion_economica: " + this.state.pretencion_economica)
         console.log("certificaciones: " + this.state.certificaciones)
         console.log("experiencia: " + this.state.experiencia)
@@ -313,8 +366,9 @@ class Postulante extends React.Component {
                                                     className="form-control"
                                                     type="text"
                                                     name="apellido1"
+                                                    defaultValue={this.props.postulante.apellido1}
                                                     onChange={this.handleWrite}
-                                                    value={this.props.postulante.apellido1}></input>
+                                                ></input>
                                             </div>
                                         </div>
                                     </div>
@@ -329,7 +383,7 @@ class Postulante extends React.Component {
                                                     type="text"
                                                     name="apellido2"
                                                     onChange={this.handleWrite}
-                                                    value={this.props.postulante.apellido2}></input>
+                                                    defaultValue={this.props.postulante.apellido2}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -344,7 +398,7 @@ class Postulante extends React.Component {
                                                     type="text"
                                                     name="nombre"
                                                     onChange={this.handleWrite}
-                                                    value={this.props.postulante.nombre}></input>
+                                                    defaultValue={this.props.postulante.nombre}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -362,7 +416,7 @@ class Postulante extends React.Component {
                                                     className="form-control"
                                                     name="telefono"
                                                     onChange={this.handleWrite}
-                                                    value={this.props.postulante.telefono}></input>
+                                                    defaultValue={this.props.postulante.telefono}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -377,7 +431,7 @@ class Postulante extends React.Component {
                                                     className="form-control"
                                                     name="celular"
                                                     onChange={this.handleWrite}
-                                                    value={this.props.postulante.celular}></input>
+                                                    defaultValue={this.props.postulante.celular}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -392,7 +446,7 @@ class Postulante extends React.Component {
                                                     className="form-control"
                                                     name="correo"
                                                     onChange={this.handleWrite}
-                                                    value={this.props.postulante.correo}></input>
+                                                    defaultValue={this.props.postulante.correo}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -436,7 +490,7 @@ class Postulante extends React.Component {
                                                     cols="60"
                                                     name="comentarios"
                                                     onChange={this.handleWrite}
-                                                    value={this.props.postulante.observaciones}></textarea>
+                                                    defaultValue={this.props.postulante.observaciones}></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -453,6 +507,7 @@ class Postulante extends React.Component {
                                                 <TextField
                                                     type="date"
                                                     onChange={this.handleChangeDate}
+                                                    defaultValue={this.props.postulantec.fecha_nacimiento}
                                                     InputLabelProps={{
                                                         shrink: true
                                                     }}
@@ -469,7 +524,8 @@ class Postulante extends React.Component {
                                                 <input type="text"
                                                     className="form-control"
                                                     name="edad"
-                                                    onChange={this.handleWrite}></input>
+                                                    onChange={this.handleWrite}
+                                                    defaultValue={this.props.postulantec.edad}></input>
                                             </div>
                                         </div>
                                     </di>
@@ -481,7 +537,7 @@ class Postulante extends React.Component {
                                             </div>
                                             <div className="col-sm-6">
                                                 <select className="form-control labelBorder" required name="sex" onChange={this.handleSexo}>
-                                                    <option value="1" selected disabled>Sexo</option>
+                                                    <option value="1" selected disabled>{this.props.postulantec.sexo.descripcion}</option>
                                                     {sexos}
                                                 </select>
                                             </div>
@@ -499,7 +555,8 @@ class Postulante extends React.Component {
                                                 <input type="text"
                                                     className="form-control"
                                                     name="curp"
-                                                    onChange={this.handleWrite}></input>
+                                                    onChange={this.handleWrite}
+                                                    defaultValue={this.props.postulantec.curp}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -512,7 +569,8 @@ class Postulante extends React.Component {
                                                 <input type="text"
                                                     className="form-control"
                                                     name="rfc"
-                                                    onChange={this.handleWrite} />
+                                                    onChange={this.handleWrite}
+                                                    defaultValue={this.props.postulantec.rfc} />
                                             </div>
                                         </div>
                                     </div>
@@ -523,7 +581,7 @@ class Postulante extends React.Component {
                                             </div>
                                             <div className="col-sm-6">
                                                 <select className="form-control" required name="estatusPostulante" onChange={this.handleSelectEstatusAprobacion}>
-                                                    <option value="1" selected disabled>{this.props.postulante.estatuspostulante.descripcion}</option>
+                                                    <option value="1" selected disabled>{this.props.postulantec.estatusprobacion.descripcion}</option>
                                                     {EstatusAprobaciones}
                                                 </select>
                                             </div>
@@ -562,7 +620,7 @@ class Postulante extends React.Component {
                                     </div>
                                     <div className="col-sm-6">
                                         <Autocompletado
-                                            valores={this.state.escuelas} />
+                                            valores={this.state.escuelas} valor={this.props.postulantec.escuela.descripcion} />
                                     </div>
                                 </div>
                             </div>
@@ -572,7 +630,7 @@ class Postulante extends React.Component {
                                         <label>Carrera:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <Autocompletado valores={this.state.carrera} />
+                                        <Autocompletado valores={this.state.carrera} valor={this.props.postulantec.carrera.descripcion} />
                                     </div>
                                 </div>
                             </div>
@@ -583,7 +641,7 @@ class Postulante extends React.Component {
                                     </div>
                                     <div className="col-sm-6">
                                         <select className="form-control labelBorder" required name="estatus_titulacion" onChange={this.handleSelectEstatusTitulacion}>
-                                            <option value="1" selected disabled>Selecciona</option>
+                                            <option value="1" selected disabled>{this.props.postulantec.estatustitulacion.descripcion}</option>
                                             {EstTit}
                                         </select>
                                     </div>
@@ -601,7 +659,8 @@ class Postulante extends React.Component {
                                         <input type="text"
                                             className="form-control"
                                             name="certificaciones"
-                                            onChange={this.handleWrite} />
+                                            onChange={this.handleWrite}
+                                            defaultValue={this.props.postulantec.certificaciones} />
                                     </div>
                                 </div>
                             </div>
@@ -614,7 +673,8 @@ class Postulante extends React.Component {
                                         <input type="text"
                                             className="form-control"
                                             name="experiencia"
-                                            onChange={this.handleWrite} />
+                                            onChange={this.handleWrite}
+                                            defaultValue={this.props.postulantec.tiempo_experiencia} />
                                     </div>
                                 </div>
                             </div>
@@ -644,7 +704,8 @@ class Postulante extends React.Component {
                                         <input type="text"
                                             className="form-control"
                                             name="pretencion_economica"
-                                            onChange={this.handleWrite}></input>
+                                            onChange={this.handleWrite}
+                                            defaultValue={this.props.postulantec.pretencion_economica}></input>
                                     </div>
                                 </div>
                             </div>
@@ -655,7 +716,7 @@ class Postulante extends React.Component {
                                     </div>
                                     <div className="col-sm-6">
                                         <select className="form-control labelBorder" required name="estatus_cv" onChange={this.handleSelectEstatusCV}>
-                                            <option value="1" selected disabled>Selecciona</option>
+                                            <option value="1" selected disabled>{this.props.postulantec.estatuscv.descripcion}</option>
                                             {CV}
                                         </select>
                                     </div>
@@ -670,7 +731,8 @@ class Postulante extends React.Component {
                                         <input type="text"
                                             className="form-control"
                                             name="acuerdo_economico"
-                                            onChange={this.handleWrite} />
+                                            onChange={this.handleWrite}
+                                            defaultValue={this.props.postulantec.acuerdo_economico} />
                                     </div>
                                 </div>
                             </div>
@@ -706,7 +768,8 @@ const mapStateToProps = state => {
     return {
         postulante: state.postulante,
         carrera: state.carrera,
-        escuela: state.escuela
+        escuela: state.escuela,
+        postulantec: state.postulantec
     }
 }
 
