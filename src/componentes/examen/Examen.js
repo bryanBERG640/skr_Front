@@ -6,6 +6,8 @@ import {connect} from 'react-redux'
 import Seccion from "../examen/seccion";
 import {getTipoExamen} from "../../request/request"
 import { number } from "prop-types";
+import {postExamen} from '../../request/request'
+import {setExamen} from '../../actions/postulanteB'
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -86,11 +88,17 @@ class Examen extends React.Component {
 
     handleClick=e=>
     {
-        
+        postExamen(this.state.examen,
+            this.props.cita.id_cita,
+            this.state.idTipoExamen).then(response=>
+                {
+                    console.log(response)
+                    this.props.dispatchSetExamen(response)
+                })
+                .catch(console.log)
     }
 
     render() {
-        console.log(this.state.examen)
         const tipoExamen=this.state.tiposExamen.map(te=>
             {
                 return <option value={te.descripcion}>{te.descripcion}</option>
@@ -208,7 +216,7 @@ class Examen extends React.Component {
                                                 {/* <Link to="/consultarCita" className="btn btn-primary" >Guardar</Link> */}
                                                 <button type="button" 
                                                 className="btn btn-primary"
-                                                onClick={this.handleClick}>Guardar</button>
+                                                onClick={this.handleClick}>Confirmar</button>
                                             </div>
                                             <div className="col-2"></div>
                                             <div className="col-5 center divBoton2">
@@ -223,7 +231,8 @@ class Examen extends React.Component {
                 </div>      
                 <br/>
                 <br/>
-                <Seccion/>      
+                <Seccion examen={this.state.examen}
+                tipo={this.state.idTipoExamen}/>      
                 
             </React.Fragment>
         );
@@ -238,4 +247,8 @@ const mapStateToProps=state=>
     }
 }
 
-export default connect(mapStateToProps,null)(Examen);
+const mapDispatchToProps=dispatch=>({
+    dispatchSetExamen: value=> dispatch(setExamen(value))
+})
+
+export default connect(mapStateToProps,mapDispatchToProps,null)(Examen);

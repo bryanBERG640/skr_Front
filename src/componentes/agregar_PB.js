@@ -28,9 +28,7 @@ const fecha = new Date();
 const dia = fecha.getDate();
 const mes = fecha.getMonth() + 1;
 const anio = fecha.getFullYear();
-const date=anio+"-"+mes+"-"+dia
-
-
+const date = anio + "-" + mes + "-" + dia;
 
 class agregar_PB extends React.Component {
   constructor(args) {
@@ -50,7 +48,7 @@ class agregar_PB extends React.Component {
         celular: "",
         observaciones: "",
         usuario_actualiza: "Bryan Ramirez",
-        fecha_actualizacion:date 
+        fecha_actualizacion: date
       }
     };
   }
@@ -131,7 +129,7 @@ class agregar_PB extends React.Component {
     });
   };
 
-  hanleClick = e => {
+  handleClick = e => {
     //console.log(this.state.postulante);
     postSeccion(
       this.state.postulante,

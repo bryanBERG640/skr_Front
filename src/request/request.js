@@ -97,15 +97,15 @@ function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
     .catch(console.log);
 }
 
-function getCitas() {
-  return fetch("http://192.168.1.230:8088/skr_v1/postulanteB/get/", {
-    method: "GET"
-  })
-    .then(response => {
-      return response.json();
-    })
-    .catch(console.log);
-}
+// function getCitas() {
+//   return fetch("http://192.168.1.230:8088/skr_v1/postulanteB/get/", {
+//     method: "GET"
+//   })
+//     .then(response => {
+//       return response.json();
+//     })
+//     .catch(console.log);
+// }
 
 function getEstatusPostulante() {
   const estatusPostulante = axios.get(
@@ -205,14 +205,62 @@ function getEntrevista() {
   return entrevistas;
 }
 
-function getTipoExamen()
-{
-  const tipoExamenes=axios.get("http://192.168.1.230:8088/skr_v1/tipoExamen/get")
-  return tipoExamenes
+function getTipoExamen() {
+  const tipoExamenes = axios.get(
+    "http://192.168.1.230:8088/skr_v1/tipoExamen/get"
+  );
+  return tipoExamenes;
+}
+
+function getSecciones() {
+  const secciones = axios.get("http://192.168.1.230:8088/skr_v1/seccion/get");
+  return secciones;
+}
+
+function postExamen(jsonRequest, idCita, idTipoExamen) {
+  return fetch(
+    "http://192.168.1.230:8088/skr_v1/examen/" +
+      idCita +
+      "/" +
+      idTipoExamen +
+      "/" +
+      "/post",
+    {
+      method: "POST",
+      body: JSON.stringify(jsonRequest),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }
+  )
+    .then(response => {
+      return response.json();
+    })
+    .catch(console.log);
+}
+
+function postSecciones(jsonRequest, idExamen) {
+  return fetch(
+    "http://192.168.1.230:8088/skr_v1/seccion/" + idExamen + "/post",
+    {
+      method: "POST",
+      body: JSON.stringify(jsonRequest),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }
+  )
+    .then(response => {
+      return response.json();
+    })
+    .catch(console.log);
 }
 
 export {
   getCliente,
+  getSecciones,
   getTipoExamen,
   getEntrevista,
   getExamenes,
@@ -221,7 +269,6 @@ export {
   getPostulanteB,
   getCita,
   getPerfil,
-  getCitas,
   getCarrera,
   getEscuelas,
   getEstatusAprobacion,
@@ -232,5 +279,7 @@ export {
   getEstatusPostulante,
   getPostulanteTodo,
   postCita,
+  postExamen,
+  postSecciones,
   putCita
 };
