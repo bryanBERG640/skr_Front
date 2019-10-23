@@ -1,11 +1,20 @@
 export const SET_POSTULANTE = "SET_POSTULANTE";
 export const setPostulante = payload => ({ type: SET_POSTULANTE, payload });
 
+export const SET_CARRERA = "SET_CARRERA";
+export const setCarreraID  = payload => ({ type: SET_CARRERA, payload });
+
+export const SET_ESCUELA = "SET_ESCUELA";
+export const setEscuelaID  = payload => ({ type: SET_ESCUELA, payload });
+
 export const SET_POSTULANTE_C = "SET_POSTULANTE_C";
 export const setPostulanteC = payload => ({ type: SET_POSTULANTE_C, payload });
 
 export const AGENDAR = "CLICK_AGENDAR";
 export const clickAgendar = value => ({ type: AGENDAR, value });
+
+export const SELECCIONAR = 'SELECCIONAR_VALOR'
+export const changeValor = payload => ({ type: SELECCIONAR, payload })
 
 export const BUSCAR = "CLICK_BUSCAR";
 export const clickBuscar = value => ({ type: BUSCAR, value });
