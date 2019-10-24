@@ -42,3 +42,9 @@ export const setCliente = payload => ({
   type: SET_CLIENTE,
   payload
 });
+
+export const SET_EXAMEN = "SET_EXAMEN";
+export const setExamen = payload => ({
+  type: SET_EXAMEN,
+  payload
+});
