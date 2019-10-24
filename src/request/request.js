@@ -97,7 +97,9 @@ function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
     .catch(console.log);
 }
 
-function putPostulanteC(jsonRequest,idPostulanteB, idEscuela,idTitulacion, idCarrera,idSexo,idCv, idAprobacion) {
+function putPostulanteC(jsonRequest,idPostulanteB, idEscuela,idTitulacion,
+   idCarrera,idSexo,idCv, idAprobacion, idPostulanteComplemento) {
+     debugger
   console.log("Dentro de la funcion putPostulanteC");
   console.log("Valores del jsonRequest: " + jsonRequest);
   console.log("Valores del idPostulanteB: " + idPostulanteB)
@@ -107,6 +109,24 @@ function putPostulanteC(jsonRequest,idPostulanteB, idEscuela,idTitulacion, idCar
   console.log("Valores del idSexo: " + idSexo)
   console.log("Valores del idCv: " + idCv)
   console.log("Valores del idAprobacion: " + idAprobacion)
+  console.log("Valores del idPostulanteComplemento: " + idPostulanteComplemento)
+  
+  const ruta = "http://192.168.1.230:8088/skr_v1/postulanteComplemento/";
+  const path = idPostulanteB+"/"+idEscuela+"/"+idTitulacion+"/"+idCarrera+
+               "/"+idSexo+"/"+idCv+"/"+idAprobacion+"/put/"+idPostulanteComplemento;
+
+  return fetch(ruta + path,
+    {
+      method: "PUT",
+      body: JSON.stringify(jsonRequest),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }
+  ).then(response => {
+    return response.json();
+  }).catch(console.log);
 }
 
 function postPostulanteC(request, idPostulanteB, idEscuela, 
@@ -135,10 +155,12 @@ function postPostulanteC(request, idPostulanteB, idEscuela,
         "Content-Type": "application/json"
       }
     }
-  ).then(response => {
+  )
+  .then(response => {
     console.log("Se realizo correctamente")
     return response.json();
-  }).catch(console.log("Error"));
+  })
+  .catch(console.log);
   
 }
 
