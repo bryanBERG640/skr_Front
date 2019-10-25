@@ -206,7 +206,7 @@ class consulta_PB extends Component {
           <table className="mt-4">
             <thead>
               <tr>
-                <th width="10%">seleccionar</th>
+                <th width="10%">Seleccionar</th>
                 <th width="15%">Nombre</th>
                 <th width="10%">Telefono</th>
                 <th width="10%">Celular</th>

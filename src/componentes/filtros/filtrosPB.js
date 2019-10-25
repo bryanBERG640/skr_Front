@@ -35,6 +35,8 @@ class filtrosPB extends React.Component {
     this.setState({ postulanteC: nuevoGet.data });
   }
   handleClick = e => {
+    // debugger
+    let verdadero = false;
     let pb = parseInt(e.target.value);
       this.state.resp.map(postulante => {
         if (pb === postulante.id_postulante_b) {
@@ -45,14 +47,17 @@ class filtrosPB extends React.Component {
     this.state.postulanteC.map(postulante => {
       if (pb === postulante.postulanteb.id_postulante_b) {
         this.props.dispatchSetPostulantC(postulante); //Se almacena en el store una función si el postulanteB es un postulanteC.
+        verdadero = true;
       }
     });
+    if(verdadero === false) {
+      this.props.dispatchSetPostulantC(null);
+    }
   };
 
   render() {
-    // console.log(this.state.resp);
-    const { resp } = this.state;
-    const groupPB = resp.map(postulante => {
+      const { resp } = this.state;
+      const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;
       const n = `${postulante.nombre || ""}`;
       const a1 = `${postulante.apellido1 || ""}`;

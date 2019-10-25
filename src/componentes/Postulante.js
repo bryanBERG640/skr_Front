@@ -309,7 +309,7 @@ class Postulante extends React.Component {
 
     setearState = e => {
         console.log("Hola desde setearState")
-        if (this.props.postulantec !== undefined) {
+        if (this.props.postulantec !== undefined && this.props.postulantec !== null) {
             console.log("Hola desde if")
             this.setState({
                 id_postulante_b: this.props.postulantec.postulanteb.id_postulante_b,
