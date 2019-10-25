@@ -6,7 +6,8 @@ import { connect } from "react-redux";
 import { number } from "prop-types";
 import {
     getCarrera, getEscuelas, getEstatusAprobacion, getEstatusTitulacion
-    , getSexo, getEstatusCV, getPerfil, getEstatusPostulante, putPostulanteC, postPostulanteC
+    , getSexo, getEstatusCV, getPerfil, getEstatusPostulante, putPostulanteC,
+    postPostulanteC, putPostulanteB
 } from "../request/request";
 import Autocompletado from './Autocompletado/Autocommpletado';
 
@@ -72,6 +73,7 @@ class Postulante extends React.Component {
         nombre: '',
         apellido2: '',
         apellido1: '',
+        id_postulante_b: number,
         id_estatus_aprobacion: number,
         id_estatus_cv: number,
         id_sexo: number,
@@ -166,6 +168,24 @@ class Postulante extends React.Component {
         debugger
         console.log("Dentro de handleClick:")
         if (this.state.pc !== undefined) {
+            const requestPostulanteB = {
+                id_postulante_b: this.state.id_postulante_b,
+                nombre: this.state.nombre,
+                apellido1: this.state.apellido1,
+                apellido2: this.state.apellido2,
+                celular: this.state.celular,
+                telefono: this.state.telefono,
+                correo: this.state.correo,
+                observaciones: this.state.comentarios,
+                cv: null,
+                usuario_actualiza: "Bryan Ramirez",
+                fecha_actualizacion: "2019-10-15"
+            }
+            const idEstatusPostulante = this.state.id_status_postulante;
+            const IdPerfil = this.state.id_perfil;
+            const idPostulanteB1 = this.state.id_postulante_b;
+            putPostulanteB(requestPostulanteB,idEstatusPostulante,IdPerfil,idPostulanteB1);
+
             const requestPut = {
                 id_postulante_c: this.props.postulantec.id_postulante_c,
                 fecha_nacimiento: this.state.fecha_nacimiento,
@@ -183,10 +203,10 @@ class Postulante extends React.Component {
             const idPostulanteB = this.props.postulantec.postulanteb.id_postulante_b;
             const idEscuela = this.props.escuela.id_escuela;
             const idTitulacion = this.state.id_estatus_titulacion;
-            const idCarrera = this.props.postulantec.carrera.id_carrera;
-            const idSexo = this.props.postulantec.sexo.id_sexo;
+            const idCarrera = this.props.carrera.id_carrera;
+            const idSexo = this.state.id_sexo;
             const idCv = this.state.id_estatus_cv;
-            const idAprobacion = this.props.postulantec.estatusprobacion.id_estatus_aprobacion;
+            const idAprobacion = this.state.id_estatus_aprobacion;
             const idPostulanteComplemento = this.props.postulantec.id_postulante_c;
             console.log("Request del putt: " + requestPut)
             console.log("Dentro de condicional if")
@@ -293,6 +313,16 @@ class Postulante extends React.Component {
         if (this.props.postulantec !== undefined) {
             console.log("Hola desde if")
             this.setState({
+                id_postulante_b: this.props.postulantec.postulanteb.id_postulante_b,
+                id_perfil: this.props.postulantec.postulanteb.perfil.id_perfil,
+                id_status_postulante: this.props.postulantec.postulanteb.estatuspostulante.id_estatus_postulante,
+                comentarios: this.props.postulantec.postulanteb.observaciones,
+                correo: this.props.postulantec.postulanteb.correo,
+                celular: this.props.postulantec.postulanteb.celular,
+                telefono: this.props.postulantec.postulanteb.telefono,
+                nombre: this.props.postulantec.postulanteb.nombre,
+                apellido2: this.props.postulantec.postulanteb.apellido2,
+                apellido1: this.props.postulantec.postulanteb.apellido1,
                 carr: this.props.postulantec.carrera.descripcion,
                 fecha_nacimiento: this.props.postulantec.fecha_nacimiento,
                 escuel: this.props.postulantec.escuela.descripcion,
@@ -306,7 +336,11 @@ class Postulante extends React.Component {
                 experiencia: this.props.postulantec.tiempo_experiencia,
                 pretencion_economica: this.props.postulantec.pretencion_economica,
                 estatus_cv: this.props.postulantec.estatuscv.descripcion,
-                acuerdo_economico: this.props.postulantec.acuerdo_economico
+                acuerdo_economico: this.props.postulantec.acuerdo_economico,
+                id_estatus_titulacion: this.props.postulantec.estatustitulacion.id_estatus_titulacion,
+                id_sexo: this.props.postulantec.sexo.id_sexo,
+                id_estatus_cv: this.props.postulantec.estatuscv.id_estatus_cv,
+                id_estatus_aprobacion: this.props.postulantec.estatusprobacion.id_estatus_aprobacion
             })
         }
     }
@@ -334,7 +368,7 @@ class Postulante extends React.Component {
         console.log("estatusAprobacion: " + this.state.estatusAp)
         console.log("pretencion_economica: " + this.state.pretencion_economica)
         console.log("certificaciones: " + this.state.certificaciones)
-        // console.log("experiencia: " + this.state.experiencia)
+        console.log("experiencia: " + this.state.experiencia)
         console.log("acuerdo_economico: " + this.state.acuerdo_economico)
         console.log("IdEstatusPostulante: " + this.state.id_status_postulante)
         console.log("IdPerfil: " + this.state.id_perfil)

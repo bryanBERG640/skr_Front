@@ -129,6 +129,29 @@ function putPostulanteC(jsonRequest,idPostulanteB, idEscuela,idTitulacion,
   }).catch(console.log);
 }
 
+function putPostulanteB(requestPostulanteB, idEstatusPostulante,idPerfil,idPostulanteB) {
+  debugger
+  console.log("Valores de requestPostulanteB: " + requestPostulanteB);
+  console.log("Valor de idEstatusPostulante: " + idEstatusPostulante);
+  console.log("Valor de idPerfil: " + idPerfil);
+
+  const ruta = "http://192.168.1.230:8088/skr_v1/postulanteB/";
+  const path = idEstatusPostulante+"/"+idPerfil+"/put/"+idPostulanteB;
+
+  return fetch(ruta + path,
+    {
+      method: "PUT",
+      body: JSON.stringify(requestPostulanteB),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }
+  ).then(response2 => {
+    return response2.json();
+  }).catch(console.log);
+}
+
 function postPostulanteC(
   request,
   idPostulanteB,
@@ -184,6 +207,7 @@ function postPostulanteC(
   })
   .catch(console.log);
 }
+
 
 function getCitas() {
   return fetch("http://192.168.1.230:8088/skr_v1/postulanteB/get/", {
@@ -371,5 +395,6 @@ export {
   postSecciones,
   putCita,
   postPostulanteC,
-  putPostulanteC
+  putPostulanteC,
+  putPostulanteB
 };
