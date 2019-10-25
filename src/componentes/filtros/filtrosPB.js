@@ -27,6 +27,7 @@ class filtrosPB extends React.Component {
   };
   getPostulanteB = async () => {
     const nuevoGet = await getPostulanteB();
+    console.log("-------" + nuevoGet.data)
     this.setState({ resp: nuevoGet.data });
   };
   getPostulanteTodo = async () => {

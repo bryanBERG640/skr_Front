@@ -3,7 +3,7 @@ import axios from "axios";
 function getPostulanteC(idPostulante) {
   return fetch(
     "http://192.168.1.230:8088/skr_v1/postulanteComplemento/get/" +
-      idPostulante,
+    idPostulante,
     {
       method: "GET"
     }
@@ -50,10 +50,10 @@ function postSeccion(jsonRequest, estatus, perfil) {
   console.log(perfil);*/
   return fetch(
     "http://192.168.1.230:8088/skr_v1/postulanteB/" +
-      estatus +
-      "/" +
-      perfil +
-      "/post",
+    estatus +
+    "/" +
+    perfil +
+    "/post",
     {
       method: "POST",
       body: JSON.stringify(jsonRequest),
@@ -74,14 +74,14 @@ function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
   console.log(idPostulanteB);*/
   return fetch(
     "http://192.168.1.230:8088/skr_v1/cita/" +
-      estatusCita +
-      "/" +
-      idPostulanteB +
-      "/" +
-      empresa +
-      "/" +
-      cliente +
-      "/post",
+    estatusCita +
+    "/" +
+    idPostulanteB +
+    "/" +
+    empresa +
+    "/" +
+    cliente +
+    "/post",
     {
       method: "POST",
       body: JSON.stringify(jsonRequest),
@@ -97,9 +97,9 @@ function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
     .catch(console.log);
 }
 
-function putPostulanteC(jsonRequest,idPostulanteB, idEscuela,idTitulacion,
-   idCarrera,idSexo,idCv, idAprobacion, idPostulanteComplemento) {
-     debugger
+function putPostulanteC(jsonRequest, idPostulanteB, idEscuela, idTitulacion,
+  idCarrera, idSexo, idCv, idAprobacion, idPostulanteComplemento) {
+  debugger
   console.log("Dentro de la funcion putPostulanteC");
   console.log("Valores del jsonRequest: " + jsonRequest);
   console.log("Valores del idPostulanteB: " + idPostulanteB)
@@ -110,10 +110,10 @@ function putPostulanteC(jsonRequest,idPostulanteB, idEscuela,idTitulacion,
   console.log("Valores del idCv: " + idCv)
   console.log("Valores del idAprobacion: " + idAprobacion)
   console.log("Valores del idPostulanteComplemento: " + idPostulanteComplemento)
-  
+
   const ruta = "http://192.168.1.230:8088/skr_v1/postulanteComplemento/";
-  const path = idPostulanteB+"/"+idEscuela+"/"+idTitulacion+"/"+idCarrera+
-               "/"+idSexo+"/"+idCv+"/"+idAprobacion+"/put/"+idPostulanteComplemento;
+  const path = idPostulanteB + "/" + idEscuela + "/" + idTitulacion + "/" + idCarrera +
+    "/" + idSexo + "/" + idCv + "/" + idAprobacion + "/put/" + idPostulanteComplemento;
 
   return fetch(ruta + path,
     {
@@ -129,14 +129,14 @@ function putPostulanteC(jsonRequest,idPostulanteB, idEscuela,idTitulacion,
   }).catch(console.log);
 }
 
-function putPostulanteB(requestPostulanteB, idEstatusPostulante,idPerfil,idPostulanteB) {
+function putPostulanteB(requestPostulanteB, idEstatusPostulante, idPerfil, idPostulanteB) {
   debugger
   console.log("Valores de requestPostulanteB: " + requestPostulanteB);
   console.log("Valor de idEstatusPostulante: " + idEstatusPostulante);
   console.log("Valor de idPerfil: " + idPerfil);
 
   const ruta = "http://192.168.1.230:8088/skr_v1/postulanteB/";
-  const path = idEstatusPostulante+"/"+idPerfil+"/put/"+idPostulanteB;
+  const path = idEstatusPostulante + "/" + idPerfil + "/put/" + idPostulanteB;
 
   return fetch(ruta + path,
     {
@@ -152,60 +152,31 @@ function putPostulanteB(requestPostulanteB, idEstatusPostulante,idPerfil,idPostu
   }).catch(console.log);
 }
 
-function postPostulanteC(
-  request,
-  idPostulanteB,
-  idEscuela,
-  idTitulacion,
-  idCarrera,
-  idSexo,
-  idCv,
-  idAprobacion
-) {
-  debugger;
-  console.log("Deentro de request:");
-  console.log("JSON: " + request);
-  console.log("Id_posttulanteB: " + idPostulanteB);
-  console.log("Id_escuela: " + idEscuela);
-  console.log("Id_titulacion: " + idTitulacion);
-  console.log("Id_carrera: " + idCarrera);
-  console.log("Id_sexo: " + idSexo);
-  console.log("Id_cv: " + idCv);
-  console.log("Id_aprobacion: " + idAprobacion);
-
-  const url = "http://192.168.1.230:8088/skr_v1/postulanteComplemento/";
-
+function postPostulanteC(jsonRequest,idPostulanteB,idEscuela, idTitulacion,
+                        idCarrera,idSexo,idCv,idAprobacion) 
+{
   return fetch(
-    url +
-      "/" +
-      idPostulanteB +
-      "/" +
-      idEscuela +
-      "/" +
-      idTitulacion +
-      "/" +
-      idCarrera +
-      "/" +
-      idSexo +
-      "/" +
-      idCv +
-      "/" +
-      idAprobacion +
-      "/post",
+    "http://192.168.1.230:8088/skr_v1/postulanteComplemento/"+idPostulanteB+"/"+idEscuela+
+    "/"+idTitulacion+"/"+idCarrera+"/"+idSexo+"/"+idCv+"/"+idAprobacion+"/post",
     {
       method: "POST",
-      body: JSON.stringify(request),
+      body: JSON.stringify(jsonRequest),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       }
-    }
-  )
-  .then(response => {
-    console.log("Se realizo correctamente")
-    return response.json();
-  })
-  .catch(console.log);
+    })
+    .then(response => {
+      console.log("Hola")
+      console.log(response.ok)
+      console.log(response.status)
+      console.log(response.statusText)
+      console.log(response.text)
+      console.log(response.url)
+      return response.json();
+    }).catch(e => {
+      console.log(e)
+    });
 }
 
 
@@ -239,15 +210,15 @@ function putCita(
   console.log(idCita);*/
   return fetch(
     "http://192.168.1.230:8088/skr_v1/cita/" +
-      estatusCita +
-      "/" +
-      idPostulanteB +
-      "/" +
-      idEmpresa +
-      "/" +
-      idCliente +
-      "/put/" +
-      idCita,
+    estatusCita +
+    "/" +
+    idPostulanteB +
+    "/" +
+    idEmpresa +
+    "/" +
+    idCliente +
+    "/put/" +
+    idCita,
     {
       method: "PUT",
       body: JSON.stringify(jsonRequest),
@@ -332,11 +303,11 @@ function getSecciones() {
 function postExamen(jsonRequest, idCita, idTipoExamen) {
   return fetch(
     "http://192.168.1.230:8088/skr_v1/examen/" +
-      idCita +
-      "/" +
-      idTipoExamen +
-      "/" +
-      "/post",
+    idCita +
+    "/" +
+    idTipoExamen +
+    "/" +
+    "/post",
     {
       method: "POST",
       body: JSON.stringify(jsonRequest),

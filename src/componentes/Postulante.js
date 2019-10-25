@@ -5,8 +5,7 @@ import IconoExamen from "../Imagenes/avatar.png";
 import { connect } from "react-redux";
 import { number } from "prop-types";
 import {
-    getCarrera, getEscuelas, getEstatusAprobacion, getEstatusTitulacion
-    , getSexo, getEstatusCV, getPerfil, getEstatusPostulante, putPostulanteC,
+    getCarrera, getEscuelas, getEstatusAprobacion, getEstatusTitulacion, getSexo, getEstatusCV, getPerfil, getEstatusPostulante, putPostulanteC,
     postPostulanteC, putPostulanteB
 } from "../request/request";
 import Autocompletado from './Autocompletado/Autocommpletado';
@@ -219,7 +218,7 @@ class Postulante extends React.Component {
                 curp: this.state.curp,
                 rfc: this.state.rfc,
                 pretencion_economica: this.state.pretencion_economica,
-                certiicaciones: this.state.certificaciones,
+                certificaciones: this.state.certificaciones,
                 tiempo_experiencia: this.state.experiencia,
                 acuerdo_economico: this.state.acuerdo_economico,
                 foto_perfil: null,
