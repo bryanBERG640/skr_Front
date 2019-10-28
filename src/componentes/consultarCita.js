@@ -206,9 +206,10 @@ class consultarCita extends Component {
                   </Link>
                 </div>
                 <div className="btn-group mr-2" role="group">
-                  <button type="button" className="btn btn-info">
+                  {/* <button type="button" className="btn btn-info">
                     Entrevistas
-                  </button>
+                  </button> */}
+                  <Link to="/Entrevista" className="btn btn-info"> Entrevistas</Link>
                 </div>
                 <div className="btn-group mr-2" role="group">
                   <Link to="/examen" className="btn btn-info">
