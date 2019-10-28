@@ -5,11 +5,10 @@ import IconoExamen from "../Imagenes/avatar.png";
 import { connect } from "react-redux";
 import { number } from "prop-types";
 import {
-    getCarrera, getEscuelas, getEstatusAprobacion, getEstatusTitulacion
-    , getSexo, getEstatusCV, getPerfil, getEstatusPostulante,putPostulanteC
+    getCarrera, getEscuelas, getEstatusAprobacion, getEstatusTitulacion, getSexo, getEstatusCV, getPerfil, getEstatusPostulante, putPostulanteC,
+    postPostulanteC, putPostulanteB
 } from "../request/request";
 import Autocompletado from './Autocompletado/Autocommpletado';
-import { postPostulanteC } from '../request/request'
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -50,33 +49,36 @@ class Postulante extends React.Component {
             ap: '',
             id_carrera: number,
         },
-        acuerdo_economico: this.props.postulantec.acuerdo_economico,
-        estatus_cv: this.props.postulantec.estatuscv.descripcion,
-        pretencion_economica: this.props.postulantec.pretencion_economica,
-        experiencia: this.props.postulantec.tiempo_experiencia,
-        certificaciones: this.props.postulantec.certificaciones,
-        estatusTit: this.props.postulantec.estatustitulacion.descripcion,
-        estatusAp: this.props.postulantec.estatusprobacion.descripcion,
-        rfc: this.props.postulantec.rfc,
-        curp: this.props.postulantec.curp,
-        sex: this.props.postulantec.sexo.descripcion,
-        edad: this.props.postulantec.edad,
-        fecha_nacimiento: this.props.postulantec.fecha_nacimiento,
-        perf: this.props.postulantec.postulanteb.perfil.descripcion,
-        estatusPostulante: this.props.postulantec.postulanteb.estatuspostulante.descripcion,
-        comentarios: this.props.postulantec.postulanteb.observaciones,
-        correo: this.props.postulantec.postulanteb.correo,
-        celular: this.props.postulantec.postulanteb.celular,
-        telefono: this.props.postulantec.postulanteb.telefono,
-        nombre: this.props.postulantec.postulanteb.nombre,
-        apellido2: this.props.postulantec.postulanteb.apellido2,
-        apellido1: this.props.postulantec.postulanteb.apellido1,
-        id_estatus_aprobacion: this.props.postulantec.estatusprobacion.id_estatus_aprobacion,
-        id_estatus_cv: this.props.postulantec.estatuscv.id_estatus_cv,
-        id_sexo: this.props.postulantec.sexo.id_sexo,
-        id_estatus_titulacion: this.props.postulantec.estatustitulacion.id_estatus_titulacion,
-        id_perfil: this.props.postulante.perfil.id_perfil,
-        id_status_postulante: this.props.postulante.estatuspostulante.id_estatus_postulante,
+        carr: '',
+        escuel: '',
+        acuerdo_economico: '',
+        estatus_cv: '',
+        pretencion_economica: '',
+        experiencia: '',
+        certificaciones: '',
+        estatusTit: '',
+        estatusAp: '',
+        rfc: '',
+        curp: '',
+        sex: '',
+        edad: '',
+        fecha_nacimiento: '',
+        perf: '',
+        estatusPostulante: '',
+        comentarios: '',
+        correo: '',
+        celular: '',
+        telefono: '',
+        nombre: '',
+        apellido2: '',
+        apellido1: '',
+        id_postulante_b: number,
+        id_estatus_aprobacion: number,
+        id_estatus_cv: number,
+        id_sexo: number,
+        id_estatus_titulacion: number,
+        id_perfil: number,
+        id_status_postulante: number,
         id_escuela: number,
         perfil: [],
         EstatusCV: [],
@@ -98,6 +100,7 @@ class Postulante extends React.Component {
         this.getEstatusTitulacion()
         this.getSexo()
         this.getPerfil()
+        this.setearState()
     }
 
     getCarrera = async () => {
@@ -163,31 +166,51 @@ class Postulante extends React.Component {
     handleClick = e => {
         debugger
         console.log("Dentro de handleClick:")
-        const requestPut = {
-            fecha_nacimiento: this.state.fecha_nacimiento,
-            edad: this.state.edad,
-            curp: this.state.curp,
-            rfc: this.state.rfc,
-            pretencion_economica: this.state.pretencion_economica,
-            certiicaciones: this.state.certificaciones,
-            tiempo_experiencia: this.state.experiencia,
-            acuerdo_economico: this.state.acuerdo_economico,
-            foto_perfil: null,
-            usuario_actualiza: "Bryan Ramirez",
-            fecha_actualizacion: "2019-10-15"
-        }
-        const idPostulanteB = this.props.postulantec.postulanteb.id_postulante_b;
-        const idEscuela =  this.props.postulantec.escuela.id_escuela;
-        const idTitulacion = this.props.postulantec.estatustitulacion.id_estatus_titulacion;
-        const idCarrera = this.props.postulantec.carrera.id_carrera;
-        const idSexo = this.props.postulantec.sexo.id_sexo;
-        const idCv = this.props.postulantec.estatuscv.id_estatus_cv;
-        const idAprobacion = this.props.postulantec.estatusprobacion.id_estatus_aprobacion;
-        console.log("Request del putt: " + requestPut)
         if (this.state.pc !== undefined) {
+            const requestPostulanteB = {
+                id_postulante_b: this.state.id_postulante_b,
+                nombre: this.state.nombre,
+                apellido1: this.state.apellido1,
+                apellido2: this.state.apellido2,
+                celular: this.state.celular,
+                telefono: this.state.telefono,
+                correo: this.state.correo,
+                observaciones: this.state.comentarios,
+                cv: null,
+                usuario_actualiza: "Bryan Ramirez",
+                fecha_actualizacion: "2019-10-15"
+            }
+            const idEstatusPostulante = this.state.id_status_postulante;
+            const IdPerfil = this.state.id_perfil;
+            const idPostulanteB1 = this.state.id_postulante_b;
+            putPostulanteB(requestPostulanteB,idEstatusPostulante,IdPerfil,idPostulanteB1);
+
+            const requestPut = {
+                id_postulante_c: this.props.postulantec.id_postulante_c,
+                fecha_nacimiento: this.state.fecha_nacimiento,
+                edad: this.state.edad,
+                curp: this.state.curp,
+                rfc: this.state.rfc,
+                pretencion_economica: this.state.pretencion_economica,
+                certificaciones: this.state.certificaciones,
+                tiempo_experiencia: this.state.experiencia,
+                acuerdo_economico: this.state.acuerdo_economico,
+                foto_perfil: null,
+                usuario_actualiza: "Bryan Ramirez",
+                fecha_actualizacion: "2019-10-15"
+            }
+            const idPostulanteB = this.props.postulantec.postulanteb.id_postulante_b;
+            const idEscuela = this.props.escuela.id_escuela;
+            const idTitulacion = this.state.id_estatus_titulacion;
+            const idCarrera = this.props.carrera.id_carrera;
+            const idSexo = this.state.id_sexo;
+            const idCv = this.state.id_estatus_cv;
+            const idAprobacion = this.state.id_estatus_aprobacion;
+            const idPostulanteComplemento = this.props.postulantec.id_postulante_c;
+            console.log("Request del putt: " + requestPut)
             console.log("Dentro de condicional if")
             putPostulanteC(requestPut, idPostulanteB, idEscuela, idTitulacion, idCarrera,
-                idSexo, idCv, idAprobacion);
+                idSexo, idCv, idAprobacion, idPostulanteComplemento);
         } else {
             const request = {
                 fecha_nacimiento: this.state.fecha_nacimiento,
@@ -195,12 +218,12 @@ class Postulante extends React.Component {
                 curp: this.state.curp,
                 rfc: this.state.rfc,
                 pretencion_economica: this.state.pretencion_economica,
-                certiicaciones: this.state.certificaciones,
+                certificaciones: this.state.certificaciones,
                 tiempo_experiencia: this.state.experiencia,
                 acuerdo_economico: this.state.acuerdo_economico,
                 foto_perfil: null,
                 usuario_actualiza: "Bryan Ramirez",
-                fecha_actualizacion: "2019-10-15"
+                fecha_actualizacion: "2019-10-24"
             }
             const idPostulanteB = this.props.postulante.id_postulante_b;
             const idEscuela = this.props.escuela.id_escuela;
@@ -217,6 +240,7 @@ class Postulante extends React.Component {
 
 
     handleSelectEstatusPostulante = e => {
+        debugger
         console.log("Dentro de handleSelect:");
         this.state.EstatusPostulante.map(estatusP => {
             if (estatusP.descripcion === e.target.value) {
@@ -281,6 +305,43 @@ class Postulante extends React.Component {
                 });
             }
         })
+    }
+
+    setearState = e => {
+        console.log("Hola desde setearState")
+        if (this.props.postulantec !== undefined && this.props.postulantec !== null) {
+            console.log("Hola desde if")
+            this.setState({
+                id_postulante_b: this.props.postulantec.postulanteb.id_postulante_b,
+                id_perfil: this.props.postulantec.postulanteb.perfil.id_perfil,
+                id_status_postulante: this.props.postulantec.postulanteb.estatuspostulante.id_estatus_postulante,
+                comentarios: this.props.postulantec.postulanteb.observaciones,
+                correo: this.props.postulantec.postulanteb.correo,
+                celular: this.props.postulantec.postulanteb.celular,
+                telefono: this.props.postulantec.postulanteb.telefono,
+                nombre: this.props.postulantec.postulanteb.nombre,
+                apellido2: this.props.postulantec.postulanteb.apellido2,
+                apellido1: this.props.postulantec.postulanteb.apellido1,
+                carr: this.props.postulantec.carrera.descripcion,
+                fecha_nacimiento: this.props.postulantec.fecha_nacimiento,
+                escuel: this.props.postulantec.escuela.descripcion,
+                edad: this.props.postulantec.edad,
+                sex: this.props.postulantec.sexo.descripcion,
+                curp: this.props.postulantec.curp,
+                rfc: this.props.postulantec.rfc,
+                estatusAp: this.props.postulantec.estatusprobacion.descripcion,
+                estatusTit: this.props.postulantec.estatustitulacion.descripcion,
+                certificaciones: this.props.postulantec.certificaciones,
+                experiencia: this.props.postulantec.tiempo_experiencia,
+                pretencion_economica: this.props.postulantec.pretencion_economica,
+                estatus_cv: this.props.postulantec.estatuscv.descripcion,
+                acuerdo_economico: this.props.postulantec.acuerdo_economico,
+                id_estatus_titulacion: this.props.postulantec.estatustitulacion.id_estatus_titulacion,
+                id_sexo: this.props.postulantec.sexo.id_sexo,
+                id_estatus_cv: this.props.postulantec.estatuscv.id_estatus_cv,
+                id_estatus_aprobacion: this.props.postulantec.estatusprobacion.id_estatus_aprobacion
+            })
+        }
     }
 
     render() {
@@ -507,7 +568,7 @@ class Postulante extends React.Component {
                                                 <TextField
                                                     type="date"
                                                     onChange={this.handleChangeDate}
-                                                    defaultValue={this.props.postulantec.fecha_nacimiento}
+                                                    defaultValue={this.state.fecha_nacimiento}
                                                     InputLabelProps={{
                                                         shrink: true
                                                     }}
@@ -525,7 +586,7 @@ class Postulante extends React.Component {
                                                     className="form-control"
                                                     name="edad"
                                                     onChange={this.handleWrite}
-                                                    defaultValue={this.props.postulantec.edad}></input>
+                                                    defaultValue={this.state.edad}></input>
                                             </div>
                                         </div>
                                     </di>
@@ -537,7 +598,7 @@ class Postulante extends React.Component {
                                             </div>
                                             <div className="col-sm-6">
                                                 <select className="form-control labelBorder" required name="sex" onChange={this.handleSexo}>
-                                                    <option value="1" selected disabled>{this.props.postulantec.sexo.descripcion}</option>
+                                                    <option value="1" selected disabled>{this.state.sex}</option>
                                                     {sexos}
                                                 </select>
                                             </div>
@@ -556,7 +617,7 @@ class Postulante extends React.Component {
                                                     className="form-control"
                                                     name="curp"
                                                     onChange={this.handleWrite}
-                                                    defaultValue={this.props.postulantec.curp}></input>
+                                                    defaultValue={this.state.curp}></input>
                                             </div>
                                         </div>
                                     </div>
@@ -570,7 +631,7 @@ class Postulante extends React.Component {
                                                     className="form-control"
                                                     name="rfc"
                                                     onChange={this.handleWrite}
-                                                    defaultValue={this.props.postulantec.rfc} />
+                                                    defaultValue={this.state.rfc} />
                                             </div>
                                         </div>
                                     </div>
@@ -581,7 +642,7 @@ class Postulante extends React.Component {
                                             </div>
                                             <div className="col-sm-6">
                                                 <select className="form-control" required name="estatusPostulante" onChange={this.handleSelectEstatusAprobacion}>
-                                                    <option value="1" selected disabled>{this.props.postulantec.estatusprobacion.descripcion}</option>
+                                                    <option value="1" selected disabled>{this.state.estatusAp}</option>
                                                     {EstatusAprobaciones}
                                                 </select>
                                             </div>
@@ -620,7 +681,7 @@ class Postulante extends React.Component {
                                     </div>
                                     <div className="col-sm-6">
                                         <Autocompletado
-                                            valores={this.state.escuelas} valor={this.props.postulantec.escuela.descripcion} />
+                                            valores={this.state.escuelas} valor={this.state.escuel} />
                                     </div>
                                 </div>
                             </div>
@@ -630,7 +691,7 @@ class Postulante extends React.Component {
                                         <label>Carrera:</label>
                                     </div>
                                     <div className="col-sm-6">
-                                        <Autocompletado valores={this.state.carrera} valor={this.props.postulantec.carrera.descripcion} />
+                                        <Autocompletado valores={this.state.carrera} valor={this.state.carr} />
                                     </div>
                                 </div>
                             </div>
@@ -641,7 +702,7 @@ class Postulante extends React.Component {
                                     </div>
                                     <div className="col-sm-6">
                                         <select className="form-control labelBorder" required name="estatus_titulacion" onChange={this.handleSelectEstatusTitulacion}>
-                                            <option value="1" selected disabled>{this.props.postulantec.estatustitulacion.descripcion}</option>
+                                            <option value="1" selected disabled>{this.state.estatusTit}</option>
                                             {EstTit}
                                         </select>
                                     </div>
@@ -660,7 +721,7 @@ class Postulante extends React.Component {
                                             className="form-control"
                                             name="certificaciones"
                                             onChange={this.handleWrite}
-                                            defaultValue={this.props.postulantec.certificaciones} />
+                                            defaultValue={this.state.certificaciones} />
                                     </div>
                                 </div>
                             </div>
@@ -674,7 +735,7 @@ class Postulante extends React.Component {
                                             className="form-control"
                                             name="experiencia"
                                             onChange={this.handleWrite}
-                                            defaultValue={this.props.postulantec.tiempo_experiencia} />
+                                            defaultValue={this.state.experiencia} />
                                     </div>
                                 </div>
                             </div>
@@ -705,7 +766,7 @@ class Postulante extends React.Component {
                                             className="form-control"
                                             name="pretencion_economica"
                                             onChange={this.handleWrite}
-                                            defaultValue={this.props.postulantec.pretencion_economica}></input>
+                                            defaultValue={this.state.pretencion_economica}></input>
                                     </div>
                                 </div>
                             </div>
@@ -716,7 +777,7 @@ class Postulante extends React.Component {
                                     </div>
                                     <div className="col-sm-6">
                                         <select className="form-control labelBorder" required name="estatus_cv" onChange={this.handleSelectEstatusCV}>
-                                            <option value="1" selected disabled>{this.props.postulantec.estatuscv.descripcion}</option>
+                                            <option value="1" selected disabled>{this.state.estatus_cv}</option>
                                             {CV}
                                         </select>
                                     </div>
@@ -732,7 +793,7 @@ class Postulante extends React.Component {
                                             className="form-control"
                                             name="acuerdo_economico"
                                             onChange={this.handleWrite}
-                                            defaultValue={this.props.postulantec.acuerdo_economico} />
+                                            defaultValue={this.state.acuerdo_economico} />
                                     </div>
                                 </div>
                             </div>
