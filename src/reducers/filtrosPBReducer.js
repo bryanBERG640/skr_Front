@@ -2,7 +2,8 @@ import {
   SET_POSTULANTE,
   SET_POSTULANTE_C,
   SET_CLIENTE,
-  SET_EXAMEN
+  SET_EXAMEN,
+  SET_SECCION
 } from "../actions/postulanteB";
 
 import { SET_CITA } from "../actions/ConsultarCitaActions";
@@ -25,6 +26,8 @@ export const filtrosPBReducer = (state = {}, action) => {
       return { ...state, cliente: action.payload };
     case SET_EXAMEN:
       return { ...state, examen: action.payload };
+    case SET_SECCION:
+      return { ...state, seccion: action.payload };
     default:
       return state;
   }

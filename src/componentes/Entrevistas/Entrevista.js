@@ -5,6 +5,8 @@ import { getTipoEntrevista, getCliente } from '../../request/request';
 import Autocompletado from '../Autocompletado/Autocommpletado';
 import { Link } from "react-router-dom";
 import TablaEntrevista from './TablaEntrevista';
+import { connect } from 'react-redux';
+import { number } from 'prop-types';
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -26,7 +28,10 @@ class Entrevista extends React.Component {
       tipoEntrevistas: [],
       tipoEntrevista: "",
       clientes: [],
-      cliente: ""
+      cliente: "",
+      idEntrevista: number,
+      idCita: number,
+      idTipoEntrevista: number
     }
   }
 
@@ -46,13 +51,22 @@ class Entrevista extends React.Component {
   handleSelect = e => {
     this.state.tipoEntrevistas.map(entrevista => {
       if (entrevista.descripcion === e.target.value) {
+        this.setState({ idTipoEntrevista: entrevista.id_tipo_entrevista});
         this.setState({ tipoEntrevista: entrevista.descripcion });
       }
     });
   }
 
+  handleClick = e => {
+    console.log("Dentro de la función handleClick");
+    console.log("Nombre de postulante: " + this.props.postulante.nombre);
+    console.log("Tipo de netrevista: " + this.state.tipoEntrevista);
+    console.log("Id de tipo de entrevista: " + this.state.idTipoEntrevista)
+    console.log("Cliente: " + this.props.cliente.descripcion)
+    console.log("Id de cliente: " + this.props.cliente  .id_cliente)
+  }
+
   render() {
-    console.log("Valores de clientes: " + this.state.clientes);
     const { tipoEntrevistas } = this.state;
     const entrevista = tipoEntrevistas.map(entr => {
       return <option value={entr.descripcion}>{entr.descripcion}</option>
@@ -73,8 +87,10 @@ class Entrevista extends React.Component {
           </div>
           <div align="center">
             <h3>
-              Samantha Gutierrez Tapia
-          </h3>
+              {this.props.postulante.nombre}&nbsp; &nbsp;
+              {this.props.postulante.apellido1}&nbsp; &nbsp;
+              {this.props.postulante.apellido2}
+            </h3>
             <TextField
               label="Fecha Actual"
               type="date-local"
@@ -95,7 +111,7 @@ class Entrevista extends React.Component {
             <h3 align="center">
               Entrevistador: &nbsp; &nbsp;
             <label className="datosCita">
-                Nombre entrevistador
+                {this.props.cita.entrevistador}
             </label>
             </h3>
           </div>
@@ -129,7 +145,7 @@ class Entrevista extends React.Component {
                       <h4>Cliente:</h4>
                     </div>
                     <div className="col" align="center">
-                      <Autocompletado valores={this.state.clientes} />
+                      <Autocompletado valores={this.state.clientes} valor={this.props.cliente.descripcion}/>
                     </div>
                   </div>
                 </div>
@@ -180,4 +196,12 @@ class Entrevista extends React.Component {
   }
 }
 
-export default Entrevista;
+const mapStateToProps = state => {
+  return  {
+    postulante: state.postulante,
+    cliente: state.cliente,
+    cita: state.cita
+  }
+}
+
+export default connect(mapStateToProps,null)(Entrevista);

@@ -3,9 +3,13 @@ import { number } from "prop-types";
 import {
   postSecciones,
   getTipoExamen,
-  getExamenes
+  getExamenes,
+  getSecciones,
+  deleteSeccion
 } from "../../request/request";
 import { connect } from "react-redux";
+import TablaSecciones from "./tabla_secciones";
+import { setSeccion } from "../../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -35,17 +39,18 @@ class Seccion extends React.Component {
       fecha_actualizacion: date
     },
     respTipoExamen: [],
-    respExamen: []
+    respExamen: [],
+    respSecciones: []
   };
 
   componentDidUpdate(previousProps, previousState) {
-    console.log(previousProps);
-    console.log(previousState);
-    console.log(this.state.respExamen);
+    // console.log(previousProps);
+    // console.log(previousState.respExamen);
+    // console.log(this.state.respExamen);
     if (previousState == this.state) {
       this.getTipoExamen();
       this.getExamenes();
-      console.log("actualizando render");
+      this.getSecciones();
     }
   }
 
@@ -57,6 +62,11 @@ class Seccion extends React.Component {
   getExamenes = async () => {
     const nuevoGet = await getExamenes();
     this.setState({ respExamen: nuevoGet.data });
+  };
+
+  getSecciones = async () => {
+    const nuevoGet = await getSecciones();
+    this.setState({ respSecciones: nuevoGet.data });
   };
 
   handleChange = e => {
@@ -83,18 +93,19 @@ class Seccion extends React.Component {
     postSecciones(this.state.seccion, this.props.examen.id_examen)
       .then(response => {
         console.log(response);
+        this.props.dispatchSetSeccion(response);
       })
       .catch(console.log);
   };
 
+  handleDelete = e => {
+    deleteSeccion(this.props.seccion.id_seccion);
+  };
+
   render() {
     const exa = this.props.examen;
-    console.log(this.state.respExamen);
-    const secc = this.state.respExamen.map(sec => {
-      if (sec.id_examen === exa.id_examen) {
-        console.log("encontrado");
-      }
-    });
+    //console.log(this.state.respExamen);
+
     if (this.props.examen !== "vacio") {
       return (
         <React.Fragment>
@@ -161,6 +172,7 @@ class Seccion extends React.Component {
                   </div>
                   <div className="col-md-2 left">
                     <button
+                      type="button"
                       className="btn  btn-danger left"
                       onClick={this.handleDelete}
                     >
@@ -172,19 +184,7 @@ class Seccion extends React.Component {
             </div>
             <br />
             <br />
-            <div className="container">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">seleccion</th>
-                    <th scope="col">No. seccion</th>
-                    <th scope="col">Puntaje</th>
-                    <th scope="col">Promedio</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
+            <TablaSecciones />
           </form>
         </React.Fragment>
       );
@@ -210,11 +210,17 @@ class Seccion extends React.Component {
 const mapStateToProps = state => {
   return {
     cita: state.cita,
-    examen: state.examen
+    examen: state.examen,
+    seccion: state.seccion
   };
 };
 
+const mapDispatchToProps = dispatch => ({
+  dispatchSetSeccion: value => dispatch(setSeccion(value))
+});
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
   null
 )(Seccion);
