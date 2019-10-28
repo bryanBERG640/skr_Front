@@ -3,7 +3,7 @@ import IconoAgendar from "../Imagenes/agendarcita.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { postCita, putCita } from "../request/request";
+import { postCita, putCita, putPostulanteB } from "../request/request";
 import { setCita } from "../actions/postulanteB";
 import { getEmpresa, getCliente } from "../request/request";
 import { clickCompletarDatos } from "../actions/postulanteB";
@@ -45,7 +45,18 @@ class agendar extends React.Component {
         usuario_actualiza: "Bryan Ramirez",
         fecha_actualizacion: date
       },
-      c: this.props.cita
+      c: this.props.cita,
+      postulante: {
+        id_postulante_b: this.props.postulante.id_postulante_b,
+        nombre: this.props.postulante.nombre,
+        apellido1: this.props.postulante.apellido1,
+        apellido2: this.props.postulante.apellido2,
+        correo: this.props.postulante.correo,
+        celular: this.props.postulante.celular,
+        telefono: this.props.postulante.telefono,
+        usuario_actualiza: this.props.postulante.usuario_actualiza,
+        fecha_actualizacion: this.props.postulante.fecha_actualizacion
+      }
     };
   }
 
@@ -113,16 +124,33 @@ class agendar extends React.Component {
         .catch(console.log);
     }
 
-    // console.log(idCliente);
     // console.log(this.state.cita);
     // console.log(this.state.idEmpresa);
-    console.log("Realizando Post")
-    postCita(
-      this.state.cita,
-      this.state.cita.idEstatusCita,
-      this.state.cita.idPostulante,
-      this.state.idEmpresa,
-      idCliente
+    // console.log(this.state.cita.idPostulante);
+    // console.log(idCliente);
+    console.log("Realizando Post");
+    // postCita(
+    //   this.state.cita,
+    //   this.state.cita.idEstatusCita,
+    //   this.state.cita.idPostulante,
+    //   this.state.idEmpresa,
+    //   idCliente
+    // )
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(console.log);
+
+    console.log("Realizando put a PB");
+    // console.log(this.state.postulante)
+    // console.log(this.state.postulante.perfil.id_perfil)
+    // console.log(this.state.postulante.id_postulante_b)
+
+    putPostulanteB(
+      this.state.postulante,
+      2,
+      this.props.postulante.perfil.id_perfil,
+      this.props.postulante.id_postulante_b
     )
       .then(response => {
         console.log(response);
@@ -223,16 +251,19 @@ class agendar extends React.Component {
               &nbsp; &nbsp;
               {/* <a
                 className="btn btn-primary"
-                href="/consultarCita"
                 onClick={this.handleClick}
+                nombre={this.state.cita}
+                href="/consultarCita"
               >
                 agendar
               </a> */}
-              <button type="button"
-              className="btn btn-primary"
-              onClick={this.handleClick}>
+              <Link
+                to="/consultarCita"
+                className="btn btn-primary"
+                onClick={this.handleClick}
+              >
                 Agendar
-              </button>
+              </Link>
             </div>
             <br />
             <div>

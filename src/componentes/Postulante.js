@@ -164,7 +164,7 @@ class Postulante extends React.Component {
     }
 
     handleClick = e => {
-        debugger
+        //debugger
         console.log("Dentro de handleClick:")
         if (this.state.pc !== undefined) {
             const requestPostulanteB = {
@@ -240,7 +240,7 @@ class Postulante extends React.Component {
 
 
     handleSelectEstatusPostulante = e => {
-        debugger
+        //debugger
         console.log("Dentro de handleSelect:");
         this.state.EstatusPostulante.map(estatusP => {
             if (estatusP.descripcion === e.target.value) {
