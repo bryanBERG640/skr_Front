@@ -391,8 +391,25 @@ function postSecciones(jsonRequest, idExamen) {
     .catch(console.log);
 }
 
-function deleteSeccion(idSeccion) {
-  axios.delete("http://192.168.1.230:8088/skr_v1/seccion/delete/" + idSeccion);
+async function deleteSeccion(idSeccion) {
+  //debugger;
+  console.log(idSeccion);
+  try {
+    await fetch(
+      "http://192.168.1.230:8088/skr_v1/seccion/delete/" + idSeccion,
+      {
+        method: "DELETE",
+        body: JSON.stringify(idSeccion),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "text/plain"
+        }
+      }
+    );
+    console.log("eliminado");
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export {

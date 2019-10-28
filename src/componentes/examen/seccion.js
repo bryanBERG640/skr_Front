@@ -99,7 +99,13 @@ class Seccion extends React.Component {
   };
 
   handleDelete = e => {
-    deleteSeccion(this.props.seccion.id_seccion);
+    //debugger;
+    deleteSeccion(this.props.seccion.id_seccion)
+      .then(response => {
+        console.log(response);
+        this.props.dispatchSetSeccion("vacio");
+      })
+      .catch(console.log);
   };
 
   render() {
@@ -131,7 +137,7 @@ class Seccion extends React.Component {
             </div>
 
             <div className="row div">
-              <div className="col-md-3 left">
+              <div className="col-md-3">
                 <label className="seccion">No. Sección:</label>
                 <input
                   className="label"

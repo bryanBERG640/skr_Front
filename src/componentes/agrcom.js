@@ -3,6 +3,7 @@ import IconAge from "../Imagenes/agenda.png";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { putCita } from "../request/request";
+import { number } from "prop-types";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -34,7 +35,16 @@ const date = anio + "-" + mes + "-" + dia;
 
 class agrcom extends React.Component {
   state = {
-    cita: this.props.cita
+    cita: {
+      id_cita: this.props.cita.id_cita,
+      entrevistador: this.props.cita.entrevistador,
+      fecha: this.props.cita.fecha,
+      hora: this.props.cita.hora,
+      observaciones: "",
+      usuario_actualiza: this.props.cita.usuario_actualiza,
+      fecha_actualizacion: this.props.fecha_actualizacion,
+      idEstatusCita: number
+    }
   };
 
   handleSelect = e => {
@@ -62,8 +72,8 @@ class agrcom extends React.Component {
       this.state.cita,
       this.state.cita.idEstatusCita,
       this.props.postulante.id_postulante_b,
-      this.state.cita.empresa.id_empresa,
-      this.state.cita.cliente.id_cliente,
+      this.props.cita.empresa.id_empresa,
+      this.props.cita.cliente.id_cliente,
       this.state.cita.id_cita
     )
       .then(response => {

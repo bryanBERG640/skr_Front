@@ -129,17 +129,17 @@ class agendar extends React.Component {
     // console.log(this.state.cita.idPostulante);
     // console.log(idCliente);
     console.log("Realizando Post");
-    // postCita(
-    //   this.state.cita,
-    //   this.state.cita.idEstatusCita,
-    //   this.state.cita.idPostulante,
-    //   this.state.idEmpresa,
-    //   idCliente
-    // )
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(console.log);
+    postCita(
+      this.state.cita,
+      this.state.cita.idEstatusCita,
+      this.state.cita.idPostulante,
+      this.state.idEmpresa,
+      idCliente
+    )
+      .then(response => {
+        console.log(response);
+      })
+      .catch(console.log);
 
     console.log("Realizando put a PB");
     // console.log(this.state.postulante)
@@ -249,21 +249,14 @@ class agendar extends React.Component {
             <br />
             <div>
               &nbsp; &nbsp;
-              {/* <a
+              <a
                 className="btn btn-primary"
                 onClick={this.handleClick}
                 nombre={this.state.cita}
                 href="/consultarCita"
               >
                 agendar
-              </a> */}
-              <Link
-                to="/consultarCita"
-                className="btn btn-primary"
-                onClick={this.handleClick}
-              >
-                Agendar
-              </Link>
+              </a>
             </div>
             <br />
             <div>
