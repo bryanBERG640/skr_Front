@@ -391,12 +391,32 @@ function postSecciones(jsonRequest, idExamen) {
     .catch(console.log);
 }
 
-function getTipoEntrevista() {
-  const tipoEntrevistas = axios.get("http://192.168.1.230:8088/skr_v1/tipoEntrevista/get");
-  return tipoEntrevistas;
+async function deleteSeccion(idSeccion) {
+  //debugger;
+  console.log(idSeccion);
+  try {
+    await fetch(
+      "http://192.168.1.230:8088/skr_v1/seccion/delete/" + idSeccion,
+      {
+        method: "DELETE",
+        body: JSON.stringify(idSeccion),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "text/plain"
+        }
+      }
+    );
+    console.log("eliminado");
+  } catch (error) {
+    console.error(error);
+  }
 }
-function deleteSeccion(idSeccion) {
-  axios.delete("http://192.168.1.230:8088/skr_v1/seccion/delete/" + idSeccion);
+
+function getTipoEntrevista() {
+  const tipoEntrevistas = axios.get(
+    "http://192.168.1.230:8088/skr_v1/tipoEntrevista/get"
+  );
+  return tipoEntrevistas;
 }
 
 function postCita()
