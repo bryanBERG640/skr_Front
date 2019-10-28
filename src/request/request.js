@@ -335,6 +335,12 @@ function postSecciones(jsonRequest, idExamen) {
     .catch(console.log);
 }
 
+function deleteSeccion(idSeccion)
+{
+  axios.delete("http://192.168.1.230:8088/skr_v1/seccion/delete/"+
+  idSeccion)
+}
+
 export {
   getCliente,
   getSecciones,
@@ -360,5 +366,6 @@ export {
   postSecciones,
   putCita,
   postPostulanteC,
-  putPostulanteC
+  putPostulanteC,
+  deleteSeccion
 };

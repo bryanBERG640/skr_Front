@@ -92,9 +92,9 @@ class agendar extends React.Component {
   };
 
   handleClick = e => {
-    let idCliente = this.props.catalogo.id_cliente;
+    let idCliente = this.props.cliente.id_cliente;
     if (this.state.c !== "vacio") {
-      // console.log("realizar put");
+      console.log("Realizando put");
       // console.log(this.state.c);
       // console.log(2);
       // console.log(this.props.postulante.id_postulante_b);
@@ -116,6 +116,7 @@ class agendar extends React.Component {
     // console.log(idCliente);
     // console.log(this.state.cita);
     // console.log(this.state.idEmpresa);
+    console.log("Realizando Post")
     postCita(
       this.state.cita,
       this.state.cita.idEstatusCita,
@@ -220,13 +221,18 @@ class agendar extends React.Component {
             <br />
             <div>
               &nbsp; &nbsp;
-              <a
+              {/* <a
                 className="btn btn-primary"
                 href="/consultarCita"
                 onClick={this.handleClick}
               >
                 agendar
-              </a>
+              </a> */}
+              <button type="button"
+              className="btn btn-primary"
+              onClick={this.handleClick}>
+                Agendar
+              </button>
             </div>
             <br />
             <div>

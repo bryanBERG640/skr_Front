@@ -8,6 +8,7 @@ import {getTipoExamen} from "../../request/request"
 import { number } from "prop-types";
 import {postExamen} from '../../request/request'
 import {setExamen} from '../../actions/postulanteB'
+import TablaSecciones from "./tabla_secciones";
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -232,7 +233,8 @@ class Examen extends React.Component {
                 <br/>
                 <br/>
                 <Seccion examen={this.state.examen}
-                tipo={this.state.idTipoExamen}/>      
+                tipo={this.state.idTipoExamen}/>
+                {/* <TablaSecciones/>       */}
                 
             </React.Fragment>
         );
