@@ -64,6 +64,7 @@ class Entrevista extends React.Component {
     console.log("Id de tipo de entrevista: " + this.state.idTipoEntrevista)
     console.log("Cliente: " + this.props.cliente.descripcion)
     console.log("Id de cliente: " + this.props.cliente  .id_cliente)
+    console.log("")
   }
 
   render() {

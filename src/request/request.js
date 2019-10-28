@@ -399,6 +399,8 @@ function deleteSeccion(idSeccion) {
   axios.delete("http://192.168.1.230:8088/skr_v1/seccion/delete/" + idSeccion);
 }
 
+function postCita()
+
 export {
   getTipoEntrevista,
   getCliente,
@@ -427,5 +429,6 @@ export {
   postPostulanteC,
   putPostulanteC,
   deleteSeccion,
-  putPostulanteB
+  putPostulanteB,
+  postCita
 };
