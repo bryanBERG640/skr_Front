@@ -412,7 +412,15 @@ async function deleteSeccion(idSeccion) {
   }
 }
 
+function getTipoEntrevista() {
+  const tipoEntrevistas = axios.get(
+    "http://192.168.1.230:8088/skr_v1/tipoEntrevista/get"
+  );
+  return tipoEntrevistas;
+}
+
 export {
+  getTipoEntrevista,
   getCliente,
   getSecciones,
   getTipoExamen,

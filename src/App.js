@@ -11,6 +11,7 @@ import agregar_comentario from "./componentes/agrcom";
 import Examen from "./componentes/examen/Examen";
 import Postulante from "./componentes/Postulante";
 import NotFound from "./componentes/paginas/NotFound";
+import Entrevista from "./componentes/Entrevistas/Entrevista";
 import "./App.css";
 
 function App() {
@@ -19,6 +20,11 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Switch>
+          <Route
+              exact
+              path="/Entrevista"
+              component={Entrevista}
+            />
             <Route exact path="/" />
             <Route exact path="/Ficha-Postulante" component={FichaPostulante} />
             <Route
