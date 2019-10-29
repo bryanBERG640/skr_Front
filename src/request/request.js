@@ -29,6 +29,11 @@ function getPostulanteB() {
   return postulantes;
 }
 
+function getPostulanteBId(id) {
+  const postulante = axios.get("http://192.168.1.230:8088/skr_v1/postulanteB/get/"+id);
+  return postulante;
+}
+
 function getEmpresa() {
   const empresa = axios.get("http://192.168.1.230:8088/skr_v1/empresa/get");
   return empresa;
@@ -180,6 +185,8 @@ function putPostulanteB(
     })
     .catch(console.log);
 }
+
+
 
 function postPostulanteC(
   jsonRequest,
@@ -419,7 +426,27 @@ function getTipoEntrevista() {
   return tipoEntrevistas;
 }
 
-function postCita()
+function postEntrevista(jsonRequest ,idTipoEntrevista, idCita) {
+  console.log("Valores del request: " + jsonRequest);
+  console.log("IdTipoEntrevista: " + idTipoEntrevista);
+  console.log("IdCita: " + idCita);
+
+  const url = "http://192.168.1.230:8088/skr_v1/entrevista/";
+  const path = idTipoEntrevista+"/"+idCita+"/post";
+
+  return fetch(url+path,
+    {
+      method: "POST",
+      body: JSON.stringify(jsonRequest),
+      headers:  {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
+      console.log("El post funciono correctamente.")
+      return response.json();
+    }).catch(console.log);
+}
 
 export {
   getTipoEntrevista,
@@ -431,6 +458,7 @@ export {
   getPostulanteC,
   getEmpresa,
   getPostulanteB,
+  getPostulanteBId,
   getCita,
   getPerfil,
   getCarrera,
@@ -450,5 +478,5 @@ export {
   putPostulanteC,
   deleteSeccion,
   putPostulanteB,
-  postCita
+  postEntrevista
 };

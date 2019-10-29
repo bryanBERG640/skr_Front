@@ -92,15 +92,15 @@ class Postulante extends React.Component {
     }
 
     componentWillMount = () => {
-        this.getCarrera()
-        this.getEscuela()
-        this.getEstatusAprobacion()
-        this.getEstatusCV()
-        this.getEstatusPostulante()
-        this.getEstatusTitulacion()
-        this.getSexo()
-        this.getPerfil()
-        this.setearState()
+        this.getCarrera();
+        this.getEscuela();
+        this.getEstatusAprobacion();
+        this.getEstatusCV();
+        this.getEstatusPostulante();
+        this.getEstatusTitulacion();
+        this.getSexo();
+        this.getPerfil();
+        this.setearState();
     }
 
     getCarrera = async () => {
@@ -155,7 +155,6 @@ class Postulante extends React.Component {
             this.setState({ [e.target.name]: ed })
         } else {
             this.setState({ [e.target.name]: e.target.value })
-            console.log("Apellido------------: " + this.state.postulanteC.apellido1)
         }
     }
 

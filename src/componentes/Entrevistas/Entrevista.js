@@ -1,8 +1,7 @@
 import React from "react";
 import IconoEntrevista from '../../Imagenes/entrevista.png';
 import TextField from "@material-ui/core/TextField";
-import { getTipoEntrevista, getCliente } from '../../request/request';
-import Autocompletado from '../Autocompletado/Autocommpletado';
+import { getTipoEntrevista, getCliente, postEntrevista } from '../../request/request';
 import { Link } from "react-router-dom";
 import TablaEntrevista from './TablaEntrevista';
 import { connect } from 'react-redux';
@@ -28,17 +27,23 @@ class Entrevista extends React.Component {
       tipoEntrevistas: [],
       tipoEntrevista: "",
       clientes: [],
-      cliente: "",
+      cliente: this.props.cliente.descripcion,
       idEntrevista: number,
       idCita: number,
-      idTipoEntrevista: number
-    }
+      idTipoEntrevista: number,
+      comentarios: '',
+      entrevistador: '',
+      count: 0
+    };
+    console.log("Llamado al contructor")
   }
 
   componentWillMount = () => {
     this.getTipoEntrevistas();
     this.getClientes();
-  }
+    this.getClientes();
+  };
+
   getClientes = async () => {
     const nuevoGet = await getCliente();
     this.setState({ clientes: nuevoGet.data });
@@ -51,7 +56,7 @@ class Entrevista extends React.Component {
   handleSelect = e => {
     this.state.tipoEntrevistas.map(entrevista => {
       if (entrevista.descripcion === e.target.value) {
-        this.setState({ idTipoEntrevista: entrevista.id_tipo_entrevista});
+        this.setState({ idTipoEntrevista: entrevista.id_tipo_entrevista });
         this.setState({ tipoEntrevista: entrevista.descripcion });
       }
     });
@@ -63,8 +68,24 @@ class Entrevista extends React.Component {
     console.log("Tipo de netrevista: " + this.state.tipoEntrevista);
     console.log("Id de tipo de entrevista: " + this.state.idTipoEntrevista)
     console.log("Cliente: " + this.props.cliente.descripcion)
-    console.log("Id de cliente: " + this.props.cliente  .id_cliente)
-    console.log("")
+    console.log("Id de cliente: " + this.props.cliente.id_cliente)
+    console.log("Entrevistador: " + this.state.entrevistador)
+    const request = {
+      observaciones: this.state.comentarios,
+      entrevistador: this.state.entrevistador,
+      usuario_actualiza: "Bryan Ramirez",
+      fecha_actualizacion: "2019-10-28"
+    }
+    const idTipoEntrevista = this.state.idTipoEntrevista;
+    const idCita = this.props.cita.id_cita;
+
+    postEntrevista(request, idTipoEntrevista, idCita);
+    this.setState({ count: this.state.count + 1 });
+  }
+
+  handleWrite = e => {
+    this.setState({ [e.target.name]: e.target.value })
+
   }
 
   render() {
@@ -110,10 +131,10 @@ class Entrevista extends React.Component {
           </div>
           <div>
             <h3 align="center">
-              Entrevistador: &nbsp; &nbsp;
+              Cliente: &nbsp; &nbsp;
             <label className="datosCita">
-                {this.props.cita.entrevistador}
-            </label>
+                {this.props.cita.cliente.descripcion}
+              </label>
             </h3>
           </div>
           <br /><br />
@@ -143,10 +164,14 @@ class Entrevista extends React.Component {
                 <div className="col-sm-6">
                   <div className="row">
                     <div className="col">
-                      <h4>Cliente:</h4>
+                      <h4>Entrevistador:</h4>
                     </div>
                     <div className="col" align="center">
-                      <Autocompletado valores={this.state.clientes} valor={this.props.cliente.descripcion}/>
+                      <input type="text"
+                        className="form-control"
+                        name="entrevistador"
+                        defaultValue={this.state.entrevistador}
+                        onChange={this.handleWrite}></input>
                     </div>
                   </div>
                 </div>
@@ -169,12 +194,12 @@ class Entrevista extends React.Component {
                 </div>
                 <div className="col"></div>
               </div>
-              <br/><br/>
+              <br /><br />
               <div className="row justify-content-md-center">
                 <div className="col col-lg-2">
                   {/* <Link  to="" className="btn btn-primary">Guardar</Link> */}
                   <button
-                    className="btn btn-primary btn-lg" 
+                    className="btn btn-primary btn-lg"
                     type="button"
                     onClick={this.handleClick}>Guardar</button>
                 </div>
@@ -183,10 +208,10 @@ class Entrevista extends React.Component {
                   <Link to="/consultar-Postulantes" className="btn btn-primary btn-lg"> Salir</Link>
                 </div>
               </div>
-              <br/><br/>
+              <br /><br />
               <div className="row">
                 <div className="col">
-                  <TablaEntrevista/>
+                  <TablaEntrevista />
                 </div>
               </div>
             </form>
@@ -198,11 +223,11 @@ class Entrevista extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return  {
+  return {
     postulante: state.postulante,
     cliente: state.cliente,
     cita: state.cita
   }
 }
 
-export default connect(mapStateToProps,null)(Entrevista);
+export default connect(mapStateToProps, null)(Entrevista);
