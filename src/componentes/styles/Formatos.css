@@ -92,8 +92,8 @@ thead {
   border: grey 2px solid;
   padding-left: 1rem;
   padding-right: 1rem;
-  padding-top: .5rem;
-  padding-bottom: .5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   border-radius: 6%;
 }
 
@@ -110,7 +110,7 @@ thead {
 }
 
 .boton {
-  box-shadow: 7px 8px 0px -4px rgba(0,0,0,1);
+  box-shadow: 7px 8px 0px -4px rgba(0, 0, 0, 1);
   background-color: #007bff;
   border-color: #007bff;
   padding: 0.5rem 1.5rem;
@@ -127,7 +127,7 @@ thead {
 }
 
 .boton2 {
-  box-shadow: 7px 8px 0px -4px rgba(0,0,0,1);
+  box-shadow: 7px 8px 0px -4px rgba(0, 0, 0, 1);
   background-color: #007bff;
   border-color: #007bff;
   padding: 0.7rem 2.7rem;
@@ -142,7 +142,7 @@ thead {
 }
 
 .right {
- text-align: start;
+  text-align: start;
 }
 
 .lineaEspacioDerecha {
@@ -162,29 +162,29 @@ thead {
 }
 
 .label {
-    height: calc(1.5em + 0.75rem + 2px);
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s;
-    overflow: visible;
-    margin: 0;
-    font-family: inherit;
-    letter-spacing: normal;
-    word-spacing: normal;
-    text-transform: none;
-    text-indent: 0px;
-    text-shadow: none;
-    text-align: start;
-    -webkit-appearance: textfield;
-    -webkit-rtl-ordering: logical;
-    cursor: text;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s;
+  overflow: visible;
+  margin: 0;
+  font-family: inherit;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  text-align: start;
+  -webkit-appearance: textfield;
+  -webkit-rtl-ordering: logical;
+  cursor: text;
 }
 
 .div {
@@ -201,16 +201,21 @@ thead {
 
 .autocompletado {
   display: block;
-    width: 100%;
-    height: calc(1.5em + 0.75rem + 2px);
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.restriccion {
+  color: rgba(238, 0, 0, 0.452);
+  margin-left: 100px;
 }

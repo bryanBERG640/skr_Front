@@ -188,8 +188,8 @@ class agregar_PB extends React.Component {
         <div>
           <h2 className="titulo">Agregar Postulantes</h2>
         </div>
-        <div class="row">
-          <div class="column" align="right">
+        <div className="row" style={{ width: 1200 }}>
+          <div className="column" align="right" style={{ width: 370 }}>
             <p>
               <label htmlFor="perfil">Perfil: </label>
             </p>
@@ -225,7 +225,7 @@ class agregar_PB extends React.Component {
             </p>
           </div>
 
-          <div class="column" align="righ">
+          <div className="column" align="righ">
             <div className="form-group">
               <select
                 value={this.state.value}
@@ -329,7 +329,7 @@ class agregar_PB extends React.Component {
             />
           </div>
 
-          <div class="column" align="center">
+          <div className="column" align="center">
             <input type="image" className="agregar" src={agregar} />
             <h4> Guardar CV en formato PDF </h4>
             <br />

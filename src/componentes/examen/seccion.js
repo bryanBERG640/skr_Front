@@ -40,7 +40,8 @@ class Seccion extends React.Component {
     },
     respTipoExamen: [],
     respExamen: [],
-    respSecciones: []
+    respSecciones: [],
+    value: ""
   };
 
   componentDidUpdate(previousProps, previousState) {
@@ -72,7 +73,7 @@ class Seccion extends React.Component {
   handleChange = e => {
     let sec = this.state.seccion;
     let vari = parseInt(e.target.value);
-
+    console.log(vari);
     if (e.target.name === "seccion") {
       sec.no_seccion = vari;
       this.setState({ seccion: sec });
@@ -96,6 +97,13 @@ class Seccion extends React.Component {
         this.props.dispatchSetSeccion(response);
       })
       .catch(console.log);
+
+    let secc = {
+      no_seccion: number,
+      puntaje: number,
+      calificacion: number
+    };
+    this.setState({ seccion: secc });
   };
 
   handleDelete = e => {
@@ -106,6 +114,10 @@ class Seccion extends React.Component {
         this.props.dispatchSetSeccion("vacio");
       })
       .catch(console.log);
+  };
+
+  handleClean = e => {
+    e.target.value = "";
   };
 
   render() {
@@ -138,30 +150,33 @@ class Seccion extends React.Component {
 
             <div className="row div">
               <div className="col-md-3">
-                <label className="seccion">No. Sección:</label>
+                * No. Sección: &nbsp;
                 <input
                   className="label"
                   type="text"
                   name="seccion"
                   onChange={this.handleChange}
+                  value={this.state.seccion.no_seccion}
                 />
               </div>
               <div className="col-md-3">
-                <label className="seccion">Puntaje:</label>
+                <label className="seccion">* Puntaje:</label>
                 <input
                   className="label"
                   type="text"
                   name="puntaje"
                   onChange={this.handleChange}
+                  value={this.state.seccion.puntaje}
                 />
               </div>
               <div className="col-md-2.5 right">
-                <label className="seccion">calificacion:</label>
+                <label className="seccion">* calificacion:</label>
                 <input
                   className="label"
                   type="text"
                   name="calificacion"
                   onChange={this.handleChange}
+                  value={this.state.seccion.calificacion}
                 />
               </div>
               <div className="col-md-3">
@@ -198,13 +213,13 @@ class Seccion extends React.Component {
     return (
       <React.Fragment>
         <div align="center">
-          <td className="lineaEspacioDerecha2">
+          <td className="lineaEspacioDerecha">
             <ColoredLine color="blue" />
           </td>
           <td>
             <h2>Secciónes</h2>
           </td>
-          <td className="lineaEspacioIzquierda2">
+          <td className="lineaEspacioDerecha">
             <ColoredLine color="blue" />
           </td>
         </div>

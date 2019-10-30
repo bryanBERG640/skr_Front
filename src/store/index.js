@@ -1,6 +1,5 @@
 import { createStore } from "redux"; //Se import la libreria
 import { filtrosPBReducer } from "../reducers/filtrosPBReducer";
-import { Cita } from "../reducers/ConsultarCitaReducer";
 
 //Se genera un estado inicial y se pasa como parametro en la funcion de abajo.
 const initialState = {

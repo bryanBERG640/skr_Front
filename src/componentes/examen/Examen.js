@@ -5,10 +5,8 @@ import { Link } from "react-router-dom";
 import {connect} from 'react-redux'
 import Seccion from "../examen/seccion";
 import {getTipoExamen} from "../../request/request"
-import { number } from "prop-types";
 import {postExamen} from '../../request/request'
 import {setExamen} from '../../actions/postulanteB'
-import TablaSecciones from "./tabla_secciones";
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -31,11 +29,11 @@ const date=anio+"-"+mes+"-"+dia
 class Examen extends React.Component {
     state=
     {
-        idTipoExamen:number,
+        idTipoExamen:0,
         tiposExamen:[],
         examen:
         {
-            calificacion_global:number,
+            calificacion_global:0,
             entrevistador:this.props.cita.entrevistador,
             observaciones:"",
             usuario_actualiza:"Bryan Ramirez",
@@ -89,14 +87,37 @@ class Examen extends React.Component {
 
     handleClick=e=>
     {
-        postExamen(this.state.examen,
-            this.props.cita.id_cita,
-            this.state.idTipoExamen).then(response=>
-                {
-                    console.log(response)
-                    this.props.dispatchSetExamen(response)
-                })
-                .catch(console.log)
+        if(this.state.examen.calificacion_global!==0 &&
+            this.state.idTipoExamen!==0)
+            {
+                postExamen(this.state.examen,
+                    this.props.cita.id_cita,
+                    this.state.idTipoExamen).then(response=>
+                        {
+                            console.log(response)
+                            this.props.dispatchSetExamen(response)
+                        })
+                        .catch(console.log)
+            }
+        
+    }
+
+    handleSubmit=e=>
+    {
+        e.preventDefault()
+// if(this.state.examen.calificacion_global!==0 &&
+//             this.state.idTipoExamen!==0)
+//             {
+//                 postExamen(this.state.examen,
+//                     this.props.cita.id_cita,
+//                     this.state.idTipoExamen).then(response=>
+//                         {
+//                             console.log(response)
+//                             this.props.dispatchSetExamen(response)
+//                         })
+//                         .catch(console.log)
+
+//}
     }
 
     render() {
@@ -104,6 +125,9 @@ class Examen extends React.Component {
             {
                 return <option value={te.descripcion}>{te.descripcion}</option>
             })
+            
+
+
         return (
             <React.Fragment>
                 <div align="center">
@@ -135,9 +159,9 @@ class Examen extends React.Component {
                     />
                 </div>
                 <div className="center">
-                    <form>
+                    <form  onSubmit={this.handleSubmit}>
                         <div className="form">
-                            <div className="marginBotton" align="center">
+                            <div npm  align="center" >
                                 <div className="container">
                                     <div className="row justify-content-md-center">
                                         <h3>
@@ -148,24 +172,28 @@ class Examen extends React.Component {
                                     <div className="row justify-content-md-center">
                                         <h4>
                                             Empresa: &nbsp; &nbsp;
-                                            <label className="datosCita"> {this.props.cita.empresa.descripcion}</label>
+                                            {/* <label className="datosCita"> {this.props.cita.empresa.descripcion}</label> */}
                                         </h4>
                                     </div>
                                     <div className="row justify-content-md-center">
                                         <h4>
                                             Cliente: &nbsp; &nbsp;
-                                            <label className="datosCita"> {this.props.cita.cliente.descripcion}</label>
+                                            {/* <label className="datosCita"> {this.props.cita.cliente.descripcion}</label> */}
                                         </h4>
                                     </div>
+                                    
                                 </div>
                             </div>
+                           <div className="center">
+                           <label className="restriccion">* Campo Obligatorio</label>
+                           </div>
                             <div className="center">
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-sm-4">
                                             <div className="row">
                                                 <div className="col-sm-12">
-                                                    <label>Tipo de exámen:</label>
+                                                    <label>* Tipo de exámen:</label>
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <select className="form-control labelBorder" 
@@ -181,14 +209,15 @@ class Examen extends React.Component {
                                         <div className="col-sm-3">
                                             <div className="row">
                                                 <div className="col-sm-12">
-                                                    <label>Calificación global:</label>
+                                                    <label>* Calificación global:</label>
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <input className="form-control labelBorder" 
                                                     type="text"
                                                     name="calificacion_global"
                                                     value={this.state.value}
-                                                    onChange={this.handleChange}/>
+                                                    onChange={this.handleChange}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -209,23 +238,21 @@ class Examen extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="center">
-                                <form>
-                                    <div className="container">
-                                        <div className="row">
-                                            <div className="col-5 left">
-                                                {/* <Link to="/consultarCita" className="btn btn-primary" >Guardar</Link> */}
-                                                <button type="button" 
-                                                className="btn btn-primary"
-                                                onClick={this.handleClick}>Confirmar</button>
-                                            </div>
-                                            <div className="col-2"></div>
-                                            <div className="col-5 center divBoton2">
-                                                <Link to="/consultarCita" className="boton2"> Salir</Link>
-                                            </div>
+                            <div className="center">                                
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col-2">
+                                        <button className="btn btn-primary"
+                                        
+                                        type="button"                                             
+                                            onClick={this.handleClick}
+                                            >Confirmar</button>
                                         </div>
+                                        <div className="col-2">
+                                        <Link to="/consultarCita" className="btn btn-danger"> Salir</Link>
+                                        </div>                                                
                                     </div>
-                                </form>
+                                </div>                                
                             </div>
                         </div>
                     </form>
@@ -234,8 +261,6 @@ class Examen extends React.Component {
                 <br/>
                 <Seccion examen={this.state.examen}
                 tipo={this.state.idTipoExamen}/>
-                {/* <TablaSecciones/>       */}
-                
             </React.Fragment>
         );
     }
