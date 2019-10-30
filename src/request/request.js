@@ -443,7 +443,7 @@ function postEntrevista(jsonRequest ,idTipoEntrevista, idCita) {
         "Content-Type": "application/json"
       }
     }).then(response => {
-      console.log("El post funciono correctamente.")
+      console.log("El post funciono correctamente." + response)
       return response.json();
     }).catch(console.log);
 }

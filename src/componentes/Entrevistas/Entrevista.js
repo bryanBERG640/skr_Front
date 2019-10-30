@@ -21,28 +21,26 @@ const ColoredLine = ({ color }) => (
 const fecha = new Date();
 
 class Entrevista extends React.Component {
-  constructor(args) {
-    super(args);
+  constructor() {
+    super();
     this.state = {
       tipoEntrevistas: [],
       tipoEntrevista: "",
       clientes: [],
-      cliente: this.props.cliente.descripcion,
       idEntrevista: number,
       idCita: number,
       idTipoEntrevista: number,
       comentarios: '',
-      entrevistador: '',
-      count: 0
+      entrevistador: ''
     };
-    console.log("Llamado al contructor")
   }
 
-  componentWillMount = () => {
+  componentDidMount() {
+    console.log("Dentro de didMount: ")
     this.getTipoEntrevistas();
     this.getClientes();
-    this.getClientes();
-  };
+    this.setState({ idEntrevista: 0})
+  }
 
   getClientes = async () => {
     const nuevoGet = await getCliente();
@@ -79,8 +77,10 @@ class Entrevista extends React.Component {
     const idTipoEntrevista = this.state.idTipoEntrevista;
     const idCita = this.props.cita.id_cita;
 
-    postEntrevista(request, idTipoEntrevista, idCita);
-    this.setState({ count: this.state.count + 1 });
+    postEntrevista(request, idTipoEntrevista, idCita).then(Response => {
+      const r = Response.id_entrevista;
+      this.setState({ idEntrevista: r})
+    })
   }
 
   handleWrite = e => {
@@ -142,7 +142,6 @@ class Entrevista extends React.Component {
           <div className="container">
             <form>
               <div className="row" align="center">
-
                 <div className="col-sm-6">
                   <div className="row">
                     <div className="col">
@@ -189,7 +188,8 @@ class Entrevista extends React.Component {
                     cols="60"
                     name="comentarios"
                     onChange={this.handleWrite}
-                    defaulValue="">
+                    defaulValue=""
+                    placeholder="Agrega comentarios">
                   </textarea>
                 </div>
                 <div className="col"></div>
@@ -211,7 +211,7 @@ class Entrevista extends React.Component {
               <br /><br />
               <div className="row">
                 <div className="col">
-                  <TablaEntrevista />
+                  <TablaEntrevista id={this.state.idEntrevista}/>
                 </div>
               </div>
             </form>

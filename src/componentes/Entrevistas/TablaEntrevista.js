@@ -7,14 +7,19 @@ class TablaEntrevista extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            postulanteB: this.props.postulante.cita,
-            entre: []
+            cita: this.props.cita,
+            entre: [],
+            idEntrevista: this.props.id
+
         }
     }
 
-    componentWillMount() {
-            this.getEntrevistas();
-        
+    componentWillUpdate(previousProps, previousState) {
+        console.log(this.props)
+            if(previousProps !== this.props) {
+                this.getEntrevistas();
+                console.log("Actualizando")
+            }
     }
 
     getEntrevistas = async () => {
@@ -23,21 +28,20 @@ class TablaEntrevista extends Component {
     }
 
     render() {
-        const { postulanteB, entre } = this.state;
-        const entrevistas = postulanteB.map(cit => {
-            return cit.entrevista.map(entr => {
-                return entre.map(e => {
-                    if (entr.id_entrevista === e.id_entrevista) {
+        const { cita, entre } = this.state;
+        const entrevistas = cita.entrevista.map(cit => {
+                return entre.map(entrevistas => {
+                    if (cit.id_entrevista === entrevistas.id_entrevista) {
                         return (
                             <tr>
-                                <td>{e.tipoentrevista.descripcion}</td>
-                                <td>{e.entrevistador}</td>
-                                <td>{e.observaciones}</td>
+                                <td>{entrevistas.tipoentrevista.descripcion}</td>
+                                <td>{entrevistas.entrevistador}</td>
+                                <td>{entrevistas.observaciones}</td>
                             </tr>
                         )
+                        console.log("Encontrado")
                     }
                 })
-            })
         })
         return (
             <React.Fragment>
@@ -64,7 +68,8 @@ class TablaEntrevista extends Component {
 
 const mapStateToProps = state => {
     return {
-        postulante: state.postulante
+        postulante: state.postulante,
+        cita: state.cita
     }
 }
 
