@@ -776,7 +776,7 @@ class Postulante extends React.Component {
                                     </div>
                                     <div className="col-sm-6">
                                         <select className="form-control labelBorder" required name="estatus_cv" onChange={this.handleSelectEstatusCV}>
-                                            <option value="1" selected disabled>{this.state.estatus_cv}</option>
+                                            <option value="1" selected disabled>Seleciona</option>
                                             {CV}
                                         </select>
                                     </div>

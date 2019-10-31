@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import TablaEntrevista from './TablaEntrevista';
 import { connect } from 'react-redux';
 import { number } from 'prop-types';
+import { setEntrevista } from "../../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -31,7 +32,8 @@ class Entrevista extends React.Component {
       idCita: number,
       idTipoEntrevista: number,
       comentarios: '',
-      entrevistador: ''
+      entrevistador: '',
+      respuesta: []
     };
   }
 
@@ -77,10 +79,12 @@ class Entrevista extends React.Component {
     const idTipoEntrevista = this.state.idTipoEntrevista;
     const idCita = this.props.cita.id_cita;
 
-    postEntrevista(request, idTipoEntrevista, idCita).then(Response => {
-      const r = Response.id_entrevista;
-      this.setState({ idEntrevista: r})
+    let res = postEntrevista(request, idTipoEntrevista, idCita).then(response => {
+      this.props.dispatchSetEntrevista(response);
     })
+    this.setState({ respuesta: res })
+    
+    this.setState({ idEntrevista: this.state.idEntrevista + 1 })
   }
 
   handleWrite = e => {
@@ -211,7 +215,7 @@ class Entrevista extends React.Component {
               <br /><br />
               <div className="row">
                 <div className="col">
-                  <TablaEntrevista id={this.state.idEntrevista}/>
+                  <TablaEntrevista id={this.state.idEntrevista} respuesta={this.state.respuesta} />
                 </div>
               </div>
             </form>
@@ -230,4 +234,8 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, null)(Entrevista);
+const mapDispatchToProps = dispatch => ({
+  dispatchSetEntrevista: value => dispatch(setEntrevista(value))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Entrevista);
