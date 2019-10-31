@@ -12,6 +12,15 @@ import {
 } from "../request/request";
 import agrP from "../Imagenes/agregar-postulante.png";
 import { Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
+import {
+  ValidatorForm,
+  TextValidator,
+  SelectValidator
+} from "react-material-ui-form-validator";
+import { TextField } from "@material-ui/core";
+import { number } from "prop-types";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -37,16 +46,16 @@ class agregar_PB extends React.Component {
     this.state = {
       respPerf: [],
       respEstatus: [],
-      perfil: 0,
-      estatuspostulante: 0,
+      perfil: null,
+      estatuspostulante: null,
       postulante: {
-        apellido1: "",
-        apellido2: "",
-        nombre: "",
-        correo: "",
-        telefono: "",
-        celular: "",
-        observaciones: "",
+        apellido1: null,
+        apellido2: null,
+        nombre: null,
+        correo: null,
+        telefono: null,
+        celular: null,
+        observaciones: null,
         usuario_actualiza: "Bryan Ramirez",
         fecha_actualizacion: date
       }
@@ -54,6 +63,7 @@ class agregar_PB extends React.Component {
   }
 
   onChange(e) {
+    console.log(this.state);
     let pos = this.state.postulante;
 
     if (e.target.name === "nombre") {
@@ -130,46 +140,77 @@ class agregar_PB extends React.Component {
   };
 
   handleClick = e => {
-    //console.log(this.state.postulante);
-    postSeccion(
-      this.state.postulante,
-      this.state.estatuspostulante,
-      this.state.perfil
-    )
-      .then(response => {
-        console.log(response);
-      })
-      .catch(console.log);
+    console.log(this.state.postulante);
+    // postSeccion(
+    //   this.state.postulante,
+    //   this.state.estatuspostulante,
+    //   this.state.perfil
+    // )
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(console.log);
   };
 
   handleSelect1 = e => {
-    // console.log(e.target.value);
-    this.state.respPerf.map(perf => {
-      if (e.target.value === perf.descripcion) {
-        this.setState({ perfil: perf.id_perfil });
-      }
-      return perf.descripcion;
-    });
+    this.setState({ perfil: e.target.value });
+    this.setState({ value: 0 });
   };
 
   handleSelect2 = e => {
-    //console.log(e.target.value);
-    this.state.respEstatus.map(est => {
-      if (e.target.value === est.descripcion) {
-        this.setState({ estatuspostulante: est.id_estatus_postulante });
+    this.setState({ estatuspostulante: e.target.value });
+  };
+
+  handleSubmit = e => {
+    console.log("submit");
+    if (
+      this.state.perfil !== null &&
+      this.state.estatuspostulante !== null &&
+      this.state.postulante.apellido1 !== null &&
+      this.state.postulante.apellido2 !== null &&
+      this.state.postulante.nombre !== null &&
+      this.state.postulante.correo !== null &&
+      this.state.postulante.telefono !== null &&
+      this.state.postulante.celular !== null
+    ) {
+      if (
+        this.state.perfil !== "" &&
+        this.state.estatuspostulante !== "" &&
+        this.state.postulante.apellido1 !== "" &&
+        this.state.postulante.apellido2 !== "" &&
+        this.state.postulante.nombre !== "" &&
+        this.state.postulante.correo !== "" &&
+        this.state.postulante.telefono !== "" &&
+        this.state.postulante.celular !== ""
+      ) {
+        console.log("aprobado");
       }
-      return est.descripcion;
-    });
+    }
+  };
+
+  handleChange = e => {
+    const { postulante } = this.state;
+    postulante[e.target.name] = e.target.value;
+    this.setState({ postulante });
   };
 
   render() {
+    console.log(this.state);
     const { respPerf, respEstatus } = this.state;
     const perfiles = respPerf.map(perf => {
-      return <option value={perf.descripcion}>{perf.descripcion}</option>;
+      return (
+        <option value={perf.id_perfil} style={{ textAlign: "left" }}>
+          {perf.descripcion}
+        </option>
+      );
     });
 
     const estatus = respEstatus.map(st => {
-      return <option value={st.descripcion}>{st.descripcion}</option>;
+      return (
+        <option value={st.id_estatus_postulante} style={{ textAlign: "left" }}>
+          {st.descripcion}
+        </option>
+      );
     });
     return (
       <div className="Content">
@@ -189,166 +230,157 @@ class agregar_PB extends React.Component {
           <h2 className="titulo">Agregar Postulantes</h2>
         </div>
         <div className="row" style={{ width: 1200 }}>
-          <div className="column" align="right" style={{ width: 370 }}>
-            <p>
-              <label htmlFor="perfil">Perfil: </label>
-            </p>
-            <p>
-              <label htmlFor="name">Nombre(s): </label>
-            </p>
-            <p>
+          <ValidatorForm
+            ref="form"
+            onSubmit={this.handleSubmit}
+            onError={errors => console.log(errors)}
+          >
+            <div
+              className="column"
+              align="right"
+              style={{ marginLeft: 300, marginRight: 35 }}
+            >
+              <div className="form-group">
+                <SelectValidator
+                  className="seleccion"
+                  style={{ width: 340 }}
+                  text-align="left"
+                  label="Perfil"
+                  value={this.state.perfil}
+                  onChange={this.handleSelect1}
+                  name="perfil"
+                  validators={["required"]}
+                  errorMessages={["Campo Obligatorio"]}
+                >
+                  {perfiles}
+                </SelectValidator>
+              </div>
+              <TextValidator
+                style={{ width: 340 }}
+                label="Nombre"
+                onChange={this.handleChange}
+                name="nombre"
+                value={this.state.postulante.nombre}
+                validators={["required"]}
+                errorMessages={["Campo Obligatorio"]}
+              />
               <br />
-              <label htmlFor="ap"> Apellido Paterno: </label>
-            </p>
-            <p>
               <br />
-              <label htmlFor="am"> Apellido Materno: </label>
-            </p>
-
-            <label htmlFor="correo"> Correo(s) Electrónico(s): </label>
-
-            <p>
+              <TextValidator
+                style={{ width: 340 }}
+                label="Apellido Paterno"
+                onChange={this.handleChange}
+                name="apellido1"
+                value={this.state.postulante.apellido1}
+                validators={["required"]}
+                errorMessages={["Campo Obligatorio"]}
+              />
               <br />
-              <label htmlFor="telefono"> Teléfono: </label>
-            </p>
-            <br />
-            <p>
-              <label htmlFor="celular"> Celular: </label>
-            </p>
-            <br />
-            <p>
-              <label htmlFor="estatus"> Estatus: </label>
-            </p>
-
-            <p>
-              <label htmlFor="descripcion"> Descripción: </label>
-            </p>
-          </div>
-
-          <div className="column" align="righ">
-            <div className="form-group">
-              <select
-                value={this.state.value}
-                onChange={this.handleSelect1}
-                name="perfil"
-                className="form-control"
-              >
-                <option>Elija una opción</option>
-                {perfiles}
-              </select>
+              <br />
+              <TextValidator
+                style={{ width: 340 }}
+                label="Apellido Materno"
+                onChange={this.handleChange}
+                name="apellido2"
+                value={this.state.postulante.apellido2}
+                validators={["required"]}
+                errorMessages={["Campo Obligatorio"]}
+              />
+              <br />
+              <br />
+              <TextValidator
+                style={{ width: 340 }}
+                label="Correo(s) Electronico(s)"
+                onChange={this.handleChange}
+                name="correo"
+                value={this.state.postulante.correo}
+                validators={["required"]}
+                errorMessages={["Campo Obligatorio"]}
+              />
+              <br />
+              <br />
+              <TextValidator
+                style={{ width: 340 }}
+                label="Telefono"
+                onChange={this.handleChange}
+                name="telefono"
+                value={this.state.postulante.telefono}
+                validators={["required"]}
+                errorMessages={["Campo Obligatorio"]}
+              />
+              <br />
+              <br />
+              <TextValidator
+                style={{ width: 340 }}
+                label="Celular"
+                onChange={this.handleChange}
+                name="celular"
+                value={this.state.postulante.celular}
+                validators={["required"]}
+                errorMessages={["Campo Obligatorio"]}
+              />
+              <br />
+              <br />
+              <div className="form-group">
+                <SelectValidator
+                  className="seleccion"
+                  style={{ width: 340 }}
+                  label="Estatus Postulante"
+                  name="estatuspostulante"
+                  value={this.state.estatuspostulante}
+                  onChange={this.handleSelect2}
+                  validators={["required"]}
+                  errorMessages={["Campo Obligatorio"]}
+                >
+                  {estatus}
+                </SelectValidator>
+              </div>
+              <br />
+              <label align="left">
+                Observaciones:
+                <textarea
+                  style={{ height: 120, marginBottom: 30 }}
+                  className="textArea form-control"
+                  label="Observaciones"
+                  value={this.state.postulante.observaciones}
+                  onChange={this.onChange.bind(this)}
+                  name="observaciones"
+                  id="observaciones"
+                  rows="4"
+                  cols="50"
+                />
+              </label>
             </div>
 
-            <input
-              value={this.state.postulante.nombre}
-              onChange={this.onChange.bind(this)}
-              className="form-control"
-              placeholder="Escribe tu nombre"
-              autocomplete="off"
-              id="name"
-              name="nombre"
-              type="text"
-            />
-            <br />
-            <input
-              value={this.state.postulante.apellido1}
-              onChange={this.onChange.bind(this)}
-              className="form-control"
-              placeholder="Escribe tu apellido paterno"
-              autocomplete="off"
-              id="apellido1"
-              name="apellido1"
-              type="text"
-            />
-            <br />
-            <input
-              value={this.state.postulante.apellido2}
-              onChange={this.onChange.bind(this)}
-              className="form-control"
-              placeholder="Escribe tu apellido materno"
-              autocomplete="off"
-              id="apellido2"
-              name="apellido2"
-              type="text"
-            />
-            <br />
-            <input
-              value={this.state.postulante.correo}
-              onChange={this.onChange.bind(this)}
-              className="form-control"
-              placeholder="Escribe tu correo electrónico"
-              autocomplete="off"
-              id="correo"
-              name="correo"
-              type="text"
-            />
-            <br />
+            <div className="column" align="right">
+              <input type="image" className="agregar" src={agregar} />
+              <h4> Guardar CV en formato PDF </h4>
+              <br />
 
-            <input
-              value={this.state.postulante.telefono}
-              onChange={this.onChange.bind(this)}
-              className="form-control"
-              placeholder="Escribe tu telefono"
-              autocomplete="off"
-              id="telefono"
-              name="telefono"
-              type="text"
-            />
-            <br />
-
-            <input
-              value={this.state.postulante.celular}
-              onChange={this.onChange.bind(this)}
-              className="form-control"
-              placeholder="Escribe tu celular"
-              autocomplete="off"
-              id="celular"
-              name="celular"
-              type="text"
-            />
-            <br />
-            <div className="form-group">
-              <select
-                name="estatuspostulante"
-                value={this.state.value}
-                onChange={this.handleSelect2}
-                className="form-control"
-              >
-                <option>Elija una opción</option>
-                {estatus}
-              </select>
-            </div>
-
-            <br />
-            <textarea
-              value={this.state.postulante.observaciones}
-              onChange={this.onChange.bind(this)}
-              name="observaciones"
-              id="observaciones"
-              rows="4"
-              cols="50"
-            />
-          </div>
-
-          <div className="column" align="center">
-            <input type="image" className="agregar" src={agregar} />
-            <h4> Guardar CV en formato PDF </h4>
-            <br />
-
-            <a
+              {/* <a
               href="/consultar-Postulantes"
               className="btn btn-primary"
               onClick={this.handleClick}
               nombre={this.state.nombre}
             >
               Guardar
-            </a>
+            </a> */}
 
-            <br />
-            <br />
-            <Link to="/consultar-Postulantes" className="btn btn-primary">
-              Salir
-            </Link>
-          </div>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={this.handleSubmit}
+              >
+                Guardar
+              </button>
+
+              <br />
+              <br />
+              <Link to="/consultar-Postulantes" className="btn btn-primary">
+                Salir
+              </Link>
+            </div>
+          </ValidatorForm>
         </div>
       </div>
     );

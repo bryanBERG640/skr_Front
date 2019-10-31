@@ -219,3 +219,7 @@ thead {
   color: rgba(238, 0, 0, 0.452);
   margin-left: 100px;
 }
+
+.seleccion {
+  text-align: left;
+}
