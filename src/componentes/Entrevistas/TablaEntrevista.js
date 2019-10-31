@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
 import '../styles/Formatos.css';
-import { getEntrevista } from '../../request/request';
+import { getEntrevista, getCitaId } from '../../request/request';
 import { connect } from 'react-redux';
 
 class TablaEntrevista extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            postulanteB: this.props.postulante.cita,
-            entre: []
+            entre: [],
+            citas: this.props.cita
+        }
+    }
+    componentWillUpdate(previousProps, previousState) {
+        if (previousProps !== this.props) {
+            this.getEntrevistas();
+            this.getCitaId();
         }
     }
 
-    componentWillMount() {
-            this.getEntrevistas();
-        
+    getCitaId = async () => {
+        const nuevoGet = await getCitaId(this.props.cita.id_cita);
+        this.setState({ citas: nuevoGet.data });
     }
 
     getEntrevistas = async () => {
@@ -23,20 +29,21 @@ class TablaEntrevista extends Component {
     }
 
     render() {
-        const { postulanteB, entre } = this.state;
-        const entrevistas = postulanteB.map(cit => {
-            return cit.entrevista.map(entr => {
-                return entre.map(e => {
-                    if (entr.id_entrevista === e.id_entrevista) {
-                        return (
-                            <tr>
-                                <td>{e.tipoentrevista.descripcion}</td>
-                                <td>{e.entrevistador}</td>
-                                <td>{e.observaciones}</td>
-                            </tr>
-                        )
-                    }
-                })
+        console.log(this.state.citas)
+        const { citas, entre } = this.state;
+        const entrevistas = citas.entrevista.map(cit => {
+            return entre.map(entrevistas => {
+                if (entrevistas.id_entrevista === cit.id_entrevista) {
+                    console.log("Encontrado")
+                    return (
+                        <tr>
+                            <td>{entrevistas.tipoentrevista.descripcion}</td>
+                            <td>{entrevistas.entrevistador}</td>
+                            <td>{entrevistas.observaciones}</td>
+                        </tr>
+                    )
+                }
+
             })
         })
         return (
@@ -64,8 +71,10 @@ class TablaEntrevista extends Component {
 
 const mapStateToProps = state => {
     return {
-        postulante: state.postulante
+        cita: state.cita,
+        entrevista: state.entrevista
     }
 }
+
 
 export default connect(mapStateToProps, null)(TablaEntrevista);

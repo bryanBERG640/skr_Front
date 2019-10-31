@@ -345,6 +345,13 @@ function getEntrevista() {
   return entrevistas;
 }
 
+function getCitaId(id) {
+  const cita = axios.get(
+    "http://192.168.1.230:8088/skr_v1/cita/get/"+id
+  );
+  return cita;
+}
+
 function getTipoExamen() {
   const tipoExamenes = axios.get(
     "http://192.168.1.230:8088/skr_v1/tipoExamen/get"
@@ -443,7 +450,7 @@ function postEntrevista(jsonRequest ,idTipoEntrevista, idCita) {
         "Content-Type": "application/json"
       }
     }).then(response => {
-      console.log("El post funciono correctamente.")
+      console.log("El post funciono correctamente." + response)
       return response.json();
     }).catch(console.log);
 }
@@ -478,5 +485,6 @@ export {
   putPostulanteC,
   deleteSeccion,
   putPostulanteB,
-  postEntrevista
+  postEntrevista,
+  getCitaId
 };

@@ -54,3 +54,9 @@ export const setSeccion = payload => ({
   type: SET_SECCION,
   payload
 });
+
+export const SET_ENTREVISTA = "SET_ENTREVISTA";
+export const setEntrevista = payload => ({
+  type: SET_ENTREVISTA,
+  payload
+});

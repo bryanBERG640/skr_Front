@@ -15,7 +15,7 @@ class TablaSeccion extends React.Component {
     if (previousProps !== this.props) {
       console.log("actualizando render TablaSeccion");
       this.getSecciones();
-      this.getExamenes();
+      this.getExamenes(); 
     }
   }
 
