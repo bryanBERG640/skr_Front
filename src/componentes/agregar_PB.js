@@ -5,22 +5,19 @@ import "./styles/Formatos.css";
 import "./styles/FormatoImagenes.css";
 import agregar from "../Imagenes/agregar.png";
 import {
-  getPostulanteB,
   getPerfil,
   postSeccion,
-  getEstatusPostulante
+  getEstatusPostulante,
+  putPostulanteB
 } from "../request/request";
 import agrP from "../Imagenes/agregar-postulante.png";
 import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
 import {
   ValidatorForm,
   TextValidator,
   SelectValidator
 } from "react-material-ui-form-validator";
-import { TextField } from "@material-ui/core";
-import { number } from "prop-types";
+import { connect } from "react-redux";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -49,12 +46,12 @@ class agregar_PB extends React.Component {
       perfil: null,
       estatuspostulante: null,
       postulante: {
-        apellido1: null,
-        apellido2: null,
-        nombre: null,
-        correo: null,
-        telefono: null,
-        celular: null,
+        apellido1: "",
+        apellido2: "",
+        nombre: "",
+        correo: "",
+        telefono: "",
+        celular: "",
         observaciones: null,
         usuario_actualiza: "Bryan Ramirez",
         fecha_actualizacion: date
@@ -112,17 +109,40 @@ class agregar_PB extends React.Component {
   }
 
   componentWillMount = () => {
-    getPostulanteB()
-      .then(response => {
-        let nuevoGet = [];
-        nuevoGet.push(response);
-        this.setState({ resp: nuevoGet });
-        console.log(this.state.resp);
-      })
-      .catch(console.log);
     this.getEstatusPostulante();
     this.getPerfil();
     this.setState({ isLoading: false });
+    ValidatorForm.addValidationRule("formatoLetras", string =>
+      /^[a-zA-Z\-_'áéíóúÁÉÍÓÚ -]*$/.test(string)
+    );
+    ValidatorForm.addValidationRule("formatoNumeros", string =>
+      /^[0-9 -]*$/.test(string)
+    );
+    ValidatorForm.addValidationRule("Longitud1", string => {
+      if (string.length <= 40) return true;
+      else return false;
+    });
+    ValidatorForm.addValidationRule("Longitud2", string => {
+      if (string.length === 10) return true;
+    });
+    if (this.props.postulante !== "Vacio") {
+      const pos = {
+        apellido1: this.props.postulante.apellido1,
+        apellido2: this.props.postulante.apellido2,
+        nombre: this.props.postulante.nombre,
+        correo: this.props.postulante.correo,
+        telefono: this.props.postulante.telefono,
+        celular: this.props.postulante.celular,
+        observaciones: this.props.postulante.observaciones,
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: date
+      };
+      const per = this.props.postulante.perfil.id_perfil;
+      const ep = this.props.postulante.estatuspostulante.id_estatus_postulante;
+      this.setState({ postulante: pos });
+      this.setState({ perfil: per });
+      this.setState({ estatuspostulante: ep });
+    }
   };
 
   getEstatusPostulante = async () => {
@@ -139,19 +159,6 @@ class agregar_PB extends React.Component {
     });
   };
 
-  handleClick = e => {
-    console.log(this.state.postulante);
-    // postSeccion(
-    //   this.state.postulante,
-    //   this.state.estatuspostulante,
-    //   this.state.perfil
-    // )
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(console.log);
-  };
-
   handleSelect1 = e => {
     this.setState({ perfil: e.target.value });
     this.setState({ value: 0 });
@@ -163,27 +170,54 @@ class agregar_PB extends React.Component {
 
   handleSubmit = e => {
     console.log("submit");
+    console.log(this.state);
     if (
-      this.state.perfil !== null &&
-      this.state.estatuspostulante !== null &&
-      this.state.postulante.apellido1 !== null &&
-      this.state.postulante.apellido2 !== null &&
-      this.state.postulante.nombre !== null &&
-      this.state.postulante.correo !== null &&
-      this.state.postulante.telefono !== null &&
-      this.state.postulante.celular !== null
+      this.state.perfil !== "" &&
+      this.state.estatuspostulante !== "" &&
+      this.state.postulante.apellido1 !== "" &&
+      this.state.postulante.apellido2 !== "" &&
+      this.state.postulante.nombre !== "" &&
+      this.state.postulante.correo !== "" &&
+      this.state.postulante.telefono !== "" &&
+      this.state.postulante.celular !== ""
     ) {
-      if (
-        this.state.perfil !== "" &&
-        this.state.estatuspostulante !== "" &&
-        this.state.postulante.apellido1 !== "" &&
-        this.state.postulante.apellido2 !== "" &&
-        this.state.postulante.nombre !== "" &&
-        this.state.postulante.correo !== "" &&
-        this.state.postulante.telefono !== "" &&
-        this.state.postulante.celular !== ""
-      ) {
-        console.log("aprobado");
+      console.log("aprobado");
+      if (this.props.postulante !== "Vacio") {
+        const request = {
+          id_postulante_b: this.props.postulante.id_postulante_b,
+          apellido1: this.state.postulante.apellido1,
+          apellido2: this.state.postulante.apellido2,
+          nombre: this.state.postulante.nombre,
+          correo: this.state.postulante.correo,
+          telefono: this.state.postulante.telefono,
+          celular: this.state.postulante.celular,
+          observaciones: this.state.postulante.observaciones,
+          usuario_actualiza: "Bryan Ramirez",
+          fecha_actualizacion: date
+        };
+        //console.log(this.props.postulante.id_postulante_b)
+        putPostulanteB(
+          request,
+          this.state.estatuspostulante,
+          this.state.perfil,
+          this.props.postulante.id_postulante_b
+        )
+          .then(response => {
+            console.log(response);
+          })
+          .catch(console.log);
+        this.props.history.push("/consultar-Postulantes");
+      } else {
+        postSeccion(
+          this.state.postulante,
+          this.state.estatuspostulante,
+          this.state.perfil
+        )
+          .then(response => {
+            console.log(response);
+          })
+          .catch(console.log);
+        this.props.history.push("/consultar-Postulantes");
       }
     }
   };
@@ -195,7 +229,6 @@ class agregar_PB extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     const { respPerf, respEstatus } = this.state;
     const perfiles = respPerf.map(perf => {
       return (
@@ -261,8 +294,12 @@ class agregar_PB extends React.Component {
                 onChange={this.handleChange}
                 name="nombre"
                 value={this.state.postulante.nombre}
-                validators={["required"]}
-                errorMessages={["Campo Obligatorio"]}
+                validators={["required", "formatoLetras", "Longitud1"]}
+                errorMessages={[
+                  "Campo Obligatorio",
+                  "Ingrese solo Letras",
+                  "Solo se permiten 40 caracteres"
+                ]}
               />
               <br />
               <br />
@@ -272,8 +309,12 @@ class agregar_PB extends React.Component {
                 onChange={this.handleChange}
                 name="apellido1"
                 value={this.state.postulante.apellido1}
-                validators={["required"]}
-                errorMessages={["Campo Obligatorio"]}
+                validators={["required", "formatoLetras", "Longitud1"]}
+                errorMessages={[
+                  "Campo Obligatorio",
+                  "Ingrese solo Letras",
+                  "Solo se permiten 40 caracteres"
+                ]}
               />
               <br />
               <br />
@@ -283,8 +324,12 @@ class agregar_PB extends React.Component {
                 onChange={this.handleChange}
                 name="apellido2"
                 value={this.state.postulante.apellido2}
-                validators={["required"]}
-                errorMessages={["Campo Obligatorio"]}
+                validators={["formatoLetras", "Longitud1", "required"]}
+                errorMessages={[
+                  "Ingrese solo Letras",
+                  "Solo se permiten 40 caracteres",
+                  "Campo Obligatorio"
+                ]}
               />
               <br />
               <br />
@@ -305,8 +350,12 @@ class agregar_PB extends React.Component {
                 onChange={this.handleChange}
                 name="telefono"
                 value={this.state.postulante.telefono}
-                validators={["required"]}
-                errorMessages={["Campo Obligatorio"]}
+                validators={["required", "formatoNumeros", "Longitud2"]}
+                errorMessages={[
+                  "Campo Obligatorio",
+                  "Ingrese solo Numeros",
+                  "Deben ser 10 digitos"
+                ]}
               />
               <br />
               <br />
@@ -316,8 +365,12 @@ class agregar_PB extends React.Component {
                 onChange={this.handleChange}
                 name="celular"
                 value={this.state.postulante.celular}
-                validators={["required"]}
-                errorMessages={["Campo Obligatorio"]}
+                validators={["required", "formatoNumeros", "Longitud2"]}
+                errorMessages={[
+                  "Campo Obligatorio",
+                  "Ingrese solo Numeros",
+                  "Deben ser 10 digitos"
+                ]}
               />
               <br />
               <br />
@@ -366,11 +419,7 @@ class agregar_PB extends React.Component {
               Guardar
             </a> */}
 
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={this.handleSubmit}
-              >
+              <button type="submit" className="btn btn-primary">
                 Guardar
               </button>
 
@@ -387,4 +436,11 @@ class agregar_PB extends React.Component {
   }
 }
 
-export default agregar_PB;
+const mapStateToProps = state => ({
+  postulante: state.postulante
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(agregar_PB);

@@ -37,7 +37,7 @@ class consulta_PB extends Component {
   state = {
     respPerf: [],
     perfil: "",
-    nombre: "",
+    nombre: null,
     apellido1: "",
     apellido2: ""
   };
@@ -56,7 +56,7 @@ class consulta_PB extends Component {
   };
 
   handleWrite = e => {
-    console.log("-.-.-."+e.target.value);
+    console.log("-.-.-." + e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -69,8 +69,9 @@ class consulta_PB extends Component {
     console.log(this.state.apellido2);
   };
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     this.getPerfil();
+    this.setState({ nombre: "" });
   };
   getPerfil = async () => {
     const nuevoGet = await getPerfil();
@@ -164,7 +165,7 @@ class consulta_PB extends Component {
               />
             </div>
             <div className="col">
-                <img className="lupa" src={lupa} alt="consulta" />
+              <img className="lupa" src={lupa} alt="consulta" />
             </div>
           </form>
 
@@ -213,7 +214,6 @@ class consulta_PB extends Component {
                 <th width="15%">Correo</th>
                 <th width="10%">Perfil</th>
                 <th width="10%">Estatus</th>
-                <th width="5%">Editar</th>
               </tr>
             </thead>
             <tbody>
@@ -233,7 +233,8 @@ class consulta_PB extends Component {
 const mapDispatchProps = dispatch => ({
   dispatchClickAgendar: value => dispatch(clickAgendar(value)),
   dispatchClickBuscar: value => dispatch(clickBuscar(value)),
-  dispatchClickAgregarPostulante: value => dispatch(clickAgregarPostulante(value)),
+  dispatchClickAgregarPostulante: value =>
+    dispatch(clickAgregarPostulante(value)),
   dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value)),
   dispatchClickMostrarFicha: value => dispatch(clickMostrarFicha(value))
 });

@@ -19,15 +19,26 @@ class filtrosPB extends React.Component {
     super(props);
   }
 
-  componentWillMount = () => {
-    this.getPostulanteB();
+  componentWillUpdate(previousProps, previousState) {
+    if(previousProps!==this.props)
+    {
+      console.log("actualizando por Props")
+      this.getPostulanteB();
     this.getPostulanteTodo();
     this.setState({ isLoading: false });
     this.setState({ isLoadingPC: false})
+    }
+    if(previousState===this.state)
+    {
+      console.log("actualizando por State")
+      this.getPostulanteB();
+    this.getPostulanteTodo();
+    this.setState({ isLoading: false });
+    this.setState({ isLoadingPC: false})
+    }
   };
   getPostulanteB = async () => {
     const nuevoGet = await getPostulanteB();
-    console.log("-------" + nuevoGet.data)
     this.setState({ resp: nuevoGet.data });
   };
   getPostulanteTodo = async () => {
@@ -94,14 +105,7 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              <td>
-                <input
-                  type="image"
-                  className="lapiz"
-                  src={lapiz}
-                  alt="editar"
-                />
-              </td>
+              
             </tr>
           );
         }
@@ -131,14 +135,7 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              <td>
-                <input
-                  type="image"
-                  className="lapiz"
-                  src={lapiz}
-                  alt="editar"
-                />
-              </td>
+              
             </tr>
           );
         }
@@ -168,14 +165,6 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              <td>
-                <input
-                  type="image"
-                  className="lapiz"
-                  src={lapiz}
-                  alt="editar"
-                />
-              </td>
             </tr>
           );
         }
@@ -205,14 +194,7 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              <td>
-                <input
-                  type="image"
-                  className="lapiz"
-                  src={lapiz}
-                  alt="editar"
-                />
-              </td>
+              
             </tr>
           );
         }
@@ -242,14 +224,7 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              <td>
-                <input
-                  type="image"
-                  className="lapiz"
-                  src={lapiz}
-                  alt="editar"
-                />
-              </td>
+              
             </tr>
           );
         }
@@ -279,14 +254,7 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              <td>
-                <input
-                  type="image"
-                  className="lapiz"
-                  src={lapiz}
-                  alt="editar"
-                />
-              </td>
+              
             </tr>
           );
         }
@@ -316,14 +284,7 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              <td>
-                <input
-                  type="image"
-                  className="lapiz"
-                  src={lapiz}
-                  alt="editar"
-                />
-              </td>
+              
             </tr>
           );
         }
@@ -357,14 +318,7 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              <td>
-                <input
-                  type="image"
-                  className="lapiz"
-                  src={lapiz}
-                  alt="editar"
-                />
-              </td>
+              
             </tr>
           );
         }
