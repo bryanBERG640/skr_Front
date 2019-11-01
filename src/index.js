@@ -9,8 +9,8 @@ import createHistory from "history/createBrowserHistory";
 // import configureStore from "./store/ConfigureStore";
 import { store } from "./store/index";
 
-const history = createHistory(); //configuramos history
-const middleware = routerMiddleware(history); //configuramos middleware
+// const history = createHistory(); //configuramos history
+// const middleware = routerMiddleware(history); //configuramos middleware
 // const store=configureStore(middleware);//asignamos middleware------------------
 
 const container = document.getElementById("app");

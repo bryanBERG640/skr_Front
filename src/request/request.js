@@ -164,10 +164,8 @@ function putPostulanteB(
   idPostulanteB
 ) {
   // debugger;
-  console.log("Valores de requestPostulanteB: " + requestPostulanteB);
-  console.log("Valor de idEstatusPostulante: " + idEstatusPostulante);
-  console.log("Valor de idPerfil: " + idPerfil);
-  console.log("valod de id_postulante" + idPostulanteB);
+  console.log( requestPostulanteB);
+
 
   const ruta = "http://192.168.1.230:8088/skr_v1/postulanteB/";
   const path = idEstatusPostulante + "/" + idPerfil + "/put/" + idPostulanteB;
