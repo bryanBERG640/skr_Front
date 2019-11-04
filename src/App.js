@@ -14,6 +14,7 @@ import NotFound from "./componentes/paginas/NotFound";
 import Entrevista from "./componentes/Entrevistas/Entrevista";
 import "./App.css";
 import history from "./history";
+import prueba from "./componentes/agendarPrueba";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route exact path="/consultarCita" component={consultarCita} />
             <Route exact path="/agregar_PB" component={Agregar_PB} />
             <Route exact path="/agendar_cita" component={agendar} />
+            <Route exact path="/prueba-cita" component={prueba}/>
             <Route
               exact
               path="/agregar_comentario"

@@ -12,8 +12,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -33,14 +31,15 @@ class Entrevista extends React.Component {
     super();
     this.state = {
       tipoEntrevistas: [],
-      tipoEntrevista: null,
+      tipoEntrevista: '',
       clientes: [],
       idEntrevista: number,
       idCita: number,
-      idTipoEntrevista: null,
+      idTipoEntrevista: number,
       comentarios: '',
       entrevistador: '',
-      respuesta: []
+      respuesta: [],
+      aux: null
     };
   }
 
@@ -62,15 +61,16 @@ class Entrevista extends React.Component {
   };
 
   handleSelect = e => {
-    debugger
-    this.setState({ 
+    
+    this.setState({
       idTipoEntrevista: e.target.value,
-      tipoEntrevista: e.target.value })
-      console.log("Valor-----" + e.target.value)
+      tipoEntrevista: e.target.value
+    })
+    console.log("Valor-----" + e.target.value)
   }
 
   handleClick = e => {
-    debugger
+    
     const request = {
       observaciones: this.state.comentarios,
       entrevistador: this.state.entrevistador,
@@ -90,8 +90,9 @@ class Entrevista extends React.Component {
     this.setState({
       comentarios: '',
       entrevistador: '',
-      tipoEntrevista: undefined,
-      idTipoEntrevista: undefined
+      aux: this.state.aux+1,
+      tipoEntrevista: null,
+      idTipoEntrevista: null
     })
 
   }
@@ -106,8 +107,8 @@ class Entrevista extends React.Component {
 
   render() {
     const { tipoEntrevistas } = this.state;
-    console.log("Valor de tipo de entrevista--"+this.state.tipoEntrevista)
-    console.log("Valor de id tipo de entrevista--"+this.state.idTipoEntrevista)
+    console.log("Valor de tipo de entrevista--" + this.state.tipoEntrevista)
+    console.log("Valor de id tipo de entrevista--" + this.state.idTipoEntrevista)
     const entrevista = tipoEntrevistas.map(entr => {
       return <option value={entr.id_tipo_entrevista}>{entr.descripcion}</option>
     })
@@ -159,45 +160,41 @@ class Entrevista extends React.Component {
 
           <div className="container">
             <ValidatorForm
-               ref="form"
-               onSubmit={this.handleClick}
-               onError={errors => console.log(errors)}
+              ref="form"
+              onSubmit={this.handleClick}
+              onError={errors => console.log(errors)}
             >
               <div className="row" align="center">
                 <div className="col-sm-6">
-                  <div className="row">
-                    <div className="col">
-                      <h4>Tipo de entrevista</h4>
-                    </div>
-                    <div className="col">
-                      <SelectValidator
-                        className="form-control"
-                        label="Tipo entrevista"
-                        name="tipoEntrevista"
-                        value={this.state.tipoEntrevista}
-                        onChange={this.handleSelect}
-                        validators={["required"]} 
-                        errorMessages={["Campo obligatorio"]}
-                      >
-                        <option value="1" selected disabled>Tipo entrevista:</option>
-                        {entrevista}
-                      </SelectValidator>
-                    </div>
+                  <div className="col">
+                    <SelectValidator
+                      style={{ width: 340 }}
+                      className="form-control"
+                      label="Tipo entrevista"
+                      name="tipoEntrevista"
+                      value={this.state.tipoEntrevista}
+                      onChange={this.handleSelect}
+                      validators={["required"]}
+                      errorMessages={["Campo obligatorio"]}
+                    >
+                      <option value="1" >Tipo entrevista:</option>
+                      {entrevista}
+                    </SelectValidator>
                   </div>
                 </div>
 
                 <div className="col-sm-6">
                   <div className="col">
-                      <TextValidator
-                        className="form-control"
-                        label="Entrevistador"
-                        id="Entrevistador"
-                        onChange={this.handleWrite}
-                        name="entrevistador"
-                        value={this.state.entrevistador}
-                        validators={["required","isValidName"]}
-                        errorMessages={['El campo es requrido', 'Formato invalido']}
-                      />
+                    <TextValidator
+                      className="form-control"
+                      label="Entrevistador"
+                      id="Entrevistador"
+                      onChange={this.handleWrite}
+                      name="entrevistador"
+                      value={this.state.entrevistador}
+                      validators={["required", "isValidName"]}
+                      errorMessages={['El campo es requrido', 'Formato invalido']}
+                    />
                   </div>
                 </div>
               </div>
@@ -223,11 +220,10 @@ class Entrevista extends React.Component {
               <br /><br />
               <div className="row justify-content-md-center">
                 <div className="col col-lg-2">
-                  {/* <Link  to="" className="btn btn-primary">Guardar</Link> */}
                   <button
                     className="btn btn-primary btn-lg"
                     type="submit"
-                   >Guardar</button>
+                  >Guardar</button>
                 </div>
                 <div className="col-md-auto"></div>
                 <div className="col col-lg-2">
