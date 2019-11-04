@@ -136,7 +136,7 @@ class agregar_PB extends React.Component {
         celular: this.props.postulante.celular,
         observaciones: this.props.postulante.observaciones,
         usuario_actualiza: "Bryan Ramirez",
-        fecha_actualizacion: date
+         fecha_actualizacion: date
       };
       const per = this.props.postulante.perfil.id_perfil;
       const ep = this.props.postulante.estatuspostulante.id_estatus_postulante;
@@ -231,6 +231,7 @@ class agregar_PB extends React.Component {
   };
 
   render() {
+    console.log("-----------"+this.state.perfil)
     const { respPerf, respEstatus } = this.state;
     const perfiles = respPerf.map(perf => {
       return (

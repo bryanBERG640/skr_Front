@@ -7,6 +7,11 @@ import TablaEntrevista from './TablaEntrevista';
 import { connect } from 'react-redux';
 import { number } from 'prop-types';
 import { setEntrevista } from "../../actions/postulanteB";
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -26,14 +31,15 @@ class Entrevista extends React.Component {
     super();
     this.state = {
       tipoEntrevistas: [],
-      tipoEntrevista: "",
+      tipoEntrevista: '',
       clientes: [],
       idEntrevista: number,
       idCita: number,
       idTipoEntrevista: number,
       comentarios: '',
       entrevistador: '',
-      respuesta: []
+      respuesta: [],
+      aux: null
     };
   }
 
@@ -41,7 +47,8 @@ class Entrevista extends React.Component {
     console.log("Dentro de didMount: ")
     this.getTipoEntrevistas();
     this.getClientes();
-    this.setState({ idEntrevista: 0})
+    this.setState({ idEntrevista: 0 })
+    ValidatorForm.addValidationRule("isValidName", (string) => /[a-zA-Z \u00E0-\u00FC]{1,20}/g.test(string));
   }
 
   getClientes = async () => {
@@ -54,22 +61,16 @@ class Entrevista extends React.Component {
   };
 
   handleSelect = e => {
-    this.state.tipoEntrevistas.map(entrevista => {
-      if (entrevista.descripcion === e.target.value) {
-        this.setState({ idTipoEntrevista: entrevista.id_tipo_entrevista });
-        this.setState({ tipoEntrevista: entrevista.descripcion });
-      }
-    });
+    
+    this.setState({
+      idTipoEntrevista: e.target.value,
+      tipoEntrevista: e.target.value
+    })
+    console.log("Valor-----" + e.target.value)
   }
 
   handleClick = e => {
-    console.log("Dentro de la función handleClick");
-    console.log("Nombre de postulante: " + this.props.postulante.nombre);
-    console.log("Tipo de netrevista: " + this.state.tipoEntrevista);
-    console.log("Id de tipo de entrevista: " + this.state.idTipoEntrevista)
-    console.log("Cliente: " + this.props.cliente.descripcion)
-    console.log("Id de cliente: " + this.props.cliente.id_cliente)
-    console.log("Entrevistador: " + this.state.entrevistador)
+    
     const request = {
       observaciones: this.state.comentarios,
       entrevistador: this.state.entrevistador,
@@ -83,19 +84,33 @@ class Entrevista extends React.Component {
       this.props.dispatchSetEntrevista(response);
     })
     this.setState({ respuesta: res })
-    
+
     this.setState({ idEntrevista: this.state.idEntrevista + 1 })
+
+    this.setState({
+      comentarios: '',
+      entrevistador: '',
+      aux: this.state.aux+1,
+      tipoEntrevista: null,
+      idTipoEntrevista: null
+    })
+
   }
 
   handleWrite = e => {
-    this.setState({ [e.target.name]: e.target.value })
 
+    console.log("Valor de entrevistador:" + e.target.value)
+    this.setState({ [e.target.name]: e.target.value })
+    console.log("Valor de nombre:" + e.target.name)
+    console.log("Valor del state entrevistador:" + this.state.entrevistador)
   }
 
   render() {
     const { tipoEntrevistas } = this.state;
+    console.log("Valor de tipo de entrevista--" + this.state.tipoEntrevista)
+    console.log("Valor de id tipo de entrevista--" + this.state.idTipoEntrevista)
     const entrevista = tipoEntrevistas.map(entr => {
-      return <option value={entr.descripcion}>{entr.descripcion}</option>
+      return <option value={entr.id_tipo_entrevista}>{entr.descripcion}</option>
     })
     return (
       <React.Fragment>
@@ -144,38 +159,42 @@ class Entrevista extends React.Component {
           <br /><br />
 
           <div className="container">
-            <form>
+            <ValidatorForm
+              ref="form"
+              onSubmit={this.handleClick}
+              onError={errors => console.log(errors)}
+            >
               <div className="row" align="center">
                 <div className="col-sm-6">
-                  <div className="row">
-                    <div className="col">
-                      <h4>Tipo de entrevista</h4>
-                    </div>
-                    <div className="col">
-                      <select
-                        className="form-control"
-                        value={this.state.value}
-                        onChange={this.handleSelect}
-                      >
-                        <option>Tipo entrevista:</option>
-                        {entrevista}
-                      </select>
-                    </div>
+                  <div className="col">
+                    <SelectValidator
+                      style={{ width: 340 }}
+                      className="form-control"
+                      label="Tipo entrevista"
+                      name="tipoEntrevista"
+                      value={this.state.tipoEntrevista}
+                      onChange={this.handleSelect}
+                      validators={["required"]}
+                      errorMessages={["Campo obligatorio"]}
+                    >
+                      <option value="1" >Tipo entrevista:</option>
+                      {entrevista}
+                    </SelectValidator>
                   </div>
                 </div>
 
                 <div className="col-sm-6">
-                  <div className="row">
-                    <div className="col">
-                      <h4>Entrevistador:</h4>
-                    </div>
-                    <div className="col" align="center">
-                      <input type="text"
-                        className="form-control"
-                        name="entrevistador"
-                        defaultValue={this.state.entrevistador}
-                        onChange={this.handleWrite}></input>
-                    </div>
+                  <div className="col">
+                    <TextValidator
+                      className="form-control"
+                      label="Entrevistador"
+                      id="Entrevistador"
+                      onChange={this.handleWrite}
+                      name="entrevistador"
+                      value={this.state.entrevistador}
+                      validators={["required", "isValidName"]}
+                      errorMessages={['El campo es requrido', 'Formato invalido']}
+                    />
                   </div>
                 </div>
               </div>
@@ -192,7 +211,7 @@ class Entrevista extends React.Component {
                     cols="60"
                     name="comentarios"
                     onChange={this.handleWrite}
-                    defaulValue=""
+                    value={this.state.comentarios}
                     placeholder="Agrega comentarios">
                   </textarea>
                 </div>
@@ -201,15 +220,14 @@ class Entrevista extends React.Component {
               <br /><br />
               <div className="row justify-content-md-center">
                 <div className="col col-lg-2">
-                  {/* <Link  to="" className="btn btn-primary">Guardar</Link> */}
                   <button
                     className="btn btn-primary btn-lg"
-                    type="button"
-                    onClick={this.handleClick}>Guardar</button>
+                    type="submit"
+                  >Guardar</button>
                 </div>
                 <div className="col-md-auto"></div>
                 <div className="col col-lg-2">
-                  <Link to="/consultar-Postulantes" className="btn btn-primary btn-lg"> Salir</Link>
+                  <Link to="/consultarCita" className="btn btn-primary btn-lg"> Salir</Link>
                 </div>
               </div>
               <br /><br />
@@ -218,7 +236,7 @@ class Entrevista extends React.Component {
                   <TablaEntrevista id={this.state.idEntrevista} respuesta={this.state.respuesta} />
                 </div>
               </div>
-            </form>
+            </ValidatorForm>
           </div>
         </div>
       </React.Fragment>

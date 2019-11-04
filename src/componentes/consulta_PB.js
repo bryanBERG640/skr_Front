@@ -188,6 +188,9 @@ class consulta_PB extends Component {
               <Link to="/agendar_cita" className="btn btn-primary">
                 Agendar
               </Link>
+              <Link to="/prueba-cita" className="btn btn-primary">
+                PruebaAgendar
+              </Link>
               &nbsp; &nbsp;
               <Link
                 to="/Ficha-Postulante"

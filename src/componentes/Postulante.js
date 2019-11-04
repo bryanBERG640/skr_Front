@@ -595,6 +595,7 @@ class Postulante extends React.Component {
                                     errorMessages={["Campo Obligatorio"]}
                                 />
                             </div>
+<<<<<<< HEAD
                             <div  style={{marginRight:30}} align="center">
                                 <TextValidator
                                     style={{ marginLeft: 20, width: 150 }}
@@ -608,6 +609,20 @@ class Postulante extends React.Component {
                                     "Ingrese solo Numeros"
                                     ]}
                                 />
+=======
+                            <div className="col-sm-3">
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <label>Estatus CV:</label>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <select className="form-control labelBorder" required name="estatus_cv" onChange={this.handleSelectEstatusCV}>
+                                            <option value="1" selected disabled>{this.state.estatus_cv}</option>
+                                            {CV}
+                                        </select>
+                                    </div>
+                                </div>
+>>>>>>> 94a0fac4cffa8459eca2d3bfb948a4ea5707c5d0
                             </div>
                             <div style={{marginRight:30}} align="right">
                                 <SelectValidator
