@@ -334,7 +334,11 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetPostulantC: value => dispatch(setPostulanteC(value))
 });
 
+const mapStateToProps= state=>({
+  postulante: state.postulante
+})
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(filtrosPB); //El segundo parametro del metodo connect permitira trabajar con las acciones.

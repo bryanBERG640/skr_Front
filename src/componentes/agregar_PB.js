@@ -18,6 +18,7 @@ import {
   SelectValidator
 } from "react-material-ui-form-validator";
 import { connect } from "react-redux";
+import {setPostulante} from '../actions/postulanteB'
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -113,7 +114,7 @@ class agregar_PB extends React.Component {
     this.getPerfil();
     this.setState({ isLoading: false });
     ValidatorForm.addValidationRule("formatoLetras", string =>
-      /^[a-zA-Z\-_'áéíóúÁÉÍÓÚ -]*$/.test(string)
+      /^[a-zA-ZñÑ\-_'áéíóúÁÉÍÓÚ -]*$/.test(string)
     );
     ValidatorForm.addValidationRule("formatoNumeros", string =>
       /^[0-9 -]*$/.test(string)
@@ -219,6 +220,7 @@ class agregar_PB extends React.Component {
           .catch(console.log);
         this.props.history.push("/consultar-Postulantes");
       }
+      this.props.dispatchSetPostulante("Vacio")
     }
   };
 
@@ -440,7 +442,12 @@ const mapStateToProps = state => ({
   postulante: state.postulante
 });
 
+const mapDispatchToProps = dispatch =>
+({
+dispatchSetPostulante: value=>dispatch(setPostulante(value))
+})
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(agregar_PB);

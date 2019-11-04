@@ -9,6 +9,7 @@ import {
     postPostulanteC, putPostulanteB
 } from "../request/request";
 import Autocompletado from './Autocompletado/Autocommpletado';
+import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -43,43 +44,49 @@ const divStyle = {
     position: 'relative'
 };
 
+const fecha = new Date();
+const dia = fecha.getDate();
+const mes = fecha.getMonth() + 1;
+const anio = fecha.getFullYear();
+const date = anio + "-" + mes + "-" + dia;
+
 class Postulante extends React.Component {
     state = {
         postulanteC: {
-            ap: '',
-            id_carrera: number,
+            ap: "",
+            id_carrera: null,
         },
-        carr: '',
-        escuel: '',
-        acuerdo_economico: '',
-        estatus_cv: '',
-        pretencion_economica: '',
-        experiencia: '',
-        certificaciones: '',
-        estatusTit: '',
-        estatusAp: '',
-        rfc: '',
-        curp: '',
-        sex: '',
-        edad: '',
-        fecha_nacimiento: '',
-        perf: '',
-        estatusPostulante: '',
-        comentarios: '',
-        correo: '',
-        celular: '',
-        telefono: '',
-        nombre: '',
-        apellido2: '',
-        apellido1: '',
-        id_postulante_b: number,
-        id_estatus_aprobacion: number,
-        id_estatus_cv: number,
-        id_sexo: number,
-        id_estatus_titulacion: number,
-        id_perfil: number,
-        id_status_postulante: number,
-        id_escuela: number,
+        carr: "",
+        escuel: "",
+        acuerdo_economico: "",
+        estatus_cv: "",
+        pretencion_economica: "",
+        experiencia: "",
+        certificaciones: "",
+        estatusTit: "",
+        estatusAp: "",
+        rfc: "",
+        curp: "",
+        sex: "",
+        edad: "",
+        fecha_nacimiento: "",
+        perf: "",
+        estatusPostulante: "",
+        comentarios: "",
+        correo: "",
+        celular: "",
+        telefono: "",
+        nombre: "",
+        apellido2: "",
+        apellido1: "",
+        id_postulante_b: null,
+        id_estatus_aprobacion: null,
+        id_estatus_cv: null,
+        id_sexo: null,
+        id_estatus_titulacion: null,
+        id_perfil: null,
+        id_status_postulante: null,
+        id_escuela: null,
         perfil: [],
         EstatusCV: [],
         EstatusAprobacion: [],
@@ -101,6 +108,49 @@ class Postulante extends React.Component {
         this.getSexo();
         this.getPerfil();
         this.setearState();
+        ValidatorForm.addValidationRule("formatoLetras", string =>
+      /^[a-zA-ZñÑ\-_'áéíóúÁÉÍÓÚ -]*$/.test(string)
+    );
+    ValidatorForm.addValidationRule("formatoNumeros", string =>
+      /^[0-9 -]*$/.test(string)
+    );
+    ValidatorForm.addValidationRule("Longitud1", string => {
+      if (string.length <= 40) return true;
+      else return false;
+    });
+    ValidatorForm.addValidationRule("Longitud2", string => {
+      if (string.length === 10) return true;
+      else return false;
+    });
+    ValidatorForm.addValidationRule("Curp", string=>
+    {
+        if(string.length===18) return true;
+    })
+    ValidatorForm.addValidationRule("Rfc", string=>
+    {
+        if(string.length<=13) return true;
+    })
+    ValidatorForm.addValidationRule("Mayusculas", string=>
+    /^[A-ZÑ0-9]*$/.test(string))
+    if(this.props.postulante!=="Vacio")
+    {
+        const per = this.props.postulante.perfil.id_perfil;
+      const ep = this.props.postulante.estatuspostulante.id_estatus_postulante;
+        this.setState({
+            apellido1: this.props.postulante.apellido1,
+        apellido2: this.props.postulante.apellido2,
+        nombre: this.props.postulante.nombre,
+        correo: this.props.postulante.correo,
+        telefono: this.props.postulante.telefono,
+        celular: this.props.postulante.celular,
+        observaciones: this.props.postulante.observaciones,
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: date
+        })
+        this.setState({ id_perfil: per });
+        this.setState({ id_estatus_postulante: ep });
+    }
+
     }
 
     getCarrera = async () => {
@@ -148,15 +198,8 @@ class Postulante extends React.Component {
     };
 
     handleWrite = e => {
-        if (e.target.name === "edad" || e.target.name === "pretencion_economica"
-            || e.target.name === "acuerdo_economico" || e.target.name === "telefono"
-            || e.target.name === "celular") {
-            let ed = parseInt(e.target.value)
-            this.setState({ [e.target.name]: ed })
-        } else {
-            this.setState({ [e.target.name]: e.target.value })
-        }
-    }
+        this.setState({ [e.target.name]: e.target.value })
+   }
 
     syncHandle(valor) {
         this.setState({ ap: valor })
@@ -164,7 +207,7 @@ class Postulante extends React.Component {
 
     handleClick = e => {
         //debugger
-        console.log("Dentro de handleClick:")
+       // console.log("Dentro de handleClick:")
         if (this.state.pc !== undefined) {
             const requestPostulanteB = {
                 id_postulante_b: this.state.id_postulante_b,
@@ -177,7 +220,7 @@ class Postulante extends React.Component {
                 observaciones: this.state.comentarios,
                 cv: null,
                 usuario_actualiza: "Bryan Ramirez",
-                fecha_actualizacion: "2019-10-15"
+                fecha_actualizacion: date
             }
             const idEstatusPostulante = this.state.id_status_postulante;
             const IdPerfil = this.state.id_perfil;
@@ -196,7 +239,7 @@ class Postulante extends React.Component {
                 acuerdo_economico: this.state.acuerdo_economico,
                 foto_perfil: null,
                 usuario_actualiza: "Bryan Ramirez",
-                fecha_actualizacion: "2019-10-15"
+                fecha_actualizacion: date
             }
             const idPostulanteB = this.props.postulantec.postulanteb.id_postulante_b;
             const idEscuela = this.props.escuela.id_escuela;
@@ -222,7 +265,7 @@ class Postulante extends React.Component {
                 acuerdo_economico: this.state.acuerdo_economico,
                 foto_perfil: null,
                 usuario_actualiza: "Bryan Ramirez",
-                fecha_actualizacion: "2019-10-24"
+                fecha_actualizacion: date
             }
             const idPostulanteB = this.props.postulante.id_postulante_b;
             const idEscuela = this.props.escuela.id_escuela;
@@ -237,32 +280,16 @@ class Postulante extends React.Component {
         }
     }
 
+    handleEstatusPostulante = e => {
+        this.setState({ id_estatus_postulante: e.target.value });
+      };
 
-    handleSelectEstatusPostulante = e => {
-        //debugger
-        console.log("Dentro de handleSelect:");
-        this.state.EstatusPostulante.map(estatusP => {
-            if (estatusP.descripcion === e.target.value) {
-                this.setState({
-                    id_status_postulante: estatusP.id_estatus_postulante,
-                    estatusPostulante: estatusP.descripcion
-                });
-            }
-        });
+    handlePerfil = e => {
+        this.setState({ id_perfil: e.target.value });
     };
-    handleSelectPerfil = e => {
-        console.log("Dentro de handleSelect.");
-        this.state.perfil.map(perfil => {
-            if (perfil.descripcion === e.target.value) {
-                this.setState({
-                    id_perfil: perfil.id_perfil,
-                    perf: perfil.descripcion
-                });
-            }
-        })
-    }
+   
     handleSelectEstatusTitulacion = e => {
-        console.log("Detnro de handle select:")
+        //console.log("Detnro de handle select:")
         this.state.EstatusTitulacion.map(estatusT => {
             if (estatusT.descripcion === e.target.value) {
                 this.setState({
@@ -273,18 +300,14 @@ class Postulante extends React.Component {
         })
     }
     handleSexo = e => {
-        console.log("Dentro de handleSelect: ")
-        this.state.sexo.map(sexo => {
-            if (sexo.descripcion === e.target.value) {
+        //console.log("Dentro de handleSelect: ")
                 this.setState({
-                    id_sexo: sexo.id_sexo,
-                    sex: sexo.descripcion
+                    id_sexo: e.target.value
+                    
                 })
-            }
-        })
     }
     handleSelectEstatusCV = e => {
-        console.log("Dentro de handleSelect:")
+        //console.log("Dentro de handleSelect:")
         this.state.EstatusCV.map(estatusCV => {
             if (estatusCV.descripcion === e.target.value) {
                 this.setState({
@@ -295,21 +318,16 @@ class Postulante extends React.Component {
         })
     }
     handleSelectEstatusAprobacion = e => {
-        console.log("Dentro de handleSelect:")
-        this.state.EstatusAprobacion.map(estatusApr => {
-            if (estatusApr.descripcion === e.target.value) {
+        //console.log("Dentro de handleSelect:")
                 this.setState({
-                    id_estatus_aprobacion: estatusApr.id_estatus_aprobacion,
-                    estatusAp: estatusApr.descripcion
+                    id_estatus_aprobacion: e.target.value
                 });
-            }
-        })
     }
 
     setearState = e => {
-        console.log("Hola desde setearState")
+        //console.log("Hola desde setearState")
         if (this.props.postulantec !== undefined && this.props.postulantec !== null) {
-            console.log("Hola desde if")
+            //console.log("Hola desde if")
             this.setState({
                 id_postulante_b: this.props.postulantec.postulanteb.id_postulante_b,
                 id_perfil: this.props.postulantec.postulanteb.perfil.id_perfil,
@@ -343,55 +361,60 @@ class Postulante extends React.Component {
         }
     }
 
+    handleSubmit=e =>
+    {
+        console.log("Submit")
+        if(this.state.nombre!=="" &&
+        this.state.apellido1!=="" &&
+        this.state.apellido2!=="" &&
+        this.state.correo!=="" &&
+        this.state.celular!=="" &&
+        this.state.telefono!=="" &&
+        this.state.id_perfil!==null &&
+        this.state.id_estatus_postulante!==null &&
+        this.state.id_postulante_b!==null &&
+        this.state.fecha_nacimiento!=="" &&
+        this.state.edad!=="" &&
+        this.state.id_estatus_titulacion!==null &&
+        this.state.id_escuela!==null &&
+        this.state.id_carrera!==null &&
+        this.state.curp!=="" &&
+        this.state.rfc!=="" &&
+        this.state.id_sexo!==null &&
+        this.state.pretencion_economica!=="" &&
+        this.state.certificaciones!=="" &&
+        this.state.experiencia!=="" &&
+        this.state.id_estatus_cv!==null &&
+        this.state.id_estatus_aprobacion!==null &&
+        this.state.acuerdo_economico!=="")
+        {
+            console.log("aprobado")
+            const edad=parseInt(this.state.edad)
+            const acuerdo_economico=parseInt(this.state.acuerdo_economico)
+            const pretencion_economica=parseInt(this.state.pretencion_economica)
+        }
+
+    }
+
     render() {
-        console.log("Valor carrera---: " + this.props.carrera.id_carrera)
-        console.log("Valores escuela----: " + this.props.escuela.id_escuela)
-        console.log("escuela: " + this.state.id_escuela)
-        console.log("estatus_cv: " + this.state.estatus_cv)
-        console.log("estatus_titulacion: " + this.state.estatusTit)
-        console.log("sexo: " + this.state.sex)
-        console.log("perfil: " + this.state.perf)
-        console.log("estatus_postulante: " + this.state.estatusPostulante)
-        console.log("comentarios: " + this.state.comentarios)
-        console.log("correo: " + this.state.correo)
-        console.log("celular: " + this.state.celular)
-        console.log("telefono_fijo: " + this.state.telefono)
-        console.log("nombe: " + this.state.nombre)
-        console.log("apellido1: " + this.state.apellido1)
-        console.log("apellido2: " + this.state.apellido2)
-        console.log("fecha naci: " + this.state.fecha_nacimiento)
-        console.log("edad: " + this.state.edad)
-        console.log("curp: " + this.state.curp)
-        console.log("rfc: " + this.state.rfc)
-        console.log("estatusAprobacion: " + this.state.estatusAp)
-        console.log("pretencion_economica: " + this.state.pretencion_economica)
-        console.log("certificaciones: " + this.state.certificaciones)
-        console.log("experiencia: " + this.state.experiencia)
-        console.log("acuerdo_economico: " + this.state.acuerdo_economico)
-        console.log("IdEstatusPostulante: " + this.state.id_status_postulante)
-        console.log("IdPerfil: " + this.state.id_perfil)
-        console.log("IdEstatusTitulacion: " + this.state.id_estatus_titulacion)
-        console.log("IdSexo: " + this.state.id_sexo)
-        console.log("IdEstatusCV: " + this.state.id_estatus_cv)
-        console.log("IdEstatusAprobacion: " + this.state.id_estatus_aprobacion)
 
         const EstatusAprobaciones = this.state.EstatusAprobacion.map(EA => {
-            return <option>{EA.descripcion}</option>
+            return <option value={EA.id_estatus_aprobacion}>{EA.descripcion}</option>
         })
         const CV = this.state.EstatusCV.map(estcv => {
             return <option>{estcv.descripcion}</option>
         })
         const EstPost = this.state.EstatusPostulante.map(EP => {
-            return <option>{EP.descripcion}</option>
+            return <option value={EP.id_estatus_postulante}>{EP.descripcion}</option>
         })
         const EstTit = this.state.EstatusTitulacion.map(ET => {
             return <option>{ET.descripcion}</option>
         })
         const sexos = this.state.sexo.map(s => {
-            return <option>{s.descripcion}</option>
+            return <option value={s.id_sexo}>{s.descripcion}</option>
         })
         const perfiles = this.state.perfil.map(per => {
-            return <option>{per.descripcion}</option>
+            return <option value={per.id_perfil}>{per.descripcion}</option>
         })
 
         return (
@@ -411,412 +434,242 @@ class Postulante extends React.Component {
                     </div>
                 </div>
                 <br /><br />
-                <form align="center">
-                    <div className="row">
-                        <div className="col-sm-10">
-                            <div className="container">
-                                <div className="row" align="center">
-                                    <div className="col">
-                                        <div className="row">
-                                            <div className="col">
-                                                <label className="">Apellido Paterno:</label>
-                                            </div>
-                                            <div className="col">
-                                                <input
-                                                    className="form-control"
-                                                    type="text"
-                                                    name="apellido1"
-                                                    defaultValue={this.props.postulante.apellido1}
-                                                    onChange={this.handleWrite}
-                                                ></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col">
-                                        <div className="row">
-                                            <div className="col">
-                                                <label class="">Apellido Materno:</label>
-                                            </div>
-                                            <div className="col">
-                                                <input
-                                                    className="form-control"
-                                                    type="text"
-                                                    name="apellido2"
-                                                    onChange={this.handleWrite}
-                                                    defaultValue={this.props.postulante.apellido2}></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col">
-                                        <div className="row">
-                                            <div className="col">
-                                                <label className="">Nombre(s):</label>
-                                            </div>
-                                            <div className="col">
-                                                <input
-                                                    className="form-control"
-                                                    type="text"
-                                                    name="nombre"
-                                                    onChange={this.handleWrite}
-                                                    defaultValue={this.props.postulante.nombre}></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br /><br />
-                                <div className="row">
-                                    <div className="col-sm-4">
-                                        <div className="row">
-                                            <div className="col-sm">
-                                                <label>Teléfono Fijo:</label>
-                                            </div>
-                                            <div className="col-sm">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="telefono"
-                                                    onChange={this.handleWrite}
-                                                    defaultValue={this.props.postulante.telefono}></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-4">
-                                        <div className="row">
-                                            <div className="col-sm">
-                                                <label>Celular:</label>
-                                            </div>
-                                            <div className="col-sm">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="celular"
-                                                    onChange={this.handleWrite}
-                                                    defaultValue={this.props.postulante.celular}></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-4">
-                                        <div className="row">
-                                            <div className="col-sm-2">
-                                                <label>Correo:</label>
-                                            </div>
-                                            <div className="col-sm-10">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="correo"
-                                                    onChange={this.handleWrite}
-                                                    defaultValue={this.props.postulante.correo}></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="row">
-                                    <div className="col-sml-4">
-                                        <div className="row">
-                                            <div className="col">
-                                                <label>Estatus Postulante:</label>
-                                            </div>
-                                            <div className="col">
-                                                <select className="form-control" required name="estatusPostulante" onChange={this.handleSelectEstatusPostulante}>
-                                                    <option value="1" selected disabled>{this.props.postulante.estatuspostulante.descripcion}</option>
-                                                    {EstPost}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div className="row">
-                                            <div className="col">
-                                                <label>Perfil:</label>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <select className="form-control labelBorder" required name="perf" onChange={this.handleSelectPerfil}>
-                                                    <option value="1" selected disabled>{this.props.postulante.perfil.descripcion}</option>
-                                                    {perfiles}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-7">
-                                        <div className="row">
-                                            <div className="col" >
-                                                <label >Comentarios:</label>
-                                            </div>
-                                            <div className="col-sm-8">
-                                                <textarea
-                                                    class="textArea form-control"
-                                                    rows="3"
-                                                    cols="60"
-                                                    name="comentarios"
-                                                    onChange={this.handleWrite}
-                                                    defaultValue={this.props.postulante.observaciones}></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-sm-1"></div>
-                                <br />
-                                <div className="row">
-                                    <di className="col-sm-4">
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <label className="labelFecha">Fecha de nacimiento:</label>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <TextField
-                                                    type="date"
-                                                    onChange={this.handleChangeDate}
-                                                    defaultValue={this.state.fecha_nacimiento}
-                                                    InputLabelProps={{
-                                                        shrink: true
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-                                    </di>
-                                    <di className="col-sm-4">
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <label>Edad:</label>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <input type="text"
-                                                    className="form-control"
-                                                    name="edad"
-                                                    onChange={this.handleWrite}
-                                                    defaultValue={this.state.edad}></input>
-                                            </div>
-                                        </div>
-                                    </di>
-                                    <br />
-                                    <di className="col-sm-4">
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <label>Sexo:</label>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <select className="form-control labelBorder" required name="sex" onChange={this.handleSexo}>
-                                                    <option value="1" selected disabled>{this.state.sex}</option>
-                                                    {sexos}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </di>
-                                </div>
-                                <br />
-                                <div className="row">
-                                    <div className="col-sm-4">
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <label>CURP:</label>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <input type="text"
-                                                    className="form-control"
-                                                    name="curp"
-                                                    onChange={this.handleWrite}
-                                                    defaultValue={this.state.curp}></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-4">
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <label>RFC:</label>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <input type="text"
-                                                    className="form-control"
-                                                    name="rfc"
-                                                    onChange={this.handleWrite}
-                                                    defaultValue={this.state.rfc} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-4">
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <label>Estatus Aprobación:</label>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <select className="form-control" required name="estatusPostulante" onChange={this.handleSelectEstatusAprobacion}>
-                                                    <option value="1" selected disabled>{this.state.estatusAp}</option>
-                                                    {EstatusAprobaciones}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-sm-2 ">
-                            <div className="row ">
-                                <div className="col">
-                                    <img className="agciAvatar" src={IconoExamen} alt="Examen" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br /><br />
-                    <div className="" align="center">
-                        <td className="lineaEspacioDerecha2">
-                            <ColoredLine2 color="blue" />
-                        </td>
-                        <td>
-                            <h2>Escuela</h2>
-                        </td>
-                        <td className="lineaEspacioIzquierda2">
-                            <ColoredLine2 color="blue" />
-                        </td>
-                    </div>
-                    <br /><br />
+                <ValidatorForm ref="form"
+                onSubmit={this.handleSubmit}
+                onError={errors=>console.log(errors)}
+                 align="center">
                     <div className="container">
                         <div className="row">
-                            <div className="col-sm-4">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Escuela:</label>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <Autocompletado
-                                            valores={this.state.escuelas} valor={this.state.escuel} />
-                                    </div>
-                                </div>
+                            <div style={{marginRight:30}} align="left">
+                            <TextValidator
+                                style={{marginLeft: 20, width:250}}
+                                label="Apellido Paterno"
+                                onChange={this.handleWrite}
+                                name="apellido1"
+                                value={this.state.apellido1}
+                                validators={["required", "formatoLetras", "Longitud1"]}
+                                errorMessages={["Campo Obligatorio", 
+                                "Ingrese solo Letras", 
+                                "Solo se permiten 40 caracteres"]}/>
                             </div>
-                            <div className="col-sm-4">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Carrera:</label>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <Autocompletado valores={this.state.carrera} valor={this.state.carr} />
-                                    </div>
-                                </div>
+                            <div  style={{marginRight:30}} align="center">
+                            <TextValidator
+                                style={{marginLeft: 20, width:250}}
+                                label="Apellido Materno"
+                                onChange={this.handleWrite}
+                                name="apellido2"
+                                value={this.state.apellido2}
+                                validators={["required", "formatoLetras", "Longitud1"]}
+                                errorMessages={["Campo Obligatorio", 
+                                "Ingrese solo Letras", 
+                                "Solo se permiten 40 caracteres"]}/>
                             </div>
-                            <div className="col-sm-4">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Estatus Titulación:</label>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <select className="form-control labelBorder" required name="estatus_titulacion" onChange={this.handleSelectEstatusTitulacion}>
-                                            <option value="1" selected disabled>{this.state.estatusTit}</option>
-                                            {EstTit}
-                                        </select>
-                                    </div>
-                                </div>
+                            <div style={{marginRight:30}} align="right">
+                            <TextValidator
+                                            style={{marginLeft: 20, width:250}}
+                                            label="Nombre"
+                                            onChange={this.handleWrite}
+                                            name="nombre"
+                                            value={this.state.nombre}
+                                            validators={["required", "formatoLetras", "Longitud1"]}
+                                            errorMessages={["Campo Obligatorio", 
+                                            "Ingrese solo Letras", 
+                                            "Solo se permiten 40 caracteres"]}/>
+                            </div>
+                            <div align="right" style={{height:100}}>
+                                <img className="agciAvatar" 
+                                    src={IconoExamen} 
+                                    alt="Examen" 
+                                    style={{marginTop:0}}
+                                />
+                            </div>
+                            <br/>
+                            <div style={{marginRight:30}} align="left">
+                            <TextValidator
+                                    style={{ marginLeft: 20, width: 200 }}
+                                    label="Telefono"
+                                    onChange={this.handleWrite}
+                                    name="telefono"
+                                    value={this.state.telefono}
+                                    validators={["required", "formatoNumeros", "Longitud2"]}
+                                    errorMessages={[
+                                    "Campo Obligatorio",
+                                    "Ingrese solo Numeros",
+                                    "Deben ser 10 digitos"
+                                    ]}
+                                />
+                            </div>
+                            <div  style={{marginRight:30}} align="center">
+                                <TextValidator
+                                    style={{ marginLeft: 40, width: 200 }}
+                                    label="Celular"
+                                    onChange={this.handleWrite}
+                                    name="celular"
+                                    value={this.state.celular}
+                                    validators={["required", "formatoNumeros", "Longitud2"]}
+                                    errorMessages={[
+                                    "Campo Obligatorio",
+                                    "Ingrese solo Numeros",
+                                    "Deben ser 10 digitos"
+                                    ]}
+                                />
+                            </div>
+                            <div style={{marginRight:30}} align="right">
+                                <TextValidator
+                                    style={{marginLeft: 20, width:300}}
+                                    label="Correo"
+                                    onChange={this.handleWrite}
+                                    name="correo"
+                                    value={this.state.correo}
+                                    validators={["required", "formatoLetras", "Longitud1"]}
+                                    errorMessages={["Campo Obligatorio", 
+                                    "Ingrese solo Letras", 
+                                    "Solo se permiten 40 caracteres"]}
+                                />
                             </div>
                         </div>
-                        <br />
+                        <br/>
+                        <br/>
                         <div className="row">
-                            <div className="col-sm-4">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Certificaciones:</label>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <input type="text"
-                                            className="form-control"
-                                            name="certificaciones"
-                                            onChange={this.handleWrite}
-                                            defaultValue={this.state.certificaciones} />
-                                    </div>
-                                </div>
+                            <div style={{marginRight:30}} align="left">
+                                <SelectValidator
+                                    className="seleccion"
+                                    style={{ width: 250 , marginLeft:22}}
+                                    label="Estatus Postulante"
+                                    name="estatuspostulante"
+                                    value={this.state.id_estatus_postulante}
+                                    onChange={this.handleEstatusPostulante}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
+                                >
+                                <option value="1" 
+                                    selected disabled
+                                >
+                                    {this.props.postulante.estatuspostulante.descripcion}
+                                </option>
+                                    {EstPost}
+                                </SelectValidator>
                             </div>
-                            <div className="col-sm-4">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Experiencia:</label>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <input type="text"
-                                            className="form-control"
-                                            name="experiencia"
-                                            onChange={this.handleWrite}
-                                            defaultValue={this.state.experiencia} />
-                                    </div>
-                                </div>
+                            <div  style={{marginRight:30}} align="center">
+                                <SelectValidator
+                                    className="seleccion"
+                                    style={{ width: 250 }}
+                                    label="Perfil"
+                                    name="perfil"
+                                    value={this.state.id_perfil}
+                                    onChange={this.handlePerfil}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
+                                >
+                                <option value="1" selected disabled>
+                                    {this.props.postulante.perfil.descripcion}
+                                </option>
+                                    {perfiles}
+                                </SelectValidator>
+                            </div>
+                            <div style={{marginRight:30}} align="right">
+                                <label align="left">
+                                    Comentarios:
+                                    <textarea
+                                        class="textArea form-control"
+                                        rows="3"
+                                        cols="50"
+                                        name="comentarios"
+                                        onChange={this.handleWrite}
+                                        defaultValue={this.props.postulante.observaciones}/>
+                                </label>
                             </div>
                         </div>
-                    </div>
-                    <br />
-                    <div className="" align="center">
-                        <td className="lineaEspacioDerecha2">
-                            <ColoredLine2 color="blue" />
-                        </td>
-                        <td>
-                            <h2>Perfil</h2>
-                        </td>
-                        <td className="lineaEspacioIzquierda2">
-                            <ColoredLine2 color="blue" />
-                        </td>
-                    </div>
-                    <br /><br />
-                    <div className="container">
+                        <br/>
                         <div className="row">
-                            <div className="col-sm-3">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Pretención económica:</label>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <input type="text"
-                                            className="form-control"
-                                            name="pretencion_economica"
-                                            onChange={this.handleWrite}
-                                            defaultValue={this.state.pretencion_economica}></input>
-                                    </div>
-                                </div>
+                            <div style={{marginRight:30}} align="left">
+                                Fecha de Nacimiento
+                                <br/>
+                                <TextValidator
+                                    style={{marginLeft: 20, width:250}}
+                                    type="date"
+                                    onChange={this.handleChangeDate}
+                                    name="fecha_nacimiento"
+                                    value={this.state.fecha_nacimiento}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
+                                />
                             </div>
-                            <div className="col-sm-3">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Estatus CV:</label>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <select className="form-control labelBorder" required name="estatus_cv" onChange={this.handleSelectEstatusCV}>
-                                            <option value="1" selected disabled>Seleciona</option>
-                                            {CV}
-                                        </select>
-                                    </div>
-                                </div>
+                            <div  style={{marginRight:30}} align="center">
+                                <TextValidator
+                                    style={{ marginLeft: 20, width: 150 }}
+                                    label="Edad"
+                                    onChange={this.handleWrite}
+                                    name="edad"
+                                    value={this.state.edad}
+                                    validators={["required", "formatoNumeros"]}
+                                    errorMessages={[
+                                    "Campo Obligatorio",
+                                    "Ingrese solo Numeros"
+                                    ]}
+                                />
                             </div>
-                            <div className="col-sm-3">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Acuerdo económico:</label>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <input type="text"
-                                            className="form-control"
-                                            name="acuerdo_economico"
-                                            onChange={this.handleWrite}
-                                            defaultValue={this.state.acuerdo_economico} />
-                                    </div>
-                                </div>
+                            <div style={{marginRight:30}} align="right">
+                                <SelectValidator
+                                    className="seleccion"
+                                    style={{ width: 150 , marginLeft:22}}
+                                    label="Sexo"
+                                    name="id_sexo"
+                                    value={this.state.id_sexo}
+                                    onChange={this.handleSexo}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
+                                >
+                                    {sexos}
+                                </SelectValidator>
+                            </div>
+                            
+                        </div>
+                        <br/>
+                        <div className="row">
+                        <div style={{marginRight:30}} align="left">
+                                <TextValidator
+                                    style={{marginLeft: 20, width:250}}
+                                    label="CURP"
+                                    onChange={this.handleWrite}
+                                    name="curp"
+                                    value={this.state.curp}
+                                    validators={["required", "Curp", "Mayusculas"]}
+                                    errorMessages={["Campo Obligatorio",  
+                                    "Deben ser 18 caracteres",
+                                "Solo se Permiten Mayusculas"]}
+                                />
+                            </div>
+                            <div style={{marginRight:30}} align="center">
+                                <TextValidator
+                                    style={{marginLeft: 20, width:250}}
+                                    label="RFC"
+                                    onChange={this.handleWrite}
+                                    name="RFC"
+                                    value={this.state.curp}
+                                    validators={["required", "Rfc", "Mayusculas"]}
+                                    errorMessages={["Campo Obligatorio",  
+                                    "Deben ser 13 caracteres maximo",
+                                    "Solo se Permiten Mayusculas"]}
+                                />
+                            </div>
+                            <div  style={{marginRight:30}} align="right">
+                                <SelectValidator
+                                    className="seleccion"
+                                    style={{ width: 250 , marginLeft:22}}
+                                    label="Estatus Aprobacion"
+                                    name="id_estatus_aprobacion"
+                                    value={this.state.id_estatus_aprobacion}
+                                    onChange={this.handleSelectEstatusAprobacion}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
+                                >
+                                    {EstatusAprobaciones}
+                                </SelectValidator>
                             </div>
                         </div>
                     </div>
-                    <br /><br />
-                    <div align="center">
-                        <div className="container">
-                            <div className="row justify-content-md-center">
-                                <div className="col col-lg-2">
-                                    {/* <Link  to="" className="btn btn-primary">Guardar</Link> */}
-                                    <button
-                                        className="btn btn-primary"
-                                        type="button"
-                                        onClick={this.handleClick}>Guardar</button>
-                                </div>
-                                <div className="col-md-auto"></div>
-                                <div className="col col-lg-2">
-                                    <Link to="/consultar-Postulantes" className="btn btn-secondary"> Cancelar</Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                </ValidatorForm>
 
             </React.Fragment>
         );
