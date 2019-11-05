@@ -1,15 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import TextField from "@material-ui/core/TextField";
 import IconoExamen from "../Imagenes/avatar.png";
 import { connect } from "react-redux";
-import { number } from "prop-types";
 import {
     getCarrera, getEscuelas, getEstatusAprobacion, getEstatusTitulacion, getSexo, getEstatusCV, getPerfil, getEstatusPostulante, putPostulanteC,
     postPostulanteC, putPostulanteB
 } from "../request/request";
 import Autocompletado from './Autocompletado/Autocommpletado';
 import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
+import {setPostulante, setPostulanteC} from '../actions/postulanteB'
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -23,26 +22,6 @@ const ColoredLine = ({ color }) => (
     />
 );
 
-const ColoredLine2 = ({ color }) => (
-    <hr
-        style={{
-            color: color,
-            backgroundColor: color,
-            height: 2,
-            width: 500,
-            marginBottom: 10
-        }}
-    />
-);
-
-const divStyle = {
-    overflowY: 'scroll',
-    border: '1px solid red',
-    width: '500px',
-    float: 'left',
-    height: '500px',
-    position: 'relative'
-};
 
 const fecha = new Date();
 const dia = fecha.getDate();
@@ -86,7 +65,8 @@ class Postulante extends React.Component {
         id_estatus_titulacion: null,
         id_perfil: null,
         id_status_postulante: null,
-        id_escuela: null,
+        id_escuela: this.props.escuela.id_escuela,
+        id_carrera: this.props.carrera.id_carrera,
         perfil: [],
         EstatusCV: [],
         EstatusAprobacion: [],
@@ -132,11 +112,14 @@ class Postulante extends React.Component {
     })
     ValidatorForm.addValidationRule("Mayusculas", string=>
     /^[A-ZÑ0-9]*$/.test(string))
+    ValidatorForm.addValidationRule("isValidName", (string) => /[a-zA-Z \u00E0-\u00FC]{1,20}/g.test(string));
+
     if(this.props.postulante!=="Vacio")
     {
         const per = this.props.postulante.perfil.id_perfil;
       const ep = this.props.postulante.estatuspostulante.id_estatus_postulante;
         this.setState({
+            id_postulante_b:this.props.postulante.id_postulante_b,
             apellido1: this.props.postulante.apellido1,
         apellido2: this.props.postulante.apellido2,
         nombre: this.props.postulante.nombre,
@@ -148,7 +131,7 @@ class Postulante extends React.Component {
         fecha_actualizacion: date
         })
         this.setState({ id_perfil: per });
-        this.setState({ id_estatus_postulante: ep });
+        this.setState({ id_status_postulante: ep });
     }
 
     }
@@ -225,7 +208,11 @@ class Postulante extends React.Component {
             const idEstatusPostulante = this.state.id_status_postulante;
             const IdPerfil = this.state.id_perfil;
             const idPostulanteB1 = this.state.id_postulante_b;
-            putPostulanteB(requestPostulanteB,idEstatusPostulante,IdPerfil,idPostulanteB1);
+            putPostulanteB(requestPostulanteB,idEstatusPostulante,IdPerfil,idPostulanteB1)
+            .then(response=>
+                {
+                    console.log(response)
+                }).catch(console.log)
 
             const requestPut = {
                 id_postulante_c: this.props.postulantec.id_postulante_c,
@@ -252,7 +239,11 @@ class Postulante extends React.Component {
             console.log("Request del putt: " + requestPut)
             console.log("Dentro de condicional if")
             putPostulanteC(requestPut, idPostulanteB, idEscuela, idTitulacion, idCarrera,
-                idSexo, idCv, idAprobacion, idPostulanteComplemento);
+                idSexo, idCv, idAprobacion, idPostulanteComplemento)
+                .then(response=>
+                    {
+                        console.log(response)
+                    }).catch(console.log)
         } else {
             const request = {
                 fecha_nacimiento: this.state.fecha_nacimiento,
@@ -276,12 +267,16 @@ class Postulante extends React.Component {
             const idEstatusAprobacion = this.state.id_estatus_aprobacion;
 
             postPostulanteC(request, idPostulanteB, idEscuela,
-                idTitulacion, idCarrera, idSexo, idCv, idEstatusAprobacion);
+                idTitulacion, idCarrera, idSexo, idCv, idEstatusAprobacion)
+                .then(response=>
+                    {
+                        console.log(response)
+                    }).catch(console.log)
         }
     }
 
     handleEstatusPostulante = e => {
-        this.setState({ id_estatus_postulante: e.target.value });
+        this.setState({ id_status_postulante: e.target.value });
       };
 
     handlePerfil = e => {
@@ -290,32 +285,15 @@ class Postulante extends React.Component {
    
     handleSelectEstatusTitulacion = e => {
         //console.log("Detnro de handle select:")
-        this.state.EstatusTitulacion.map(estatusT => {
-            if (estatusT.descripcion === e.target.value) {
-                this.setState({
-                    id_estatus_titulacion: estatusT.id_estatus_titulacion,
-                    estatusTit: estatusT.descripcion
-                })
-            }
-        })
+        this.setState({id_estatus_titulacion: e.target.value})
     }
     handleSexo = e => {
         //console.log("Dentro de handleSelect: ")
-                this.setState({
-                    id_sexo: e.target.value
-                    
-                })
+        this.setState({id_sexo: e.target.value})
     }
     handleSelectEstatusCV = e => {
         //console.log("Dentro de handleSelect:")
-        this.state.EstatusCV.map(estatusCV => {
-            if (estatusCV.descripcion === e.target.value) {
-                this.setState({
-                    id_estatus_cv: estatusCV.id_estatus_cv,
-                    estatus_cv: estatusCV.descripcion
-                });
-            }
-        })
+                this.setState({id_estatus_cv: e.target.value})
     }
     handleSelectEstatusAprobacion = e => {
         //console.log("Dentro de handleSelect:")
@@ -356,14 +334,42 @@ class Postulante extends React.Component {
                 id_estatus_titulacion: this.props.postulantec.estatustitulacion.id_estatus_titulacion,
                 id_sexo: this.props.postulantec.sexo.id_sexo,
                 id_estatus_cv: this.props.postulantec.estatuscv.id_estatus_cv,
-                id_estatus_aprobacion: this.props.postulantec.estatusprobacion.id_estatus_aprobacion
+                id_estatus_aprobacion: this.props.postulantec.estatusprobacion.id_estatus_aprobacion,
+                id_carrera: this.props.postulantec.carrera.id_carrera,
+                id_escuela: this.props.postulantec.escuela.id_escuela
+
             })
         }
     }
 
     handleSubmit=e =>
     {
-        console.log("Submit")
+        console.warn("submit")
+        console.log("nombe: " + this.state.nombre)
+        console.log("apellido1: " + this.state.apellido1)
+        console.log("apellido2: " + this.state.apellido2)
+        console.log("correo: " + this.state.correo)
+        console.log("celular: " + this.state.celular)
+        console.log("telefono_fijo: " + this.state.telefono)
+        console.log("IdPerfil: " + this.state.id_perfil)
+        console.log("IdEstatusPostulante: " + this.state.id_status_postulante)
+        console.log("IdPostulante: " + this.state.id_postulante_b)
+        console.log("fecha naci: " + this.state.fecha_nacimiento)
+        console.log("edad: " + this.state.edad)
+        console.log("IdEstatusTitulacion: " + this.state.id_estatus_titulacion)
+        console.log("Valor carrera---: " + this.state.id_carrera)
+        console.log("Valores escuela----: " + this.state.id_escuela)
+        console.log("curp: " + this.state.curp)
+        console.log("rfc: " + this.state.rfc)
+        console.log("IdSexo: " + this.state.id_sexo)
+        console.log("pretencion_economica: " + this.state.pretencion_economica)
+        console.log("certificaciones: " + this.state.certificaciones)
+        console.log("experiencia: " + this.state.experiencia)
+        console.log("IdEstatusCV: " + this.state.id_estatus_cv)
+        console.log("IdEstatusAprobacion: " + this.state.id_estatus_aprobacion)
+        console.log("acuerdo_economico: " + this.state.acuerdo_economico)
+        console.log("comentarios: " + this.state.comentarios)
+
         if(this.state.nombre!=="" &&
         this.state.apellido1!=="" &&
         this.state.apellido2!=="" &&
@@ -371,7 +377,7 @@ class Postulante extends React.Component {
         this.state.celular!=="" &&
         this.state.telefono!=="" &&
         this.state.id_perfil!==null &&
-        this.state.id_estatus_postulante!==null &&
+        this.state.id_status_postulante!==null &&
         this.state.id_postulante_b!==null &&
         this.state.fecha_nacimiento!=="" &&
         this.state.edad!=="" &&
@@ -389,26 +395,114 @@ class Postulante extends React.Component {
         this.state.acuerdo_economico!=="")
         {
             console.log("aprobado")
-            const edad=parseInt(this.state.edad)
-            const acuerdo_economico=parseInt(this.state.acuerdo_economico)
-            const pretencion_economica=parseInt(this.state.pretencion_economica)
+            const ed=parseInt(this.state.edad)
+            const ae=parseInt(this.state.acuerdo_economico)
+            const pe=parseInt(this.state.pretencion_economica)
+            const requestPostulanteB = {
+                id_postulante_b: this.state.id_postulante_b,
+                nombre: this.state.nombre,
+                apellido1: this.state.apellido1,
+                apellido2: this.state.apellido2,
+                celular: this.state.celular,
+                telefono: this.state.telefono,
+                correo: this.state.correo,
+                observaciones: this.state.comentarios,
+                cv: null,
+                usuario_actualiza: "Bryan Ramirez",
+                fecha_actualizacion: date
+            }
+            const idEstatusPostulante = this.state.id_status_postulante;
+            const IdPerfil = this.state.id_perfil;
+            const idPostulanteB1 = this.state.id_postulante_b;
+            putPostulanteB(requestPostulanteB,idEstatusPostulante,IdPerfil,idPostulanteB1)
+            .then(response=>
+                {
+                    console.log(response)
+                }).catch(console.log)
+            if (this.state.pc !== undefined && this.state.pc!==null) {
+                  
+                const requestPut = {
+                    id_postulante_c: this.props.postulantec.id_postulante_c,
+                    fecha_nacimiento: this.state.fecha_nacimiento,
+                    edad: ed,
+                    curp: this.state.curp,
+                    rfc: this.state.rfc,
+                    pretencion_economica: pe,
+                    certificaciones: this.state.certificaciones,
+                    tiempo_experiencia: this.state.experiencia,
+                    acuerdo_economico: ae,
+                    foto_perfil: null,
+                    usuario_actualiza: "Bryan Ramirez",
+                    fecha_actualizacion: date
+                }
+                
+                const idEscuela = this.state.id_escuela;
+                const idTitulacion = this.state.id_estatus_titulacion;
+                const idCarrera = this.state.id_carrera;
+                const idSexo = this.state.id_sexo;
+                const idCv = this.state.id_estatus_cv;
+                const idAprobacion = this.state.id_estatus_aprobacion;
+                const idPostulanteComplemento = this.props.postulantec.id_postulante_c;
+                putPostulanteC(requestPut, idPostulanteB1, idEscuela, idTitulacion, idCarrera,
+                    idSexo, idCv, idAprobacion, idPostulanteComplemento)
+                    .then(response=>
+                        {
+                            console.log(response)
+                        }).catch(console.log)
+             
+                        this.props.history.push("/consultar-Postulantes");
+            } else {
+                const request = {
+                    fecha_nacimiento: this.state.fecha_nacimiento,
+                    edad: ed,
+                    curp: this.state.curp,
+                    rfc: this.state.rfc,
+                    pretencion_economica: pe,
+                    certificaciones: this.state.certificaciones,
+                    tiempo_experiencia: this.state.experiencia,
+                    acuerdo_economico: ae,
+                    foto_perfil: null,
+                    usuario_actualiza: "Bryan Ramirez",
+                    fecha_actualizacion: date
+                }
+                const idPostulanteB = this.props.postulante.id_postulante_b;
+                const idEscuela = this.props.escuela.id_escuela;
+                const idTitulacion = this.state.id_estatus_titulacion;
+                const idCarrera = this.props.carrera.id_carrera;
+                const idSexo = this.state.id_sexo;
+                const idCv = this.state.id_estatus_cv;
+                const idEstatusAprobacion = this.state.id_estatus_aprobacion;
+    
+                postPostulanteC(request, idPostulanteB, idEscuela,
+                    idTitulacion, idCarrera, idSexo, idCv, idEstatusAprobacion)
+                    .then(response=>
+                        {
+                            console.log(response)
+                        }).catch(console.log)
+                
+                        this.props.history.push("/consultar-Postulantes");
+            }
+            this.props.dispatchSetPostulante("Vacio")
+                        this.props.dispatchSetPostulanteC("vacio")
+                
         }
 
     }
 
     render() {
-
+        
+        
         const EstatusAprobaciones = this.state.EstatusAprobacion.map(EA => {
             return <option value={EA.id_estatus_aprobacion}>{EA.descripcion}</option>
         })
         const CV = this.state.EstatusCV.map(estcv => {
-            return <option>{estcv.descripcion}</option>
+            return <option value={estcv.id_estatus_cv}>{estcv.descripcion}</option>
         })
         const EstPost = this.state.EstatusPostulante.map(EP => {
             return <option value={EP.id_estatus_postulante}>{EP.descripcion}</option>
         })
         const EstTit = this.state.EstatusTitulacion.map(ET => {
-            return <option>{ET.descripcion}</option>
+            return <option value={ET.id_estatus_titulacion}>{ET.descripcion}</option>
         })
         const sexos = this.state.sexo.map(s => {
             return <option value={s.id_sexo}>{s.descripcion}</option>
@@ -521,10 +615,8 @@ class Postulante extends React.Component {
                                     onChange={this.handleWrite}
                                     name="correo"
                                     value={this.state.correo}
-                                    validators={["required", "formatoLetras", "Longitud1"]}
-                                    errorMessages={["Campo Obligatorio", 
-                                    "Ingrese solo Letras", 
-                                    "Solo se permiten 40 caracteres"]}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
                                 />
                             </div>
                         </div>
@@ -536,17 +628,13 @@ class Postulante extends React.Component {
                                     className="seleccion"
                                     style={{ width: 250 , marginLeft:22}}
                                     label="Estatus Postulante"
-                                    name="estatuspostulante"
-                                    value={this.state.id_estatus_postulante}
+                                    name="id_status_postulante"
+                                    value={this.state.id_status_postulante}
                                     onChange={this.handleEstatusPostulante}
                                     validators={["required"]}
                                     errorMessages={["Campo Obligatorio"]}
                                 >
-                                <option value="1" 
-                                    selected disabled
-                                >
                                     {this.props.postulante.estatuspostulante.descripcion}
-                                </option>
                                     {EstPost}
                                 </SelectValidator>
                             </div>
@@ -555,15 +643,13 @@ class Postulante extends React.Component {
                                     className="seleccion"
                                     style={{ width: 250 }}
                                     label="Perfil"
-                                    name="perfil"
+                                    name="id_perfil"
                                     value={this.state.id_perfil}
                                     onChange={this.handlePerfil}
                                     validators={["required"]}
                                     errorMessages={["Campo Obligatorio"]}
                                 >
-                                <option value="1" selected disabled>
                                     {this.props.postulante.perfil.descripcion}
-                                </option>
                                     {perfiles}
                                 </SelectValidator>
                             </div>
@@ -595,7 +681,6 @@ class Postulante extends React.Component {
                                     errorMessages={["Campo Obligatorio"]}
                                 />
                             </div>
-<<<<<<< HEAD
                             <div  style={{marginRight:30}} align="center">
                                 <TextValidator
                                     style={{ marginLeft: 20, width: 150 }}
@@ -609,20 +694,6 @@ class Postulante extends React.Component {
                                     "Ingrese solo Numeros"
                                     ]}
                                 />
-=======
-                            <div className="col-sm-3">
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Estatus CV:</label>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <select className="form-control labelBorder" required name="estatus_cv" onChange={this.handleSelectEstatusCV}>
-                                            <option value="1" selected disabled>{this.state.estatus_cv}</option>
-                                            {CV}
-                                        </select>
-                                    </div>
-                                </div>
->>>>>>> 94a0fac4cffa8459eca2d3bfb948a4ea5707c5d0
                             </div>
                             <div style={{marginRight:30}} align="right">
                                 <SelectValidator
@@ -638,11 +709,10 @@ class Postulante extends React.Component {
                                     {sexos}
                                 </SelectValidator>
                             </div>
-                            
                         </div>
                         <br/>
                         <div className="row">
-                        <div style={{marginRight:30}} align="left">
+                            <div style={{marginRight:30}} align="left">
                                 <TextValidator
                                     style={{marginLeft: 20, width:250}}
                                     label="CURP"
@@ -660,8 +730,8 @@ class Postulante extends React.Component {
                                     style={{marginLeft: 20, width:250}}
                                     label="RFC"
                                     onChange={this.handleWrite}
-                                    name="RFC"
-                                    value={this.state.curp}
+                                    name="rfc"
+                                    value={this.state.rfc}
                                     validators={["required", "Rfc", "Mayusculas"]}
                                     errorMessages={["Campo Obligatorio",  
                                     "Deben ser 13 caracteres maximo",
@@ -683,6 +753,158 @@ class Postulante extends React.Component {
                                 </SelectValidator>
                             </div>
                         </div>
+                        <br/>
+                        
+                    </div>
+                    <div className="row" style={{width:1000, marginLeft: 70}}>
+                            <div className="" align="center">
+                                <td className="lineaEspacioDerecha">
+                                    <ColoredLine color="blue" />
+                                </td>
+                                <td>
+                                    <h2>Datos Academicos</h2>
+                                </td>
+                                <td className="lineaEspacioIzquierda">
+                                    <ColoredLine color="blue" />
+                                </td>
+                            </div>
+                        </div>
+                        <br />  
+                    <div className="container">
+                        <div className="row">
+                            <div style={{marginRight:55}} align="left">
+                                <Autocompletado
+                                    valores={this.state.escuelas} 
+                                    valor={this.state.escuel}
+                                    etiqueta="Escuela"
+                                    nombre="id_escuela"
+                                />
+                            </div>
+                            <div style={{marginRight:55}} align="center">
+                                <Autocompletado 
+                                    valores={this.state.carrera} 
+                                    valor={this.state.carr} 
+                                    etiqueta="Carrera"
+                                    nombre="id_carrera"
+                                />
+                            </div>
+                            <div  style={{marginRight:55}} align="right">
+                                <SelectValidator
+                                    className="seleccion"
+                                    style={{ width: 250 , marginLeft:22}}
+                                    label="Estatus Titulacion"
+                                    name="id_estatus_titulacion"
+                                    value={this.state.id_estatus_titulacion}
+                                    onChange={this.handleSelectEstatusTitulacion}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
+                                >
+                                    {EstTit}
+                                </SelectValidator>
+                            </div>
+                        </div>
+                        <br/>
+                        <div className="row">
+                            <div  style={{marginRight:55}} align="left">
+                                <TextValidator
+                                    style={{marginLeft: 20, width:250}}
+                                    label="Certificaciones"
+                                    onChange={this.handleWrite}
+                                    name="certificaciones"
+                                    value={this.state.certificaciones}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
+                                />
+                            </div>
+                            <div style={{marginRight:55}} align="center">
+                                <TextValidator
+                                    style={{marginLeft: 20, width:250}}
+                                    label="Experiencia"
+                                    onChange={this.handleWrite}
+                                    name="experiencia"
+                                    value={this.state.experiencia}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row" style={{width:1000, marginLeft: 70}}>
+                        <div className="" align="center">
+                            <td className="lineaEspacioDerecha">
+                                <ColoredLine color="blue" />
+                            </td>
+                            <td>
+                                <h2>Datos Economicos</h2>
+                            </td>
+                            <td className="lineaEspacioIzquierda">
+                                <ColoredLine color="blue" />
+                            </td>
+                        </div>
+                    </div>
+                    <div className="container">
+                        <div className="row">
+                            <div style={{marginRight:55}} align="left">
+                                <TextValidator
+                                    style={{marginLeft: 20, width:250}}
+                                    label="Pretencion Economica"
+                                    onChange={this.handleWrite}
+                                    name="pretencion_economica"
+                                    value={this.state.pretencion_economica}
+                                    validators={["required", "formatoNumeros"]}
+                                    errorMessages={["Campo Obligatorio", "Ingrese solo Numeros"]}
+                                />
+                            </div>
+                            <div style={{marginRight:55}} align="center">
+                                <TextValidator
+                                    style={{marginLeft: 20, width:250}}
+                                    label="Acuerdo Economico"
+                                    onChange={this.handleWrite}
+                                    name="acuerdo_economico"
+                                    value={this.state.acuerdo_economico}
+                                    validators={["required", "formatoNumeros"]}
+                                    errorMessages={["Campo Obligatorio", "Ingrese Solo Numeros"]}
+                                />
+                            </div>
+                            <div  style={{marginRight:55}} align="right">
+                                <SelectValidator
+                                    className="seleccion"
+                                    style={{ width: 250 , marginLeft:22}}
+                                    label="Estatus CV"
+                                    name="id_estatus_cv"
+                                    value={this.state.id_estatus_cv}
+                                    onChange={this.handleSelectEstatusCV}
+                                    validators={["required"]}
+                                    errorMessages={["Campo Obligatorio"]}
+                                >
+                                    {CV}
+                                </SelectValidator>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div className="container">
+                        <div className="row" align="center">
+                            <div >
+                                <button
+                                    className="btn btn-primary"
+                                    type="Submit"
+                                    style={{marginLeft:425,
+                                    marginRight:100}}
+                                >
+                                    Guardar
+                                </button>
+                            </div>
+                            <div >
+                                <Link to="/consultar-Postulantes" 
+                                    className="btn btn-secondary"
+                                >
+                                    Cancelar
+                                </Link>
+                            </div>
+                            <br/>
+                        </div>
                     </div>
                 </ValidatorForm>
 
@@ -700,5 +922,10 @@ const mapStateToProps = state => {
         postulantec: state.postulantec
     }
 }
+
+const mapDispatchToProps=dispatch=>({
+    dispatchSetPostulante: value=>dispatch(setPostulante(value)),
+    dispatchSetPostulanteC: value=>dispatch(setPostulanteC(value))
+})
 
 export default connect(mapStateToProps, null)(Postulante);
