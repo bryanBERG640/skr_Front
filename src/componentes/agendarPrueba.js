@@ -1,6 +1,5 @@
 import React from "react";
 import IconoAgendar from "../Imagenes/agendarcita.png";
-import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { postCita, putCita, putPostulanteB } from "../request/request";
@@ -8,7 +7,6 @@ import { setCita } from "../actions/postulanteB";
 import { getEmpresa, getCliente } from "../request/request";
 import { clickCompletarDatos } from "../actions/postulanteB";
 import Autocompletado from "./Autocompletado/Autocommpletado";
-import "./styles/FormatoImagenes.css";
 import { number } from "prop-types";
 import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
 
@@ -34,12 +32,12 @@ class agendarPrueba extends React.Component {
         this.state = {
             clientes: [],
             respEmpr: [],
-            fecha: "",
+            // fecha: "",
             idEmpresa: number,
             empresa: null,
             idCliente: this.props.cliente.id_cliente,
             cita: {
-                fecha: "",
+                fecha: null,
                 hora: null,
                 entrevistador: null,
                 idEstatusCita: 1,
@@ -63,10 +61,49 @@ class agendarPrueba extends React.Component {
     }
 
     componentWillMount = () => {
+
         this.getCliente();
         this.getEmpresa();
+
         ValidatorForm.addValidationRule("isValidName", (string) => /[a-zA-Z \u00E0-\u00FC]{1,20}/g.test(string));
-        // ValidatorForm.addValidationRule("formatHora", (string) => /^[0-9ampm]*$/.test(string)); 
+        ValidatorForm.addValidationRule("Vacio", string => {
+            console.log("--Validacion" + string)
+            if (string !== null && string !== ":00") return true;
+        });
+        ValidatorForm.addValidationRule("FechaActual", string => {
+            console.log("Dentro de validarFechaActual")
+            let fechaTotalActual = "";
+            let fechaTotalRecibida = "";
+            if (string !== null && string !== "" && fechaTotalRecibida >= fechaTotalActual) {
+                const fecha = new Date();
+                if (fecha.getDate() >= 1 && fecha.getDate() <= 9) {
+                    if (fecha.getMonth() >= 1 && fecha.getMonth() <= 9) {
+                        fechaTotalActual = fecha.getFullYear() + "0" + (fecha.getMonth() + 1) + "0" + fecha.getDate();
+                    } else {
+                        fechaTotalActual = fecha.getFullYear() + "" + (fecha.getMonth() + 1) + "0" + fecha.getDate();
+                    }
+                } else {
+                    fechaTotalActual = fecha.getFullYear() + "" + (fecha.getMonth() + 1) + "" + fecha.getDate();
+                }
+
+                const subcadenas = string.split("-");
+                const year = subcadenas[0];
+                const month = subcadenas[1];
+                const day = subcadenas[2];
+                fechaTotalRecibida = year + "" + month + "" + day;
+
+                if (fechaTotalRecibida >= fechaTotalActual) {
+                    return true;
+                }
+            }
+        });
+        ValidatorForm.addValidationRule("FormatoHora", string => {
+            debugger
+            if (string !== null) {
+                const horaSplit = string.split(":");
+                if (parseInt(horaSplit[0], 10) >= 9 && parseInt(horaSplit[0], 10) <= 18) return true
+            }
+        })
     };
     getCliente = async () => {
         const nuevoGet = await getCliente();
@@ -85,7 +122,8 @@ class agendarPrueba extends React.Component {
     };
 
     handleChangeDate = e => {
-        //console.log(e.target.value);
+        // debugger
+        console.log(e.target.value);
         let cit = this.state.cita;
         cit.fecha = e.target.value;
         this.setState({ cita: cit });
@@ -101,7 +139,7 @@ class agendarPrueba extends React.Component {
     handleSelect = e => {
         this.state.respEmpr.map(emp => {
             if (emp.descripcion === e.target.value) {
-                this.setState({ 
+                this.setState({
                     idEmpresa: emp.id_empresa,
                     empresa: emp.descripcion
                 });
@@ -111,7 +149,7 @@ class agendarPrueba extends React.Component {
 
     handleClick = e => {
         console.log("Dentro de la funcion handleClick")
-       
+
         let idCliente = this.props.cliente.id_cliente;
         if (this.state.c !== "vacio") {
             console.log("Realizando put");
@@ -154,7 +192,7 @@ class agendarPrueba extends React.Component {
             })
             .catch(console.log);
 
-            this.props.history.push('/consultarCita')//Esta linea de codigo redirecciona a otra vista.
+        this.props.history.push('/consultarCita')//Esta linea de codigo redirecciona a otra vista.
     };
 
     handleWrite = e => {
@@ -166,7 +204,7 @@ class agendarPrueba extends React.Component {
     };
 
     render() {
-        console.log("--"+this.state.cita.hora)
+        console.log("Hora:" + this.state.cita.hora)
         const { respEmpr } = this.state;
         const empresa = respEmpr.map(empr => {
             return <option value={empr.descripcion}>{empr.descripcion}</option>;
@@ -194,10 +232,10 @@ class agendarPrueba extends React.Component {
                 <br />
                 <br />
                 <div className="row">
-                    <ValidatorForm 
+                    <ValidatorForm
                         className="form-agendar"
                         onSubmit={this.handleClick}
-                        onError={errors => console.log(errors)}    
+                        onError={errors => console.log(errors)}
                     >
                         <div className="row">
                             <div className="col">
@@ -218,24 +256,30 @@ class agendarPrueba extends React.Component {
                             </div>
                             <div className="col">
                                 {/* <label className="label1">Cliente:</label> */}
-                                <Autocompletado valores={this.state.clientes} />
+                                <TextValidator
+                                    label="Fecha"
+                                    type="date"
+                                    value={this.state.cita.fecha}
+                                    onChange={this.handleChangeDate}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                        variant: 'filled'
+                                    }}
+                                    validators={["required", "FechaActual"]}
+                                    errorMessages={['El campo es obligatorio',
+                                        'Coloca fecha futura']}
+                                />
+
                             </div>
                         </div>
-                        <br/>
-                            <br/>
-                            <br/>
+                        <br />
+                        <br />
+                        <br />
                         <div className="row">
                             <div className="col">
-                                {/* <label className="label1">Entrevistador:</label>
-                                <input
-                                    className="form-control"
-                                    name="entrevistador"
-                                    type="text"
-                                    value={this.state.value}
-                                    onChange={this.handleWrite}
-                                /> */}
                                 <TextValidator
                                     className="form-control"
+                                    style={{ width: 210 }}
                                     label="Entrevistador"
                                     id="entrevistador"
                                     onChange={this.handleWrite}
@@ -245,57 +289,51 @@ class agendarPrueba extends React.Component {
                                     errorMessages={['El campo es requrido', 'Formato invalido']}
                                 />
                             </div>
-                            
-                            <div className="col">
-                                {/* <label className="label1">Hora:</label>
-                                <input
-                                    className="form-control"
-                                    type="time"
-                                    name="hora"
-                                    value={this.state.hora}
-                                    onChange={this.handleChangeTime}
-                                /> */}
+
+                            <div className="col espacio">
                                 <TextValidator
+                                    style={{ width: 210, paddingBottom: 10 }}
+                                    InputLabelProps={{ shrink: true }}
+                                    autoFocus="true"
                                     type="time"
-                                    className="form-control"
+                                    id="appt-time"
+                                    name="appt-time"
+                                    min="09:00" max="18:00"
+                                    className="form-control appt-time"
                                     label="Hora"
-                                    id="hora"
                                     onChange={this.handleChangeTime}
-                                    name="hora"
                                     value={this.state.cita.hora}
-                                    validators={["required"]}
-                                    errorMessages={['El campo es obligatorio']}
+                                    validators={["required", "Vacio", "FormatoHora"]}
+                                    errorMessages={['El campo es obligatorio',
+                                        'El campo esta vacio',
+                                        'Formato invalido']}
                                 />
                             </div>
                         </div>
                         <br />
+                        <br />
+                        <br />
                         <div className="row">
                             <div className="col">
-                                <label className="label1">Fecha:</label>
-                                <TextField
-                                    type="date"
-                                    onChange={this.handleChangeDate}
-                                    InputLabelProps={{
-                                        shrink: true
-                                    }}
-                                />
-
+                                <Autocompletado valores={this.state.clientes} />
                             </div>
-                            <div className="row">
-                                <div className="col">
-                                    <button
-                                        className="btn btn-primary btn-lg"
-                                        type="submit"
-                                    >
-                                        Agendar
+                            {/* <div className="row"> */}
+                            <div className="col">
+                                <button
+                                    className="btn btn-primary btn-lg"
+                                    type="submit"
+                                >
+                                    Agendar
                                     </button>
-                                </div>
-                                <div className="col">
-                                    <Link to="/consultar-Postulantes" className="btn btn-primary">
-                                        Cancelar
-                                </Link>
-                                </div>
                             </div>
+                            <div className="col">
+                                <Link to="/consultar-Postulantes" className="btn btn-primary btn-lg">
+                                    Cancelar
+                                </Link>
+                            </div>
+                            {/* </div> */}
+                        </div>
+                        <div className="App-Component">
                         </div>
                     </ValidatorForm>
                 </div>

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { setCarreraID, setEscuelaID } from "../../actions/postulanteB";
 import { setCliente } from "../../actions/postulanteB";
 import { TextValidator } from 'react-material-ui-form-validator';
+import '../styles/Formatos.css';
 
 class Autompletado extends Component {
   constructor(props) {
@@ -40,11 +41,9 @@ class Autompletado extends Component {
       return null;
     }
     return (
-      <ul>
-        {suggestions.map(cliente => (
-          <li onClick={() => this.suggestionSelected(cliente)}>{cliente}</li>
-        ))}
-      </ul>
+      <span>
+        {suggestions.map(cliente => <span onClick={() => this.suggestionSelected(cliente)}>{cliente}</span>)}
+      </span>
     );
   }
 
@@ -73,7 +72,10 @@ class Autompletado extends Component {
     return (
       <div>
         <TextValidator
+          style={{ width: 210 }}
+          autoComplete="off"
           className="form-control"
+          placeholder="Ingresa nombre cliente"
           label="Cliente"
           id="cliente"
           onChange={this.onTextChanged}
@@ -82,7 +84,10 @@ class Autompletado extends Component {
           validators={["required", "isValidName"]}
           errorMessages={['El campo es requerido']}
         />
-        {this.renderSuggestions()}
+        
+        <ul className="formato">
+          {this.renderSuggestions()}
+        </ul>
       </div>
     );
   }
