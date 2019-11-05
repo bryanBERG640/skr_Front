@@ -76,13 +76,13 @@ class Autompletado extends Component {
           autoComplete="off"
           className="form-control"
           placeholder="Ingresa nombre cliente"
-          label="Cliente"
+          label={this.props.etiqueta}
           id="cliente"
           onChange={this.onTextChanged}
-          name="cliente"
+          name={this.props.nombre}
           value={text}
           validators={["required", "isValidName"]}
-          errorMessages={['El campo es requerido']}
+          errorMessages={["El campo es requerido"]}
         />
         
         <ul className="formato">
