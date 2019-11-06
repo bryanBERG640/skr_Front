@@ -44,8 +44,16 @@ class agendarPrueba extends React.Component {
                 idPostulante: this.props.postulante.id_postulante_b,
                 usuario_actualiza: "Bryan Ramirez",
                 fecha_actualizacion: date
+            },  
+            c: {
+                fecha: this.props.cita.fecha,
+                hora: this.props.cita.hora,
+                entrevistador: this.props.cita.entrevistador,
+                idEstatusCita: this.props.cita.estatuscita.id_estatus_cita,
+                idPostulante: this.props.postulante.id_postulante_b,
+                usuario_actualiza: "Bryan Ramirez",
+                fecha_actualizacion: date
             },
-            c: this.props.cita,
             postulante: {
                 id_postulante_b: this.props.postulante.id_postulante_b,
                 nombre: this.props.postulante.nombre,
@@ -149,7 +157,7 @@ class agendarPrueba extends React.Component {
 
     handleClick = e => {
         console.log("Dentro de la funcion handleClick")
-
+        debugger
         let idCliente = this.props.cliente.id_cliente;
         if (this.state.c !== "vacio") {
             console.log("Realizando put");

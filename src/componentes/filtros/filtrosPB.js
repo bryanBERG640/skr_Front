@@ -5,6 +5,7 @@ import lapiz from "../../Imagenes/lapiz.png";
 import { setPostulante } from "../../actions/postulanteB";
 import { setPostulanteC } from '../../actions/postulanteB';
 import { getPostulanteTodo } from '../../request/request';
+import { setRadioButton } from '../../actions/postulanteB';
 
 class filtrosPB extends React.Component {
   state = {
@@ -64,6 +65,7 @@ class filtrosPB extends React.Component {
     if(verdadero === false) {
       this.props.dispatchSetPostulantC(null);
     }
+    this.props.dispatchSetRadioButton("Pulsado");
   };
 
   render() {
@@ -331,7 +333,8 @@ class filtrosPB extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   dispatchSetPostulante: value => dispatch(setPostulante(value)),
-  dispatchSetPostulantC: value => dispatch(setPostulanteC(value))
+  dispatchSetPostulantC: value => dispatch(setPostulanteC(value)),
+  dispatchSetRadioButton: value => dispatch(setRadioButton(value))
 });
 
 const mapStateToProps= state=>({

@@ -75,7 +75,7 @@ class Autompletado extends Component {
           style={{ width: 210 }}
           autoComplete="off"
           className="form-control"
-          placeholder="Ingresa nombre cliente"
+          placeholder={this.props.placeH}
           label={this.props.etiqueta}
           id="cliente"
           onChange={this.onTextChanged}

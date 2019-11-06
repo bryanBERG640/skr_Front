@@ -45,7 +45,16 @@ class agendar extends React.Component {
                 usuario_actualiza: "Bryan Ramirez",
                 fecha_actualizacion: date
             },
-            c: this.props.cita,
+            c: {
+                id_cita: undefined,
+                fecha: undefined,
+                hora: undefined,
+                entrevistador: undefined,
+                idEstatusCita: undefined,
+                idPostulante: undefined,
+                usuario_actualiza: undefined,
+                fecha_actualizacion: undefined
+            },
             postulante: {
                 id_postulante_b: this.props.postulante.id_postulante_b,
                 nombre: this.props.postulante.nombre,
@@ -98,7 +107,6 @@ class agendar extends React.Component {
             }
         });
         ValidatorForm.addValidationRule("FormatoHora", string => {
-            debugger
             if (string !== null) {
                 const horaSplit = string.split(":");
                 if (parseInt(horaSplit[0], 10) >= 9 && parseInt(horaSplit[0], 10) <= 18) return true
@@ -149,37 +157,46 @@ class agendar extends React.Component {
 
     handleClick = e => {
         console.log("Dentro de la funcion handleClick")
-
+        debugger
         let idCliente = this.props.cliente.id_cliente;
-        if (this.state.c !== "vacio") {
+        if (this.props.cita !== undefined && this.props.cita !== "vacio") {
             console.log("Realizando put");
+            const c = {
+                id_cita: this.props.cita.id_cita,
+                fecha: this.props.cita.fecha,
+                hora: this.props.cita.hora,
+                entrevistador: this.props.cita.entrevistador,
+                usuario_actualiza: "Miguel",
+                fecha_actualizacion: date
+            }
             putCita(
-                this.state.c,
+                c,
                 2,
                 this.props.postulante.id_postulante_b,
-                this.state.idEmpresa,
+                this.props.cita.empresa.id_empresa,
                 idCliente,
-                this.state.c.id_cita
+                this.props.cita.id_cita
             )
                 .then(response => {
                     console.log(response);
                 })
                 .catch(console.log);
-        }
-        console.log("Realizando Post");
-        postCita(
-            this.state.cita,
-            this.state.cita.idEstatusCita,
-            this.state.cita.idPostulante,
-            this.state.idEmpresa,
-            idCliente
-        )
-            .then(response => {
-                console.log(response);
-            })
-            .catch(console.log);
+        } 
 
-        console.log("Realizando put a PB");
+        console.log("Realizando Post");
+            postCita(
+                this.state.cita,
+                this.state.cita.idEstatusCita,
+                this.state.cita.idPostulante,
+                this.state.idEmpresa,
+                idCliente
+            )
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(console.log);
+
+            console.log("Realizando put a PB");
 
         putPostulanteB(
             this.state.postulante,
@@ -315,7 +332,7 @@ class agendar extends React.Component {
                         <br />
                         <div className="row">
                             <div className="col">
-                                <Autocompletado valores={this.state.clientes} />
+                                <Autocompletado valores={this.state.clientes} placeH="Agregar cLiente" />
                             </div>
                             {/* <div className="row"> */}
                             <div className="col">

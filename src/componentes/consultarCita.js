@@ -7,7 +7,7 @@ import { Button } from "@material-ui/core";
 import "./styles/Formatos.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setCita, setPostulante } from "../actions/postulanteB";
+import { setCita, setPostulante, setRadioButton } from "../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -37,6 +37,7 @@ class consultarCita extends Component {
   async componentDidMount() {
     this.getPostulanteB();
     this.getCitas();
+    this.props.dispatchSetRadioButton(null);
   }
 
   getCitas = async () => {
@@ -66,6 +67,19 @@ class consultarCita extends Component {
     this.setState({ fechafinal: e.target.value });
   };
 
+  handleClickPulsado = e => {
+    debugger
+    if (e.target.name === "agregarcomentario") {
+      this.props.history.push('/agregar_comentario');
+    }else if (e.target.name === "reagendar") {
+      this.props.history.push('/agendar_cita');
+    }else if (e.target.name === "entrevistas") {
+      this.props.history.push('/Entrevista')
+    }else if (e.target.name === "examenes") {
+      this.props.history.push('/examen')
+    }
+  }
+
   handleClick = e => {
     let sc = parseInt(e.target.value);
     this.state.citas.map(cit => {
@@ -80,6 +94,7 @@ class consultarCita extends Component {
         }
       });
     });
+    this.props.dispatchSetRadioButton("Pulsado");
     //console.log("fin de handleClick");
   };
 
@@ -196,25 +211,40 @@ class consultarCita extends Component {
             <div className="col-lg-8 offset-md-3">
               <div className="btn-toolbar" role="toolbar">
                 <div className="btn-group mr-2" role="group">
-                  <Link to="/agregar_comentario" className="btn btn-primary">
+                  <button className="btn btn-primary"
+                          name="agregarcomentario"
+                          onClick={this.handleClickPulsado}
+                          disabled={!this.props.radiobutton}
+                  >
                     Agregar Comentarios
-                  </Link>
+                  </button>
                 </div>
                 <div className="btn-group mr-2" role="group">
-                  <Link to="/agendar_cita" className="btn btn-info">
+                  <button className="btn btn-primary"
+                          name="reagendar"
+                          onClick={this.handleClickPulsado}
+                          disabled={!this.props.radiobutton}
+                  >
                     Reagendar
-                  </Link>
+                  </button>
                 </div>
                 <div className="btn-group mr-2" role="group">
-                  {/* <button type="button" className="btn btn-info">
+                  <button  className="btn btn-primary"
+                            name="entrevistas"
+                            onClick={this.handleClickPulsado}
+                            disabled={!this.props.radiobutton}
+                  >
                     Entrevistas
-                  </button> */}
-                  <Link to="/Entrevista" className="btn btn-info"> Entrevistas</Link>
+                  </button>
                 </div>
                 <div className="btn-group mr-2" role="group">
-                  <Link to="/examen" className="btn btn-info">
+                  <button className="btn btn-primary"
+                          name="examenes"
+                          onClick={this.handleClickPulsado}
+                          disabled={!this.props.radiobutton}
+                  >
                     Exámenes
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -247,12 +277,19 @@ class consultarCita extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    radiobutton: state.radiobutton
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
   dispatchSetCita: value => dispatch(setCita(value)),
-  dispatchSetPostulante: value => dispatch(setPostulante(value))
+  dispatchSetPostulante: value => dispatch(setPostulante(value)),
+  dispatchSetRadioButton: value => dispatch(setRadioButton(value))
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(consultarCita);
