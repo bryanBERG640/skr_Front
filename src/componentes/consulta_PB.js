@@ -15,9 +15,9 @@ import {
   clickCompletarDatos,
   clickMostrarFicha
 } from "../actions/postulanteB";
-
-//Se exporta el filtrosPBReducer para capturar el valor------------
 import { filtrosPBReducer } from "../reducers/filtrosPBReducer";
+import { setCita, setPostulante, setPostulanteC, setCliente,
+   setExamen,  setSeccion, setEntrevista, setRadioButton } from '../actions/postulanteB';
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -69,6 +69,14 @@ class consulta_PB extends Component {
   componentDidMount = () => {
     this.getPerfil();
     this.setState({ nombre: "" });
+    this.props.dispatchSetCita("vacio");//Se setea el store de citacuando se entre a al vista
+    this.props.dispatchSetPostulante("vacio");
+    this.props.dispatchSetPostulanteC("vacio");
+    this.props.dispatchSetCliente("vacio");
+    this.props.dispatchSetExamen("vacio");
+    this.props.dispatchSetSeccion("vacio");
+    this.props.dispatchSetEntrevista("vacio");
+    this.props.dispatchSetRadioButton(null);
   };
   getPerfil = async () => {
     const nuevoGet = await getPerfil();
@@ -76,6 +84,20 @@ class consulta_PB extends Component {
       respPerf: nuevoGet.data
     });
   };
+
+  handleClickPulsado = e => {
+    debugger
+    console.log("Que boton fue pulsado:" + e.target.name)
+    if (e.target.name === "completardatos") {
+      this.props.history.push('/Completar_Datos_postulante');
+    }else if (e.target.name === "agregarpostulante") {
+      this.props.history.push('/agregar_PB');
+    }else if (e.target.name === "agendar") {
+      this.props.history.push('/agendar_cita');
+    }else if (e.target.name === "mostrarficha") {
+      this.props.history.push('/Ficha-Postulante');
+    }
+  }
 
   handleClick = e => {
     this.props.dispatchClickAgendar(filtrosPBReducer); //Se almacena en el store una función.
@@ -94,6 +116,7 @@ class consulta_PB extends Component {
   };
 
   render() {
+    console.log("MMM"+this.props.radiobutton)
     const { respPerf, c } = this.state;
 
     const handleSelect = respPerf.map(perf => {
@@ -170,11 +193,12 @@ class consulta_PB extends Component {
 
           <form className="form-hor" role="form">
             <div className="form-group">
-              <Link
-                to="/agregar_PB"
-                className="btn btn-primary"
-                onClick={this.handleClickAgregarPostulante}
+              <button className="btn btn-primary"
+                      // disabled={!this.props.radiobutton}
+                      onClick={this.handleClickPulsado}
+                      name="agregarpostulante"
               >
+<<<<<<< HEAD
                 Agregar/Editar Postulante
               </Link>
               &nbsp; &nbsp;
@@ -184,21 +208,33 @@ class consulta_PB extends Component {
               >
                 Completar/Editar Datos
               </Link>
+=======
+                      Agregar Postulante
+              </button>
               &nbsp; &nbsp;
-              <Link to="/agendar_cita" className="btn btn-primary">
+              <button className="btn btn-primary" 
+                      disabled={!this.props.radiobutton} 
+                      onClick={this.handleClickPulsado}
+                      name="completardatos">
+                Completar Datos
+              </button>
+>>>>>>> 2347ecd6304f04ac4defdf175577b37ebfb2f3d5
+              &nbsp; &nbsp;
+              <button className="btn btn-primary"
+                      disabled={!this.props.radiobutton}
+                      onClick={this.handleClickPulsado}
+                      name="agendar"
+              >
                 Agendar
-              </Link>
-              <Link to="/prueba-cita" className="btn btn-primary">
-                PruebaAgendar
-              </Link>
+              </button>
               &nbsp; &nbsp;
-              <Link
-                to="/Ficha-Postulante"
-                className="btn btn-primary"
-                onClick={this.handleClickMostrarFicha}
+              <button className="btn btn-primary"
+                      disabled={!this.props.radiobutton}
+                      onClick={this.handleClickPulsado}
+                      name="mostrarficha"
               >
                 Mostrar Ficha
-              </Link>
+              </button>
               &nbsp; &nbsp;
             </div>
           </form>
@@ -230,16 +266,32 @@ class consulta_PB extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    cita: state.cita,
+    radiobutton: state.radiobutton
+  }
+}
+
 const mapDispatchProps = dispatch => ({
   dispatchClickAgendar: value => dispatch(clickAgendar(value)),
   dispatchClickBuscar: value => dispatch(clickBuscar(value)),
   dispatchClickAgregarPostulante: value =>
-    dispatch(clickAgregarPostulante(value)),
+  dispatch(clickAgregarPostulante(value)),
   dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value)),
-  dispatchClickMostrarFicha: value => dispatch(clickMostrarFicha(value))
+  dispatchClickMostrarFicha: value => dispatch(clickMostrarFicha(value)),
+
+  dispatchSetCita: value => dispatch(setCita(value)),
+  dispatchSetPostulante: value => dispatch(setPostulante(value)),
+  dispatchSetPostulanteC: value => dispatch(setPostulanteC(value)),
+  dispatchSetCliente: value => dispatch(setCliente(value)),
+  dispatchSetExamen: value => dispatch(setExamen(value)),
+  dispatchSetSeccion: value => dispatch(setSeccion(value)),
+  dispatchSetEntrevista: value => dispatch(setEntrevista(value)),
+  dispatchSetRadioButton: value => dispatch(setRadioButton(value))
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchProps
 )(consulta_PB); //El segundo parametro del metodo connect permitira trabajar con las acciones.

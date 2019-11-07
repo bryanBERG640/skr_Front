@@ -77,7 +77,6 @@ function postSeccion(jsonRequest, estatus, perfil) {
 function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
   /*console.log(estatusCita);
   console.log(idPostulanteB);*/
-  debugger
   return fetch(
     "http://192.168.1.230:8088/skr_v1/cita/" +
       estatusCita +

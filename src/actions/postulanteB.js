@@ -1,3 +1,6 @@
+export const SET_RADIOBUTTON = "SET_RADIOBUTTON";
+export const setRadioButton = payload => ({ type: SET_RADIOBUTTON, payload})
+
 export const SET_POSTULANTE = "SET_POSTULANTE";
 export const setPostulante = payload => ({ type: SET_POSTULANTE, payload });
 

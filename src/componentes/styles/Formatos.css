@@ -223,3 +223,11 @@ thead {
 .seleccion {
   text-align: left;
 }
+
+.rangoHoraDiv{
+  padding-top: 1rem;
+}
+
+.formato{
+  padding-top: 1rem;
+}
