@@ -185,8 +185,6 @@ function putPostulanteB(
     .catch(console.log);
 }
 
-
-
 function postPostulanteC(
   jsonRequest,
   idPostulanteB,
@@ -404,6 +402,28 @@ function postSecciones(jsonRequest, idExamen) {
     .catch(console.log);
 }
 
+function putSeccion(jsonRequest, idExamen, idSeccion)
+{
+  return fetch(
+    "http://192.168.1.230:8088/skr_v1/seccion/" +
+      idExamen +
+      "/put/" +
+      idSeccion,
+    {
+      method: "PUT",
+      body: JSON.stringify(jsonRequest),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }
+  )
+    .then(response => {
+      return response.json();
+    })
+    .catch(console.log);
+}
+
 async function deleteSeccion(idSeccion) {
   //debugger;
   console.log(idSeccion);
@@ -485,5 +505,6 @@ export {
   deleteSeccion,
   putPostulanteB,
   postEntrevista,
-  getCitaId
+  getCitaId,
+  putSeccion
 };

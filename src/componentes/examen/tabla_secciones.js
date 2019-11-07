@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getSecciones, getExamenes } from "../../request/request";
-import { setSeccion } from "../../actions/postulanteB";
+import { setSeccion, changeValor } from "../../actions/postulanteB";
 
 class TablaSeccion extends React.Component {
   state = {
@@ -13,9 +13,9 @@ class TablaSeccion extends React.Component {
 
   componentWillUpdate(previousProps, previousState) {
     if (previousProps !== this.props) {
-      console.log("actualizando render TablaSeccion");
+      console.log("actualizando TablaSeccion");
       this.getSecciones();
-      this.getExamenes(); 
+      this.getExamenes();
     }
   }
 
@@ -37,10 +37,11 @@ class TablaSeccion extends React.Component {
 
   handleClick = e => {
     const id = parseInt(e.target.value);
-    console.log(id);
+    //console.log(id);
     this.state.respSeccion.map(secc => {
       if (secc.id_seccion === id) {
         this.props.dispatchSetSeccion(secc);
+        this.props.dispatchSeleccion("seleccionado");
       }
     });
     // this.props.dispatchSetSeccion();
@@ -100,7 +101,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  dispatchSetSeccion: value => dispatch(setSeccion(value))
+  dispatchSetSeccion: value => dispatch(setSeccion(value)),
+  dispatchSeleccion: value => dispatch(changeValor(value))
 });
 
 export default connect(

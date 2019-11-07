@@ -11,6 +11,7 @@ const initialState = {
   carrera: "vacio",
   seccion: "vacio",
   entrevista: "vacio",
+  seleccion: "vacio"
 };
 
 //Se crea el store y este almacenara información.

@@ -4,13 +4,13 @@ import {
   SET_CLIENTE,
   SET_EXAMEN,
   SET_SECCION,
-  SET_ENTREVISTA
+  SET_ENTREVISTA,
+  SELECCIONAR
 } from "../actions/postulanteB";
 
 import { SET_CITA } from "../actions/ConsultarCitaActions";
 import { SET_CARRERA } from "../actions/postulanteB";
 import { SET_ESCUELA } from "../actions/postulanteB";
-import { reducer as formReducer } from "redux-form";
 
 export const filtrosPBReducer = (state = {}, action) => {
   switch (action.type) {
@@ -32,6 +32,8 @@ export const filtrosPBReducer = (state = {}, action) => {
       return { ...state, seccion: action.payload };
     case SET_ENTREVISTA:
       return { ...state, entrevista: action.payload };
+    case SELECCIONAR:
+      return { ...state, seleccion: action.payload };
     default:
       return state;
   }

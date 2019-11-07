@@ -6,7 +6,8 @@ import {connect} from 'react-redux'
 import Seccion from "../examen/seccion";
 import {getTipoExamen} from "../../request/request"
 import {postExamen} from '../../request/request'
-import {setExamen} from '../../actions/postulanteB'
+import {setExamen, setCita, setPostulante, setSeccion, changeValor} from '../../actions/postulanteB'
+import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -29,11 +30,11 @@ const date=anio+"-"+mes+"-"+dia
 class Examen extends React.Component {
     state=
     {
-        idTipoExamen:0,
+        idTipoExamen:null,
         tiposExamen:[],
         examen:
         {
-            calificacion_global:0,
+            calificacion_global:null,
             entrevistador:this.props.cita.entrevistador,
             observaciones:"",
             usuario_actualiza:"Bryan Ramirez",
@@ -48,6 +49,9 @@ class Examen extends React.Component {
     componentWillMount=()=>
     {
         this.getTipoExamen()
+        ValidatorForm.addValidationRule("formatoNumeros", string =>
+      /^[0-9 .,-]*$/.test(string)
+    );
     }
 
     getTipoExamen= async () =>
@@ -58,31 +62,14 @@ class Examen extends React.Component {
 
     handleSelect=e=>
     {
-        this.state.tiposExamen.map(te=>
-        {
-            if(e.target.value===te.descripcion)
-            {
-                this.setState({idTipoExamen:te.id_tipo_examen})
-            }
-            return te.id_tipo_examen
-        })
+        this.setState({idTipoExamen:e.target.value})
     }
 
     handleChange=e=>
     {
-        let exa=this.state.examen
-
-        if(e.target.name==="calificacion_global")
-        {
-            let cg=parseInt(e.target.value)
-            exa.calificacion_global=cg
-            this.setState({examen:exa})
-        }
-        if(e.target.name==="observaciones")
-        {
-            exa.observaciones=e.target.value
-            this.setState({examen:exa})
-        }
+        const {examen}= this.state
+        examen[e.target.name]=e.target.value;
+        this.setState({examen})
     }
 
     handleClick=e=>
@@ -104,30 +91,40 @@ class Examen extends React.Component {
 
     handleSubmit=e=>
     {
-        e.preventDefault()
-// if(this.state.examen.calificacion_global!==0 &&
-//             this.state.idTipoExamen!==0)
-//             {
-//                 postExamen(this.state.examen,
-//                     this.props.cita.id_cita,
-//                     this.state.idTipoExamen).then(response=>
-//                         {
-//                             console.log(response)
-//                             this.props.dispatchSetExamen(response)
-//                         })
-//                         .catch(console.log)
+        
+        if(this.state.examen.calificacion_global!==null &&
+        this.state.idTipoExamen!==null)
+        {
+            console.log("aprobado")
+            postExamen(this.state.examen,
+            this.props.cita.id_cita,
+            this.state.idTipoExamen).then(response=>
+            {
+            console.log(response)
+            this.props.dispatchSetExamen(response)
+            })
+            .catch(console.log)
 
-//}
+        }
+    }
+
+    handleClean=e=>
+    {
+        
+        this.props.dispatchSetExamen("vacio")
+        this.props.dispatchSetCita("vacio")
+        this.props.dispatchSetPostulante("Vacio")
+        this.props.dispatchSetSeccion("vacio")
+        this.props.dispatchSeleccion("vacio")
+        console.log("Store limpio")
     }
 
     render() {
+        //console.log(this.state.examen.calificacion_global)
         const tipoExamen=this.state.tiposExamen.map(te=>
             {
-                return <option value={te.descripcion}>{te.descripcion}</option>
+                return <option value={te.id_tipo_examen}>{te.descripcion}</option>
             })
-            
-
-
         return (
             <React.Fragment>
                 <div align="center">
@@ -159,7 +156,10 @@ class Examen extends React.Component {
                     />
                 </div>
                 <div className="center">
-                    <form  onSubmit={this.handleSubmit}>
+                    <ValidatorForm
+                      onSubmit={this.handleSubmit}
+                      ref="form"
+                      onError={errors=>console.log(errors)}>
                         <div className="form">
                             <div npm  align="center" >
                                 <div className="container">
@@ -172,36 +172,35 @@ class Examen extends React.Component {
                                     <div className="row justify-content-md-center">
                                         <h4>
                                             Empresa: &nbsp; &nbsp;
-                                            {/* <label className="datosCita"> {this.props.cita.empresa.descripcion}</label> */}
+                                            <label className="datosCita"> {this.props.cita.empresa.descripcion}</label>
                                         </h4>
                                     </div>
                                     <div className="row justify-content-md-center">
                                         <h4>
                                             Cliente: &nbsp; &nbsp;
-                                            {/* <label className="datosCita"> {this.props.cita.cliente.descripcion}</label> */}
+                                            <label className="datosCita"> {this.props.cita.cliente.descripcion}</label>
                                         </h4>
                                     </div>
                                     
                                 </div>
                             </div>
-                           <div className="center">
-                           <label className="restriccion">* Campo Obligatorio</label>
-                           </div>
                             <div className="center">
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-sm-4">
                                             <div className="row">
                                                 <div className="col-sm-12">
-                                                    <label>* Tipo de exámen:</label>
-                                                </div>
-                                                <div className="col-sm-12">
-                                                    <select className="form-control labelBorder" 
-                                                    required name="tipoExamen"
-                                                    onClick={this.handleSelect}>
-                                                        <option>Selecciona</option>
+                                                    <SelectValidator
+                                                    style={{width:200}}
+                                                     text-align="left"
+                                                     label="Tipo de Examen" 
+                                                    name="tipoExamen"
+                                                    onClick={this.handleSelect}
+                                                    value={this.state.idTipoExamen}
+                                                    validators={["required"]}
+                                                    errorMessages={["Campo Obligatorio"]}>                
                                                         {tipoExamen}
-                                                    </select>
+                                                    </SelectValidator>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,14 +208,13 @@ class Examen extends React.Component {
                                         <div className="col-sm-3">
                                             <div className="row">
                                                 <div className="col-sm-12">
-                                                    <label>* Calificación global:</label>
-                                                </div>
-                                                <div className="col-sm-12">
-                                                    <input className="form-control labelBorder" 
-                                                    type="text"
+                                                    <TextValidator
+                                                     label="Calificacion Global"
                                                     name="calificacion_global"
-                                                    value={this.state.value}
+                                                    value={this.state.examen.calificacion_global}
                                                     onChange={this.handleChange}
+                                                    validators={["required", "formatoNumeros"]}
+                                                    errorMessages={["Campo Obligatorio", "Ingrese solo Numeros"]}
                                                     />
                                                 </div>
                                             </div>
@@ -243,19 +241,20 @@ class Examen extends React.Component {
                                     <div className="row">
                                         <div className="col-2">
                                         <button className="btn btn-primary"
-                                        
-                                        type="button"                                             
-                                            onClick={this.handleClick}
-                                            >Confirmar</button>
+                                            type="submit"
+                                        >
+                                            Confirmar</button>
                                         </div>
                                         <div className="col-2">
-                                        <Link to="/consultarCita" className="btn btn-danger"> Salir</Link>
+                                        <Link to="/consultarCita" 
+                                        className="btn btn-danger"
+                                        onClick={this.handleClean}> Salir</Link>
                                         </div>                                                
                                     </div>
                                 </div>                                
                             </div>
                         </div>
-                    </form>
+                    </ValidatorForm>
                 </div>      
                 <br/>
                 <br/>
@@ -275,7 +274,11 @@ const mapStateToProps=state=>
 }
 
 const mapDispatchToProps=dispatch=>({
-    dispatchSetExamen: value=> dispatch(setExamen(value))
+    dispatchSetExamen: value=> dispatch(setExamen(value)),
+    dispatchSetCita: value=>dispatch(setCita(value)),
+    dispatchSetPostulante: value=>dispatch(setPostulante(value)),
+    dispatchSetSeccion: value=>dispatch(setSeccion(value)),
+    dispatchSeleccion:value=>dispatch(changeValor(value))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps,null)(Examen);

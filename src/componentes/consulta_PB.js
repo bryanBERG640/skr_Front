@@ -175,14 +175,14 @@ class consulta_PB extends Component {
                 className="btn btn-primary"
                 onClick={this.handleClickAgregarPostulante}
               >
-                Agregar Postulante
+                Agregar/Editar Postulante
               </Link>
               &nbsp; &nbsp;
               <Link
                 to="/Completar_Datos_postulante"
                 className="btn btn-primary"
               >
-                Completar Datos
+                Completar/Editar Datos
               </Link>
               &nbsp; &nbsp;
               <Link to="/agendar_cita" className="btn btn-primary">

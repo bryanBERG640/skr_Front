@@ -1,15 +1,17 @@
 import React from "react";
-import { number } from "prop-types";
 import {
   postSecciones,
   getTipoExamen,
   getExamenes,
   getSecciones,
-  deleteSeccion
+  deleteSeccion,
+  putSeccion
 } from "../../request/request";
 import { connect } from "react-redux";
 import TablaSecciones from "./tabla_secciones";
-import { setSeccion } from "../../actions/postulanteB";
+import { setSeccion, changeValor } from "../../actions/postulanteB";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { number } from "prop-types";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -30,30 +32,70 @@ const date = anio + "-" + mes + "-" + dia;
 
 class Seccion extends React.Component {
   state = {
-    idExamen: number,
     seccion: {
-      no_seccion: number,
-      puntaje: number,
-      calificacion: number,
+      no_seccion: "",
+      puntaje: "",
+      calificacion: "",
       usuario_actualiza: "Bryan Ramirez",
       fecha_actualizacion: date
     },
     respTipoExamen: [],
     respExamen: [],
-    respSecciones: [],
-    value: ""
+    respSecciones: []
   };
 
-  componentDidUpdate(previousProps, previousState) {
-    // console.log(previousProps);
-    // console.log(previousState.respExamen);
-    // console.log(this.state.respExamen);
-    if (previousState == this.state) {
+  componentDidUpdate (pP, pS) {
+    if(pS===this.state)
+    {
       this.getTipoExamen();
       this.getExamenes();
       this.getSecciones();
+      ValidatorForm.addValidationRule("formatoNumeros", string =>
+      /^[0-9 .,-]*$/.test(string)
+      );
+      ValidatorForm.addValidationRule("Enteros", string =>
+      /^[0-9]*$/.test(string)
+      );
+      if(this.props.seleccion!=="vacio")
+      {
+      const secc = {
+        id_seccion:this.props.seccion.id_seccion,
+        no_seccion: this.props.seccion.no_seccion,
+        puntaje: this.props.seccion.puntaje,
+        calificacion: this.props.seccion.calificacion,
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: date
+      };
+      this.setState({seccion:secc})
+      }
     }
-  }
+    if(pP!==this.props)
+    {
+      if(this.props.seleccion!=="vacio")
+      {
+        const secc = {
+        id_seccion:this.props.seccion.id_seccion,
+        no_seccion: this.props.seccion.no_seccion,
+        puntaje: this.props.seccion.puntaje,
+        calificacion: this.props.seccion.calificacion,
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: date
+        };
+        this.setState({seccion:secc})
+      }
+      else
+      {
+        const sec = {
+          no_seccion: "",
+          puntaje: "",
+          calificacion: "",
+          usuario_actualiza: "Bryan Ramirez",
+          fecha_actualizacion: date
+        };
+        this.setState({ seccion: sec });
+      }
+    }
+  };
 
   getTipoExamen = async () => {
     const nuevoGet = await getTipoExamen();
@@ -71,58 +113,101 @@ class Seccion extends React.Component {
   };
 
   handleChange = e => {
-    let sec = this.state.seccion;
-    let vari = parseInt(e.target.value);
-    console.log(vari);
-    if (e.target.name === "seccion") {
-      sec.no_seccion = vari;
-      this.setState({ seccion: sec });
-    }
-
-    if (e.target.name === "puntaje") {
-      sec.puntaje = vari;
-      this.setState({ seccion: sec });
-    }
-
-    if (e.target.name === "calificacion") {
-      sec.calificacion = vari;
-      this.setState({ seccion: sec });
-    }
+    let seccion = this.state.seccion;
+    seccion[e.target.name] = e.target.value;
+    this.setState({ seccion });
   };
 
   handleClick = e => {
-    postSecciones(this.state.seccion, this.props.examen.id_examen)
-      .then(response => {
-        console.log(response);
-        this.props.dispatchSetSeccion(response);
-      })
-      .catch(console.log);
+    if (
+      this.state.seccion.no_seccion !== null &&
+      this.state.seccion.puntaje !== null &&
+      this.state.seccion.calificacion !== null
+    ) {
+      console.log("aprobado");
+      const ns = parseInt(this.state.seccion.no_seccion);
+      const p = parseFloat(this.state.seccion.puntaje);
+      const c = parseFloat(this.state.seccion.calificacion);
 
-    let secc = {
-      no_seccion: number,
-      puntaje: number,
-      calificacion: number
-    };
-    this.setState({ seccion: secc });
+      //console.log(this.state.seccion);
+
+      if(this.props.seleccion!=="vacio")
+      {
+        console.log("Put")
+        const secc = {
+          id_seccion:this.props.seccion.id_seccion,
+          no_seccion: ns,
+          puntaje: p,
+          calificacion: c,
+          usuario_actualiza: "Bryan Ramirez",
+          fecha_actualizacion: date
+        };
+        this.setState({ seccion: secc });
+        putSeccion(this.state.seccion,
+          this.props.examen.id_examen,
+          this.props.seccion.id_seccion)
+          .then(response => {
+            console.log(response);
+            this.props.dispatchSetSeccion(response);
+            this.props.dispatchSeleccion("vacio")
+          })
+          .catch(console.log);
+      }
+      else
+      {
+        console.log("Post");
+      const secc = {
+        no_seccion: ns,
+        puntaje: p,
+        calificacion: c,
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: date
+      };
+
+      this.setState({ seccion: secc });
+      postSecciones(this.state.seccion, this.props.examen.id_examen)
+        .then(response => {
+          console.log(response);
+          this.props.dispatchSetSeccion(response);
+          this.props.dispatchSeleccion("vacio")
+        })
+        .catch(console.log);
+      }
+
+      const sec = {
+        no_seccion: "",
+        puntaje: "",
+        calificacion: "",
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: date
+      };
+      this.setState({ seccion: sec });
+      //console.log(this.state.seccion);
+    }
   };
 
   handleDelete = e => {
-    //debugger;
     deleteSeccion(this.props.seccion.id_seccion)
       .then(response => {
         console.log(response);
         this.props.dispatchSetSeccion("vacio");
       })
       .catch(console.log);
-  };
 
-  handleClean = e => {
-    e.target.value = "";
+      const sec = {
+        no_seccion: "",
+        puntaje: "",
+        calificacion: "",
+        usuario_actualiza: "Bryan Ramirez",
+        fecha_actualizacion: date
+      };
+      this.setState({ seccion: sec });
   };
 
   render() {
     const exa = this.props.examen;
-    //console.log(this.state.respExamen);
+    // console.log("render");
+    // console.log(this.state.seccion);
 
     if (this.props.examen !== "vacio") {
       return (
@@ -138,7 +223,11 @@ class Seccion extends React.Component {
               <ColoredLine color="blue" />
             </td>
           </div>
-          <form>
+          <ValidatorForm
+            onSubmit={this.handleClick}
+            ref="form"
+            onError={errors => console.log(errors)}
+          >
             <div align="center">
               <h3>
                 {exa.tipoexamen.examen_tipo}&nbsp; &nbsp;
@@ -150,45 +239,46 @@ class Seccion extends React.Component {
 
             <div className="row div">
               <div className="col-md-3">
-                * No. Sección: &nbsp;
-                <input
-                  className="label"
-                  type="text"
-                  name="seccion"
+                <TextValidator
+                  autoComplete="off"
+                  label="No. Seccion"
+                  name="no_seccion"
                   onChange={this.handleChange}
                   value={this.state.seccion.no_seccion}
+                  validators={["required", "Enteros"]}
+                  errorMessages={[
+                    "Campo Obligatorio",
+                    "Ingrese Solo Numeros enteros"
+                  ]}
                 />
               </div>
               <div className="col-md-3">
-                <label className="seccion">* Puntaje:</label>
-                <input
-                  className="label"
-                  type="text"
+                <TextValidator
+                  autoComplete="off"
+                  label="Puntaje"
                   name="puntaje"
                   onChange={this.handleChange}
                   value={this.state.seccion.puntaje}
+                  validators={["required", "formatoNumeros"]}
+                  errorMessages={["Campo Obligatorio", "Ingrese Solo Numeros"]}
                 />
               </div>
               <div className="col-md-2.5 right">
-                <label className="seccion">* calificacion:</label>
-                <input
-                  className="label"
-                  type="text"
+                <TextValidator
+                  autoComplete="off"
+                  label="Calificacion"
                   name="calificacion"
                   onChange={this.handleChange}
                   value={this.state.seccion.calificacion}
+                  validators={["required", "formatoNumeros"]}
+                  errorMessages={["Campo Obligatorio", "Ingrese Solo Numeros"]}
                 />
               </div>
               <div className="col-md-3">
                 <div className="row">
                   <div className="col-md-5">
-                    <button
-                      className="btn  btn-primary right"
-                      type="button"
-                      value={this.state.value}
-                      onClick={this.handleClick}
-                    >
-                      Agregar
+                    <button className="btn  btn-primary right" type="submit">
+                      Agregar/Editar
                     </button>
                   </div>
                   <div className="col-md-2 left">
@@ -206,7 +296,7 @@ class Seccion extends React.Component {
             <br />
             <br />
             <TablaSecciones />
-          </form>
+          </ValidatorForm>
         </React.Fragment>
       );
     }
@@ -232,12 +322,14 @@ const mapStateToProps = state => {
   return {
     cita: state.cita,
     examen: state.examen,
-    seccion: state.seccion
+    seccion: state.seccion,
+    seleccion: state.seleccion
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  dispatchSetSeccion: value => dispatch(setSeccion(value))
+  dispatchSetSeccion: value => dispatch(setSeccion(value)),
+  dispatchSeleccion: value=>dispatch(changeValor(value))
 });
 
 export default connect(
