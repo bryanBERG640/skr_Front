@@ -18,6 +18,7 @@ import {
 import { filtrosPBReducer } from "../reducers/filtrosPBReducer";
 import { setCita, setPostulante, setPostulanteC, setCliente,
    setExamen,  setSeccion, setEntrevista, setRadioButton } from '../actions/postulanteB';
+   import './styles/Formatos.css';
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -86,7 +87,6 @@ class consulta_PB extends Component {
   };
 
   handleClickPulsado = e => {
-    debugger
     console.log("Que boton fue pulsado:" + e.target.name)
     if (e.target.name === "completardatos") {
       this.props.history.push('/Completar_Datos_postulante');
@@ -95,8 +95,19 @@ class consulta_PB extends Component {
     }else if (e.target.name === "agendar") {
       this.props.history.push('/agendar_cita');
     }else if (e.target.name === "mostrarficha") {
-      this.props.history.push('/Ficha-Postulante');
+      if(this.props.postulantec !== "vacio" && this.props.postulantec !== null && this.props.postulantec !== undefined) {
+        this.props.history.push('/Ficha-Postulante');
+      }else {
+        alert("El postulante seleccionado no tiene sus datos completados...");
+      }
+     
     }
+  }
+
+  alert = e =>{
+    return (
+      this.alert("EL postulante seleccionado no es postulanteC")
+    )
   }
 
   handleClick = e => {
@@ -141,9 +152,10 @@ class consulta_PB extends Component {
           <h2 className="titulo">Consultar Postulantes</h2>
         </div>
 
-        <div className="row">
-          <form className="form-post" onSubmit={this.handleSubmit}>
-            <div className="col">
+        <div className="row" align="center">
+          <form className="form-post setStyles" onSubmit={this.handleSubmit}>
+            <div className="co-sm"></div>
+            <div className="co-sm">
               <label>Perfil: </label>
               <select
                 className="form-control"
@@ -154,7 +166,7 @@ class consulta_PB extends Component {
                 {handleSelect}
               </select>
             </div>
-            <div className="col">
+            <div className="co-sm">
               <label>Nombre(s): </label>
               <input
                 className="form-control"
@@ -164,7 +176,7 @@ class consulta_PB extends Component {
                 value={this.state.nombre}
               />
             </div>
-            <div className="col">
+            <div className="co-sm">
               <label>Apellido Paterno: </label>
               <input
                 className="form-control"
@@ -174,17 +186,7 @@ class consulta_PB extends Component {
                 value={this.state.apellido1}
               />
             </div>
-            <div className="col">
-              <label>Apellido Materno: </label>
-              <input
-                type="text"
-                className="form-control"
-                name="apellido2"
-                onChange={this.handleWrite}
-                value={this.state.apellido2}
-              />
-            </div>
-            <div className="col">
+            <div className="co-sm">
               <img className="lupa" src={lupa} alt="consulta" />
             </div>
           </form>
@@ -223,6 +225,9 @@ class consulta_PB extends Component {
               >
                 Mostrar Ficha
               </button>
+              <script>
+                
+              </script>
               &nbsp; &nbsp;
             </div>
           </form>
@@ -257,7 +262,8 @@ class consulta_PB extends Component {
 const mapStateToProps = state => {
   return {
     cita: state.cita,
-    radiobutton: state.radiobutton
+    radiobutton: state.radiobutton,
+    postulantec: state.postulantec
   }
 }
 

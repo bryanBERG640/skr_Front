@@ -68,7 +68,6 @@ class consultarCita extends Component {
   };
 
   handleClickPulsado = e => {
-    debugger
     if (e.target.name === "agregarcomentario") {
       this.props.history.push('/agregar_comentario');
     }else if (e.target.name === "reagendar") {
@@ -77,6 +76,8 @@ class consultarCita extends Component {
       this.props.history.push('/Entrevista')
     }else if (e.target.name === "examenes") {
       this.props.history.push('/examen')
+    }else if (e.target.name === "agregarcomentarioprueba") {
+      this.props.history.push('/agregar_comentario_prueba')
     }
   }
 

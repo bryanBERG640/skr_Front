@@ -344,7 +344,7 @@ class agendar extends React.Component {
                                     </button>
                             </div>
                             <div className="col">
-                                <Link to="/consultar-Postulantes" className="btn btn-primary btn-lg">
+                                <Link to="/consultarCita" className="btn btn-primary btn-lg">
                                     Cancelar
                                 </Link>
                             </div>
