@@ -235,16 +235,6 @@ function postPostulanteC(
     });
 }
 
-function getCitas() {
-  return fetch("http://192.168.1.230:8088/skr_v1/postulanteB/get/", {
-    method: "GET"
-  })
-    .then(response => {
-      return response.json();
-    })
-    .catch(console.log);
-}
-
 function getEstatusPostulante() {
   const estatusPostulante = axios.get(
     "http://192.168.1.230:8088/skr_v1/estatusPostulante/get/"

@@ -59,9 +59,10 @@ class FiltrosFichaPostulante extends Component {
             </Typography>
           </div>
         );
+      }else {
+        return false;
       }
     });
-
     return groupPC;
   }
 }

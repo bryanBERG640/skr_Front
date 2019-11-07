@@ -67,9 +67,9 @@ class TablaSeccion extends React.Component {
                 <td>{secc.calificacion}</td>
               </tr>
             );
-          }
+          }else { return false; }
         });
-      }
+      }else { return false; }
     });
 
     return (

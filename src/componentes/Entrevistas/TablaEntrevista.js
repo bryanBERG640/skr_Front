@@ -42,7 +42,7 @@ class TablaEntrevista extends Component {
                             <td>{entrevistas.observaciones}</td>
                         </tr>
                     )
-                }
+                }else {return false; }
 
             })
         })

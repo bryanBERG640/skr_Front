@@ -42,6 +42,8 @@ class Citas extends Component {
             </TableRow>
           );
         });
+      }else {
+        return false
       }
     });
 

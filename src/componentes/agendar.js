@@ -151,7 +151,7 @@ class agendar extends React.Component {
                     idEmpresa: emp.id_empresa,
                     empresa: emp.descripcion
                 });
-            }
+            }else { return false; }
         });
     };
 

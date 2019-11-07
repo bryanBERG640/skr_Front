@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { changeValor } from "../../actions/postulanteB";
-import { getCliente } from "../../request/request";
 import { connect } from "react-redux";
 import { setCarreraID, setEscuelaID } from "../../actions/postulanteB";
 import { setCliente } from "../../actions/postulanteB";
@@ -49,26 +47,6 @@ class Autompletado extends Component {
 
   render() {
     const { text } = this.state;
-    const variable = this.props.valores.map(vari => {
-      if (vari.id_carrera !== undefined) {
-        if (vari.descripcion === text) {
-          this.props.dispatchSetCarrera(vari);
-          return vari;
-        }
-      }
-      if (vari.id_escuela !== undefined) {
-        if (vari.descripcion === text) {
-          this.props.dispatchSetEscuela(vari);
-          return vari;
-        }
-      }
-      if (vari.id_cliente !== undefined) {
-        if (vari.descripcion === text) {
-          this.props.dispatchSetCliente(vari);
-          return vari;
-        }
-      }
-    });
     return (
       <div>
         <TextValidator

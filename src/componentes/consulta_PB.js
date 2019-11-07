@@ -194,7 +194,7 @@ class consulta_PB extends Component {
           <br />
 
           <form className="form-hor" role="form">
-            <div className="form-group">
+            <div className="form-group" >
               <button className="btn btn-primary"
                       // disabled={!this.props.radiobutton}
                       onClick={this.handleClickPulsado}
