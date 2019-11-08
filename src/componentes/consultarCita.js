@@ -79,6 +79,7 @@ class consultarCita extends Component {
   };
 
   handleClickPulsado = e => {
+<<<<<<< HEAD
     //debugger
     if (e.target.name === "agregarcomentario") {
       this.props.history.push("/agregar_comentario");
@@ -88,6 +89,18 @@ class consultarCita extends Component {
       this.props.history.push("/Entrevista");
     } else if (e.target.name === "examenes") {
       this.props.history.push("/examen");
+=======
+    if (e.target.name === "agregarcomentario") {
+      this.props.history.push('/agregar_comentario');
+    }else if (e.target.name === "reagendar") {
+      this.props.history.push('/agendar_cita');
+    }else if (e.target.name === "entrevistas") {
+      this.props.history.push('/Entrevista')
+    }else if (e.target.name === "examenes") {
+      this.props.history.push('/examen')
+    }else if (e.target.name === "agregarcomentarioprueba") {
+      this.props.history.push('/agregar_comentario_prueba')
+>>>>>>> 20c60e120cf2a45910380adc3f2d91827d7d640c
     }
   };
 

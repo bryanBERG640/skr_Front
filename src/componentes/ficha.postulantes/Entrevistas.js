@@ -50,6 +50,8 @@ class Entrevistas extends React.Component {
                 </TableCell>
               </TableRow>
             );
+          }else{
+            return false;
           }
         });
       });

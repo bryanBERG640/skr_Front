@@ -70,6 +70,8 @@ class Datos extends Component {
             </Typography>
           </div>
         );
+      }else {
+        return false;
       }
     });
     return <div>{dato}</div>;

@@ -1,8 +1,7 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import consulta_PB from "./componentes/consulta_PB";
 import Layout from "./componentes/Layout";
-import SolucionesKabec from "./componentes/SolucionesKabec";
 import FichaPostulante from "./componentes/FichaPostulante";
 import consultarCita from "./componentes/consultarCita";
 import Agregar_PB from "./componentes/agregar_PB";

@@ -10,7 +10,6 @@ import Datos from "./ficha.postulantes/Datos";
 import Citas from "./ficha.postulantes/Citas";
 import Entrevistas from "./ficha.postulantes/Entrevistas";
 import Examenes from "./ficha.postulantes/Examenes";
-import { width } from "@material-ui/system";
 
 function TabContainer(props) {
   return (

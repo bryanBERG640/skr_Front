@@ -54,6 +54,8 @@ class Citas extends React.Component {
                 </TableCell>
               </TableRow>
             );
+          }else {
+            return false;
           }
         });
       });

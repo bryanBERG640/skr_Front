@@ -12,8 +12,6 @@ import {
 import { SET_CITA } from "../actions/ConsultarCitaActions";
 import { SET_CARRERA } from "../actions/postulanteB";
 import { SET_ESCUELA } from "../actions/postulanteB";
-import { reducer as formReducer } from "redux-form";
-import { stat } from "fs";
 
 export const filtrosPBReducer = (state = {}, action) => {
   switch (action.type) {

@@ -7,10 +7,6 @@ import TablaEntrevista from './TablaEntrevista';
 import { connect } from 'react-redux';
 import { number } from 'prop-types';
 import { setEntrevista } from "../../actions/postulanteB";
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
 
 const ColoredLine = ({ color }) => (
