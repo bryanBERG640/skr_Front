@@ -198,27 +198,16 @@ class consulta_PB extends Component {
                       onClick={this.handleClickPulsado}
                       name="agregarpostulante"
               >
-<<<<<<< HEAD
-                Agregar/Editar Postulante
-              </Link>
-              &nbsp; &nbsp;
-              <Link
-                to="/Completar_Datos_postulante"
-                className="btn btn-primary"
-              >
-                Completar/Editar Datos
-              </Link>
-=======
-                      Agregar Postulante
+
+                      Agregar/editar Postulante
               </button>
               &nbsp; &nbsp;
               <button className="btn btn-primary" 
                       disabled={!this.props.radiobutton} 
                       onClick={this.handleClickPulsado}
                       name="completardatos">
-                Completar Datos
+                Completar/Editar Datos
               </button>
->>>>>>> 2347ecd6304f04ac4defdf175577b37ebfb2f3d5
               &nbsp; &nbsp;
               <button className="btn btn-primary"
                       disabled={!this.props.radiobutton}

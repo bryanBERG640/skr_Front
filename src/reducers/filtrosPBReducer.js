@@ -5,21 +5,15 @@ import {
   SET_EXAMEN,
   SET_SECCION,
   SET_ENTREVISTA,
-<<<<<<< HEAD
-  SELECCIONAR
-=======
-  SET_RADIOBUTTON,
->>>>>>> 2347ecd6304f04ac4defdf175577b37ebfb2f3d5
+  SELECCIONAR,
+  SET_RADIOBUTTON
 } from "../actions/postulanteB";
 
 import { SET_CITA } from "../actions/ConsultarCitaActions";
 import { SET_CARRERA } from "../actions/postulanteB";
 import { SET_ESCUELA } from "../actions/postulanteB";
-<<<<<<< HEAD
-=======
 import { reducer as formReducer } from "redux-form";
 import { stat } from "fs";
->>>>>>> 2347ecd6304f04ac4defdf175577b37ebfb2f3d5
 
 export const filtrosPBReducer = (state = {}, action) => {
   switch (action.type) {
@@ -41,13 +35,10 @@ export const filtrosPBReducer = (state = {}, action) => {
       return { ...state, seccion: action.payload };
     case SET_ENTREVISTA:
       return { ...state, entrevista: action.payload };
-<<<<<<< HEAD
     case SELECCIONAR:
       return { ...state, seleccion: action.payload };
-=======
     case SET_RADIOBUTTON:
-      return { ...state, radiobutton: action.payload};
->>>>>>> 2347ecd6304f04ac4defdf175577b37ebfb2f3d5
+      return { ...state, radiobutton: action.payload };
     default:
       return state;
   }

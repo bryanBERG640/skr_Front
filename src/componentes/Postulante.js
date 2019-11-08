@@ -928,4 +928,4 @@ const mapDispatchToProps=dispatch=>({
     dispatchSetPostulanteC: value=>dispatch(setPostulanteC(value))
 })
 
-export default connect(mapStateToProps, null)(Postulante);
+export default connect(mapStateToProps, mapDispatchToProps)(Postulante);

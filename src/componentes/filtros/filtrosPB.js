@@ -23,7 +23,7 @@ class filtrosPB extends React.Component {
   componentWillUpdate(previousProps, previousState) {
     if(previousProps!==this.props)
     {
-      console.log("actualizando por Props")
+      //console.log("actualizando por Props")
       this.getPostulanteB();
     this.getPostulanteTodo();
     this.setState({ isLoading: false });
@@ -31,7 +31,7 @@ class filtrosPB extends React.Component {
     }
     if(previousState===this.state)
     {
-      console.log("actualizando por State")
+      //console.log("actualizando por State")
       this.getPostulanteB();
     this.getPostulanteTodo();
     this.setState({ isLoading: false });

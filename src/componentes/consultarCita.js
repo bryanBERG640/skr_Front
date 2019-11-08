@@ -2,15 +2,21 @@ import React, { Component } from "react";
 import Icono from "../Imagenes/consultarcita.png";
 import Agenda from "../Imagenes/agenda.png";
 import TextField from "@material-ui/core/TextField";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import "./styles/Formatos.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-<<<<<<< HEAD
-import { setCita, setPostulante } from "../actions/postulanteB";
 import FiltroFechas from "./filtros/filtroFechas";
-=======
-import { setCita, setPostulante, setRadioButton } from "../actions/postulanteB";
->>>>>>> 2347ecd6304f04ac4defdf175577b37ebfb2f3d5
+import {
+  setCita,
+  setPostulante,
+  setRadioButton,
+  setCliente,
+  setExamen,
+  setSeccion,
+  setEntrevista,
+  changeValor
+} from "../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -31,36 +37,37 @@ class consultarCita extends Component {
     super(props);
     this.state = {
       fecha: "",
-      fechafinal: ""
+      fechafinal: "",
+      clickButton: ""
     };
   }
 
-<<<<<<< HEAD
-=======
-  async componentDidMount() {
-    this.getPostulanteB();
-    this.getCitas();
+  componentDidMount = () => {
+    //if (pS !== this.state) {
+    //console.log("actualizando por state");
     this.props.dispatchSetRadioButton(null);
-  }
+    this.props.dispatchSetCita("vacio");
+    this.props.dispatchSetPostulante("Vacio");
+    this.props.dispatchSetCliente("vacio");
+    this.props.dispatchSetExamen("vacio");
+    this.props.dispatchSetSeccion("vacio");
+    this.props.dispatchSetEntrevista("vacio");
+    this.props.dispatchSetSeleccion("vacio");
 
-  getCitas = async () => {
-    const cit = await getCita();
-    this.setState({
-      citas: cit.data
+    ValidatorForm.addValidationRule("fechaInicial", string => {
+      string = this.state.fecha;
+      if (string <= this.state.fechafinal) return true;
+      if (this.state.fecha <= this.state.fechafinal) return true;
     });
-    //console.log(citas.data[0].cita);
+
+    ValidatorForm.addValidationRule("fechaFinal", string => {
+      if (string >= this.state.fecha) return true;
+      if (this.state.fechafinal >= this.state.fecha) return true;
+    });
+    this.setState({ clickButton: null });
+    this.setState({fecha:null})
   };
 
-  getPostulanteB = async () => {
-    const post = await getPostulanteB();
-    this.setState({ postulanteB: post.data });
-  };
-
-  selectCita = e => {
-    console.log(e.value);
-  };
-
->>>>>>> 2347ecd6304f04ac4defdf175577b37ebfb2f3d5
   handleChangeDate = e => {
     //console.log(e.target.value);
     this.setState({ fecha: e.target.value });
@@ -71,40 +78,33 @@ class consultarCita extends Component {
     this.setState({ fechafinal: e.target.value });
   };
 
-<<<<<<< HEAD
-=======
   handleClickPulsado = e => {
-    debugger
+    //debugger
     if (e.target.name === "agregarcomentario") {
-      this.props.history.push('/agregar_comentario');
-    }else if (e.target.name === "reagendar") {
-      this.props.history.push('/agendar_cita');
-    }else if (e.target.name === "entrevistas") {
-      this.props.history.push('/Entrevista')
-    }else if (e.target.name === "examenes") {
-      this.props.history.push('/examen')
+      this.props.history.push("/agregar_comentario");
+    } else if (e.target.name === "reagendar") {
+      this.props.history.push("/agendar_cita");
+    } else if (e.target.name === "entrevistas") {
+      this.props.history.push("/Entrevista");
+    } else if (e.target.name === "examenes") {
+      this.props.history.push("/examen");
     }
-  }
-
-  handleClick = e => {
-    let sc = parseInt(e.target.value);
-    this.state.citas.map(cit => {
-      if (sc === cit.id_cita) {
-        this.props.dispatchSetCita(cit);
-      }
-    });
-    this.state.postulanteB.map(post => {
-      post.cita.map(cit => {
-        if (sc === cit.id_cita) {
-          this.props.dispatchSetPostulante(post);
-        }
-      });
-    });
-    this.props.dispatchSetRadioButton("Pulsado");
-    //console.log("fin de handleClick");
   };
 
->>>>>>> 2347ecd6304f04ac4defdf175577b37ebfb2f3d5
+  handleSubmit = e => {
+    //e.preventDefault();
+    console.log("submit");
+    if (
+      this.state.fecha <= this.state.fechafinal &&
+      this.state.fechafinal >= this.state.fecha &&
+      this.state.fecha !== "" &&
+      this.state.fechafinal !== ""
+    ) {
+      console.log("aprobado");
+      this.setState({ clickButton: "click" });
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -141,39 +141,60 @@ class consultarCita extends Component {
         <br />
         {/** Botones de Consulta por Fechas*/}
         <div className="col-md-6 offset-md-4">
-          <form>
+          <ValidatorForm
+            ref="form"
+            onSubmit={this.handleSubmit}
+            onError={errors => console.log(errors)}
+          >
             <div className="form-row align-items-center">
               <td>
                 <div>
-                  <TextField
+                  <TextValidator
+                    style={{ marginRight: 50 }}
                     label="Fecha Inicial"
                     type="date"
+                    name="fecha"
+                    value={this.state.fecha}
                     onChange={this.handleChangeDate}
                     InputLabelProps={{
                       shrink: true
                     }}
+                    validators={["fechaInicial", "required"]}
+                    errorMessages={[
+                      "Debe ser una fecha Menor",
+                      "Campo Obligatorio"
+                    ]}
                   />
                 </div>
               </td>
               <td>
                 <div>
-                  <TextField
+                  <TextValidator
+                    style={{ marginRight: 50 }}
                     label="Fecha Final"
                     type="date"
+                    name="fechaFinal"
+                    value={this.state.fechafinal}
                     onChange={this.handleChangeDateFinal}
+                    value={this.state.fechafinal}
                     InputLabelProps={{
                       shrink: true
                     }}
+                    validators={["fechaFinal", "required"]}
+                    errorMessages={[
+                      "Debe ser una fecha Mayor",
+                      "Campo Obligatorio"
+                    ]}
                   />
                 </div>
               </td>
               <td>
                 <div>
-                  <img src={Icono} className="logoBuscar" />
+                  <input type="image" src={Icono} className="logoBuscar" />
                 </div>
               </td>
             </div>
-          </form>
+          </ValidatorForm>
         </div>
 
         {/**Botones de Busqueda Diversos */}
@@ -183,45 +204,41 @@ class consultarCita extends Component {
             <div className="col-lg-8 offset-md-3">
               <div className="btn-toolbar" role="toolbar">
                 <div className="btn-group mr-2" role="group">
-                  <button className="btn btn-primary"
-                          name="agregarcomentario"
-                          onClick={this.handleClickPulsado}
-                          disabled={!this.props.radiobutton}
+                  <button
+                    className="btn btn-primary"
+                    name="agregarcomentario"
+                    onClick={this.handleClickPulsado}
+                    disabled={!this.props.radiobutton}
                   >
                     Agregar Comentarios
                   </button>
                 </div>
                 <div className="btn-group mr-2" role="group">
-                  <button className="btn btn-primary"
-                          name="reagendar"
-                          onClick={this.handleClickPulsado}
-                          disabled={!this.props.radiobutton}
+                  <button
+                    className="btn btn-primary"
+                    name="reagendar"
+                    onClick={this.handleClickPulsado}
+                    disabled={!this.props.radiobutton}
                   >
                     Reagendar
                   </button>
                 </div>
                 <div className="btn-group mr-2" role="group">
-                  <button  className="btn btn-primary"
-                            name="entrevistas"
-                            onClick={this.handleClickPulsado}
-                            disabled={!this.props.radiobutton}
+                  <button
+                    className="btn btn-primary"
+                    name="entrevistas"
+                    onClick={this.handleClickPulsado}
+                    disabled={!this.props.radiobutton}
                   >
                     Entrevistas
-<<<<<<< HEAD
-                  </button> */}
-                  <Link to="/Entrevista" className="btn btn-info">
-                    {" "}
-                    Entrevistas
-                  </Link>
-=======
                   </button>
->>>>>>> 2347ecd6304f04ac4defdf175577b37ebfb2f3d5
                 </div>
                 <div className="btn-group mr-2" role="group">
-                  <button className="btn btn-primary"
-                          name="examenes"
-                          onClick={this.handleClickPulsado}
-                          disabled={!this.props.radiobutton}
+                  <button
+                    className="btn btn-primary"
+                    name="examenes"
+                    onClick={this.handleClickPulsado}
+                    disabled={!this.props.radiobutton}
                   >
                     Exámenes
                   </button>
@@ -251,6 +268,7 @@ class consultarCita extends Component {
                   <FiltroFechas
                     fecha={this.state.fecha}
                     fechafinal={this.state.fechafinal}
+                    clickButton={this.state.clickButton}
                   />
                 </tbody>
               </table>
@@ -265,13 +283,18 @@ class consultarCita extends Component {
 const mapStateToProps = state => {
   return {
     radiobutton: state.radiobutton
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   dispatchSetCita: value => dispatch(setCita(value)),
   dispatchSetPostulante: value => dispatch(setPostulante(value)),
-  dispatchSetRadioButton: value => dispatch(setRadioButton(value))
+  dispatchSetRadioButton: value => dispatch(setRadioButton(value)),
+  dispatchSetCliente: value => dispatch(setCliente(value)),
+  dispatchSetExamen: value => dispatch(setExamen(value)),
+  dispatchSetSeccion: value => dispatch(setSeccion(value)),
+  dispatchSetEntrevista: value => dispatch(setEntrevista(value)),
+  dispatchSetSeleccion: value => dispatch(changeValor(value))
 });
 
 export default connect(
