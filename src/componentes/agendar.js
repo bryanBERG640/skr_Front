@@ -151,12 +151,17 @@ class agendar extends React.Component {
                     idEmpresa: emp.id_empresa,
                     empresa: emp.descripcion
                 });
+<<<<<<< HEAD
                 return emp
             }else { return false; }
+=======
+            }else { return ""; }
+>>>>>>> f5e7073f666d28347e1f01794e8e04b5901bd9ff
         });
     };
 
     handleClick = e => {
+        debugger
         console.log("Dentro de la funcion handleClick")
         debugger
         let idCliente = this.props.cliente.id_cliente;
