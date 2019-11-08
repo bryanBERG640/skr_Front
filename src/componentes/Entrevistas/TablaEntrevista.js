@@ -29,7 +29,7 @@ class TablaEntrevista extends Component {
     }
 
     render() {
-        console.log(this.state.citas)
+        //console.log(this.state.citas)
         const { citas, entre } = this.state;
         const entrevistas = citas.entrevista.map(cit => {
             return entre.map(entrevistas => {

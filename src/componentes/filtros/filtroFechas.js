@@ -13,9 +13,25 @@ const mes = fecha.getMonth() + 1;
 const anio = fecha.getFullYear();
 const date = anio + "-" + mes + "-" + dia;
 
-function compararFechas(fechaA, fechaB)
-{
-  
+function compararFechas(fechaA, fechaB) {
+  if (fechaA > fechaB) {
+    // console.log("a > b")
+    // console.log(fechaA)
+    // console.log(fechaB)
+    return 1;
+  }
+  if (fechaA < fechaB) {
+    // console.log("a < b")
+    // console.log(fechaA)
+    // console.log(fechaB)
+    return -1;
+  }
+  if (fechaA === fechaB) {
+    // console.log("a == b")
+    // console.log(fechaA)
+    // console.log(fechaB)
+    return 0;
+  }
 }
 
 class FiltroFechas extends React.Component {
@@ -24,11 +40,11 @@ class FiltroFechas extends React.Component {
     this.state = {
       citas: [],
       postulanteB: [],
-      fechas:[]
+      fechas: []
     };
   }
 
-  componentWillUpdate(pP, pS) {
+  componentDidUpdate(pP, pS) {
     if (pP !== this.props) {
       this.getCita();
       this.getPostulanteB();
@@ -38,7 +54,7 @@ class FiltroFechas extends React.Component {
     if (pS === this.state) {
       this.getCita();
       this.getPostulanteB();
-     // console.log("actualizado por State");
+      // console.log("actualizado por State");
     }
   }
 
@@ -72,13 +88,12 @@ class FiltroFechas extends React.Component {
     //console.log("fin de handleClick");
   };
 
-  ordenarFechas()
-  {
-    this.state.citas.map(c=>
-      {
-        this.setState({fechas:c.fecha})
-      })
-  }  
+  ordenarFechas() {
+    this.state.fechas = this.state.citas.sort((a, b) =>
+      compararFechas(a.fecha, b.fecha)
+    );
+    //console.log(this.state.fechas)
+  }
 
   render() {
     const { postulanteB } = this.state;
@@ -101,44 +116,51 @@ class FiltroFechas extends React.Component {
         newfecha = anio + "-" + mes + "-" + dia;
       }
     }
-    console.log(this.state.fechas)
 
     const dato = postulanteB.map(datos => {
       return datos.cita.map(cit => {
         // console.log(cit.fecha);
         // console.log(newfecha);
-        if (cit.fecha === newfecha) {
-          
-          return (
-            <tr name="citaPB">
-              <th>
-                <input
-                  type="radio"
-                  name="seleccion"
-                  value={cit.id_cita}
-                  onClick={this.handleClick}
-                />
-              </th>
-              <th>
-                {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
-              </th>
-              <td>{cit.fecha}</td>
-              <td>{cit.hora}</td>
-              <td>{cit.entrevistador}</td>
-              <td>{cit.observaciones}</td>
-              <td>
-                <label>{cit.estatuscita.descripcion}</label>
-              </td>
-            </tr>
-          );
-        }
+
         if (this.props.clickButton !== null) {
-          if (
-            cit.fecha >= this.props.fecha &&
-            cit.fecha <= this.props.fechafinal
-          ) {
+          return this.state.fechas.map(f => {
+            if (
+              f.fecha >= this.props.fecha &&
+              f.fecha <= this.props.fechafinal
+            ) {
+              //if (cit.id_cita === f.id_cita) {
+              return (
+                <tr name="citaPB" key={f.id_cita}>
+                  <th>
+                    <input
+                      type="radio"
+                      name="seleccion"
+                      value={f.id_cita}
+                      onClick={this.handleClick}
+                    />
+                  </th>
+                  <th>
+                    {datos.nombre +
+                      " " +
+                      datos.apellido1 +
+                      " " +
+                      datos.apellido2}
+                  </th>
+                  <td>{f.fecha}</td>
+                  <td>{f.hora}</td>
+                  <td>{f.entrevistador}</td>
+                  <td>{f.observaciones}</td>
+                  <td>
+                    <label>{f.estatuscita.descripcion}</label>
+                  </td>
+                </tr>
+              );
+            }
+          });
+        } else {
+          if (cit.fecha === newfecha) {
             return (
-              <tr name="citaPB">
+              <tr name="citaPB" key={cit.id_cita}>
                 <th>
                   <input
                     type="radio"
@@ -163,7 +185,76 @@ class FiltroFechas extends React.Component {
         }
       });
     });
-    return dato;
+
+    var datOrden;
+    if (this.props.clickButton !== null) {
+      datOrden = this.state.fechas.map(f => {
+        if (f.fecha >= this.props.fecha && f.fecha <= this.props.fechafinal) {
+          return postulanteB.map(datos => {
+            return datos.cita.map(cit => {
+              if (cit.id_cita === f.id_cita) {
+                return (
+                  <tr name="citaPB" key={f.id_cita}>
+                    <th>
+                      <input
+                        type="radio"
+                        name="seleccion"
+                        value={f.id_cita}
+                        onClick={this.handleClick}
+                      />
+                    </th>
+                    <th>
+                      {datos.nombre +
+                        " " +
+                        datos.apellido1 +
+                        " " +
+                        datos.apellido2}
+                    </th>
+                    <td>{f.fecha}</td>
+                    <td>{f.hora}</td>
+                    <td>{f.entrevistador}</td>
+                    <td>{f.observaciones}</td>
+                    <td>
+                      <label>{f.estatuscita.descripcion}</label>
+                    </td>
+                  </tr>
+                );
+              }
+            });
+          });
+        }
+      });
+    } else {
+      datOrden = postulanteB.map(datos => {
+        return datos.cita.map(cit => {
+          if (cit.fecha === newfecha) {
+            return (
+              <tr name="citaPB" key={cit.id_cita}>
+                <th>
+                  <input
+                    type="radio"
+                    name="seleccion"
+                    value={cit.id_cita}
+                    onClick={this.handleClick}
+                  />
+                </th>
+                <th>
+                  {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
+                </th>
+                <td>{cit.fecha}</td>
+                <td>{cit.hora}</td>
+                <td>{cit.entrevistador}</td>
+                <td>{cit.observaciones}</td>
+                <td>
+                  <label>{cit.estatuscita.descripcion}</label>
+                </td>
+              </tr>
+            );
+          }
+        });
+      });
+    }
+    return datOrden;
   }
 }
 

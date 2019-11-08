@@ -237,7 +237,7 @@ class Postulante extends React.Component {
             const idAprobacion = this.state.id_estatus_aprobacion;
             const idPostulanteComplemento = this.props.postulantec.id_postulante_c;
             console.log("Request del putt: " + requestPut)
-            console.log("Dentro de condicional if")
+            //console.log("Dentro de condicional if")
             putPostulanteC(requestPut, idPostulanteB, idEscuela, idTitulacion, idCarrera,
                 idSexo, idCv, idAprobacion, idPostulanteComplemento)
                 .then(response=>
@@ -345,30 +345,6 @@ class Postulante extends React.Component {
     handleSubmit=e =>
     {
         console.warn("submit")
-        console.log("nombe: " + this.state.nombre)
-        console.log("apellido1: " + this.state.apellido1)
-        console.log("apellido2: " + this.state.apellido2)
-        console.log("correo: " + this.state.correo)
-        console.log("celular: " + this.state.celular)
-        console.log("telefono_fijo: " + this.state.telefono)
-        console.log("IdPerfil: " + this.state.id_perfil)
-        console.log("IdEstatusPostulante: " + this.state.id_status_postulante)
-        console.log("IdPostulante: " + this.state.id_postulante_b)
-        console.log("fecha naci: " + this.state.fecha_nacimiento)
-        console.log("edad: " + this.state.edad)
-        console.log("IdEstatusTitulacion: " + this.state.id_estatus_titulacion)
-        console.log("Valor carrera---: " + this.state.id_carrera)
-        console.log("Valores escuela----: " + this.state.id_escuela)
-        console.log("curp: " + this.state.curp)
-        console.log("rfc: " + this.state.rfc)
-        console.log("IdSexo: " + this.state.id_sexo)
-        console.log("pretencion_economica: " + this.state.pretencion_economica)
-        console.log("certificaciones: " + this.state.certificaciones)
-        console.log("experiencia: " + this.state.experiencia)
-        console.log("IdEstatusCV: " + this.state.id_estatus_cv)
-        console.log("IdEstatusAprobacion: " + this.state.id_estatus_aprobacion)
-        console.log("acuerdo_economico: " + this.state.acuerdo_economico)
-        console.log("comentarios: " + this.state.comentarios)
 
         if(this.state.nombre!=="" &&
         this.state.apellido1!=="" &&

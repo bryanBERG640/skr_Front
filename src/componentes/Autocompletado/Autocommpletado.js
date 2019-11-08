@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setCarreraID, setEscuelaID } from "../../actions/postulanteB";
 import { setCliente } from "../../actions/postulanteB";
-import { TextValidator } from 'react-material-ui-form-validator';
-import '../styles/Formatos.css';
+import { TextValidator } from "react-material-ui-form-validator";
+import "../styles/Formatos.css";
 
 class Autompletado extends Component {
   constructor(props) {
@@ -40,7 +40,12 @@ class Autompletado extends Component {
     }
     return (
       <span>
-        {suggestions.map(cliente => <span onClick={() => this.suggestionSelected(cliente)}>{cliente}</span>)}
+        {suggestions.map(cliente => (
+          <span onClick={() => this.suggestionSelected(cliente)}>
+            <br />
+            {cliente}
+          </span>
+        ))}
       </span>
     );
   }
@@ -48,7 +53,7 @@ class Autompletado extends Component {
   render() {
     const { text } = this.state;
 
-    const variable = this.props.valores.map(vari => {
+    this.props.valores.map(vari => {
       if (vari.id_carrera !== undefined) {
         if (vari.descripcion === text) {
           this.props.dispatchSetCarrera(vari);
@@ -83,10 +88,8 @@ class Autompletado extends Component {
           validators={["required", "isValidName"]}
           errorMessages={["El campo es requerido"]}
         />
-        
-        <ul className="formato">
-          {this.renderSuggestions()}
-        </ul>
+
+        <ul className="formato">{this.renderSuggestions()}</ul>
       </div>
     );
   }

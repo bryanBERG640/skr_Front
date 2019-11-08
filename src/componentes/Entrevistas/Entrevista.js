@@ -40,7 +40,7 @@ class Entrevista extends React.Component {
   }
 
   componentDidMount() {
-    console.log("Dentro de didMount: ")
+    //console.log("Dentro de didMount: ")
     this.getTipoEntrevistas();
     this.getClientes();
     this.setState({ idEntrevista: 0 })
@@ -62,7 +62,7 @@ class Entrevista extends React.Component {
       idTipoEntrevista: e.target.value,
       tipoEntrevista: e.target.value
     })
-    console.log("Valor-----" + e.target.value)
+    //console.log("Valor-----" + e.target.value)
   }
 
   handleClick = e => {
@@ -95,16 +95,16 @@ class Entrevista extends React.Component {
 
   handleWrite = e => {
 
-    console.log("Valor de entrevistador:" + e.target.value)
+    //console.log("Valor de entrevistador:" + e.target.value)
     this.setState({ [e.target.name]: e.target.value })
-    console.log("Valor de nombre:" + e.target.name)
-    console.log("Valor del state entrevistador:" + this.state.entrevistador)
+  //   console.log("Valor de nombre:" + e.target.name)
+  //   console.log("Valor del state entrevistador:" + this.state.entrevistador)
   }
 
   render() {
     const { tipoEntrevistas } = this.state;
-    console.log("Valor de tipo de entrevista--" + this.state.tipoEntrevista)
-    console.log("Valor de id tipo de entrevista--" + this.state.idTipoEntrevista)
+    // console.log("Valor de tipo de entrevista--" + this.state.tipoEntrevista)
+    // console.log("Valor de id tipo de entrevista--" + this.state.idTipoEntrevista)
     const entrevista = tipoEntrevistas.map(entr => {
       return <option value={entr.id_tipo_entrevista}>{entr.descripcion}</option>
     })
@@ -223,7 +223,7 @@ class Entrevista extends React.Component {
                 </div>
                 <div className="col-md-auto"></div>
                 <div className="col col-lg-2">
-                  <Link to="/consultarCita" className="btn btn-primary btn-lg"> Salir</Link>
+                  <Link to="/consultarCita" className="btn btn-secondary btn-lg"> Salir</Link>
                 </div>
               </div>
               <br /><br />

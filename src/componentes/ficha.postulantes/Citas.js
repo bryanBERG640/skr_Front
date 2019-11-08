@@ -25,8 +25,8 @@ class Citas extends Component {
   };
 
   render() {
-    console.log(this.state.resp);
-    console.log(this.state.postB);
+    // console.log(this.state.resp);
+    // console.log(this.state.postB);
     const citas = this.state.postB.map(cit => {
       if (this.state.resp.postulanteb.id_postulante_b === cit.id_postulante_b) {
         return cit.cita.map(c => {
@@ -42,8 +42,8 @@ class Citas extends Component {
             </TableRow>
           );
         });
-      }else {
-        return false
+      } else {
+        return false;
       }
     });
 

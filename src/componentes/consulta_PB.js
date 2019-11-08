@@ -47,7 +47,6 @@ class consulta_PB extends Component {
     apellido2: ""
   };
 
-
   handleSelect = e => {
     //console.log(e.target.value);
     this.setState({ perfil: e.target.value });
@@ -58,7 +57,7 @@ class consulta_PB extends Component {
   };
 
   handleWrite = e => {
-    console.log("-.-.-." + e.target.value);
+    //console.log("-.-.-." + e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -91,7 +90,7 @@ class consulta_PB extends Component {
   };
 
   handleClickPulsado = e => {
-    console.log("Que boton fue pulsado:" + e.target.name);
+    //console.log("Que boton fue pulsado:" + e.target.name);
     if (e.target.name === "completardatos") {
       this.props.history.push("/Completar_Datos_postulante");
     } else if (e.target.name === "agregarpostulante") {
@@ -132,7 +131,7 @@ class consulta_PB extends Component {
   };
 
   render() {
-    console.log("MMM" + this.props.radiobutton);
+    //console.log("MMM" + this.props.radiobutton);
     const { respPerf } = this.state;
 
     const handleSelect = respPerf.map(perf => {

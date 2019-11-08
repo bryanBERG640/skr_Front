@@ -3,7 +3,7 @@ import { filtrosPBReducer } from "../reducers/filtrosPBReducer";
 
 //Se genera un estado inicial y se pasa como parametro en la funcion de abajo.
 const initialState = {
-  postulante: "Vacio",
+  postulante: "vacio",
   cita: "vacio",
   cliente: "vacio",
   examen: "vacio",

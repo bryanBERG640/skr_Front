@@ -76,11 +76,11 @@ class agendar extends React.Component {
 
         ValidatorForm.addValidationRule("isValidName", (string) => /[a-zA-Z \u00E0-\u00FC]{1,20}/g.test(string));
         ValidatorForm.addValidationRule("Vacio", string => {
-            console.log("--Validacion" + string)
+            //console.log("--Validacion" + string)
             if (string !== null && string !== ":00") return true;
         });
         ValidatorForm.addValidationRule("FechaActual", string => {
-            console.log("Dentro de validarFechaActual")
+            //console.log("Dentro de validarFechaActual")
             let fechaTotalActual = "";
             let fechaTotalRecibida = "";
             if (string !== null && string !== "" && fechaTotalRecibida >= fechaTotalActual) {
@@ -131,14 +131,14 @@ class agendar extends React.Component {
 
     handleChangeDate = e => {
         // debugger
-        console.log(e.target.value);
+        //console.log(e.target.value);
         let cit = this.state.cita;
         cit.fecha = e.target.value;
         this.setState({ cita: cit });
     };
 
     handleChangeTime = e => {
-        console.log(e)
+        //console.log(e)
         let cit = this.state.cita;
         cit.hora = e.target.value + ":00";
         this.setState({ cita: cit });
@@ -151,19 +151,14 @@ class agendar extends React.Component {
                     idEmpresa: emp.id_empresa,
                     empresa: emp.descripcion
                 });
-<<<<<<< HEAD
                 return emp
             }else { return false; }
-=======
-            }else { return ""; }
->>>>>>> f5e7073f666d28347e1f01794e8e04b5901bd9ff
         });
     };
 
     handleClick = e => {
-        debugger
-        console.log("Dentro de la funcion handleClick")
-        debugger
+        //console.log("Dentro de la funcion handleClick")
+        //debugger
         let idCliente = this.props.cliente.id_cliente;
         if (this.props.cita !== undefined && this.props.cita !== "vacio") {
             console.log("Realizando put");
@@ -227,7 +222,7 @@ class agendar extends React.Component {
     };
 
     render() {
-        console.log("Hora:" + this.state.cita.hora)
+       // console.log("Hora:" + this.state.cita.hora)
         const { respEmpr } = this.state;
         const empresa = respEmpr.map(empr => {
             return <option value={empr.descripcion}>{empr.descripcion}</option>;
@@ -338,7 +333,7 @@ class agendar extends React.Component {
                         <br />
                         <div className="row">
                             <div className="col">
-                                <Autocompletado valores={this.state.clientes} placeH="Agregar cLiente" />
+                                <Autocompletado valores={this.state.clientes} placeH="Agregar Cliente" />
                             </div>
                             {/* <div className="row"> */}
                             <div className="col">

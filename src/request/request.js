@@ -30,7 +30,9 @@ function getPostulanteB() {
 }
 
 function getPostulanteBId(id) {
-  const postulante = axios.get("http://192.168.1.230:8088/skr_v1/postulanteB/get/"+id);
+  const postulante = axios.get(
+    "http://192.168.1.230:8088/skr_v1/postulanteB/get/" + id
+  );
   return postulante;
 }
 
@@ -166,7 +168,6 @@ function putPostulanteB(
   // debugger;
   //console.log( requestPostulanteB);
 
-
   const ruta = "http://192.168.1.230:8088/skr_v1/postulanteB/";
   const path = idEstatusPostulante + "/" + idPerfil + "/put/" + idPostulanteB;
 
@@ -220,12 +221,6 @@ function postPostulanteC(
     }
   )
     .then(response => {
-      console.log("Hola");
-      console.log(response.ok);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.text);
-      console.log(response.url);
       return response.json();
     })
     .catch(e => {
@@ -332,9 +327,7 @@ function getEntrevista() {
 }
 
 function getCitaId(id) {
-  const cita = axios.get(
-    "http://192.168.1.230:8088/skr_v1/cita/get/"+id
-  );
+  const cita = axios.get("http://192.168.1.230:8088/skr_v1/cita/get/" + id);
   return cita;
 }
 
@@ -391,8 +384,7 @@ function postSecciones(jsonRequest, idExamen) {
     .catch(console.log);
 }
 
-function putSeccion(jsonRequest, idExamen, idSeccion)
-{
+function putSeccion(jsonRequest, idExamen, idSeccion) {
   return fetch(
     "http://192.168.1.230:8088/skr_v1/seccion/" +
       idExamen +
@@ -415,7 +407,7 @@ function putSeccion(jsonRequest, idExamen, idSeccion)
 
 async function deleteSeccion(idSeccion) {
   //debugger;
-  console.log(idSeccion);
+  //console.log(idSeccion);
   try {
     await fetch(
       "http://192.168.1.230:8088/skr_v1/seccion/delete/" + idSeccion,
@@ -441,26 +433,23 @@ function getTipoEntrevista() {
   return tipoEntrevistas;
 }
 
-function postEntrevista(jsonRequest ,idTipoEntrevista, idCita) {
-  console.log("Valores del request: " + jsonRequest);
-  console.log("IdTipoEntrevista: " + idTipoEntrevista);
-  console.log("IdCita: " + idCita);
-
+function postEntrevista(jsonRequest, idTipoEntrevista, idCita) {
   const url = "http://192.168.1.230:8088/skr_v1/entrevista/";
-  const path = idTipoEntrevista+"/"+idCita+"/post";
+  const path = idTipoEntrevista + "/" + idCita + "/post";
 
-  return fetch(url+path,
-    {
-      method: "POST",
-      body: JSON.stringify(jsonRequest),
-      headers:  {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    }).then(response => {
-      console.log("El post funciono correctamente." + response)
+  return fetch(url + path, {
+    method: "POST",
+    body: JSON.stringify(jsonRequest),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => {
+      console.log("El post funciono correctamente." + response);
       return response.json();
-    }).catch(console.log);
+    })
+    .catch(console.log);
 }
 
 export {

@@ -126,7 +126,8 @@ class agregar_PB extends React.Component {
     ValidatorForm.addValidationRule("Longitud2", string => {
       if (string.length === 10) return true;
     });
-    if (this.props.postulante !== "Vacio") {
+    //debugger
+    if (this.props.postulante !== "vacio") {
       const pos = {
         apellido1: this.props.postulante.apellido1,
         apellido2: this.props.postulante.apellido2,
@@ -171,7 +172,7 @@ class agregar_PB extends React.Component {
 
   handleSubmit = e => {
     console.log("submit");
-    console.log(this.state);
+    //console.log(this.state);
     if (
       this.state.perfil !== "" &&
       this.state.estatuspostulante !== "" &&
@@ -183,7 +184,7 @@ class agregar_PB extends React.Component {
       this.state.postulante.celular !== ""
     ) {
       console.log("aprobado");
-      if (this.props.postulante !== "Vacio") {
+      if (this.props.postulante !== "vacio") {
         const request = {
           id_postulante_b: this.props.postulante.id_postulante_b,
           apellido1: this.state.postulante.apellido1,
@@ -220,7 +221,7 @@ class agregar_PB extends React.Component {
           .catch(console.log);
         this.props.history.push("/consultar-Postulantes");
       }
-      this.props.dispatchSetPostulante("Vacio")
+      this.props.dispatchSetPostulante("vacio")
     }
   };
 
@@ -231,7 +232,7 @@ class agregar_PB extends React.Component {
   };
 
   render() {
-    console.log("-----------"+this.state.perfil)
+    //console.log("-----------"+this.state.perfil)
     const { respPerf, respEstatus } = this.state;
     const perfiles = respPerf.map(perf => {
       return (

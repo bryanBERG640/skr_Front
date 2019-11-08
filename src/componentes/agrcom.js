@@ -51,7 +51,7 @@ class agrcom extends React.Component {
     };
 
     handleSelect = e => {
-        console.log(e.target.name)
+        //console.log(e.target.name)
         let iec = parseInt(e.target.value);
         let cit = this.state.cita;
         cit.idEstatusCita = iec;
@@ -66,9 +66,9 @@ class agrcom extends React.Component {
     };
 
     handleClick = e => {
-        console.log("Valor" + this.state.cita.idEstatusCita)
+        //console.log("Valor" + this.state.cita.idEstatusCita)
         if (this.state.radioButonPulsado !== null) {
-            console.log("Dentro del if en handleClick")
+            //console.log("Dentro del if en handleClick")
             putCita(
                 this.state.cita,
                 this.state.cita.idEstatusCita,
