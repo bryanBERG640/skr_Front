@@ -4,7 +4,6 @@ import Icono from "../Imagenes/postulantes.png";
 import "./styles/Formatos.css";
 import "./styles/FormatoImagenes.css";
 import lupa from "../Imagenes/lupa.png";
-import { Link } from "react-router-dom";
 import FiltrosPB from "./filtros/filtrosPB";
 import { getPerfil } from "../request/request";
 //Se agregan las librerias necesarias para usar redux.
@@ -16,9 +15,17 @@ import {
   clickMostrarFicha
 } from "../actions/postulanteB";
 import { filtrosPBReducer } from "../reducers/filtrosPBReducer";
-import { setCita, setPostulante, setPostulanteC, setCliente,
-   setExamen,  setSeccion, setEntrevista, setRadioButton } from '../actions/postulanteB';
-   import './styles/Formatos.css';
+import {
+  setCita,
+  setPostulante,
+  setPostulanteC,
+  setCliente,
+  setExamen,
+  setSeccion,
+  setEntrevista,
+  setRadioButton
+} from "../actions/postulanteB";
+import "./styles/Formatos.css";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -40,9 +47,6 @@ class consulta_PB extends Component {
     apellido2: ""
   };
 
-  constructor(props) {
-    super(props);
-  }
 
   handleSelect = e => {
     //console.log(e.target.value);
@@ -70,7 +74,7 @@ class consulta_PB extends Component {
   componentDidMount = () => {
     this.getPerfil();
     this.setState({ nombre: "" });
-    this.props.dispatchSetCita("vacio");//Se setea el store de citacuando se entre a al vista
+    this.props.dispatchSetCita("vacio"); //Se setea el store de citacuando se entre a al vista
     this.props.dispatchSetPostulante("vacio");
     this.props.dispatchSetPostulanteC("vacio");
     this.props.dispatchSetCliente("vacio");
@@ -87,28 +91,29 @@ class consulta_PB extends Component {
   };
 
   handleClickPulsado = e => {
-    console.log("Que boton fue pulsado:" + e.target.name)
+    console.log("Que boton fue pulsado:" + e.target.name);
     if (e.target.name === "completardatos") {
-      this.props.history.push('/Completar_Datos_postulante');
-    }else if (e.target.name === "agregarpostulante") {
-      this.props.history.push('/agregar_PB');
-    }else if (e.target.name === "agendar") {
-      this.props.history.push('/agendar_cita');
-    }else if (e.target.name === "mostrarficha") {
-      if(this.props.postulantec !== "vacio" && this.props.postulantec !== null && this.props.postulantec !== undefined) {
-        this.props.history.push('/Ficha-Postulante');
-      }else {
+      this.props.history.push("/Completar_Datos_postulante");
+    } else if (e.target.name === "agregarpostulante") {
+      this.props.history.push("/agregar_PB");
+    } else if (e.target.name === "agendar") {
+      this.props.history.push("/agendar_cita");
+    } else if (e.target.name === "mostrarficha") {
+      if (
+        this.props.postulantec !== "vacio" &&
+        this.props.postulantec !== null &&
+        this.props.postulantec !== undefined
+      ) {
+        this.props.history.push("/Ficha-Postulante");
+      } else {
         alert("El postulante seleccionado no tiene sus datos completados...");
       }
-     
     }
-  }
+  };
 
-  alert = e =>{
-    return (
-      this.alert("EL postulante seleccionado no es postulanteC")
-    )
-  }
+  alert = e => {
+    return this.alert("EL postulante seleccionado no es postulanteC");
+  };
 
   handleClick = e => {
     this.props.dispatchClickAgendar(filtrosPBReducer); //Se almacena en el store una función.
@@ -127,8 +132,8 @@ class consulta_PB extends Component {
   };
 
   render() {
-    console.log("MMM"+this.props.radiobutton)
-    const { respPerf, c } = this.state;
+    console.log("MMM" + this.props.radiobutton);
+    const { respPerf } = this.state;
 
     const handleSelect = respPerf.map(perf => {
       // console.log("----"  + perf.descripcion)
@@ -193,42 +198,44 @@ class consulta_PB extends Component {
 
           <br />
 
-          <form className="form-hor" role="form">
-            <div className="form-group" >
-              <button className="btn btn-primary"
-                      // disabled={!this.props.radiobutton}
-                      onClick={this.handleClickPulsado}
-                      name="agregarpostulante"
+          <form className="form-hor">
+            <div className="form-group">
+              <button
+                className="btn btn-primary"
+                // disabled={!this.props.radiobutton}
+                onClick={this.handleClickPulsado}
+                name="agregarpostulante"
               >
-
-                      Agregar/editar Postulante
+                Agregar/editar Postulante
               </button>
               &nbsp; &nbsp;
-              <button className="btn btn-primary" 
-                      disabled={!this.props.radiobutton} 
-                      onClick={this.handleClickPulsado}
-                      name="completardatos">
+              <button
+                className="btn btn-primary"
+                disabled={!this.props.radiobutton}
+                onClick={this.handleClickPulsado}
+                name="completardatos"
+              >
                 Completar/Editar Datos
               </button>
               &nbsp; &nbsp;
-              <button className="btn btn-primary"
-                      disabled={!this.props.radiobutton}
-                      onClick={this.handleClickPulsado}
-                      name="agendar"
+              <button
+                className="btn btn-primary"
+                disabled={!this.props.radiobutton}
+                onClick={this.handleClickPulsado}
+                name="agendar"
               >
                 Agendar
               </button>
               &nbsp; &nbsp;
-              <button className="btn btn-primary"
-                      disabled={!this.props.radiobutton}
-                      onClick={this.handleClickPulsado}
-                      name="mostrarficha"
+              <button
+                className="btn btn-primary"
+                disabled={!this.props.radiobutton}
+                onClick={this.handleClickPulsado}
+                name="mostrarficha"
               >
                 Mostrar Ficha
               </button>
-              <script>
-                
-              </script>
+              <script></script>
               &nbsp; &nbsp;
             </div>
           </form>
@@ -265,14 +272,14 @@ const mapStateToProps = state => {
     cita: state.cita,
     radiobutton: state.radiobutton,
     postulantec: state.postulantec
-  }
-}
+  };
+};
 
 const mapDispatchProps = dispatch => ({
   dispatchClickAgendar: value => dispatch(clickAgendar(value)),
   dispatchClickBuscar: value => dispatch(clickBuscar(value)),
   dispatchClickAgregarPostulante: value =>
-  dispatch(clickAgregarPostulante(value)),
+    dispatch(clickAgregarPostulante(value)),
   dispatchClickCompletarDatos: value => dispatch(clickCompletarDatos(value)),
   dispatchClickMostrarFicha: value => dispatch(clickMostrarFicha(value)),
 

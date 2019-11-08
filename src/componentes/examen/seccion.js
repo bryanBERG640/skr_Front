@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import TablaSecciones from "./tabla_secciones";
 import { setSeccion, changeValor } from "../../actions/postulanteB";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { number } from "prop-types";
+
 
 const ColoredLine = ({ color }) => (
   <hr

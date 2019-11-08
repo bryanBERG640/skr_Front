@@ -4,7 +4,6 @@ import Agenda from "../Imagenes/agenda.png";
 import TextField from "@material-ui/core/TextField";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import "./styles/Formatos.css";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import FiltroFechas from "./filtros/filtroFechas";
 import {
@@ -79,7 +78,7 @@ class consultarCita extends Component {
   };
 
   handleClickPulsado = e => {
-<<<<<<< HEAD
+
     //debugger
     if (e.target.name === "agregarcomentario") {
       this.props.history.push("/agregar_comentario");
@@ -89,18 +88,7 @@ class consultarCita extends Component {
       this.props.history.push("/Entrevista");
     } else if (e.target.name === "examenes") {
       this.props.history.push("/examen");
-=======
-    if (e.target.name === "agregarcomentario") {
-      this.props.history.push('/agregar_comentario');
-    }else if (e.target.name === "reagendar") {
-      this.props.history.push('/agendar_cita');
-    }else if (e.target.name === "entrevistas") {
-      this.props.history.push('/Entrevista')
-    }else if (e.target.name === "examenes") {
-      this.props.history.push('/examen')
-    }else if (e.target.name === "agregarcomentarioprueba") {
-      this.props.history.push('/agregar_comentario_prueba')
->>>>>>> 20c60e120cf2a45910380adc3f2d91827d7d640c
+
     }
   };
 
@@ -203,7 +191,10 @@ class consultarCita extends Component {
               </td>
               <td>
                 <div>
-                  <input type="image" src={Icono} className="logoBuscar" />
+                  <input type="image" 
+                  src={Icono} 
+                  className="logoBuscar" 
+                  alt="Buscar"/>
                 </div>
               </td>
             </div>

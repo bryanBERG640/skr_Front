@@ -1,12 +1,10 @@
 import React from "react";
 import Ficha from "./Ficha";
-import { Container, Typography } from "@material-ui/core";
+import { Container} from "@material-ui/core";
 import avatar from "../Imagenes/avatar.png";
 import Avatar from "react-avatar";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
-import Divider from "@material-ui/core/Divider";
-import { getPostulanteC } from "../request/request";
 import "../App.css";
 import { progresBar } from "./progress";
 import FiltrosFichaPostulante from "./filtros/FiltrosFichaPostulante";

@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux"; //Sirve para conectar las librerias de react y redux, se utiliza para cada componente que se quiera dar acceso al store.
 import { getPostulanteB } from "../../request/request";
-import lapiz from "../../Imagenes/lapiz.png";
 import { setPostulante } from "../../actions/postulanteB";
 import { setPostulanteC } from '../../actions/postulanteB';
 import { getPostulanteTodo } from '../../request/request';

@@ -41,10 +41,6 @@ class Examen extends React.Component {
             fecha_actualizacion:date
         }
     };
-    constructor(props)
-    {
-        super(props)
-    }
 
     componentWillMount=()=>
     {

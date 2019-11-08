@@ -409,7 +409,10 @@ class agregar_PB extends React.Component {
             </div>
 
             <div className="column" align="right">
-              <input type="image" className="agregar" src={agregar} />
+              <input type="image" 
+              className="agregar" 
+              src={agregar} 
+              alt="agregar-pdf"/>
               <h4> Guardar CV en formato PDF </h4>
               <br />
 

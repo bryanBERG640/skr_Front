@@ -31,6 +31,7 @@ class TablaSeccion extends React.Component {
     nuevoGet.data.map(exa => {
       if (exa.id_examen === this.props.examen.id_examen) {
         this.setState({ examen: exa });
+        return exa
       }
     });
   };
@@ -42,6 +43,7 @@ class TablaSeccion extends React.Component {
       if (secc.id_seccion === id) {
         this.props.dispatchSetSeccion(secc);
         this.props.dispatchSeleccion("seleccionado");
+        return secc
       }
     });
     // this.props.dispatchSetSeccion();
