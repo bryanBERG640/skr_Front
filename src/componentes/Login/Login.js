@@ -1,31 +1,115 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
 import firebase from "./Firebase";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import { Link } from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import salir from "../../Imagenes/salir.png";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import { connect } from "react-redux";
+import { setUsuario } from "../../actions/postulanteB";
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
-    this.login = this.login.bind(this);
   }
 
-  login() {
+  state = {
+    auth: false,
+    usuario: null,
+    fotoUsuario: null
+  };
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ auth: true });
+        this.setState({ usuario: user.displayName });
+        this.setState({ fotoUsuario: user.providerData[0].photoURL });
+        this.props.dispatchSetUsuario(user.email);
+      } else {
+        this.setState({ auth: false });
+        this.setState({ usuario: null });
+        this.setState({ fotoUsuario: "" });
+        this.props.dispatchSetUsuario(null);
+      }
+    });
+  }
+
+  login = () => {
     let provider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
       .signInWithPopup(provider)
       .then(result => {
+        this.setState({ auth: true });
+        this.setState({ usuario: result.user.displayName });
         console.log(result);
+        // console.log(result.user.displayName)
       });
-  }
+  };
+
+  logOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(console.log);
+  };
 
   render() {
     return (
-      <div align="right">
-        <Button variant="contained" onClick={this.login}>
-          Iniciar Sesion
-        </Button>
-        {/* {login()} */}
+      <div>
+        {this.state.auth === false ? (
+          <div>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={this.login}
+              color="inherit"
+              alignContent="right"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {this.state.auth === true ? (
+          <div className="row">
+            <Avatar
+              style={{ marginTop: 10 }}
+              src={this.state.fotoUsuario}
+              alt="foto usuario"
+            />
+            <Typography variant="h6">
+              <label style={{ paddingTop: 12, paddingLeft: 6 }}>
+                {"  " + this.state.usuario + "  "}
+              </label>
+            </Typography>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit"
+            >
+              <Link to="/" onClick={this.logOut}>
+                <Avatar src={salir} alt="Logo" />
+              </Link>
+            </IconButton>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  dispatchSetUsuario: value => dispatch(setUsuario(value))
+});
+
+export default connect(null, mapDispatchToProps)(Login);

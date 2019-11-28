@@ -12,7 +12,8 @@ const initialState = {
   seccion: "vacio",
   entrevista: "vacio",
   seleccion: "vacio",
-  radiobutton: null
+  radiobutton: null,
+  usuario: null
 };
 
 //Se crea el store y este almacenara información.

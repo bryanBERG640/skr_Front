@@ -63,3 +63,9 @@ export const setEntrevista = payload => ({
   type: SET_ENTREVISTA,
   payload
 });
+
+export const SET_USUARIO = "SET_USUARIO";
+export const setUsuario = payload => ({
+  type: SET_USUARIO,
+  payload
+});
