@@ -26,44 +26,33 @@ class FiltrosFichaPostulante extends Component {
 
   render() {
     progresBar(true);
-    const { postulanteC } = this.state;
-    const groupPC = postulanteC.map(postulante => {
-      if (
-        postulante.postulanteb.id_postulante_b ===
-        this.state.postulanteB.id_postulante_b
-      ) {
-        //console.log("Valor inicial del state existeId: " + existeId);
-        //console.log("El valor modificado del state existeId: " + existeId);
-        return (
-          <div>
-            <Typography style={{ fontSize: "20px" }}>
-              <b id="div">Perfil: </b>
-              <br />
-              {postulante.postulanteb.perfil.descripcion}
-            </Typography>
-            <Typography style={{ fontSize: "20px" }}>
-              {postulante.postulanteb.nombre} {postulante.postulanteb.apellido1}{" "}
-              {postulante.postulanteb.apellido2}
-            </Typography>
-            <Divider />
-            <Typography style={{ fontSize: "12px", color: "#a2bd31" }}>
-              {postulante.postulanteb.correo}
-            </Typography>
-            <Typography style={{ fontSize: "12px", color: "#a2bd31" }}>
-              <b>Telefono: </b>
-              {postulante.postulanteb.telefono}
-            </Typography>
-            <Typography style={{ fontSize: "12px", color: "#a2bd31" }}>
-              <b>Celular: </b>
-              {postulante.postulanteb.celular}
-            </Typography>
-          </div>
-        );
-      }else {
-        return false;
-      }
-    });
-    return groupPC;
+    const { postulanteB } = this.state;
+    return (
+      <React.Fragment>
+        <div>
+          <Typography style={{ fontSize: "20px" }}>
+            <b id="div">Perfil: </b>
+            <br />
+            {postulanteB.perfil.descripcion}
+          </Typography>
+          <Typography style={{ fontSize: "20px" }}>
+            {postulanteB.nombre} {postulanteB.apellido1} {postulanteB.apellido2}
+          </Typography>
+          <Divider />
+          <Typography style={{ fontSize: "12px", color: "#a2bd31" }}>
+            {postulanteB.correo}
+          </Typography>
+          <Typography style={{ fontSize: "12px", color: "#a2bd31" }}>
+            <b>Telefono: </b>
+            {postulanteB.telefono}
+          </Typography>
+          <Typography style={{ fontSize: "12px", color: "#a2bd31" }}>
+            <b>Celular: </b>
+            {postulanteB.celular}
+          </Typography>
+        </div>
+      </React.Fragment>
+    );
   }
 }
 
@@ -73,7 +62,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null
-)(FiltrosFichaPostulante);
+export default connect(mapStateToProps, null)(FiltrosFichaPostulante);

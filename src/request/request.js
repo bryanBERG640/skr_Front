@@ -281,7 +281,7 @@ function getEstatusTitulacion() {
 
 function getEscuelas() {
   const escuela = axios.get("http://192.168.1.230:8088/skr_v1/escuela/get/");
-  console.log(escuela);
+  //console.log(escuela);
   return escuela;
 }
 
@@ -452,6 +452,7 @@ function postEntrevista(jsonRequest, idTipoEntrevista, idCita) {
     .catch(console.log);
 }
 
+
 export {
   getTipoEntrevista,
   getCliente,
@@ -484,5 +485,5 @@ export {
   putPostulanteB,
   postEntrevista,
   getCitaId,
-  putSeccion
+  putSeccion,
 };

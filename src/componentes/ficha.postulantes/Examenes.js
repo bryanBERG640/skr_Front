@@ -7,57 +7,40 @@ import {
   TableCell,
   Paper
 } from "@material-ui/core";
-import { getExamenes } from "../../request/request";
 import { connect } from "react-redux";
 
 class Citas extends React.Component {
   state = {
-    resp: [],
-    postC: this.props.postulantec.postulanteb.cita
-  };
-  componentWillMount = () => {
-    this.getExamenes();
-  };
-
-  getExamenes = async () => {
-    const nuevoGet = await getExamenes();
-    this.setState({ resp: nuevoGet.data });
+    postC: this.props.postulante.cita
   };
 
   render() {
-    const { resp, postC } = this.state;
+    const { postC } = this.state;
 
     const examenes = postC.map(cit => {
       return cit.examen.map(exa => {
-        return resp.map(ex => {
-          if (exa.id_examen === ex.id_examen) {
-            // console.log(ex.tipoexamen.examen_tipo);
-            return (
-              <TableRow>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {ex.tipoexamen.examen_tipo}
-                </TableCell>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {ex.tipoexamen.descripcion}
-                </TableCell>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {ex.calificacion_global}
-                </TableCell>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {cit.empresa.descripcion}
-                </TableCell>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {cit.cliente.descripcion}
-                </TableCell>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {ex.observaciones}
-                </TableCell>
-              </TableRow>
-            );
-          }else {
-            return false;
-          }
-        });
+        return (
+          <TableRow>
+            <TableCell style={{ fontSize: "12px" }}>
+              {exa.tipoexamen.examen_tipo}
+            </TableCell>
+            <TableCell style={{ fontSize: "12px" }}>
+              {exa.tipoexamen.descripcion}
+            </TableCell>
+            <TableCell style={{ fontSize: "12px" }}>
+              {exa.calificacion_global}
+            </TableCell>
+            <TableCell style={{ fontSize: "12px" }}>
+              {cit.empresa.descripcion}
+            </TableCell>
+            <TableCell style={{ fontSize: "12px" }}>
+              {cit.cliente.descripcion}
+            </TableCell>
+            <TableCell style={{ fontSize: "12px" }}>
+              {exa.observaciones}
+            </TableCell>
+          </TableRow>
+        );
       });
     });
 
@@ -85,11 +68,8 @@ class Citas extends React.Component {
 //Se accede al store postulantec.
 const mapStateToProps = state => {
   return {
-    postulantec: state.postulantec
+    postulante: state.postulante
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null
-)(Citas);
+export default connect(mapStateToProps, null)(Citas);

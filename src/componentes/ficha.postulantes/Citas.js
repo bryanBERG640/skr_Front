@@ -6,45 +6,39 @@ import {
   TableCell,
   TableRow
 } from "@material-ui/core";
-import { getPostulanteB } from "../../request/request";
+import { getPostulanteBId } from "../../request/request";
 import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
 
 class Citas extends Component {
   state = {
-    resp: this.props.postulantec,
     postB: []
   };
   componentWillMount = () => {
-    this.getPostulanteB();
+    this.getPostulanteB(this.props.postulante.id_postulante_b);
   };
 
-  getPostulanteB = async () => {
-    const nuevoGet = await getPostulanteB();
+  getPostulanteB = async idPostulante => {
+    const nuevoGet = await getPostulanteBId(idPostulante);
     this.setState({ postB: nuevoGet.data });
   };
 
   render() {
     // console.log(this.state.resp);
     // console.log(this.state.postB);
-    const citas = this.state.postB.map(cit => {
-      if (this.state.resp.postulanteb.id_postulante_b === cit.id_postulante_b) {
-        return cit.cita.map(c => {
-          return (
-            <TableRow>
-              <TableCell>{c.fecha}</TableCell>
-              <TableCell>{c.hora}</TableCell>
-              <TableCell>{c.entrevistador}</TableCell>
-              <TableCell>{c.cliente.descripcion}</TableCell>
-              <TableCell>{c.empresa.descripcion}</TableCell>
-              <TableCell>{c.observaciones}</TableCell>
-              <TableCell>{c.estatuscita.descripcion}</TableCell>
-            </TableRow>
-          );
-        });
-      } else {
-        return false;
-      }
+    const postulante = this.props.postulante;
+    const citas = postulante.cita.map(c => {
+      return (
+        <TableRow>
+          <TableCell>{c.fecha}</TableCell>
+          <TableCell>{c.hora}</TableCell>
+          <TableCell>{c.entrevistador}</TableCell>
+          <TableCell>{c.cliente.descripcion}</TableCell>
+          <TableCell>{c.empresa.descripcion}</TableCell>
+          <TableCell>{c.observaciones}</TableCell>
+          <TableCell>{c.estatuscita.descripcion}</TableCell>
+        </TableRow>
+      );
     });
 
     return (
@@ -87,11 +81,8 @@ class Citas extends Component {
 //Se accede al storo de postlantec.
 const mapStateToProps = state => {
   return {
-    postulantec: state.postulantec
+    postulante: state.postulante
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null
-)(Citas);
+export default connect(mapStateToProps, null)(Citas);

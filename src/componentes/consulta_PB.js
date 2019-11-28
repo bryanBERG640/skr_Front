@@ -156,10 +156,11 @@ class consulta_PB extends Component {
           <h2 className="titulo">Consultar Postulantes</h2>
         </div>
 
-        <div className="row" align="center">
+        <div className="row" align="center" style={{marginRight:0}}>
           <form className="form-post setStyles" onSubmit={this.handleSubmit}>
             <div className="co-sm"></div>
-            <div className="co-sm">
+            <div className="co-sm"
+            align="left">
               <label>Perfil: </label>
               <select
                 className="form-control"
@@ -170,7 +171,8 @@ class consulta_PB extends Component {
                 {handleSelect}
               </select>
             </div>
-            <div className="co-sm">
+            <div className="co-sm"
+            align="center">
               <label>Nombre(s): </label>
               <input
                 className="form-control"
@@ -180,7 +182,8 @@ class consulta_PB extends Component {
                 value={this.state.nombre}
               />
             </div>
-            <div className="co-sm">
+            <div className="co-sm"
+            align="right">
               <label>Apellido Paterno: </label>
               <input
                 className="form-control"

@@ -11,6 +11,7 @@ import Examen from "./componentes/examen/Examen";
 import Postulante from "./componentes/Postulante";
 import NotFound from "./componentes/paginas/NotFound";
 import Entrevista from "./componentes/Entrevistas/Entrevista";
+import Login from "./componentes/Login/Login";
 import "./App.css";
 import history from "./history";
 
@@ -20,6 +21,7 @@ function App() {
       <BrowserRouter history={history}>
         <Layout>
           <Switch>
+            <Route exact path="/Login" component={Login} />
             <Route exact path="/Entrevista" component={Entrevista} />
             <Route exact path="/" />
             <Route exact path="/Ficha-Postulante" component={FichaPostulante} />

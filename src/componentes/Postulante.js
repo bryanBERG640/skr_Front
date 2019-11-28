@@ -9,6 +9,7 @@ import {
 import Autocompletado from './Autocompletado/Autocommpletado';
 import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
 import {setPostulante, setPostulanteC} from '../actions/postulanteB'
+import Dropzone from "react-dropzone";
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -29,12 +30,16 @@ const mes = fecha.getMonth() + 1;
 const anio = fecha.getFullYear();
 const date = anio + "-" + mes + "-" + dia;
 
+const imageMaxSize = 1000000;
+const acceptImage = "image/png, image/jpg, image/jpeg";
+const acceptedFileTypesArray = acceptImage.split(",").map(item => {
+  return item.trim();
+});
+
 class Postulante extends React.Component {
     state = {
-        postulanteC: {
-            ap: "",
-            id_carrera: null,
-        },
+        file: null,
+        imgSrc: null,
         carr: "",
         escuel: "",
         acuerdo_economico: "",
@@ -184,96 +189,50 @@ class Postulante extends React.Component {
         this.setState({ [e.target.name]: e.target.value })
    }
 
-    syncHandle(valor) {
-        this.setState({ ap: valor })
-    }
 
-    handleClick = e => {
-        //debugger
-       // console.log("Dentro de handleClick:")
-        if (this.state.pc !== undefined) {
-            const requestPostulanteB = {
-                id_postulante_b: this.state.id_postulante_b,
-                nombre: this.state.nombre,
-                apellido1: this.state.apellido1,
-                apellido2: this.state.apellido2,
-                celular: this.state.celular,
-                telefono: this.state.telefono,
-                correo: this.state.correo,
-                observaciones: this.state.comentarios,
-                cv: null,
-                usuario_actualiza: "Bryan Ramirez",
-                fecha_actualizacion: date
-            }
-            const idEstatusPostulante = this.state.id_status_postulante;
-            const IdPerfil = this.state.id_perfil;
-            const idPostulanteB1 = this.state.id_postulante_b;
-            putPostulanteB(requestPostulanteB,idEstatusPostulante,IdPerfil,idPostulanteB1)
-            .then(response=>
-                {
-                    console.log(response)
-                }).catch(console.log)
-
-            const requestPut = {
-                id_postulante_c: this.props.postulantec.id_postulante_c,
-                fecha_nacimiento: this.state.fecha_nacimiento,
-                edad: this.state.edad,
-                curp: this.state.curp,
-                rfc: this.state.rfc,
-                pretencion_economica: this.state.pretencion_economica,
-                certificaciones: this.state.certificaciones,
-                tiempo_experiencia: this.state.experiencia,
-                acuerdo_economico: this.state.acuerdo_economico,
-                foto_perfil: null,
-                usuario_actualiza: "Bryan Ramirez",
-                fecha_actualizacion: date
-            }
-            const idPostulanteB = this.props.postulantec.postulanteb.id_postulante_b;
-            const idEscuela = this.props.escuela.id_escuela;
-            const idTitulacion = this.state.id_estatus_titulacion;
-            const idCarrera = this.props.carrera.id_carrera;
-            const idSexo = this.state.id_sexo;
-            const idCv = this.state.id_estatus_cv;
-            const idAprobacion = this.state.id_estatus_aprobacion;
-            const idPostulanteComplemento = this.props.postulantec.id_postulante_c;
-            console.log("Request del putt: " + requestPut)
-            //console.log("Dentro de condicional if")
-            putPostulanteC(requestPut, idPostulanteB, idEscuela, idTitulacion, idCarrera,
-                idSexo, idCv, idAprobacion, idPostulanteComplemento)
-                .then(response=>
-                    {
-                        console.log(response)
-                    }).catch(console.log)
-        } else {
-            const request = {
-                fecha_nacimiento: this.state.fecha_nacimiento,
-                edad: this.state.edad,
-                curp: this.state.curp,
-                rfc: this.state.rfc,
-                pretencion_economica: this.state.pretencion_economica,
-                certificaciones: this.state.certificaciones,
-                tiempo_experiencia: this.state.experiencia,
-                acuerdo_economico: this.state.acuerdo_economico,
-                foto_perfil: null,
-                usuario_actualiza: "Bryan Ramirez",
-                fecha_actualizacion: date
-            }
-            const idPostulanteB = this.props.postulante.id_postulante_b;
-            const idEscuela = this.props.escuela.id_escuela;
-            const idTitulacion = this.state.id_estatus_titulacion;
-            const idCarrera = this.props.carrera.id_carrera;
-            const idSexo = this.state.id_sexo;
-            const idCv = this.state.id_estatus_cv;
-            const idEstatusAprobacion = this.state.id_estatus_aprobacion;
-
-            postPostulanteC(request, idPostulanteB, idEscuela,
-                idTitulacion, idCarrera, idSexo, idCv, idEstatusAprobacion)
-                .then(response=>
-                    {
-                        console.log(response)
-                    }).catch(console.log)
+    verifyFile = files => {
+        if (files && files.length > 0) {
+          const currentFile = files[0];
+          const currentFileType = currentFile.type;
+          const currentFileSize = currentFile.size;
+          if (currentFileSize > imageMaxSize) {
+            alert("El archivo no esta permitido, es muy grande");
+            return false;
+          }
+          if (!acceptedFileTypesArray.includes(currentFileType)) {
+            alert("El archivo no esta permitido. Solo imagenes");
+            return false;
+          }
+          return true;
         }
-    }
+      };
+
+      handleOnDrop = (files, rejectedFiles) => {
+        if (rejectedFiles && rejectedFiles.length > 0) {
+          console.log(rejectedFiles);
+          this.verifyFile(rejectedFiles);
+        }
+        if (files && files.length > 0) {
+          const isVerified = this.verifyFile(files);
+          if (isVerified) {
+            this.setState({ file: files });
+            const currentFile = files[0];
+            const reader = new FileReader();
+            reader.addEventListener(
+              "load",
+              () => {
+                //console.log(reader.result);
+                this.setState({
+                  imgSrc: reader.result
+                });
+              },
+              false
+            );
+    
+            reader.readAsDataURL(currentFile);
+          }
+        }
+      };
 
     handleEstatusPostulante = e => {
         this.setState({ id_status_postulante: e.target.value });
@@ -336,8 +295,8 @@ class Postulante extends React.Component {
                 id_estatus_cv: this.props.postulantec.estatuscv.id_estatus_cv,
                 id_estatus_aprobacion: this.props.postulantec.estatusprobacion.id_estatus_aprobacion,
                 id_carrera: this.props.postulantec.carrera.id_carrera,
-                id_escuela: this.props.postulantec.escuela.id_escuela
-
+                id_escuela: this.props.postulantec.escuela.id_escuela,
+                imgSrc:this.props.postulantec.foto_perfil
             })
         }
     }
@@ -370,6 +329,15 @@ class Postulante extends React.Component {
         this.state.id_estatus_aprobacion!==null &&
         this.state.acuerdo_economico!=="")
         {
+            // debugger
+            // if (this.state.file !== null)
+            // {
+            //     postFileImage(this.state.file)
+            //     .then(response => {
+            //         console.log(response);
+            //     })
+            //     .catch(console.log);
+            // }
             console.log("aprobado")
             const ed=parseInt(this.state.edad)
             const ae=parseInt(this.state.acuerdo_economico)
@@ -383,7 +351,6 @@ class Postulante extends React.Component {
                 telefono: this.state.telefono,
                 correo: this.state.correo,
                 observaciones: this.state.comentarios,
-                cv: null,
                 usuario_actualiza: "Bryan Ramirez",
                 fecha_actualizacion: date
             }
@@ -407,7 +374,7 @@ class Postulante extends React.Component {
                     certificaciones: this.state.certificaciones,
                     tiempo_experiencia: this.state.experiencia,
                     acuerdo_economico: ae,
-                    foto_perfil: null,
+                    foto_perfil: this.state.imgSrc,
                     usuario_actualiza: "Bryan Ramirez",
                     fecha_actualizacion: date
                 }
@@ -437,7 +404,7 @@ class Postulante extends React.Component {
                     certificaciones: this.state.certificaciones,
                     tiempo_experiencia: this.state.experiencia,
                     acuerdo_economico: ae,
-                    foto_perfil: null,
+                    foto_perfil: this.state.imgSrc,
                     usuario_actualiza: "Bryan Ramirez",
                     fecha_actualizacion: date
                 }
@@ -467,6 +434,7 @@ class Postulante extends React.Component {
 
     render() {
         
+        //console.log(this.state.imgSrc)
         
         const EstatusAprobaciones = this.state.EstatusAprobacion.map(EA => {
             return <option value={EA.id_estatus_aprobacion}>{EA.descripcion}</option>
@@ -496,11 +464,53 @@ class Postulante extends React.Component {
                             <ColoredLine color="black" />
                         </td>
                         <td>
-                            <h2>Postulante</h2>
+                            {this.state.imgSrc===null ? (
+                                <img className="agciAvatar" 
+                                    src={IconoExamen} 
+                                    alt="Examen" 
+                                    style={{marginTop:0}}
+                                />
+                                ):("")}
+                                
+                            {this.state.imgSrc !== null ? (
+                                <img
+                                    className="agciAvatar"
+                                    src={this.state.imgSrc}
+                                    alt="Foto de Postulante"
+                                    style={{ marginTop:0, width:160, height:160}}
+                                    />
+                                ):("")}
                         </td>
                         <td className="lineaEspacioIzquierda">
                             <ColoredLine color="black" />
                         </td>
+                        
+                    </div>
+                    <br/>
+                    <div className="container">
+                    <div className="row">
+                        <div align="center">
+                            <Dropzone
+                            onDrop={this.handleOnDrop}
+                            accept={acceptImage}
+                            multiple={false}
+                            maxSize={imageMaxSize}
+                            >
+                            {({ getRootProps, getInputProps, isDragActive }) => {
+                                return (
+                                <div 
+                                style={{marginLeft:460}}
+                                className="btn btn-secondary"
+                                {...getRootProps()}>
+                                    <input {...getInputProps()} />
+                                    {!isDragActive && "Click aqui o arrastra tu Imagen!"}
+                                    {isDragActive && "Suelta la imagen aqui"}
+                                </div>
+                                );
+                            }}
+                            </Dropzone>
+                        </div>
+                    </div>
                     </div>
                 </div>
                 <br /><br />
@@ -510,7 +520,7 @@ class Postulante extends React.Component {
                  align="center">
                     <div className="container">
                         <div className="row">
-                            <div style={{marginRight:30}} align="left">
+                            <div className="col-md-4" align="left">
                             <TextValidator
                                 style={{marginLeft: 20, width:250}}
                                 label="Apellido Paterno"
@@ -522,7 +532,7 @@ class Postulante extends React.Component {
                                 "Ingrese solo Letras", 
                                 "Solo se permiten 40 caracteres"]}/>
                             </div>
-                            <div  style={{marginRight:30}} align="center">
+                            <div  className="col-md-4" align="center">
                             <TextValidator
                                 style={{marginLeft: 20, width:250}}
                                 label="Apellido Materno"
@@ -534,7 +544,7 @@ class Postulante extends React.Component {
                                 "Ingrese solo Letras", 
                                 "Solo se permiten 40 caracteres"]}/>
                             </div>
-                            <div style={{marginRight:30}} align="right">
+                            <div className="col-md-4" align="right">
                             <TextValidator
                                             style={{marginLeft: 20, width:250}}
                                             label="Nombre"
@@ -546,15 +556,10 @@ class Postulante extends React.Component {
                                             "Ingrese solo Letras", 
                                             "Solo se permiten 40 caracteres"]}/>
                             </div>
-                            <div align="right" style={{height:100}}>
-                                <img className="agciAvatar" 
-                                    src={IconoExamen} 
-                                    alt="Examen" 
-                                    style={{marginTop:0}}
-                                />
-                            </div>
-                            <br/>
-                            <div style={{marginRight:30}} align="left">
+                        </div>   
+                        <br/>
+                        <div className="row">
+                            <div className="col-md-4" align="left">
                             <TextValidator
                                     style={{ marginLeft: 20, width: 200 }}
                                     label="Telefono"
@@ -569,9 +574,9 @@ class Postulante extends React.Component {
                                     ]}
                                 />
                             </div>
-                            <div  style={{marginRight:30}} align="center">
+                            <div  className="col-md-4" align="center">
                                 <TextValidator
-                                    style={{ marginLeft: 40, width: 200 }}
+                                    style={{ marginLeft: 40, width: 250 }}
                                     label="Celular"
                                     onChange={this.handleWrite}
                                     name="celular"
@@ -584,7 +589,7 @@ class Postulante extends React.Component {
                                     ]}
                                 />
                             </div>
-                            <div style={{marginRight:30}} align="right">
+                            <div className="col-md-4" align="right">
                                 <TextValidator
                                     style={{marginLeft: 20, width:300}}
                                     label="Correo"
@@ -597,9 +602,8 @@ class Postulante extends React.Component {
                             </div>
                         </div>
                         <br/>
-                        <br/>
-                        <div className="row">
-                            <div style={{marginRight:30}} align="left">
+                        <div className="row" style={{marginTop:20}}>
+                            <div className="col-md-4" align="left">
                                 <SelectValidator
                                     className="seleccion"
                                     style={{ width: 250 , marginLeft:22}}
@@ -614,7 +618,7 @@ class Postulante extends React.Component {
                                     {EstPost}
                                 </SelectValidator>
                             </div>
-                            <div  style={{marginRight:30}} align="center">
+                            <div  className="col-md-4" align="center">
                                 <SelectValidator
                                     className="seleccion"
                                     style={{ width: 250 }}
@@ -629,7 +633,7 @@ class Postulante extends React.Component {
                                     {perfiles}
                                 </SelectValidator>
                             </div>
-                            <div style={{marginRight:30}} align="right">
+                            <div className="col-md-4" align="right">
                                 <label align="left">
                                     Comentarios:
                                     <textarea
@@ -644,7 +648,7 @@ class Postulante extends React.Component {
                         </div>
                         <br/>
                         <div className="row">
-                            <div style={{marginRight:30}} align="left">
+                            <div className="col-md-4" align="left">
                                 Fecha de Nacimiento
                                 <br/>
                                 <TextValidator
@@ -657,9 +661,9 @@ class Postulante extends React.Component {
                                     errorMessages={["Campo Obligatorio"]}
                                 />
                             </div>
-                            <div  style={{marginRight:30}} align="center">
+                            <div  className="col-md-4" align="center">
                                 <TextValidator
-                                    style={{ marginLeft: 20, width: 150 }}
+                                    style={{ marginLeft: 20, width: 50 }}
                                     label="Edad"
                                     onChange={this.handleWrite}
                                     name="edad"
@@ -671,7 +675,7 @@ class Postulante extends React.Component {
                                     ]}
                                 />
                             </div>
-                            <div style={{marginRight:30}} align="right">
+                            <div className="col-md-4" align="right">
                                 <SelectValidator
                                     className="seleccion"
                                     style={{ width: 150 , marginLeft:22}}
@@ -688,7 +692,7 @@ class Postulante extends React.Component {
                         </div>
                         <br/>
                         <div className="row">
-                            <div style={{marginRight:30}} align="left">
+                            <div className="col-md-4" align="left">
                                 <TextValidator
                                     style={{marginLeft: 20, width:250}}
                                     label="CURP"
@@ -701,7 +705,7 @@ class Postulante extends React.Component {
                                 "Solo se Permiten Mayusculas"]}
                                 />
                             </div>
-                            <div style={{marginRight:30}} align="center">
+                            <div className="col-md-4" align="center">
                                 <TextValidator
                                     style={{marginLeft: 20, width:250}}
                                     label="RFC"
@@ -714,7 +718,7 @@ class Postulante extends React.Component {
                                     "Solo se Permiten Mayusculas"]}
                                 />
                             </div>
-                            <div  style={{marginRight:30}} align="right">
+                            <div  className="col-md-4" align="right">
                                 <SelectValidator
                                     className="seleccion"
                                     style={{ width: 250 , marginLeft:22}}
@@ -805,6 +809,7 @@ class Postulante extends React.Component {
                             </div>
                         </div>
                     </div>
+                    <br/>
                     <div className="row" style={{width:1000, marginLeft: 70}}>
                         <div className="" align="center">
                             <td className="lineaEspacioDerecha">
@@ -818,6 +823,7 @@ class Postulante extends React.Component {
                             </td>
                         </div>
                     </div>
+                    <br/>
                     <div className="container">
                         <div className="row">
                             <div style={{marginRight:55}} align="left">
@@ -842,7 +848,7 @@ class Postulante extends React.Component {
                                     errorMessages={["Campo Obligatorio", "Ingrese Solo Numeros"]}
                                 />
                             </div>
-                            <div  style={{marginRight:55}} align="right">
+                            <div style={{marginRight:55}} align="right">
                                 <SelectValidator
                                     className="seleccion"
                                     style={{ width: 250 , marginLeft:22}}

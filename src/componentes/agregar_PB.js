@@ -18,7 +18,10 @@ import {
   SelectValidator
 } from "react-material-ui-form-validator";
 import { connect } from "react-redux";
-import {setPostulante} from '../actions/postulanteB'
+import { setPostulante } from "../actions/postulanteB";
+import Dropzone from "react-dropzone";
+import { Document, Page, pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -37,11 +40,20 @@ const mes = fecha.getMonth() + 1;
 const anio = fecha.getFullYear();
 const date = anio + "-" + mes + "-" + dia;
 
+const FileMaxSize = 2000000;
+const acceptFile = "application/pdf";
+const acceptedFileTypesArray = acceptFile.split(",").map(item => {
+  return item.trim();
+});
+
 class agregar_PB extends React.Component {
   constructor(args) {
     super(args);
 
     this.state = {
+      numPages: null,
+      pageNumber: 1,
+      FileSrc: null,
       respPerf: [],
       respEstatus: [],
       perfil: null,
@@ -54,6 +66,7 @@ class agregar_PB extends React.Component {
         telefono: "",
         celular: "",
         observaciones: null,
+        cv: null,
         usuario_actualiza: "Bryan Ramirez",
         fecha_actualizacion: date
       }
@@ -136,14 +149,17 @@ class agregar_PB extends React.Component {
         telefono: this.props.postulante.telefono,
         celular: this.props.postulante.celular,
         observaciones: this.props.postulante.observaciones,
+        cv: this.props.postulante.cv,
         usuario_actualiza: "Bryan Ramirez",
-         fecha_actualizacion: date
+        fecha_actualizacion: date
       };
       const per = this.props.postulante.perfil.id_perfil;
       const ep = this.props.postulante.estatuspostulante.id_estatus_postulante;
-      this.setState({ postulante: pos });
-      this.setState({ perfil: per });
-      this.setState({ estatuspostulante: ep });
+      this.setState({ postulante: pos, 
+        perfil: per, 
+        estatuspostulante: ep,
+      FileSrc: this.props.postulante.cv});
+      
     }
   };
 
@@ -194,6 +210,7 @@ class agregar_PB extends React.Component {
           telefono: this.state.postulante.telefono,
           celular: this.state.postulante.celular,
           observaciones: this.state.postulante.observaciones,
+          cv: this.state.FileSrc,
           usuario_actualiza: "Bryan Ramirez",
           fecha_actualizacion: date
         };
@@ -210,18 +227,26 @@ class agregar_PB extends React.Component {
           .catch(console.log);
         this.props.history.push("/consultar-Postulantes");
       } else {
-        postSeccion(
-          this.state.postulante,
-          this.state.estatuspostulante,
-          this.state.perfil
-        )
+        const request = {
+          apellido1: this.state.postulante.apellido1,
+          apellido2: this.state.postulante.apellido2,
+          nombre: this.state.postulante.nombre,
+          correo: this.state.postulante.correo,
+          telefono: this.state.postulante.telefono,
+          celular: this.state.postulante.celular,
+          observaciones: this.state.postulante.observaciones,
+          cv: this.state.FileSrc,
+          usuario_actualiza: "Bryan Ramirez",
+          fecha_actualizacion: date
+        };
+        postSeccion(request, this.state.estatuspostulante, this.state.perfil)
           .then(response => {
             console.log(response);
           })
           .catch(console.log);
         this.props.history.push("/consultar-Postulantes");
       }
-      this.props.dispatchSetPostulante("vacio")
+      this.props.dispatchSetPostulante("vacio");
     }
   };
 
@@ -231,8 +256,58 @@ class agregar_PB extends React.Component {
     this.setState({ postulante });
   };
 
+  verifyFile = files => {
+    if (files && files.length > 0) {
+      const currentFile = files[0];
+      const currentFileType = currentFile.type;
+      const currentFileSize = currentFile.size;
+      if (currentFileSize > FileMaxSize) {
+        alert("El archivo no esta permitido, es muy grande");
+        return false;
+      }
+      if (!acceptedFileTypesArray.includes(currentFileType)) {
+        alert("El archivo no esta permitido. Solo PDF");
+        return false;
+      }
+      return true;
+    }
+  };
+
+  handleOnDrop = (files, rejectedFiles) => {
+    if (rejectedFiles && rejectedFiles.length > 0) {
+      console.log(rejectedFiles);
+      this.verifyFile(rejectedFiles);
+    }
+    if (files && files.length > 0) {
+      const isVerified = this.verifyFile(files);
+      if (isVerified) {
+        //this.setState({ file: files[0] });
+        const currentFile = files[0];
+        const reader = new FileReader();
+        reader.addEventListener(
+          "load",
+          () => {
+            //console.log(reader.result);
+            this.setState({
+              FileSrc: reader.result
+            });
+          },
+          false
+        );
+
+        reader.readAsDataURL(currentFile);
+      }
+    }
+  };
+
+  onDocumentLoadSuccess = ({ numPages }) => {
+    //debugger
+    this.setState({ numPages });
+  };
+
   render() {
     //console.log("-----------"+this.state.perfil)
+    //console.log(this.state.FileSrc);
     const { respPerf, respEstatus } = this.state;
     const perfiles = respPerf.map(perf => {
       return (
@@ -264,7 +339,7 @@ class agregar_PB extends React.Component {
         </div>
 
         <div>
-          <h2 className="titulo">Agregar Postulantes</h2>
+          <h2 className="titulo">Agregar Postulante</h2>
         </div>
         <div className="row" style={{ width: 1200 }}>
           <ValidatorForm
@@ -410,12 +485,66 @@ class agregar_PB extends React.Component {
             </div>
 
             <div className="column" align="right">
-              <input type="image" 
-              className="agregar" 
-              src={agregar} 
-              alt="agregar-pdf"/>
+              <div style={{width:270}} >
+                {this.state.FileSrc !== null ? (
+                  <div>
+                    <Document
+                      file={this.state.FileSrc}
+                      onLoadSuccess={this.onDocumentLoadSuccess}
+                    >
+                      <Page pageNumber={this.state.pageNumber} height={500} />
+                    </Document>
+                    <p>
+                      Pagina {this.state.pageNumber} de {this.state.numPages}
+                    </p>
+                    <a 
+                      download={this.state.postulante.nombre+"_"+this.state.postulante.apellido1+"CV.pdf"}
+                      href={this.state.FileSrc}
+                    >
+                      Descargar CV
+                    </a>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {this.state.FileSrc === null ? (
+                  <div >
+                    <img 
+                      src={agregar} 
+                      alt="agregar-pdf" 
+                      style={{width:200, height:200}}
+                      
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+              <br/>
+              <Dropzone
+                onDrop={this.handleOnDrop}
+                accept={acceptFile}
+                multiple={false}
+                maxSize={FileMaxSize}
+              >
+                {({ getRootProps, getInputProps, isDragActive }) => {
+                  return (
+                    <div className="btn btn-secondary" {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      {!isDragActive && "Click o Arrastra el PDF aqui"}
+                      {isDragActive && "Suelta el archivo aqui"}
+                    </div>
+                  );
+                }}
+              </Dropzone>
+              {/* <input
+                type="image"
+                className="agregar"
+                src={agregar}
+                alt="agregar-pdf"
+              />
               <h4> Guardar CV en formato PDF </h4>
-              <br />
+              <br /> */}
 
               {/* <a
               href="/consultar-Postulantes"
@@ -426,6 +555,8 @@ class agregar_PB extends React.Component {
               Guardar
             </a> */}
 
+              <br />
+              <br />
               <button type="submit" className="btn btn-primary">
                 Guardar
               </button>
@@ -447,12 +578,8 @@ const mapStateToProps = state => ({
   postulante: state.postulante
 });
 
-const mapDispatchToProps = dispatch =>
-({
-dispatchSetPostulante: value=>dispatch(setPostulante(value))
-})
+const mapDispatchToProps = dispatch => ({
+  dispatchSetPostulante: value => dispatch(setPostulante(value))
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(agregar_PB);
+export default connect(mapStateToProps, mapDispatchToProps)(agregar_PB);

@@ -12,48 +12,33 @@ import { connect } from "react-redux";
 
 class Entrevistas extends React.Component {
   state = {
-    resp: [],
     postC: this.props.postulantec.postulanteb.cita
-  };
-  componentWillMount = () => {
-    this.getEntrevista();
-  };
-
-  getEntrevista = async () => {
-    const nuevoGet = await getEntrevista();
-    this.setState({ resp: nuevoGet.data });
   };
 
   render() {
-    const { resp, postC } = this.state;
+    const { postC } = this.state;
     const entrevistas = postC.map(cit => {
       return cit.entrevista.map(entr => {
-        return resp.map(e => {
-          if (entr.id_entrevista === e.id_entrevista) {
-            return (
-              <TableRow>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {e.tipoentrevista.descripcion}
-                </TableCell>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {e.entrevistador}
-                </TableCell>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {cit.empresa.descripcion}
-                </TableCell>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {cit.cliente.descripcion}
-                </TableCell>
-                <TableCell style={{ fontSize: "12px" }}></TableCell>
-                <TableCell style={{ fontSize: "12px" }}>
-                  {e.observaciones}
-                </TableCell>
-              </TableRow>
-            );
-          }else{
-            return false;
-          }
-        });
+        return (
+          <TableRow>
+            <TableCell style={{ fontSize: "12px" }}>
+              {entr.tipoentrevista.descripcion}
+            </TableCell>
+            <TableCell style={{ fontSize: "12px" }}>
+              {entr.entrevistador}
+            </TableCell>
+            <TableCell style={{ fontSize: "12px" }}>
+              {cit.empresa.descripcion}
+            </TableCell>
+            <TableCell style={{ fontSize: "12px" }}>
+              {cit.cliente.descripcion}
+            </TableCell>
+            <TableCell style={{ fontSize: "12px" }}></TableCell>
+            <TableCell style={{ fontSize: "12px" }}>
+              {entr.observaciones}
+            </TableCell>
+          </TableRow>
+        );
       });
     });
 
@@ -87,7 +72,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null
-)(Entrevistas);
+export default connect(mapStateToProps, null)(Entrevistas);

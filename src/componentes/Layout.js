@@ -1,10 +1,10 @@
 import React from "react";
-import SolucionesKabec from "./SolucionesKabec";
+import Navbar from "./NavBar";
 
 function layout(props) {
   return (
     <React.Fragment>
-      <SolucionesKabec />
+      <Navbar />
       {props.children}
     </React.Fragment>
   );

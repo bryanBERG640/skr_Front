@@ -1,8 +1,7 @@
 import React from "react";
 import Ficha from "./Ficha";
-import { Container} from "@material-ui/core";
-import avatar from "../Imagenes/avatar.png";
-import Avatar from "react-avatar";
+import { Container } from "@material-ui/core";
+import IconoExamen from "../Imagenes/avatar.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import "../App.css";
@@ -23,7 +22,6 @@ const ColoredLine = ({ color }) => (
 
 class FichaPostulante extends React.Component {
   state = {
-    resp: [],
     postB: this.props.postulanteB
   };
   render() {
@@ -33,6 +31,7 @@ class FichaPostulante extends React.Component {
     // const foto = this.state.resp.map(photo => {
     //   return <Avatar size="200" src={photo.foto_perfil} round="100px" />;
     // });
+    const Foto = this.props.postulanteC.foto_perfil;
     return (
       <div>
         <br />
@@ -51,7 +50,28 @@ class FichaPostulante extends React.Component {
           <td>
             <Container>
               <tr>
-                <Avatar size="200" src={avatar} round="100px" />
+                {/* <Avatar size="200" src={Foto} round="100px" /> */}
+                {Foto === null ? (
+                  <img
+                    className="agciAvatar"
+                    src={IconoExamen}
+                    alt="Foto Postulante"
+                    style={{ marginTop: 0 }}
+                  />
+                ) : (
+                  ""
+                )}
+
+                {Foto !== null ? (
+                  <img
+                    className="agciAvatar"
+                    src={Foto}
+                    alt="Foto de Postulante"
+                    style={{ marginTop: 0, width: 160, height: 160 }}
+                  />
+                ) : (
+                  ""
+                )}
               </tr>
               <tr>
                 <TextField
@@ -83,11 +103,9 @@ class FichaPostulante extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    postulanteB: state.postulante
+    postulanteB: state.postulante,
+    postulanteC: state.postulantec
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null
-)(FichaPostulante);
+export default connect(mapStateToProps, null)(FichaPostulante);
