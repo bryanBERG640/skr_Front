@@ -92,7 +92,7 @@ class MenuAppBar extends React.Component {
         {this.props.usuario === null ? (
           <div align="center">
             <List>
-              {["    ", "   ", "     ", "     ", "Debes iniciar sesion"].map(
+              {["    ", "   ", "     ", "     "].map(
                 (text, index) => (
                   <ListItem button key={text} disabled>
                     <ListItemText primary={text} />
@@ -100,6 +100,8 @@ class MenuAppBar extends React.Component {
                 )
               )}
             </List>
+            <Link to="/Login" className="btn btn-default"
+              width="200px">Debes Iniciar Sesion</Link>
             <Divider />
           </div>
         ) : (

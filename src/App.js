@@ -11,42 +11,91 @@ import Examen from "./componentes/examen/Examen";
 import Postulante from "./componentes/Postulante";
 import NotFound from "./componentes/paginas/NotFound";
 import Entrevista from "./componentes/Entrevistas/Entrevista";
-import Login from "./componentes/Login/Login";
+import Login from "./componentes/Login/LoginView";
 import "./App.css";
 import history from "./history";
+import PrivateRoute from "./componentes/paginas/PrivateRoute";
+import { AuthContextProvider } from "./componentes/Login/auth";
 
 function App() {
   return (
     <React.Fragment>
       <BrowserRouter history={history}>
-        <Layout>
-          <Switch>
-            <Route exact path="/Login" component={Login} />
-            <Route exact path="/Entrevista" component={Entrevista} />
-            <Route exact path="/" />
-            <Route exact path="/Ficha-Postulante" component={FichaPostulante} />
-            <Route
-              exact
-              path="/consultar-Postulantes"
-              component={consulta_PB}
-            />
-            <Route exact path="/consultarCita" component={consultarCita} />
-            <Route exact path="/agregar_PB" component={Agregar_PB} />
-            <Route exact path="/agendar_cita" component={agendar} />
-            <Route
-              exact
-              path="/agregar_comentario"
-              component={agregar_comentario}
-            />
-            <Route exact path="/Examen" component={Examen} />
-            <Route
-              exact
-              path="/Completar_Datos_postulante"
-              component={Postulante}
-            />
-            <Route component={NotFound} />
-          </Switch>
-        </Layout>
+        <AuthContextProvider>
+          <Layout>
+            <Switch>
+              <Route exact path="/" />
+              {/* no mostradas despues de iniciar sesion */}
+              <PrivateRoute
+                exact
+                path="/Login"
+                type="public"
+                component={Login}
+              />
+              {/* no mostradas sin inicio de sesion */}
+              <PrivateRoute
+                exact
+                path="/consultar-Postulantes"
+                type="private"
+                component={consulta_PB}
+              />
+              <PrivateRoute
+                type="private"
+                exact
+                path="/consultarCita"
+                component={consultarCita}
+              />
+              <PrivateRoute
+                exact
+                path="/agregar_PB"
+                component={Agregar_PB}
+                type="private"
+              />
+              {/* no mostradas sin seleccionar un postulanteB */}
+              <PrivateRoute
+                exact
+                path="/agendar_cita"
+                component={agendar}
+                type="privateB"
+              />
+              <PrivateRoute
+                exact
+                path="/Completar_Datos_postulante"
+                component={Postulante}
+                type="privateB"
+              />
+
+              {/* no mostradas sin seleccionar un postulanteC */}
+
+              <PrivateRoute
+                exact
+                path="/Entrevista"
+                component={Entrevista}
+                type="privateC"
+              />
+              <PrivateRoute
+                exact
+                path="/Ficha-Postulante"
+                component={FichaPostulante}
+                type="privateC"
+              />
+              <PrivateRoute
+                exact
+                path="/agregar_comentario"
+                component={agregar_comentario}
+                type="privateC"
+              />
+              <PrivateRoute
+                exact
+                path="/Examen"
+                component={Examen}
+                type="privateC"
+              />
+
+              <Route component={NotFound} />
+            </Switch>
+          </Layout>
+        </AuthContextProvider>
       </BrowserRouter>
     </React.Fragment>
   );

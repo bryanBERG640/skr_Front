@@ -20,7 +20,7 @@ class Login extends Component {
     fotoUsuario: null
   };
 
-  componentDidMount() {
+  componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ auth: true });
@@ -54,6 +54,10 @@ class Login extends Component {
       .auth()
       .signOut()
       .then(console.log);
+    this.setState({ auth: false });
+    this.setState({ usuario: null });
+    this.setState({ fotoUsuario: "" });
+    this.props.dispatchSetUsuario(null);
   };
 
   render() {
@@ -95,7 +99,7 @@ class Login extends Component {
               onClick={this.handleMenu}
               color="inherit"
             >
-              <Link to="/" onClick={this.logOut}>
+              <Link to="/Login" onClick={this.logOut}>
                 <Avatar src={salir} alt="Logo" />
               </Link>
             </IconButton>

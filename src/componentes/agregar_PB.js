@@ -155,11 +155,12 @@ class agregar_PB extends React.Component {
       };
       const per = this.props.postulante.perfil.id_perfil;
       const ep = this.props.postulante.estatuspostulante.id_estatus_postulante;
-      this.setState({ postulante: pos, 
-        perfil: per, 
+      this.setState({
+        postulante: pos,
+        perfil: per,
         estatuspostulante: ep,
-      FileSrc: this.props.postulante.cv});
-      
+        FileSrc: this.props.postulante.cv
+      });
     }
   };
 
@@ -485,7 +486,7 @@ class agregar_PB extends React.Component {
             </div>
 
             <div className="column" align="right">
-              <div style={{width:270}} >
+              <div style={{ width: 270 }}>
                 {this.state.FileSrc !== null ? (
                   <div>
                     <Document
@@ -497,8 +498,13 @@ class agregar_PB extends React.Component {
                     <p>
                       Pagina {this.state.pageNumber} de {this.state.numPages}
                     </p>
-                    <a 
-                      download={this.state.postulante.nombre+"_"+this.state.postulante.apellido1+"CV.pdf"}
+                    <a
+                      download={
+                        this.state.postulante.nombre +
+                        "_" +
+                        this.state.postulante.apellido1 +
+                        "CV.pdf"
+                      }
                       href={this.state.FileSrc}
                     >
                       Descargar CV
@@ -508,19 +514,18 @@ class agregar_PB extends React.Component {
                   ""
                 )}
                 {this.state.FileSrc === null ? (
-                  <div >
-                    <img 
-                      src={agregar} 
-                      alt="agregar-pdf" 
-                      style={{width:200, height:200}}
-                      
+                  <div>
+                    <img
+                      src={agregar}
+                      alt="agregar-pdf"
+                      style={{ width: 200, height: 200 }}
                     />
                   </div>
                 ) : (
                   ""
                 )}
               </div>
-              <br/>
+              <br />
               <Dropzone
                 onDrop={this.handleOnDrop}
                 accept={acceptFile}
@@ -537,23 +542,6 @@ class agregar_PB extends React.Component {
                   );
                 }}
               </Dropzone>
-              {/* <input
-                type="image"
-                className="agregar"
-                src={agregar}
-                alt="agregar-pdf"
-              />
-              <h4> Guardar CV en formato PDF </h4>
-              <br /> */}
-
-              {/* <a
-              href="/consultar-Postulantes"
-              className="btn btn-primary"
-              onClick={this.handleClick}
-              nombre={this.state.nombre}
-            >
-              Guardar
-            </a> */}
 
               <br />
               <br />
