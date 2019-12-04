@@ -17,9 +17,6 @@ import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 
 class MenuAppBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   state = {
     left: false,

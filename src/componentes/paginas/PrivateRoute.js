@@ -12,18 +12,36 @@ class PrivateRoute extends React.Component {
     else if (type === "public" && isLoggedIn)
       return <Redirect to="/consultar-Postulantes" />;
     else if (type === "privateB") {
-      if (!isLoggedIn && this.props.postulante === "vacio")
+      if (
+        (!isLoggedIn && this.props.postulante === "vacio") ||
+        this.props.postulante === undefined
+      )
         return <Redirect to="/Login" />;
-      else if (!isLoggedIn && this.props.postulante !== "vacio")
+      else if (
+        (!isLoggedIn && this.props.postulante !== "vacio") ||
+        this.props.postulante === undefined
+      )
         return <Redirect to="/Login" />;
-      else if (isLoggedIn && this.props.postulante === "vacio")
+      else if (
+        (isLoggedIn && this.props.postulante === "vacio") ||
+        this.props.postulante === undefined
+      )
         return <Redirect to="/consultar-Postulantes" />;
     } else if (type === "privateC") {
-      if (!isLoggedIn && this.props.postulanteC === "vacio")
+      if (
+        (!isLoggedIn && this.props.postulanteC === "vacio") ||
+        this.props.postulanteC === undefined
+      )
         return <Redirect to="/Login" />;
-      else if (!isLoggedIn && this.props.postulanteC !== "vacio")
+      else if (
+        (!isLoggedIn && this.props.postulanteC !== "vacio") ||
+        this.props.postulanteC === undefined
+      )
         return <Redirect to="/Login" />;
-      else if (isLoggedIn && this.props.postulanteC === "vacio")
+      else if (
+        (isLoggedIn && this.props.postulanteC === "vacio") ||
+        this.props.postulanteC === undefined
+      )
         return <Redirect to="/consultarCita" />;
     }
 

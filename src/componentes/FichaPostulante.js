@@ -26,11 +26,6 @@ class FichaPostulante extends React.Component {
   };
   render() {
     progresBar(true);
-    //console.log(this.state.postB.estatuspostulante);
-    //console.log("Valores de la respuesta" + this.state.resp);
-    // const foto = this.state.resp.map(photo => {
-    //   return <Avatar size="200" src={photo.foto_perfil} round="100px" />;
-    // });
     const Foto = this.props.postulanteC.foto_perfil;
     return (
       <div>
@@ -50,7 +45,6 @@ class FichaPostulante extends React.Component {
           <td>
             <Container>
               <tr>
-                {/* <Avatar size="200" src={Foto} round="100px" /> */}
                 {Foto === null ? (
                   <img
                     className="agciAvatar"

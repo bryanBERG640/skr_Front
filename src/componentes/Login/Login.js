@@ -10,17 +10,13 @@ import { connect } from "react-redux";
 import { setUsuario } from "../../actions/postulanteB";
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     auth: false,
     usuario: null,
     fotoUsuario: null
   };
 
-  componentWillMount() {
+  componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ auth: true });
@@ -71,7 +67,7 @@ class Login extends Component {
               aria-haspopup="true"
               onClick={this.login}
               color="inherit"
-              alignContent="right"
+              //alignContent="right"
             >
               <AccountCircle />
             </IconButton>

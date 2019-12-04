@@ -2,41 +2,32 @@ import React from "react";
 import { connect } from "react-redux"; //Sirve para conectar las librerias de react y redux, se utiliza para cada componente que se quiera dar acceso al store.
 import { getPostulanteB } from "../../request/request";
 import { setPostulante } from "../../actions/postulanteB";
-import { setPostulanteC } from '../../actions/postulanteB';
-import { getPostulanteTodo } from '../../request/request';
-import { setRadioButton } from '../../actions/postulanteB';
+import { setPostulanteC } from "../../actions/postulanteB";
+import { getPostulanteTodo } from "../../request/request";
+import { setRadioButton } from "../../actions/postulanteB";
+import Loading from "../paginas/Loading";
 
 class filtrosPB extends React.Component {
   state = {
-    isLoading: true,
-    isLoadingPC:  true,
+    
     resp: [],
     pos: [],
     postulanteC: []
   };
 
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillUpdate(previousProps, previousState) {
-    if(previousProps!==this.props)
-    {
+  componentDidUpdate(previousProps, previousState) {
+    if (previousProps !== this.props) {
       //console.log("actualizando por Props")
       this.getPostulanteB();
-    this.getPostulanteTodo();
-    this.setState({ isLoading: false });
-    this.setState({ isLoadingPC: false})
+      this.getPostulanteTodo();
+
     }
-    if(previousState===this.state)
-    {
+    if (previousState === this.state) {
       //console.log("actualizando por State")
       this.getPostulanteB();
-    this.getPostulanteTodo();
-    this.setState({ isLoading: false });
-    this.setState({ isLoadingPC: false})
+      this.getPostulanteTodo();
     }
-  };
+  }
   getPostulanteB = async () => {
     const nuevoGet = await getPostulanteB();
     this.setState({ resp: nuevoGet.data });
@@ -44,32 +35,35 @@ class filtrosPB extends React.Component {
   getPostulanteTodo = async () => {
     const nuevoGet = await getPostulanteTodo();
     this.setState({ postulanteC: nuevoGet.data });
-  }
+  };
   handleClick = e => {
     // debugger
     let verdadero = false;
     let pb = parseInt(e.target.value);
-      this.state.resp.map(postulante => {
-        if (pb === postulante.id_postulante_b) {
-          this.props.dispatchSetPostulante(postulante); //Se almacena en el store una función.
-        }
-      });
+    this.state.resp.map(postulante => {
+      if (pb === postulante.id_postulante_b) {
+        this.props.dispatchSetPostulante(postulante); //Se almacena en el store una función.
+      }
+      return postulante
+    });
 
     this.state.postulanteC.map(postulante => {
       if (pb === postulante.postulanteb.id_postulante_b) {
         this.props.dispatchSetPostulantC(postulante); //Se almacena en el store una función si el postulanteB es un postulanteC.
         verdadero = true;
       }
+      return postulante
     });
-    if(verdadero === false) {
+    if (verdadero === false) {
       this.props.dispatchSetPostulantC(null);
     }
     this.props.dispatchSetRadioButton("Pulsado");
   };
 
   render() {
-      const { resp } = this.state;
-      const groupPB = resp.map(postulante => {
+    const { resp } = this.state;
+    
+    const groupPB = resp.map(postulante => {
       const i = `${postulante.id_postulante_b}`;
       const n = `${postulante.nombre || ""}`;
       const a1 = `${postulante.apellido1 || ""}`;
@@ -106,7 +100,6 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              
             </tr>
           );
         }
@@ -136,7 +129,6 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              
             </tr>
           );
         }
@@ -195,7 +187,6 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              
             </tr>
           );
         }
@@ -225,7 +216,6 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              
             </tr>
           );
         }
@@ -255,7 +245,6 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              
             </tr>
           );
         }
@@ -285,7 +274,6 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              
             </tr>
           );
         }
@@ -319,11 +307,11 @@ class filtrosPB extends React.Component {
               <td>{co}</td>
               <td>{d}</td>
               <td>{ver}</td>
-              
             </tr>
           );
         }
       }
+       else return postulante
     });
 
     return groupPB;
@@ -336,11 +324,8 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetRadioButton: value => dispatch(setRadioButton(value))
 });
 
-const mapStateToProps= state=>({
+const mapStateToProps = state => ({
   postulante: state.postulante
-})
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(filtrosPB); //El segundo parametro del metodo connect permitira trabajar con las acciones.
+export default connect(mapStateToProps, mapDispatchToProps)(filtrosPB); //El segundo parametro del metodo connect permitira trabajar con las acciones.

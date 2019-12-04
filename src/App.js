@@ -16,6 +16,7 @@ import "./App.css";
 import history from "./history";
 import PrivateRoute from "./componentes/paginas/PrivateRoute";
 import { AuthContextProvider } from "./componentes/Login/auth";
+import Root from "./componentes/filtros/Root";
 
 function App() {
   return (
@@ -23,77 +24,79 @@ function App() {
       <BrowserRouter history={history}>
         <AuthContextProvider>
           <Layout>
-            <Switch>
-              <Route exact path="/" />
-              {/* no mostradas despues de iniciar sesion */}
-              <PrivateRoute
-                exact
-                path="/Login"
-                type="public"
-                component={Login}
-              />
-              {/* no mostradas sin inicio de sesion */}
-              <PrivateRoute
-                exact
-                path="/consultar-Postulantes"
-                type="private"
-                component={consulta_PB}
-              />
-              <PrivateRoute
-                type="private"
-                exact
-                path="/consultarCita"
-                component={consultarCita}
-              />
-              <PrivateRoute
-                exact
-                path="/agregar_PB"
-                component={Agregar_PB}
-                type="private"
-              />
-              {/* no mostradas sin seleccionar un postulanteB */}
-              <PrivateRoute
-                exact
-                path="/agendar_cita"
-                component={agendar}
-                type="privateB"
-              />
-              <PrivateRoute
-                exact
-                path="/Completar_Datos_postulante"
-                component={Postulante}
-                type="privateB"
-              />
+            <Root>
+              <Switch>
+                <Route exact path="/" />
+                {/* no mostradas despues de iniciar sesion */}
+                <PrivateRoute
+                  exact
+                  path="/Login"
+                  type="public"
+                  component={Login}
+                />
+                {/* no mostradas sin inicio de sesion */}
+                <PrivateRoute
+                  exact
+                  path="/consultar-Postulantes"
+                  type="private"
+                  component={consulta_PB}
+                />
+                <PrivateRoute
+                  type="private"
+                  exact
+                  path="/consultarCita"
+                  component={consultarCita}
+                />
+                <PrivateRoute
+                  exact
+                  path="/agregar_PB"
+                  component={Agregar_PB}
+                  type="private"
+                />
+                {/* no mostradas sin seleccionar un postulanteB */}
+                <PrivateRoute
+                  exact
+                  path="/agendar_cita"
+                  component={agendar}
+                  type="privateB"
+                />
+                <PrivateRoute
+                  exact
+                  path="/Completar_Datos_postulante"
+                  component={Postulante}
+                  type="privateB"
+                />
 
-              {/* no mostradas sin seleccionar un postulanteC */}
+                {/* no mostradas sin seleccionar un postulanteC */}
 
-              <PrivateRoute
-                exact
-                path="/Entrevista"
-                component={Entrevista}
-                type="privateC"
-              />
-              <PrivateRoute
-                exact
-                path="/Ficha-Postulante"
-                component={FichaPostulante}
-                type="privateC"
-              />
-              <PrivateRoute
-                exact
-                path="/agregar_comentario"
-                component={agregar_comentario}
-                type="privateC"
-              />
-              <PrivateRoute
-                exact
-                path="/Examen"
-                component={Examen}
-                type="privateC"
-              />
+                <PrivateRoute
+                  exact
+                  path="/Entrevista"
+                  component={Entrevista}
+                  type="privateC"
+                />
+                <PrivateRoute
+                  exact
+                  path="/Ficha-Postulante"
+                  component={FichaPostulante}
+                  type="privateC"
+                />
+                <PrivateRoute
+                  exact
+                  path="/agregar_comentario"
+                  component={agregar_comentario}
+                  type="privateC"
+                />
+                <PrivateRoute
+                  exact
+                  path="/Examen"
+                  component={Examen}
+                  type="privateC"
+                />
 
-              <Route component={NotFound} />
-            </Switch>
+                <Route component={NotFound} />
+              </Switch>
+            </Root>
           </Layout>
         </AuthContextProvider>
       </BrowserRouter>

@@ -6,30 +6,21 @@ import {
   setRadioButton
 } from "../../actions/postulanteB";
 import { connect } from "react-redux";
+import Loading from "../paginas/Loading";
 
 const fecha = new Date();
 const dia = fecha.getDate();
 const mes = fecha.getMonth() + 1;
 const anio = fecha.getFullYear();
-const date = anio + "-" + mes + "-" + dia;
 
 function compararFechas(fechaA, fechaB) {
   if (fechaA > fechaB) {
-    // console.log("a > b")
-    // console.log(fechaA)
-    // console.log(fechaB)
     return 1;
   }
   if (fechaA < fechaB) {
-    // console.log("a < b")
-    // console.log(fechaA)
-    // console.log(fechaB)
     return -1;
   }
   if (fechaA === fechaB) {
-    // console.log("a == b")
-    // console.log(fechaA)
-    // console.log(fechaB)
     return 0;
   }
 }
@@ -40,7 +31,8 @@ class FiltroFechas extends React.Component {
     this.state = {
       citas: [],
       postulanteB: [],
-      fechas: []
+      fechas: [],
+      isLoading: true
     };
   }
 
@@ -49,16 +41,19 @@ class FiltroFechas extends React.Component {
       this.getCita();
       this.getPostulanteB();
       this.ordenarFechas();
+      this.setState({ isLoading: false });
       //console.log("actualizado por Props");
     }
     if (pS === this.state) {
       this.getCita();
       this.getPostulanteB();
+      this.setState({ isLoading: false });
       // console.log("actualizado por State");
     }
   }
 
   getCita = async () => {
+    this.setState({ isLoading: true });
     const cit = await getCita();
     this.setState({
       citas: cit.data
@@ -66,6 +61,7 @@ class FiltroFechas extends React.Component {
   };
 
   getPostulanteB = async () => {
+    this.setState({ isLoading: true });
     const post = await getPostulanteB();
     this.setState({ postulanteB: post.data });
   };
@@ -76,12 +72,14 @@ class FiltroFechas extends React.Component {
       if (sc === cit.id_cita) {
         this.props.dispatchSetCita(cit);
       }
+      return cit;
     });
     this.state.postulanteB.map(post => {
-      post.cita.map(cit => {
+      return post.cita.map(cit => {
         if (sc === cit.id_cita) {
           this.props.dispatchSetPostulante(post);
         }
+        return cit;
       });
     });
     this.props.dispatchSetRadioButton("Pulsado");
@@ -89,16 +87,18 @@ class FiltroFechas extends React.Component {
   };
 
   ordenarFechas() {
-    this.state.fechas = this.state.citas.sort((a, b) =>
+    this.setState({ isLoading: true });
+    let orden = this.state.citas.sort((a, b) =>
       compararFechas(a.fecha, b.fecha)
     );
+    //console.log(orden);
+    this.setState({ fechas: orden });
     //console.log(this.state.fechas)
   }
 
   render() {
-    const { postulanteB } = this.state;
-    //console.log("render");
-    //const reload = this.reload();
+    const { postulanteB, isLoading } = this.state;
+
     var newfecha;
     if (dia >= 1 && dia <= 9) {
       const day = "0" + dia;
@@ -116,76 +116,7 @@ class FiltroFechas extends React.Component {
         newfecha = anio + "-" + mes + "-" + dia;
       }
     }
-
-    const dato = postulanteB.map(datos => {
-      return datos.cita.map(cit => {
-        // console.log(cit.fecha);
-        // console.log(newfecha);
-
-        if (this.props.clickButton !== null) {
-          return this.state.fechas.map(f => {
-            if (
-              f.fecha >= this.props.fecha &&
-              f.fecha <= this.props.fechafinal
-            ) {
-              //if (cit.id_cita === f.id_cita) {
-              return (
-                <tr name="citaPB" key={f.id_cita}>
-                  <th>
-                    <input
-                      type="radio"
-                      name="seleccion"
-                      value={f.id_cita}
-                      onClick={this.handleClick}
-                    />
-                  </th>
-                  <th>
-                    {datos.nombre +
-                      " " +
-                      datos.apellido1 +
-                      " " +
-                      datos.apellido2}
-                  </th>
-                  <td>{f.fecha}</td>
-                  <td>{f.hora}</td>
-                  <td>{f.entrevistador}</td>
-                  <td>{f.observaciones}</td>
-                  <td>
-                    <label>{f.estatuscita.descripcion}</label>
-                  </td>
-                </tr>
-              );
-            }
-          });
-        } else {
-          if (cit.fecha === newfecha) {
-            return (
-              <tr name="citaPB" key={cit.id_cita}>
-                <th>
-                  <input
-                    type="radio"
-                    name="seleccion"
-                    value={cit.id_cita}
-                    onClick={this.handleClick}
-                  />
-                </th>
-                <th>
-                  {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
-                </th>
-                <td>{cit.fecha}</td>
-                <td>{cit.hora}</td>
-                <td>{cit.entrevistador}</td>
-                <td>{cit.observaciones}</td>
-                <td>
-                  <label>{cit.estatuscita.descripcion}</label>
-                </td>
-              </tr>
-            );
-          }
-        }
-      });
-    });
-
+    if (isLoading) return <Loading />;
     var datOrden;
     if (this.props.clickButton !== null) {
       datOrden = this.state.fechas.map(f => {
@@ -220,9 +151,11 @@ class FiltroFechas extends React.Component {
                   </tr>
                 );
               }
+              else return cit
             });
           });
         }
+        else return f
       });
     } else {
       datOrden = postulanteB.map(datos => {
@@ -251,6 +184,7 @@ class FiltroFechas extends React.Component {
               </tr>
             );
           }
+          else return cit
         });
       });
     }
@@ -270,7 +204,4 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetRadioButton: value => dispatch(setRadioButton(value))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FiltroFechas);
+export default connect(mapStateToProps, mapDispatchToProps)(FiltroFechas);

@@ -64,7 +64,7 @@ class consultarCita extends Component {
       if (this.state.fechafinal >= this.state.fecha) return true;
     });
     this.setState({ clickButton: null });
-    this.setState({fecha:null})
+    this.setState({ fecha: null });
   };
 
   handleChangeDate = e => {
@@ -78,7 +78,6 @@ class consultarCita extends Component {
   };
 
   handleClickPulsado = e => {
-
     //debugger
     if (e.target.name === "agregarcomentario") {
       this.props.history.push("/agregar_comentario");
@@ -88,7 +87,6 @@ class consultarCita extends Component {
       this.props.history.push("/Entrevista");
     } else if (e.target.name === "examenes") {
       this.props.history.push("/examen");
-
     }
   };
 
@@ -177,7 +175,6 @@ class consultarCita extends Component {
                     name="fechaFinal"
                     value={this.state.fechafinal}
                     onChange={this.handleChangeDateFinal}
-                    value={this.state.fechafinal}
                     InputLabelProps={{
                       shrink: true
                     }}
@@ -191,10 +188,12 @@ class consultarCita extends Component {
               </td>
               <td>
                 <div>
-                  <input type="image" 
-                  src={Icono} 
-                  className="logoBuscar" 
-                  alt="Buscar"/>
+                  <input
+                    type="image"
+                    src={Icono}
+                    className="logoBuscar"
+                    alt="Buscar"
+                  />
                 </div>
               </td>
             </div>
@@ -301,7 +300,4 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetSeleccion: value => dispatch(changeValor(value))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(consultarCita);
+export default connect(mapStateToProps, mapDispatchToProps)(consultarCita);

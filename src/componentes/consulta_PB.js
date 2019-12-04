@@ -26,6 +26,7 @@ import {
   setRadioButton
 } from "../actions/postulanteB";
 import "./styles/Formatos.css";
+import Loading from "./paginas/Loading";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -42,9 +43,10 @@ class consulta_PB extends Component {
   state = {
     respPerf: [],
     perfil: "",
-    nombre: null,
+    nombre: "null",
     apellido1: "",
-    apellido2: ""
+    apellido2: "",
+    isLoading: false
   };
 
   handleSelect = e => {
@@ -81,8 +83,10 @@ class consulta_PB extends Component {
     this.props.dispatchSetSeccion("vacio");
     this.props.dispatchSetEntrevista("vacio");
     this.props.dispatchSetRadioButton(null);
+    this.setState({ isLoading: false });
   };
   getPerfil = async () => {
+    this.setState({ isLoading: true });
     const nuevoGet = await getPerfil();
     this.setState({
       respPerf: nuevoGet.data
@@ -131,13 +135,11 @@ class consulta_PB extends Component {
   };
 
   render() {
-    //console.log("MMM" + this.props.radiobutton);
     const { respPerf } = this.state;
-
     const handleSelect = respPerf.map(perf => {
-      // console.log("----"  + perf.descripcion)
-      return <option>{perf.descripcion}</option>;
+      return <option key={perf.id_perfil}>{perf.descripcion}</option>;
     });
+    if (this.state.isLoading) return <Loading />;
     return (
       <React.Fragment>
         <div align="center">
@@ -156,11 +158,10 @@ class consulta_PB extends Component {
           <h2 className="titulo">Consultar Postulantes</h2>
         </div>
 
-        <div className="row" align="center" style={{marginRight:0}}>
+        <div className="row" align="center" style={{ marginRight: 0 }}>
           <form className="form-post setStyles" onSubmit={this.handleSubmit}>
             <div className="co-sm"></div>
-            <div className="co-sm"
-            align="left">
+            <div className="co-sm" align="left">
               <label>Perfil: </label>
               <select
                 className="form-control"
@@ -171,8 +172,7 @@ class consulta_PB extends Component {
                 {handleSelect}
               </select>
             </div>
-            <div className="co-sm"
-            align="center">
+            <div className="co-sm" align="center">
               <label>Nombre(s): </label>
               <input
                 className="form-control"
@@ -182,8 +182,7 @@ class consulta_PB extends Component {
                 value={this.state.nombre}
               />
             </div>
-            <div className="co-sm"
-            align="right">
+            <div className="co-sm" align="right">
               <label>Apellido Paterno: </label>
               <input
                 className="form-control"
@@ -295,7 +294,4 @@ const mapDispatchProps = dispatch => ({
   dispatchSetRadioButton: value => dispatch(setRadioButton(value))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchProps
-)(consulta_PB); //El segundo parametro del metodo connect permitira trabajar con las acciones.
+export default connect(mapStateToProps, mapDispatchProps)(consulta_PB); //El segundo parametro del metodo connect permitira trabajar con las acciones.

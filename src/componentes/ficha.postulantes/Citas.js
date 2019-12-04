@@ -9,10 +9,12 @@ import {
 import { getPostulanteBId } from "../../request/request";
 import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
+import Loading from "../paginas/Loading";
 
 class Citas extends Component {
   state = {
-    postB: []
+    postB: [],
+    isLoading: true
   };
   componentWillMount = () => {
     this.getPostulanteB(this.props.postulante.id_postulante_b);
@@ -20,13 +22,14 @@ class Citas extends Component {
 
   getPostulanteB = async idPostulante => {
     const nuevoGet = await getPostulanteBId(idPostulante);
-    this.setState({ postB: nuevoGet.data });
+    this.setState({ postB: nuevoGet.data, isLoading: false });
   };
 
   render() {
     // console.log(this.state.resp);
     // console.log(this.state.postB);
     const postulante = this.props.postulante;
+    if (this.state.isLoading) return <Loading />;
     const citas = postulante.cita.map(c => {
       return (
         <TableRow>
@@ -40,7 +43,9 @@ class Citas extends Component {
         </TableRow>
       );
     });
-
+    //console.log(citas);
+    var vacio;
+    if (citas.length === 0) vacio = "No hay Citas";
     return (
       <div>
         <Paper>
@@ -72,6 +77,7 @@ class Citas extends Component {
             </TableHead>
             <TableBody>{citas}</TableBody>
           </Table>
+          <h1>{vacio}</h1>
         </Paper>
       </div>
     );

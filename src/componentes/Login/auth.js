@@ -1,25 +1,29 @@
 import React from "react";
-import { watcherUserChanges, watchUser } from "./watcher";
-import { createUser, deleteUser, updateUser } from "./api";
+import { watcherUserChanges} from "./watcher";
+// import {watchUser}from "./watcher";
+// import { createUser, deleteUser, updateUser } from "./api";
 
 export const AuthContext = React.createContext();
 
 export class AuthContextProvider extends React.Component {
   state = {
     isLoggedIn: false,
+    authReady: false,
     user: null
   };
 
-  componentWillMount() {
+  componentDidMount() {
     watcherUserChanges(user => {
       if (user) {
         this.setState({
           isLoggedIn: true,
+          authReady: true,
           user
         });
       } else {
         this.setState({
           isLoggedIn: false,
+          authReady: true,
           user: null
         });
       }

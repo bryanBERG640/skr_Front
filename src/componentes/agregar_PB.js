@@ -56,8 +56,8 @@ class agregar_PB extends React.Component {
       FileSrc: null,
       respPerf: [],
       respEstatus: [],
-      perfil: null,
-      estatuspostulante: null,
+      perfil: "",
+      estatuspostulante: "",
       postulante: {
         apellido1: "",
         apellido2: "",
@@ -65,7 +65,7 @@ class agregar_PB extends React.Component {
         correo: "",
         telefono: "",
         celular: "",
-        observaciones: null,
+        observaciones: "",
         cv: null,
         usuario_actualiza: "Bryan Ramirez",
         fecha_actualizacion: date
@@ -312,7 +312,7 @@ class agregar_PB extends React.Component {
     const { respPerf, respEstatus } = this.state;
     const perfiles = respPerf.map(perf => {
       return (
-        <option value={perf.id_perfil} style={{ textAlign: "left" }}>
+        <option value={perf.id_perfil} style={{ textAlign: "left" }} key={perf.id_perfil}>
           {perf.descripcion}
         </option>
       );
@@ -320,7 +320,7 @@ class agregar_PB extends React.Component {
 
     const estatus = respEstatus.map(st => {
       return (
-        <option value={st.id_estatus_postulante} style={{ textAlign: "left" }}>
+        <option value={st.id_estatus_postulante} style={{ textAlign: "left" }} key={st.id_estatus_postulante}>
           {st.descripcion}
         </option>
       );
