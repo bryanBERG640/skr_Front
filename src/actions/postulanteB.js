@@ -69,3 +69,15 @@ export const setUsuario = payload => ({
   type: SET_USUARIO,
   payload
 });
+
+export const SET_ROL = "SET_ROL";
+export const setRol = payload => ({
+  type: SET_ROL,
+  payload
+});
+
+export const SET_OPEN = "SET_OPEN";
+export const setOpen = payload => ({
+  type: SET_OPEN,
+  payload
+});

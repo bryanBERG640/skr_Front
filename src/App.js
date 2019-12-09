@@ -17,6 +17,7 @@ import history from "./history";
 import PrivateRoute from "./componentes/paginas/PrivateRoute";
 import { AuthContextProvider } from "./componentes/Login/auth";
 import Root from "./componentes/filtros/Root";
+import Usuarios from "./componentes/admin/consultaUsuarios";
 
 function App() {
   return (
@@ -27,11 +28,19 @@ function App() {
             <Root>
               <Switch>
                 <Route exact path="/" />
+                <PrivateRoute
+                  exact
+                  path="/Admin/Usuarios"
+                  type="private"
+                  allowed={["admin", "SuperAdmin"]}
+                  component={Usuarios}
+                />
                 {/* no mostradas despues de iniciar sesion */}
                 <PrivateRoute
                   exact
                   path="/Login"
                   type="public"
+                  allowed={[]}
                   component={Login}
                 />
                 {/* no mostradas sin inicio de sesion */}
@@ -39,17 +48,20 @@ function App() {
                   exact
                   path="/consultar-Postulantes"
                   type="private"
+                  allowed={["admin", "evaluador", "SuperAdmin"]}
                   component={consulta_PB}
                 />
                 <PrivateRoute
                   type="private"
                   exact
                   path="/consultarCita"
+                  allowed={[]}
                   component={consultarCita}
                 />
                 <PrivateRoute
                   exact
                   path="/agregar_PB"
+                  allowed={[]}
                   component={Agregar_PB}
                   type="private"
                 />
@@ -59,39 +71,46 @@ function App() {
                   path="/agendar_cita"
                   component={agendar}
                   type="privateB"
+                  allowed={[]}
                 />
                 <PrivateRoute
                   exact
                   path="/Completar_Datos_postulante"
                   component={Postulante}
                   type="privateB"
+                  allowed={[]}
+                />
+                <PrivateRoute
+                  exact
+                  path="/agregar_comentario"
+                  component={agregar_comentario}
+                  type="privateB"
+                  allowed={[]}
+                />
+                <PrivateRoute
+                  exact
+                  path="/Examen"
+                  component={Examen}
+                  type="privateB"
+                  allowed={[]}
+                />
+
+                <PrivateRoute
+                  exact
+                  path="/Entrevista"
+                  component={Entrevista}
+                  type="privateB"
+                  allowed={[]}
                 />
 
                 {/* no mostradas sin seleccionar un postulanteC */}
 
                 <PrivateRoute
                   exact
-                  path="/Entrevista"
-                  component={Entrevista}
-                  type="privateC"
-                />
-                <PrivateRoute
-                  exact
                   path="/Ficha-Postulante"
                   component={FichaPostulante}
                   type="privateC"
-                />
-                <PrivateRoute
-                  exact
-                  path="/agregar_comentario"
-                  component={agregar_comentario}
-                  type="privateC"
-                />
-                <PrivateRoute
-                  exact
-                  path="/Examen"
-                  component={Examen}
-                  type="privateC"
+                  allowed={[]}
                 />
 
                 <Route component={NotFound} />

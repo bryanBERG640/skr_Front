@@ -5,7 +5,6 @@ import { setPostulante } from "../../actions/postulanteB";
 import { setPostulanteC } from "../../actions/postulanteB";
 import { getPostulanteTodo } from "../../request/request";
 import { setRadioButton } from "../../actions/postulanteB";
-import Loading from "../paginas/Loading";
 
 class filtrosPB extends React.Component {
   state = {

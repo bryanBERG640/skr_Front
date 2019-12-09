@@ -7,30 +7,49 @@ import salir from "../../Imagenes/salir.png";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
-import { setUsuario } from "../../actions/postulanteB";
+import { setUsuario, setRol } from "../../actions/postulanteB";
+import { watcherUser } from "../Login/watcher";
 
 class Login extends Component {
   state = {
     auth: false,
     usuario: null,
-    fotoUsuario: null
+    fotoUsuario: null,
+    usuarios: []
   };
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        this.props.dispatchSetUsuario(user);
+
         this.setState({ auth: true });
         this.setState({ usuario: user.displayName });
         this.setState({ fotoUsuario: user.providerData[0].photoURL });
-        this.props.dispatchSetUsuario(user.email);
       } else {
         this.setState({ auth: false });
         this.setState({ usuario: null });
         this.setState({ fotoUsuario: "" });
         this.props.dispatchSetUsuario(null);
+        this.props.dispatchSetRol(null);
       }
     });
   }
+
+  verificacion = () => {
+    watcherUser(usuarios => {
+      this.setState({ usuarios });
+    });
+
+    this.state.usuarios.map(us => {
+      //console.log(us);
+
+      if (us.correo === this.props.usuario.email) {
+        this.props.dispatchSetRol(us.rol);
+      }
+      return us;
+    });
+  };
 
   login = () => {
     let provider = new firebase.auth.GoogleAuthProvider();
@@ -54,9 +73,22 @@ class Login extends Component {
     this.setState({ usuario: null });
     this.setState({ fotoUsuario: "" });
     this.props.dispatchSetUsuario(null);
+    this.props.dispatchSetRol(null);
   };
 
   render() {
+    //console.log(this.state.usuarios);
+    if (this.props.usuario !== null) {
+      if (this.state.usuarios.length === 0) {
+        //console.log("usuarios vacios");
+        this.verificacion();
+      } else {
+        //console.log("usuarios encontrados");
+        if (this.props.rol === null) {
+          this.verificacion();
+        }
+      }
+    }
     return (
       <div>
         {this.state.auth === false ? (
@@ -109,7 +141,13 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  dispatchSetUsuario: value => dispatch(setUsuario(value))
+  dispatchSetUsuario: value => dispatch(setUsuario(value)),
+  dispatchSetRol: value => dispatch(setRol(value))
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = state => ({
+  usuario: state.usuario,
+  rol: state.rol
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

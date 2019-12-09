@@ -1,5 +1,5 @@
 import React from "react";
-import { watcherUserChanges} from "./watcher";
+import { watcherUserChanges, watcherUser } from "./watcher";
 // import {watchUser}from "./watcher";
 // import { createUser, deleteUser, updateUser } from "./api";
 
@@ -9,7 +9,8 @@ export class AuthContextProvider extends React.Component {
   state = {
     isLoggedIn: false,
     authReady: false,
-    user: null
+    user: null,
+    usuarios: []
   };
 
   componentDidMount() {
@@ -28,9 +29,14 @@ export class AuthContextProvider extends React.Component {
         });
       }
     });
+
+    watcherUser(usuarios => {
+      this.setState({ usuarios });
+    });
   }
 
   render() {
+    //console.log(this.state.usuarios);
     return (
       <AuthContext.Provider value={this.state}>
         {this.props.children}

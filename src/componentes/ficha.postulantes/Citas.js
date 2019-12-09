@@ -9,7 +9,6 @@ import {
 import { getPostulanteBId } from "../../request/request";
 import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
-import Loading from "../paginas/Loading";
 
 class Citas extends Component {
   state = {
@@ -22,14 +21,13 @@ class Citas extends Component {
 
   getPostulanteB = async idPostulante => {
     const nuevoGet = await getPostulanteBId(idPostulante);
-    this.setState({ postB: nuevoGet.data, isLoading: false });
+    this.setState({ postB: nuevoGet.data });
   };
 
   render() {
     // console.log(this.state.resp);
     // console.log(this.state.postB);
     const postulante = this.props.postulante;
-    if (this.state.isLoading) return <Loading />;
     const citas = postulante.cita.map(c => {
       return (
         <TableRow>

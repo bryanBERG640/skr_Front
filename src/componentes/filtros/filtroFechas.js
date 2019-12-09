@@ -48,7 +48,7 @@ class FiltroFechas extends React.Component {
       this.getCita();
       this.getPostulanteB();
       this.setState({ isLoading: false });
-      // console.log("actualizado por State");
+      //console.log("actualizado por State");
     }
   }
 
@@ -131,6 +131,10 @@ class FiltroFechas extends React.Component {
                         type="radio"
                         name="seleccion"
                         value={f.id_cita}
+                        disabled={
+                          f.estatuscita.id_estatus_cita === 2 ||
+                          f.estatuscita.id_estatus_cita === 3
+                        }
                         onClick={this.handleClick}
                       />
                     </th>
@@ -151,11 +155,11 @@ class FiltroFechas extends React.Component {
                   </tr>
                 );
               }
-              else return cit
+              // else return cit
             });
           });
         }
-        else return f
+        //else return f
       });
     } else {
       datOrden = postulanteB.map(datos => {
@@ -168,6 +172,10 @@ class FiltroFechas extends React.Component {
                     type="radio"
                     name="seleccion"
                     value={cit.id_cita}
+                    disabled={
+                      cit.estatuscita.id_estatus_cita === 2 ||
+                      cit.estatuscita.id_estatus_cita === 3
+                    }
                     onClick={this.handleClick}
                   />
                 </th>
@@ -184,10 +192,11 @@ class FiltroFechas extends React.Component {
               </tr>
             );
           }
-          else return cit
+          //else return cit
         });
       });
     }
+
     return datOrden;
   }
 }

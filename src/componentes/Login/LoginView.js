@@ -23,7 +23,7 @@ class LoginView extends React.Component {
         this.setState({ usuario: user.displayName });
         this.setState({ fotoUsuario: user.providerData[0].photoURL });
         this.setState({ correo: user.email });
-        this.props.dispatchSetUsuario(user.email);
+        this.props.dispatchSetUsuario(user);
         this.setState({ isLoading: false });
       } else {
         this.setState({ auth: false });

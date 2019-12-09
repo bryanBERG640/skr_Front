@@ -2,11 +2,26 @@ import React from "react";
 import { AuthContext } from "../Login/auth";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { Autorizacion } from "../filtros/Autorizaciones";
 
 class PrivateRoute extends React.Component {
+  state = {
+    autorizado: null
+  };
+
+  // componentDidMount() {
+  //   this.Autorizacion();
+  // }
+
+  // Autorizacion = async () => {
+  //   const autorizado = await Autorizacion(this.props.allowed, this.props.rol);
+  //   console.log("autorizado?: " + autorizado);
+  //   this.setState({ autorizado });
+  // };
+
   render() {
     const { isLoggedIn } = this.context;
-    const { type, ...rest } = this.props;
+    const { allowed, type, ...rest } = this.props;
 
     if (type === "private" && !isLoggedIn) return <Redirect to="/Login" />;
     else if (type === "public" && isLoggedIn)
@@ -44,6 +59,9 @@ class PrivateRoute extends React.Component {
       )
         return <Redirect to="/consultarCita" />;
     }
+    const autorizado = Autorizacion(allowed, this.props.rol);
+    console.log("autorizado?: " + autorizado);
+    if (autorizado === false) return <h1>Lo siento, no tienes acceso</h1>;
 
     return <Route {...rest} />;
   }
@@ -52,6 +70,7 @@ class PrivateRoute extends React.Component {
 PrivateRoute.contextType = AuthContext;
 
 const mapStateToProps = state => ({
+  rol: state.rol,
   postulante: state.postulante,
   postulanteC: state.postulantec
 });

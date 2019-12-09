@@ -7,7 +7,9 @@ import {
   SET_ENTREVISTA,
   SELECCIONAR,
   SET_RADIOBUTTON,
-  SET_USUARIO
+  SET_USUARIO,
+  SET_OPEN,
+  SET_ROL
 } from "../actions/postulanteB";
 
 import { SET_CITA } from "../actions/ConsultarCitaActions";
@@ -39,7 +41,11 @@ export const filtrosPBReducer = (state = {}, action) => {
     case SET_RADIOBUTTON:
       return { ...state, radiobutton: action.payload };
     case SET_USUARIO:
-      return {...state, usuario: action.payload}
+      return { ...state, usuario: action.payload };
+    case SET_OPEN:
+      return { ...state, open: action.payload };
+    case SET_ROL:
+      return { ...state, rol: action.payload };
     default:
       return state;
   }

@@ -64,7 +64,7 @@ class consultarCita extends Component {
       if (this.state.fechafinal >= this.state.fecha) return true;
     });
     this.setState({ clickButton: null });
-    this.setState({ fecha: null });
+    this.setState({ fecha: "" });
   };
 
   handleChangeDate = e => {
