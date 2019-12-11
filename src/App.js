@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import consulta_PB from "./componentes/consulta_PB";
 import Layout from "./componentes/Layout";
 import FichaPostulante from "./componentes/FichaPostulante";
@@ -22,7 +23,7 @@ import Usuarios from "./componentes/admin/consultaUsuarios";
 function App() {
   return (
     <React.Fragment>
-      <BrowserRouter history={history}>
+      <Router history={history}>
         <AuthContextProvider>
           <Layout>
             <Root>
@@ -118,7 +119,7 @@ function App() {
             </Root>
           </Layout>
         </AuthContextProvider>
-      </BrowserRouter>
+      </Router>
     </React.Fragment>
   );
 }

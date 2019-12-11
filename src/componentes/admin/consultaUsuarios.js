@@ -3,14 +3,13 @@ import { watcherUser } from "../Login/watcher";
 import { connect } from "react-redux";
 import { Grid, Button } from "@material-ui/core";
 import Icono from "../../Imagenes/admin.png";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { Link } from "react-router-dom";
 import Editor from "./editor";
 import { setOpen } from "../../actions/postulanteB";
 import { deleteUser } from "../Login/api";
@@ -77,6 +76,7 @@ class consultaUsuarios extends React.Component {
       if (u.id === e.target.value) {
         this.setState({ nombre: u.nombre, correo: u.correo, rol: u.rol });
       }
+      return u;
     });
   };
 

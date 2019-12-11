@@ -110,11 +110,30 @@ class Login extends Component {
 
         {this.state.auth === true ? (
           <div className="row">
-            <Avatar
-              style={{ marginTop: 10 }}
-              src={this.state.fotoUsuario}
-              alt="foto usuario"
-            />
+            {this.props.rol === "admin" || this.props.rol === "SuperAdmin" ? (
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={this.handleMenu}
+                color="inherit"
+              >
+                <Link to="/Admin/Usuarios">
+                  <Avatar
+                    //style={{ marginTop: 10 }}
+                    src={this.state.fotoUsuario}
+                    alt="foto usuario"
+                  />
+                </Link>
+              </IconButton>
+            ) : (
+              <Avatar
+                style={{ marginTop: 10 }}
+                src={this.state.fotoUsuario}
+                alt="foto usuario"
+              />
+            )}
+
             <Typography variant="h6">
               <label style={{ paddingTop: 12, paddingLeft: 6 }}>
                 {"  " + this.state.usuario + "  "}

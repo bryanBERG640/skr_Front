@@ -3,6 +3,7 @@ import { AuthContext } from "../Login/auth";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Autorizacion } from "../filtros/Autorizaciones";
+import Denegado from "./SinAcceso";
 
 class PrivateRoute extends React.Component {
   state = {
@@ -60,8 +61,8 @@ class PrivateRoute extends React.Component {
         return <Redirect to="/consultarCita" />;
     }
     const autorizado = Autorizacion(allowed, this.props.rol);
-    console.log("autorizado?: " + autorizado);
-    if (autorizado === false) return <h1>Lo siento, no tienes acceso</h1>;
+    //console.log("autorizado?: " + autorizado);
+    if (autorizado === false) return <Denegado />;
 
     return <Route {...rest} />;
   }
