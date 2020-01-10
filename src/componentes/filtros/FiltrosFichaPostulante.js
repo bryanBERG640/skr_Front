@@ -19,7 +19,7 @@ class FiltrosFichaPostulante extends Component {
   };
   //Se crea una función para asignar el resultado de la consulta de la función anterior en un estado.
   getPostulanteTodo = async () => {
-    const nuevoGet = await getPostulanteTodo();
+    const nuevoGet = await getPostulanteTodo(this.props.auth);
     this.setState({ postulanteC: nuevoGet.data });
     //console.log(this.state.postulanteC)
   };
@@ -58,7 +58,8 @@ class FiltrosFichaPostulante extends Component {
 
 const mapStateToProps = state => {
   return {
-    postulante: state.postulante
+    postulante: state.postulante,
+    auth: state.auth
   };
 };
 

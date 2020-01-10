@@ -9,6 +9,7 @@ import { clickCompletarDatos } from "../actions/postulanteB";
 import Autocompletado from "./Autocompletado/Autocommpletado";
 import { number } from "prop-types";
 import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
+import { Grid } from "@material-ui/core";
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -16,7 +17,7 @@ const ColoredLine = ({ color }) => (
             color: color,
             backgroundColor: color,
             height: 2,
-            width: 500
+            width: 400
         }}
     />
 );
@@ -34,15 +35,15 @@ class agendar extends React.Component {
             respEmpr: [],
             // fecha: "",
             idEmpresa: number,
-            empresa: null,
+            empresa: "",
             idCliente: this.props.cliente.id_cliente,
             cita: {
-                fecha: null,
-                hora: null,
-                entrevistador: null,
+                fecha: "",
+                hora: "",
+                entrevistador: "",
                 idEstatusCita: 1,
                 idPostulante: this.props.postulante.id_postulante_b,
-                usuario_actualiza: "Bryan Ramirez",
+                usuario_actualiza: this.props.usuario.displayName,
                 fecha_actualizacion: date
             },
             c: {
@@ -81,44 +82,52 @@ class agendar extends React.Component {
         });
         ValidatorForm.addValidationRule("FechaActual", string => {
             //console.log("Dentro de validarFechaActual")
-            let fechaTotalActual = "";
+            //debugger
+            let fechaTotalActual=""
             let fechaTotalRecibida = "";
-            if (string !== null && string !== "" && fechaTotalRecibida >= fechaTotalActual) {
-                const fecha = new Date();
+            const fecha = new Date();
                 if (fecha.getDate() >= 1 && fecha.getDate() <= 9) {
-                    if (fecha.getMonth() >= 1 && fecha.getMonth() <= 9) {
-                        fechaTotalActual = fecha.getFullYear() + "0" + (fecha.getMonth() + 1) + "0" + fecha.getDate();
+                    if (fecha.getMonth()+1 >= 1 && fecha.getMonth()+1 <= 9) {
+                        fechaTotalActual = fecha.getFullYear() + "-0" + (fecha.getMonth() + 1) + "-0" + fecha.getDate();
                     } else {
-                        fechaTotalActual = fecha.getFullYear() + "" + (fecha.getMonth() + 1) + "0" + fecha.getDate();
+                        fechaTotalActual = fecha.getFullYear() + "-" + (fecha.getMonth() + 1) + "-0" + fecha.getDate();
                     }
                 } else {
-                    fechaTotalActual = fecha.getFullYear() + "" + (fecha.getMonth() + 1) + "" + fecha.getDate();
+                    if (fecha.getMonth()+1 >= 1 && fecha.getMonth()+1 <= 9) {
+                        fechaTotalActual = fecha.getFullYear() + "-0" + (fecha.getMonth() + 1) + "-" + fecha.getDate();
+                    } else {
+                        fechaTotalActual = fecha.getFullYear() + "-" + (fecha.getMonth() + 1) + "-" + fecha.getDate();
+                    }
                 }
-
-                const subcadenas = string.split("-");
+            
+            const subcadenas = string.split("-");
                 const year = subcadenas[0];
                 const month = subcadenas[1];
                 const day = subcadenas[2];
-                fechaTotalRecibida = year + "" + month + "" + day;
+                fechaTotalRecibida = year + "-" + month + "-" + day;
 
+
+            //     console.log(fechaTotalActual)
+            // console.log(fechaTotalRecibida)
                 if (fechaTotalRecibida >= fechaTotalActual) {
                     return true;
                 }
-            }
+            
+            
         });
         ValidatorForm.addValidationRule("FormatoHora", string => {
             if (string !== null) {
                 const horaSplit = string.split(":");
-                if (parseInt(horaSplit[0], 10) >= 9 && parseInt(horaSplit[0], 10) <= 18) return true
+                if (parseInt(horaSplit[0], 10) >= 8 && parseInt(horaSplit[0], 10) <= 18) return true
             }
         })
     };
     getCliente = async () => {
-        const nuevoGet = await getCliente();
+        const nuevoGet = await getCliente(this.props.auth);
         this.setState({ clientes: nuevoGet.data });
     };
     getEmpresa = async () => {
-        const nuevoGet = await getEmpresa();
+        const nuevoGet = await getEmpresa(this.props.auth);
         this.setState({ respEmpr: nuevoGet.data });
     };
 
@@ -167,16 +176,17 @@ class agendar extends React.Component {
                 fecha: this.props.cita.fecha,
                 hora: this.props.cita.hora,
                 entrevistador: this.props.cita.entrevistador,
-                usuario_actualiza: "Miguel",
+                usuario_actualiza: this.props.usuario.displayName,
                 fecha_actualizacion: date
             }
+            //debugger
             putCita(
                 c,
                 2,
                 this.props.postulante.id_postulante_b,
                 this.props.cita.empresa.id_empresa,
                 idCliente,
-                this.props.cita.id_cita
+                this.props.cita.id_cita, this.props.auth
             )
                 .then(response => {
                     console.log(response);
@@ -190,7 +200,7 @@ class agendar extends React.Component {
                 this.state.cita.idEstatusCita,
                 this.state.cita.idPostulante,
                 this.state.idEmpresa,
-                idCliente
+                idCliente, this.props.auth
             )
                 .then(response => {
                     console.log(response);
@@ -203,7 +213,7 @@ class agendar extends React.Component {
             this.state.postulante,
             2,
             this.props.postulante.perfil.id_perfil,
-            this.props.postulante.id_postulante_b
+            this.props.postulante.id_postulante_b, this.props.auth
         )
             .then(response => {
                 console.log(response);
@@ -224,22 +234,32 @@ class agendar extends React.Component {
     render() {
        // console.log("Hora:" + this.state.cita.hora)
         const { respEmpr } = this.state;
-        const empresa = respEmpr.map(empr => {
+        var i
+        var empresa=[]
+
+        for(i=0; i<respEmpr.length;i++)
+        {
+            empresa[i]= <option value={respEmpr[i].descripcion} key={respEmpr[i].id_empresa}>{respEmpr[i].descripcion}</option>
+        }
+
+        /*const empresa = respEmpr.map(empr => {
             return <option value={empr.descripcion}>{empr.descripcion}</option>;
-        });
+        });*/
         return (
             <React.Fragment>
-                <div align="center">
-                    <td>
+                <br/>
+                <Grid container direction="row" justify="center" alignItems="center">
+                    <Grid item>
                         <ColoredLine color="black" />
-                    </td>
-                    <td>
-                        <img className="agci" src={IconoAgendar} alt="agendar cita" />
-                    </td>
-                    <td>
+                    </Grid>
+                    <Grid item>
+                    <img className="agci" src={IconoAgendar} alt="agendar cita" />
+                    </Grid>
+                    <Grid item>
                         <ColoredLine color="black" />
-                    </td>
-                </div>
+                    </Grid>
+                </Grid>
+                
                 <div align="center">
                     <h3>
                         {this.props.postulante.nombre}&nbsp;
@@ -312,7 +332,7 @@ class agendar extends React.Component {
                                 <TextValidator
                                     style={{ width: 210, paddingBottom: 10 }}
                                     InputLabelProps={{ shrink: true }}
-                                    autoFocus="true"
+                                    
                                     type="time"
                                     id="appt-time"
                                     name="appt-time"
@@ -367,6 +387,8 @@ const mapStateToProps = state => {
         postulantec: state.postulantec,
         cita: state.cita,
         cliente: state.cliente,
+        auth: state.auth,
+        usuario: state.usuario,
         state: value => state(setCita(value))
     };
 };

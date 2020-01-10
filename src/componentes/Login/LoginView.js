@@ -71,22 +71,6 @@ class LoginView extends React.Component {
                 </div>
                 <div className="d-flex justify-content-center form_container">
                   <form>
-                    <div className="input-group mb-3">
-                      <div className="input-group-append">
-                        <span className="input-group-text">
-                          <i className="fas fa-user"></i>
-                        </span>
-                      </div>
-                      <label className="form-control input_user">Nombre</label>
-                    </div>
-                    <div className="input-group mb-2">
-                      <div className="input-group-append">
-                        <span className="input-group-text">
-                          <i className="fas fa-key"></i>
-                        </span>
-                      </div>
-                      <label className="form-control input_pass">Correo</label>
-                    </div>
                     <div className="d-flex justify-content-center mt-3 login_container">
                       <button
                         type="button"

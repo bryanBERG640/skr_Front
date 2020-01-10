@@ -9,7 +9,8 @@ import {
   SET_RADIOBUTTON,
   SET_USUARIO,
   SET_OPEN,
-  SET_ROL
+  SET_ROL,
+  SET_AUTH
 } from "../actions/postulanteB";
 
 import { SET_CITA } from "../actions/ConsultarCitaActions";
@@ -46,6 +47,8 @@ export const filtrosPBReducer = (state = {}, action) => {
       return { ...state, open: action.payload };
     case SET_ROL:
       return { ...state, rol: action.payload };
+    case SET_AUTH:
+      return{...state, auth:action.payload}
     default:
       return state;
   }

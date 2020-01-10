@@ -19,19 +19,36 @@ class TablaEntrevista extends Component {
   }
 
   getCitaId = async () => {
-    const nuevoGet = await getCitaId(this.props.cita.id_cita);
+    const nuevoGet = await getCitaId(this.props.cita.id_cita, this.props.auth);
     this.setState({ citas: nuevoGet.data });
   };
 
   getEntrevistas = async () => {
-    const nuevoGet = await getEntrevista();
+    const nuevoGet = await getEntrevista(this.props.auth);
     this.setState({ entre: nuevoGet.data });
   };
 
   render() {
     //console.log(this.state.citas)
     const { citas, entre } = this.state;
-    const entrevistas = citas.entrevista.map(cit => {
+    var x, y;
+    var entrevistas = [];
+
+    for (x = 0; x < citas.entrevista.length; x++) {
+      for (y = 0; y < entre.length; y++) {
+        if (entre[y].id_entrevista === citas.entrevista[x].id_entrevista) {
+          entrevistas[x] = (
+            <tr key={entre[y].id_entrevista}>
+              <td>{entre[y].tipoentrevista.descripcion}</td>
+              <td>{entre[y].entrevistador}</td>
+              <td>{entre[y].observaciones}</td>
+            </tr>
+          );
+        }
+      }
+    }
+
+    /*const entrevistas = citas.entrevista.map(cit => {
       return entre.map(entrevistas => {
         if (entrevistas.id_entrevista === cit.id_entrevista) {
           //console.log("Encontrado")
@@ -46,7 +63,7 @@ class TablaEntrevista extends Component {
           return false;
         }
       });
-    });
+    });*/
     return (
       <React.Fragment>
         <div className="container">
@@ -73,7 +90,8 @@ class TablaEntrevista extends Component {
 const mapStateToProps = state => {
   return {
     cita: state.cita,
-    entrevista: state.entrevista
+    entrevista: state.entrevista,
+    auth: state.auth
   };
 };
 

@@ -16,6 +16,7 @@ import {
   setEntrevista,
   changeValor
 } from "../actions/postulanteB";
+import { Grid } from "@material-ui/core";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -23,7 +24,7 @@ const ColoredLine = ({ color }) => (
       color: color,
       backgroundColor: color,
       height: 2,
-      width: 490
+      width: 400
     }}
   />
 );
@@ -108,17 +109,17 @@ class consultarCita extends Component {
     return (
       <React.Fragment>
         <br />
-        <div align="center">
-          <td>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
             <img className="imagenAgenda" src={Agenda} alt="consultaCita" />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
-        </div>
+          </Grid>
+        </Grid>
         <br />
         <div className="text-center">
           <TextField

@@ -20,20 +20,19 @@ class TablaSeccion extends React.Component {
   }
 
   getSecciones = async () => {
-    const nuevoGet = await getSecciones();
+    const nuevoGet = await getSecciones(this.props.auth);
     this.setState({ respSeccion: nuevoGet.data });
   };
 
   getExamenes = async () => {
-    const nuevoGet = await getExamenes();
+    const nuevoGet = await getExamenes(this.props.auth);
     this.setState({ respExamen: nuevoGet.data });
 
     nuevoGet.data.map(exa => {
       if (exa.id_examen === this.props.examen.id_examen) {
         this.setState({ examen: exa });
-        
       }
-      return exa
+      return exa;
     });
   };
 
@@ -44,9 +43,8 @@ class TablaSeccion extends React.Component {
       if (secc.id_seccion === id) {
         this.props.dispatchSetSeccion(secc);
         this.props.dispatchSeleccion("seleccionado");
-        
       }
-      return secc
+      return secc;
     });
     // this.props.dispatchSetSeccion();
   };
@@ -61,26 +59,33 @@ class TablaSeccion extends React.Component {
             const i = secc.id_seccion;
             return (
               <tr key={secc.id_seccion} style={{ whiteSpace: "nowrap" }}>
-                <input
-                  type="radio"
-                  name="seleccion"
-                  value={i}
-                  onClick={this.handleClick}
-                />
+                <td>
+                  <input
+                    type="radio"
+                    name="seleccion"
+                    value={i}
+                    onClick={this.handleClick}
+                  />
+                </td>
+
                 <td>{secc.no_seccion}</td>
                 <td>{secc.puntaje}</td>
                 <td>{secc.calificacion}</td>
               </tr>
             );
-          }else { return false; }
+          } else {
+            return false;
+          }
         });
-      }else { return false; }
+      } else {
+        return false;
+      }
     });
 
     return (
       <React.Fragment>
         <div className="container">
-          <table class="table">
+          <table className="table">
             <thead>
               <tr>
                 <th width="10%">seleccion</th>
@@ -100,7 +105,8 @@ class TablaSeccion extends React.Component {
 const mapStateToProps = state => {
   return {
     examen: state.examen,
-    seccion: state.seccion
+    seccion: state.seccion,
+    auth: state.auth
   };
 };
 
@@ -109,8 +115,4 @@ const mapDispatchToProps = dispatch => ({
   dispatchSeleccion: value => dispatch(changeValor(value))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null
-)(TablaSeccion);
+export default connect(mapStateToProps, mapDispatchToProps, null)(TablaSeccion);

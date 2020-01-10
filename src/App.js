@@ -1,6 +1,5 @@
 import React from "react";
-import { Router } from "react-router-dom";
-import { Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import consulta_PB from "./componentes/consulta_PB";
 import Layout from "./componentes/Layout";
 import FichaPostulante from "./componentes/FichaPostulante";
@@ -19,6 +18,8 @@ import PrivateRoute from "./componentes/paginas/PrivateRoute";
 import { AuthContextProvider } from "./componentes/Login/auth";
 import Root from "./componentes/filtros/Root";
 import Usuarios from "./componentes/admin/consultaUsuarios";
+import HomeView from "./componentes/paginas/Home";
+// import Filter from "./componentes/filtros/general";
 
 function App() {
   return (
@@ -28,12 +29,12 @@ function App() {
           <Layout>
             <Root>
               <Switch>
-                <Route exact path="/" />
+                <Route exact path="/" component={HomeView} />
                 <PrivateRoute
                   exact
                   path="/Admin/Usuarios"
                   type="private"
-                  allowed={["admin", "SuperAdmin"]}
+                  allowed={["Admin", "SuperAdmin"]}
                   component={Usuarios}
                 />
                 {/* no mostradas despues de iniciar sesion */}
@@ -49,20 +50,30 @@ function App() {
                   exact
                   path="/consultar-Postulantes"
                   type="private"
-                  allowed={["admin", "evaluador", "SuperAdmin"]}
+                  allowed={[
+                    "Admin",
+                    "Usuario(Lectura)",
+                    "SuperAdmin",
+                    "Usuario"
+                  ]}
                   component={consulta_PB}
                 />
                 <PrivateRoute
                   type="private"
                   exact
                   path="/consultarCita"
-                  allowed={[]}
+                  allowed={[
+                    "Admin",
+                    "Usuario(Lectura)",
+                    "SuperAdmin",
+                    "Usuario"
+                  ]}
                   component={consultarCita}
                 />
                 <PrivateRoute
                   exact
                   path="/agregar_PB"
-                  allowed={[]}
+                  allowed={["Admin", "SuperAdmin", "Usuario"]}
                   component={Agregar_PB}
                   type="private"
                 />
@@ -72,28 +83,28 @@ function App() {
                   path="/agendar_cita"
                   component={agendar}
                   type="privateB"
-                  allowed={[]}
+                  allowed={["Admin", "SuperAdmin", "Usuario"]}
                 />
                 <PrivateRoute
                   exact
                   path="/Completar_Datos_postulante"
                   component={Postulante}
                   type="privateB"
-                  allowed={[]}
+                  allowed={["Admin", "SuperAdmin", "Usuario"]}
                 />
                 <PrivateRoute
                   exact
                   path="/agregar_comentario"
                   component={agregar_comentario}
                   type="privateB"
-                  allowed={[]}
+                  allowed={["Admin", "SuperAdmin", "Usuario"]}
                 />
                 <PrivateRoute
                   exact
                   path="/Examen"
                   component={Examen}
                   type="privateB"
-                  allowed={[]}
+                  allowed={["Admin", "SuperAdmin", "Usuario"]}
                 />
 
                 <PrivateRoute
@@ -101,7 +112,7 @@ function App() {
                   path="/Entrevista"
                   component={Entrevista}
                   type="privateB"
-                  allowed={[]}
+                  allowed={["Admin", "SuperAdmin", "Usuario"]}
                 />
 
                 {/* no mostradas sin seleccionar un postulanteC */}
@@ -111,7 +122,12 @@ function App() {
                   path="/Ficha-Postulante"
                   component={FichaPostulante}
                   type="privateC"
-                  allowed={[]}
+                  allowed={[
+                    "Admin",
+                    "Usuario(Lectura)",
+                    "SuperAdmin",
+                    "Usuario"
+                  ]}
                 />
 
                 <Route component={NotFound} />

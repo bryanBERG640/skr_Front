@@ -54,7 +54,7 @@ class FiltroFechas extends React.Component {
 
   getCita = async () => {
     this.setState({ isLoading: true });
-    const cit = await getCita();
+    const cit = await getCita(this.props.auth);
     this.setState({
       citas: cit.data
     });
@@ -62,7 +62,7 @@ class FiltroFechas extends React.Component {
 
   getPostulanteB = async () => {
     this.setState({ isLoading: true });
-    const post = await getPostulanteB();
+    const post = await getPostulanteB(this.props.auth);
     this.setState({ postulanteB: post.data });
   };
 
@@ -97,9 +97,10 @@ class FiltroFechas extends React.Component {
   }
 
   render() {
-    const { postulanteB, isLoading } = this.state;
+    const { postulanteB, isLoading, fechas } = this.state;
 
     var newfecha;
+
     if (dia >= 1 && dia <= 9) {
       const day = "0" + dia;
       if (mes >= 1 && mes <= 9) {
@@ -116,85 +117,92 @@ class FiltroFechas extends React.Component {
         newfecha = anio + "-" + mes + "-" + dia;
       }
     }
+
     if (isLoading) return <Loading />;
-    var datOrden;
-    if (this.props.clickButton !== null) {
-      datOrden = this.state.fechas.map(f => {
-        if (f.fecha >= this.props.fecha && f.fecha <= this.props.fechafinal) {
-          return postulanteB.map(datos => {
-            return datos.cita.map(cit => {
-              if (cit.id_cita === f.id_cita) {
-                return (
-                  <tr name="citaPB" key={f.id_cita}>
-                    <th>
-                      <input
-                        type="radio"
-                        name="seleccion"
-                        value={f.id_cita}
-                        disabled={
-                          f.estatuscita.id_estatus_cita === 2 ||
-                          f.estatuscita.id_estatus_cita === 3
-                        }
-                        onClick={this.handleClick}
-                      />
-                    </th>
-                    <th>
-                      {datos.nombre +
-                        " " +
-                        datos.apellido1 +
-                        " " +
-                        datos.apellido2}
-                    </th>
-                    <td>{f.fecha}</td>
-                    <td>{f.hora}</td>
-                    <td>{f.entrevistador}</td>
-                    <td>{f.observaciones}</td>
-                    <td>
-                      <label>{f.estatuscita.descripcion}</label>
-                    </td>
-                  </tr>
-                );
-              }
-              // else return cit
-            });
-          });
-        }
-        //else return f
-      });
-    } else {
-      datOrden = postulanteB.map(datos => {
-        return datos.cita.map(cit => {
-          if (cit.fecha === newfecha) {
-            return (
-              <tr name="citaPB" key={cit.id_cita}>
+
+    var datOrden=[];
+    var x,y,z
+    if (this.props.clickButton !== null)
+    {
+      for(x=0;x<fechas.length;x++)
+      {
+        if(fechas[x].fecha>=this.props.fecha && fechas[x].fecha<=this.props.fechafinal)
+        {
+          for(y=0; y<postulanteB.length; y++)
+          {
+            for(z=0; z<postulanteB[y].cita.length; z++)
+            {
+              if(postulanteB[y].cita[z].id_cita===fechas[x].id_cita)
+              {
+                datOrden[x]=<tr name="citaPB" key={fechas[x].id_cita}>
                 <th>
                   <input
                     type="radio"
                     name="seleccion"
-                    value={cit.id_cita}
+                    value={fechas[x].id_cita}
                     disabled={
-                      cit.estatuscita.id_estatus_cita === 2 ||
-                      cit.estatuscita.id_estatus_cita === 3
+                      fechas[x].estatuscita.id_estatus_cita === 2 ||
+                      fechas[x].estatuscita.id_estatus_cita === 3
                     }
                     onClick={this.handleClick}
                   />
                 </th>
                 <th>
-                  {datos.nombre + " " + datos.apellido1 + " " + datos.apellido2}
+                  {postulanteB[y].nombre +
+                    " " +
+                    postulanteB[y].apellido1 +
+                    " " +
+                    postulanteB[y].apellido2}
                 </th>
-                <td>{cit.fecha}</td>
-                <td>{cit.hora}</td>
-                <td>{cit.entrevistador}</td>
-                <td>{cit.observaciones}</td>
+                <td>{fechas[x].fecha}</td>
+                <td>{fechas[x].hora}</td>
+                <td>{fechas[x].entrevistador}</td>
+                <td>{fechas[x].observaciones}</td>
                 <td>
-                  <label>{cit.estatuscita.descripcion}</label>
+                  <label>{fechas[x].estatuscita.descripcion}</label>
                 </td>
               </tr>
-            );
+              }
+            }
           }
-          //else return cit
-        });
-      });
+        }
+      }
+    }
+    else
+    {
+      for(x=0;x<postulanteB.length; x++)
+      {
+        for(y=0; y<postulanteB[x].cita.length;y++)
+        {
+          if(postulanteB[x].cita[y].fecha===newfecha)
+          {
+            datOrden[x]=<tr name="citaPB" key={postulanteB[x].cita[y].id_cita}>
+            <th>
+              <input
+                type="radio"
+                name="seleccion"
+                value={postulanteB[x].cita[y].id_cita}
+                disabled={
+                  postulanteB[x].cita[y].estatuscita.id_estatus_cita === 2 ||
+                  postulanteB[x].cita[y].estatuscita.id_estatus_cita === 3
+                }
+                onClick={this.handleClick}
+              />
+            </th>
+            <th>
+              {postulanteB[x].nombre + " " + postulanteB[x].apellido1 + " " + postulanteB[x].apellido2}
+            </th>
+            <td>{postulanteB[x].cita[y].fecha}</td>
+            <td>{postulanteB[x].cita[y].hora}</td>
+            <td>{postulanteB[x].cita[y].entrevistador}</td>
+            <td>{postulanteB[x].cita[y].observaciones}</td>
+            <td>
+              <label>{postulanteB[x].cita[y].estatuscita.descripcion}</label>
+            </td>
+          </tr>
+          }
+        }
+      }
     }
 
     return datOrden;
@@ -203,7 +211,8 @@ class FiltroFechas extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    radiobutton: state.radiobutton
+    radiobutton: state.radiobutton,
+    auth: state.auth
   };
 };
 
@@ -213,4 +222,7 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetRadioButton: value => dispatch(setRadioButton(value))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FiltroFechas);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FiltroFechas);

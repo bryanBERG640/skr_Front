@@ -21,6 +21,7 @@ import { connect } from "react-redux";
 import { setPostulante } from "../actions/postulanteB";
 import Dropzone from "react-dropzone";
 import { Document, Page, pdfjs } from "react-pdf";
+import { Grid } from "@material-ui/core";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const ColoredLine = ({ color }) => (
@@ -29,7 +30,7 @@ const ColoredLine = ({ color }) => (
       color: color,
       backgroundColor: color,
       height: 2,
-      width: 500
+      width: 400
     }}
   />
 );
@@ -67,7 +68,7 @@ class agregar_PB extends React.Component {
         celular: "",
         observaciones: "",
         cv: null,
-        usuario_actualiza: "Bryan Ramirez",
+        usuario_actualiza: this.props.usuario.displayName,
         fecha_actualizacion: date
       }
     };
@@ -150,7 +151,7 @@ class agregar_PB extends React.Component {
         celular: this.props.postulante.celular,
         observaciones: this.props.postulante.observaciones,
         cv: this.props.postulante.cv,
-        usuario_actualiza: "Bryan Ramirez",
+        usuario_actualiza: this.props.usuario.displayName,
         fecha_actualizacion: date
       };
       const per = this.props.postulante.perfil.id_perfil;
@@ -165,14 +166,14 @@ class agregar_PB extends React.Component {
   };
 
   getEstatusPostulante = async () => {
-    const nuevoGet = await getEstatusPostulante();
+    const nuevoGet = await getEstatusPostulante(this.props.auth);
     this.setState({
       respEstatus: nuevoGet.data
     });
   };
 
   getPerfil = async () => {
-    const nuevoGet = await getPerfil();
+    const nuevoGet = await getPerfil(this.props.auth);
     this.setState({
       respPerf: nuevoGet.data
     });
@@ -212,7 +213,7 @@ class agregar_PB extends React.Component {
           celular: this.state.postulante.celular,
           observaciones: this.state.postulante.observaciones,
           cv: this.state.FileSrc,
-          usuario_actualiza: "Bryan Ramirez",
+          usuario_actualiza: this.props.usuario.displayName,
           fecha_actualizacion: date
         };
         //console.log(this.props.postulante.id_postulante_b)
@@ -220,7 +221,8 @@ class agregar_PB extends React.Component {
           request,
           this.state.estatuspostulante,
           this.state.perfil,
-          this.props.postulante.id_postulante_b
+          this.props.postulante.id_postulante_b,
+          this.props.auth
         )
           .then(response => {
             console.log(response);
@@ -237,10 +239,15 @@ class agregar_PB extends React.Component {
           celular: this.state.postulante.celular,
           observaciones: this.state.postulante.observaciones,
           cv: this.state.FileSrc,
-          usuario_actualiza: "Bryan Ramirez",
+          usuario_actualiza: this.props.usuario.displayName,
           fecha_actualizacion: date
         };
-        postSeccion(request, this.state.estatuspostulante, this.state.perfil)
+        postSeccion(
+          request,
+          this.state.estatuspostulante,
+          this.state.perfil,
+          this.props.auth
+        )
           .then(response => {
             console.log(response);
           })
@@ -307,12 +314,34 @@ class agregar_PB extends React.Component {
   };
 
   render() {
-    //console.log("-----------"+this.state.perfil)
+    //console.log(this.state)
     //console.log(this.state.FileSrc);
     const { respPerf, respEstatus } = this.state;
-    const perfiles = respPerf.map(perf => {
+    var i
+    var perfiles=[]
+    var estatus=[]
+
+    for(i=0; i<respPerf.length; i++)
+    {
+      perfiles[i]=<option value={respPerf[i].id_perfil} style={{ textAlign: "left" }} key={respPerf[i].id_perfil}>
+      {respPerf[i].descripcion}
+    </option>
+    }
+
+    for(i=0; i<respEstatus.length; i++)
+    {
+      estatus[i]=<option value={respEstatus[i].id_estatus_postulante} style={{ textAlign: "left" }} key={respEstatus[i].id_estatus_postulante}>
+      {respEstatus[i].descripcion}
+    </option>
+    }
+
+    /*const perfiles = respPerf.map(perf => {
       return (
-        <option value={perf.id_perfil} style={{ textAlign: "left" }} key={perf.id_perfil}>
+        <option
+          value={perf.id_perfil}
+          style={{ textAlign: "left" }}
+          key={perf.id_perfil}
+        >
           {perf.descripcion}
         </option>
       );
@@ -320,24 +349,30 @@ class agregar_PB extends React.Component {
 
     const estatus = respEstatus.map(st => {
       return (
-        <option value={st.id_estatus_postulante} style={{ textAlign: "left" }} key={st.id_estatus_postulante}>
+        <option
+          value={st.id_estatus_postulante}
+          style={{ textAlign: "left" }}
+          key={st.id_estatus_postulante}
+        >
           {st.descripcion}
         </option>
       );
-    });
+    });*/
+
     return (
-      <div className="Content">
-        <div align="center">
-          <td>
+      <React.Fragment>
+        <br />
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
-          <td>
-            <img className="agregarP" src={agrP} alt="agregarP" />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
+          <img className="agregarP" src={agrP} alt="agregarP" />
+          </Grid>
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
-        </div>
+          </Grid>
+        </Grid>
 
         <div>
           <h2 className="titulo">Agregar Postulante</h2>
@@ -557,13 +592,15 @@ class agregar_PB extends React.Component {
             </div>
           </ValidatorForm>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  postulante: state.postulante
+  postulante: state.postulante,
+  usuario: state.usuario,
+  auth: state.auth
 });
 
 const mapDispatchToProps = dispatch => ({

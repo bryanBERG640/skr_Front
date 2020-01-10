@@ -27,6 +27,7 @@ import {
 } from "../actions/postulanteB";
 import "./styles/Formatos.css";
 import Loading from "./paginas/Loading";
+import { Grid } from "@material-ui/core";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -34,7 +35,7 @@ const ColoredLine = ({ color }) => (
       color: color,
       backgroundColor: color,
       height: 2,
-      width: 500
+      width: 400
     }}
   />
 );
@@ -85,9 +86,9 @@ class consulta_PB extends Component {
     this.props.dispatchSetRadioButton(null);
     this.setState({ isLoading: false });
   };
+
   getPerfil = async () => {
-    this.setState({ isLoading: true });
-    const nuevoGet = await getPerfil();
+    const nuevoGet = await getPerfil(this.props.auth);
     this.setState({
       respPerf: nuevoGet.data
     });
@@ -136,43 +137,54 @@ class consulta_PB extends Component {
 
   render() {
     const { respPerf } = this.state;
-    const handleSelect = respPerf.map(perf => {
-      return <option key={perf.id_perfil}>{perf.descripcion}</option>;
-    });
+    //console.log(respPerf)
+    var x;
+    var handleSelect = [];
+
+    //if (respPerf.length === 0) this.getPerfil();
+
+    for (x = 0; x < respPerf.length; x++) {
+      handleSelect[x] = (
+        <option key={respPerf[x].id_perfil}>{respPerf[x].descripcion}</option>
+      );
+    }
+
     if (this.state.isLoading) return <Loading />;
     return (
       <React.Fragment>
-        <div align="center">
-          <td>
+        <br />
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
             <img className="postulantes" src={Icono} alt="postulantes" />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
-        </div>
+          </Grid>
+        </Grid>
 
-        <div>
-          <h2 className="titulo">Consultar Postulantes</h2>
-        </div>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
+            <h2>Consultar Postulantes</h2>
+          </Grid>
+        </Grid>
 
-        <div className="row" align="center" style={{ marginRight: 0 }}>
-          <form className="form-post setStyles" onSubmit={this.handleSubmit}>
-            <div className="co-sm"></div>
-            <div className="co-sm" align="left">
+        <form className="form-post" onSubmit={this.handleSubmit}>
+          <Grid container spacing={6}>
+            <Grid item xs>
               <label>Perfil: </label>
               <select
                 className="form-control"
                 value={this.state.value}
                 onChange={this.handleSelect}
               >
-                <option>Perfiles</option>
+                <option></option>
                 {handleSelect}
               </select>
-            </div>
-            <div className="co-sm" align="center">
+            </Grid>
+            <Grid item xs>
               <label>Nombre(s): </label>
               <input
                 className="form-control"
@@ -181,8 +193,8 @@ class consulta_PB extends Component {
                 onChange={this.handleWrite}
                 value={this.state.nombre}
               />
-            </div>
-            <div className="co-sm" align="right">
+            </Grid>
+            <Grid item xs>
               <label>Apellido Paterno: </label>
               <input
                 className="form-control"
@@ -191,16 +203,23 @@ class consulta_PB extends Component {
                 onChange={this.handleWrite}
                 value={this.state.apellido1}
               />
-            </div>
-            <div className="co-sm">
+            </Grid>
+            <Grid item xs>
               <img className="lupa" src={lupa} alt="consulta" />
-            </div>
-          </form>
+            </Grid>
+          </Grid>
+        </form>
 
-          <br />
+        <br />
 
-          <form className="form-hor">
-            <div className="form-group">
+        <form className="form-post">
+          <Grid
+            container
+            direction="row"
+            justify="space-evenly"
+            alignItems="center"
+          >
+            <Grid item>
               <button
                 className="btn btn-primary"
                 // disabled={!this.props.radiobutton}
@@ -209,7 +228,8 @@ class consulta_PB extends Component {
               >
                 Agregar/editar Postulante
               </button>
-              &nbsp; &nbsp;
+            </Grid>
+            <Grid item>
               <button
                 className="btn btn-primary"
                 disabled={!this.props.radiobutton}
@@ -218,7 +238,8 @@ class consulta_PB extends Component {
               >
                 Completar/Editar Datos
               </button>
-              &nbsp; &nbsp;
+            </Grid>
+            <Grid item>
               <button
                 className="btn btn-primary"
                 disabled={!this.props.radiobutton}
@@ -227,7 +248,8 @@ class consulta_PB extends Component {
               >
                 Agendar
               </button>
-              &nbsp; &nbsp;
+            </Grid>
+            <Grid item>
               <button
                 className="btn btn-primary"
                 disabled={!this.props.radiobutton}
@@ -236,16 +258,15 @@ class consulta_PB extends Component {
               >
                 Mostrar Ficha
               </button>
-              <script></script>
-              &nbsp; &nbsp;
-            </div>
-          </form>
-        </div>
+            </Grid>
+          </Grid>
+        </form>
+
         <div>
           <table className="mt-4">
             <thead>
               <tr>
-                <th width="10%">Seleccionar</th>
+                <th width="10%">#</th>
                 <th width="15%">Nombre</th>
                 <th width="10%">Telefono</th>
                 <th width="10%">Celular</th>
@@ -272,7 +293,8 @@ const mapStateToProps = state => {
   return {
     cita: state.cita,
     radiobutton: state.radiobutton,
-    postulantec: state.postulantec
+    postulantec: state.postulantec,
+    auth: state.auth
   };
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Ficha from "./Ficha";
-import { Container } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import IconoExamen from "../Imagenes/avatar.png";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
@@ -15,7 +15,7 @@ const ColoredLine = ({ color }) => (
       color: color,
       backgroundColor: color,
       height: 2,
-      width: 500
+      width: 400
     }}
   />
 );
@@ -30,17 +30,17 @@ class FichaPostulante extends React.Component {
     return (
       <div>
         <br />
-        <div align="center">
-          <td>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
             <FiltrosFichaPostulante />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
-        </div>
+          </Grid>
+        </Grid>
         <tr>
           <td>
             <Container>

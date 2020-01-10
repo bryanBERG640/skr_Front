@@ -79,7 +79,7 @@ class Autompletado extends Component {
           className="form-control"
           placeholder={this.props.placeH}
           label={this.props.etiqueta}
-          id="cliente"
+          id={this.props.id}
           onChange={this.onTextChanged}
           name={this.props.nombre}
           value={text}

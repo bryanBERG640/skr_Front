@@ -25,8 +25,7 @@ class PrivateRoute extends React.Component {
     const { allowed, type, ...rest } = this.props;
 
     if (type === "private" && !isLoggedIn) return <Redirect to="/Login" />;
-    else if (type === "public" && isLoggedIn)
-      return <Redirect to="/consultar-Postulantes" />;
+    else if (type === "public" && isLoggedIn) return <Redirect to="/" />;
     else if (type === "privateB") {
       if (
         (!isLoggedIn && this.props.postulante === "vacio") ||
@@ -42,7 +41,7 @@ class PrivateRoute extends React.Component {
         (isLoggedIn && this.props.postulante === "vacio") ||
         this.props.postulante === undefined
       )
-        return <Redirect to="/consultar-Postulantes" />;
+        return <Redirect to="/" />;
     } else if (type === "privateC") {
       if (
         (!isLoggedIn && this.props.postulanteC === "vacio") ||
@@ -58,7 +57,7 @@ class PrivateRoute extends React.Component {
         (isLoggedIn && this.props.postulanteC === "vacio") ||
         this.props.postulanteC === undefined
       )
-        return <Redirect to="/consultarCita" />;
+        return <Redirect to="/" />;
     }
     const autorizado = Autorizacion(allowed, this.props.rol);
     //console.log("autorizado?: " + autorizado);

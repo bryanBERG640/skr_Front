@@ -19,6 +19,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
+import { getUsuarios, deleteUsuario } from "../../request/request";
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -26,7 +27,7 @@ const ColoredLine = ({ color }) => (
       color: color,
       backgroundColor: color,
       height: 2,
-      width: 500
+      width: 400
     }}
   />
 );
@@ -61,14 +62,22 @@ class consultaUsuarios extends React.Component {
     correo: "",
     rol: "",
     click: null,
-    open: false
+    open: false,
+    usuariosMs: [],
+    usuario: []
   };
 
   componentDidMount() {
     watcherUser(usuarios => {
       this.setState({ usuarios });
     });
+    this.getUsuarios();
   }
+
+  getUsuarios = async () => {
+    const nuevoGet = await getUsuarios(this.props.auth);
+    this.setState({ usuariosMs: nuevoGet.data });
+  };
 
   handleClick = e => {
     this.setState({ id: e.target.value });
@@ -78,6 +87,9 @@ class consultaUsuarios extends React.Component {
       }
       return u;
     });
+    this.getUsuarios();
+    this.setState({ usuario: [] });
+    //this.Usuarios();
   };
 
   handleOpen = () => {
@@ -88,6 +100,12 @@ class consultaUsuarios extends React.Component {
     this.setState({ id: e.target.value });
     deleteUser(this.state.id);
 
+    deleteUsuario(this.state.usuario.id_usuario, this.props.auth)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(console.log);
+
     this.handleClose();
   };
 
@@ -97,42 +115,116 @@ class consultaUsuarios extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
+
+    this.setState({ usuario: [] });
+    this.setState({ nombre: "", correo: "", rol: "", id: null });
+
+    this.getUsuarios();
   };
 
   render() {
-    // console.log(this.state.usuarios);
+    //console.log(this.state.usuariosMs);
     // console.log(this.state.id);
-    const usuarios = this.state.usuarios.map(u => {
-      return (
-        <StyledTableRow key={u.id}>
-          <StyledTableCell align="left">
-            <input
-              type="radio"
-              name="seleccion"
-              value={u.id}
-              onClick={this.handleClick}
-            />
-          </StyledTableCell>
-          <StyledTableCell align="left">{u.nombre}</StyledTableCell>
-          <StyledTableCell align="left">{u.correo}</StyledTableCell>
-          <StyledTableCell align="left">{u.rol}</StyledTableCell>
-        </StyledTableRow>
-      );
-    });
+    //console.log(this.state.usuario);
+    var i = 0;
+    var usuarios = [];
+
+    if (this.state.nombre !== "") {
+      if (this.state.usuario.length === 0) {
+        //console.log("for");
+        for (i = 0; i < this.state.usuariosMs.length; i++) {
+          // console.log(this.state.usuariosMs[i].usuario);
+          // console.log(this.state.nombre);
+          if (this.state.usuariosMs[i].usuario === this.state.nombre) {
+            this.setState({ usuario: this.state.usuariosMs[i] });
+          }
+        }
+      }
+    }
+
+    for (i = 0; i < this.state.usuarios.length; i++) {
+      if (
+        this.state.usuarios[i].rol !== "SuperAdmin" &&
+        this.state.usuarios[i].correo !== this.props.usuario.email
+      ) {
+        usuarios[i] = (
+          <StyledTableRow key={this.state.usuarios[i].id}>
+            <StyledTableCell align="left">
+              <input
+                type="radio"
+                name="seleccion"
+                value={this.state.usuarios[i].id}
+                onClick={this.handleClick}
+              />
+            </StyledTableCell>
+            <StyledTableCell align="left">
+              {this.state.usuarios[i].nombre}
+            </StyledTableCell>
+            <StyledTableCell align="left">
+              {this.state.usuarios[i].correo}
+            </StyledTableCell>
+            <StyledTableCell align="left">
+              {this.state.usuarios[i].rol}
+            </StyledTableCell>
+          </StyledTableRow>
+        );
+      }
+    }
+
+    // const usuarios = this.state.usuarios.map(u => {
+    //   if (u.rol !== "SuperAdmin" && u.correo !== this.props.usuario.email) {
+    //     return (
+    //       <StyledTableRow key={u.id}>
+    //         <StyledTableCell align="left">
+    //           <input
+    //             type="radio"
+    //             name="seleccion"
+    //             value={u.id}
+    //             onClick={this.handleClick}
+    //           />
+    //         </StyledTableCell>
+    //         <StyledTableCell align="left">{u.nombre}</StyledTableCell>
+    //         <StyledTableCell align="left">{u.correo}</StyledTableCell>
+    //         <StyledTableCell align="left">{u.rol}</StyledTableCell>
+    //       </StyledTableRow>
+    //     );
+    //   }
+    // });
+
     return (
       <React.Fragment>
+        <br/>
         <Grid container direction="row" justify="center" alignItems="center">
-          <td>
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
             <img className="agregarP" src={Icono} alt="admin" />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
             <ColoredLine color="black" />
-          </td>
+          </Grid>
         </Grid>
         <br />
+        <br />
+        <Grid container direction="row" justify="center" alignItems="center">
+          <div className="col-sm-6">
+            <textarea
+              className="form-control"
+              rows="3"
+              disabled={true}
+              style={{ color: "black", background: "#FFE857" }}
+              value={this.value}
+            >
+              Estimado Admin, en caso de que el usuario registrado no pueda
+              acceder, verifique que su correo sea correcto y/o no haya recibido
+              un "rechazado" (icono de cruz roja) al haberlo registrado, en caso
+              de ser asi, por favor elimine el usuario que agrego e intentelo de
+              nuevo.
+            </textarea>
+          </div>
+        </Grid>
+
         <br />
         <Grid container direction="row" justify="center" alignItems="center">
           <button
@@ -161,7 +253,7 @@ class consultaUsuarios extends React.Component {
                 <TableRow>
                   <StyledTableCell>Seleccion</StyledTableCell>
                   <StyledTableCell align="left">Nombre</StyledTableCell>
-                  <StyledTableCell align="lef">Correo</StyledTableCell>
+                  <StyledTableCell align="left">Correo</StyledTableCell>
                   <StyledTableCell align="left">Rol</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -177,6 +269,7 @@ class consultaUsuarios extends React.Component {
             nombre={this.state.nombre}
             correo={this.state.correo}
             rol={this.state.rol}
+            user={this.state.usuario}
             onClose={() => this.setState({ id: null })}
           />
         ) : (
@@ -214,7 +307,9 @@ class consultaUsuarios extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  open: state.open
+  open: state.open,
+  auth: state.auth,
+  usuario: state.usuario
 });
 
 const mapDispatchToProps = dispatch => ({

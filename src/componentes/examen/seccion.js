@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import TablaSecciones from "./tabla_secciones";
 import { setSeccion, changeValor } from "../../actions/postulanteB";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { Grid } from "@material-ui/core";
 
 
 const ColoredLine = ({ color }) => (
@@ -19,7 +20,7 @@ const ColoredLine = ({ color }) => (
       color: color,
       backgroundColor: color,
       height: 2,
-      width: 600
+      width: 400
     }}
   />
 );
@@ -36,7 +37,7 @@ class Seccion extends React.Component {
       no_seccion: "",
       puntaje: "",
       calificacion: "",
-      usuario_actualiza: "Bryan Ramirez",
+      usuario_actualiza: this.props.usuario.displayName,
       fecha_actualizacion: date
     },
     respTipoExamen: [],
@@ -63,7 +64,7 @@ class Seccion extends React.Component {
         no_seccion: this.props.seccion.no_seccion,
         puntaje: this.props.seccion.puntaje,
         calificacion: this.props.seccion.calificacion,
-        usuario_actualiza: "Bryan Ramirez",
+        usuario_actualiza: this.props.usuario.displayName,
         fecha_actualizacion: date
       };
       this.setState({seccion:secc})
@@ -78,7 +79,7 @@ class Seccion extends React.Component {
         no_seccion: this.props.seccion.no_seccion,
         puntaje: this.props.seccion.puntaje,
         calificacion: this.props.seccion.calificacion,
-        usuario_actualiza: "Bryan Ramirez",
+        usuario_actualiza: this.props.usuario.displayName,
         fecha_actualizacion: date
         };
         this.setState({seccion:secc})
@@ -89,7 +90,7 @@ class Seccion extends React.Component {
           no_seccion: "",
           puntaje: "",
           calificacion: "",
-          usuario_actualiza: "Bryan Ramirez",
+          usuario_actualiza: this.props.usuario.displayName,
           fecha_actualizacion: date
         };
         this.setState({ seccion: sec });
@@ -98,17 +99,17 @@ class Seccion extends React.Component {
   };
 
   getTipoExamen = async () => {
-    const nuevoGet = await getTipoExamen();
+    const nuevoGet = await getTipoExamen(this.props.auth);
     this.setState({ respTipoExamen: nuevoGet.data });
   };
 
   getExamenes = async () => {
-    const nuevoGet = await getExamenes();
+    const nuevoGet = await getExamenes(this.props.auth);
     this.setState({ respExamen: nuevoGet.data });
   };
 
   getSecciones = async () => {
-    const nuevoGet = await getSecciones();
+    const nuevoGet = await getSecciones(this.props.auth);
     this.setState({ respSecciones: nuevoGet.data });
   };
 
@@ -139,13 +140,13 @@ class Seccion extends React.Component {
           no_seccion: ns,
           puntaje: p,
           calificacion: c,
-          usuario_actualiza: "Bryan Ramirez",
+          usuario_actualiza: this.props.usuario.displayName,
           fecha_actualizacion: date
         };
         this.setState({ seccion: secc });
         putSeccion(this.state.seccion,
           this.props.examen.id_examen,
-          this.props.seccion.id_seccion)
+          this.props.seccion.id_seccion, this.props.auth)
           .then(response => {
             console.log(response);
             this.props.dispatchSetSeccion(response);
@@ -160,12 +161,12 @@ class Seccion extends React.Component {
         no_seccion: ns,
         puntaje: p,
         calificacion: c,
-        usuario_actualiza: "Bryan Ramirez",
+        usuario_actualiza: this.props.usuario.displayName,
         fecha_actualizacion: date
       };
 
       this.setState({ seccion: secc });
-      postSecciones(this.state.seccion, this.props.examen.id_examen)
+      postSecciones(this.state.seccion, this.props.examen.id_examen, this.props.auth)
         .then(response => {
           console.log(response);
           this.props.dispatchSetSeccion(response);
@@ -178,7 +179,7 @@ class Seccion extends React.Component {
         no_seccion: "",
         puntaje: "",
         calificacion: "",
-        usuario_actualiza: "Bryan Ramirez",
+        usuario_actualiza: this.props.usuario.displayName,
         fecha_actualizacion: date
       };
       this.setState({ seccion: sec });
@@ -187,7 +188,7 @@ class Seccion extends React.Component {
   };
 
   handleDelete = e => {
-    deleteSeccion(this.props.seccion.id_seccion)
+    deleteSeccion(this.props.seccion.id_seccion, this.props.auth)
       .then(response => {
         console.log(response);
         this.props.dispatchSetSeccion("vacio");
@@ -198,7 +199,7 @@ class Seccion extends React.Component {
         no_seccion: "",
         puntaje: "",
         calificacion: "",
-        usuario_actualiza: "Bryan Ramirez",
+        usuario_actualiza: this.props.usuario.displayName,
         fecha_actualizacion: date
       };
       this.setState({ seccion: sec });
@@ -212,17 +213,18 @@ class Seccion extends React.Component {
     if (this.props.examen !== "vacio") {
       return (
         <React.Fragment>
-          <div align="center">
-            <td className="lineaEspacioDerecha2">
-              <ColoredLine color="blue" />
-            </td>
-            <td>
-              <h2>Secciónes</h2>
-            </td>
-            <td className="lineaEspacioIzquierda2">
-              <ColoredLine color="blue" />
-            </td>
-          </div>
+          <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
+            <ColoredLine color="blue" />
+          </Grid>
+          <Grid item>
+            <h2>Secciónes</h2>
+          </Grid>
+          <Grid item>
+            <ColoredLine color="blue" />
+          </Grid>
+        </Grid>
+
           <ValidatorForm
             onSubmit={this.handleClick}
             ref="form"
@@ -302,17 +304,19 @@ class Seccion extends React.Component {
     }
     return (
       <React.Fragment>
-        <div align="center">
-          <td className="lineaEspacioDerecha">
+        <br/>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
             <ColoredLine color="blue" />
-          </td>
-          <td>
+          </Grid>
+          <Grid item>
             <h2>Secciónes</h2>
-          </td>
-          <td className="lineaEspacioDerecha">
+          </Grid>
+          <Grid item>
             <ColoredLine color="blue" />
-          </td>
-        </div>
+          </Grid>
+        </Grid>
+      
       </React.Fragment>
     );
   }
@@ -323,7 +327,9 @@ const mapStateToProps = state => {
     cita: state.cita,
     examen: state.examen,
     seccion: state.seccion,
-    seleccion: state.seleccion
+    seleccion: state.seleccion,
+    usuario: state.usuario,
+    auth: state.auth
   };
 };
 

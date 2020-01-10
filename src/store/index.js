@@ -15,7 +15,8 @@ const initialState = {
   radiobutton: null,
   open: false,
   usuario: null,
-  rol: null
+  rol: null,
+  auth: null
 };
 
 //Se crea el store y este almacenara información.

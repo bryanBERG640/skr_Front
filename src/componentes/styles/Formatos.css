@@ -23,7 +23,7 @@
 
 .form-post {
   margin-right: 200px;
-  margin-left: 200px;
+  margin-left: 270px;
   height: 20%;
   display: flex;
 }
@@ -224,14 +224,14 @@ thead {
   text-align: left;
 }
 
-.rangoHoraDiv{
+.rangoHoraDiv {
   padding-top: 1rem;
 }
 
-.formato{
+.formato {
   padding-top: 1rem;
 }
 
-.setStyles{
+.setStyles {
   margin-left: 400px;
 }

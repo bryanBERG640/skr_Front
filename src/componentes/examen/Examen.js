@@ -8,6 +8,7 @@ import {getTipoExamen} from "../../request/request"
 import {postExamen} from '../../request/request'
 import {setExamen, setCita, setPostulante, setSeccion, changeValor} from '../../actions/postulanteB'
 import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
+import { Grid } from "@material-ui/core";
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -15,7 +16,7 @@ const ColoredLine = ({ color }) => (
             color: color,
             backgroundColor: color,
             height: 2,
-            width: 600
+            width: 400
         }}
     />
 );
@@ -30,14 +31,14 @@ const date=anio+"-"+mes+"-"+dia
 class Examen extends React.Component {
     state=
     {
-        idTipoExamen:null,
+        idTipoExamen:"",
         tiposExamen:[],
         examen:
         {
-            calificacion_global:null,
+            calificacion_global:"",
             entrevistador:this.props.cita.entrevistador,
             observaciones:"",
-            usuario_actualiza:"Bryan Ramirez",
+            usuario_actualiza:this.props.usuario.displayName,
             fecha_actualizacion:date
         }
     };
@@ -52,7 +53,7 @@ class Examen extends React.Component {
 
     getTipoExamen= async () =>
     {
-    const nuevoGet= await getTipoExamen()
+    const nuevoGet= await getTipoExamen(this.props.auth)
     this.setState({tiposExamen:nuevoGet.data})
     }
 
@@ -75,7 +76,7 @@ class Examen extends React.Component {
             {
                 postExamen(this.state.examen,
                     this.props.cita.id_cita,
-                    this.state.idTipoExamen).then(response=>
+                    this.state.idTipoExamen, this.props.auth).then(response=>
                         {
                             console.log(response)
                             this.props.dispatchSetExamen(response)
@@ -94,7 +95,7 @@ class Examen extends React.Component {
             console.log("aprobado")
             postExamen(this.state.examen,
             this.props.cita.id_cita,
-            this.state.idTipoExamen).then(response=>
+            this.state.idTipoExamen, this.props.auth).then(response=>
             {
             console.log(response)
             this.props.dispatchSetExamen(response)
@@ -117,23 +118,32 @@ class Examen extends React.Component {
 
     render() {
         //console.log(this.state.examen.calificacion_global)
-        const tipoExamen=this.state.tiposExamen.map(te=>
+        var i
+        var tipoExamen=[]
+        for(i=0; i<this.state.tiposExamen.length; i++)
+        {
+            tipoExamen[i]=<option value={this.state.tiposExamen[i].id_tipo_examen} key={this.state.tiposExamen[i].id_tipo_examen}>
+                {this.state.tiposExamen[i].descripcion}</option>
+        }
+        /*const tipoExamen=this.state.tiposExamen.map(te=>
             {
                 return <option value={te.id_tipo_examen}>{te.descripcion}</option>
-            })
+            })*/
         return (
             <React.Fragment>
-                <div align="center">
-                    <td className="lineaEspacioDerecha">
+                <br/>
+                <Grid container direction="row" justify="center" alignItems="center">
+                    <Grid item>
                         <ColoredLine color="black" />
-                    </td>
-                    <td>
+                    </Grid>
+                    <Grid item>
                         <img className="agci" src={IconoExamen} alt="Examen" />
-                    </td>
-                    <td className="lineaEspacioIzquierda">
+                    </Grid>
+                    <Grid item>
                         <ColoredLine color="black" />
-                    </td>
-                </div>
+                    </Grid>
+                </Grid>
+        
                 <div className="text-center ">
                     <TextField
                         label="Fecha Actual"
@@ -157,7 +167,7 @@ class Examen extends React.Component {
                       ref="form"
                       onError={errors=>console.log(errors)}>
                         <div className="form">
-                            <div npm  align="center" >
+                            <div align="center" >
                                 <div className="container">
                                     <div className="row justify-content-md-center">
                                         <h3>
@@ -221,7 +231,7 @@ class Examen extends React.Component {
                                                     <label>Comentarios:</label>
                                                 </div>
                                                 <div className="col-sm-12">
-                                                    <textarea class="textArea form-control"
+                                                    <textarea className="textArea form-control"
                                                      rows="3" cols="40"
                                                      name="observaciones"
                                                      value={this.state.value}
@@ -265,7 +275,9 @@ const mapStateToProps=state=>
 {
     return{
         postulante: state.postulante,
-        cita: state.cita
+        cita: state.cita,
+        usuario: state.usuario,
+        auth: state.auth
     }
 }
 

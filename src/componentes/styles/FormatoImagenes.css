@@ -2,7 +2,25 @@
   height: 80 px;
   width: 80px;
   margin-left: 2%;
-  margin-right: 0%;
+  margin-right: 15%;
+  display: flex;
+}
+
+.postulantesHome {
+  height: 150 px;
+  width: 150px;
+  display: flex;
+}
+
+.AgendarHome {
+  height: 140 px;
+  width: 140px;
+  display: flex;
+}
+
+.AgregarHome {
+  height: 140 px;
+  width: 140px;
   display: flex;
 }
 
@@ -72,5 +90,3 @@
   border-radius: 50%;
   background-size: 100% auto;
 }
-
-

@@ -20,7 +20,7 @@ class Citas extends Component {
   };
 
   getPostulanteB = async idPostulante => {
-    const nuevoGet = await getPostulanteBId(idPostulante);
+    const nuevoGet = await getPostulanteBId(idPostulante, this.props.auth);
     this.setState({ postB: nuevoGet.data });
   };
 
@@ -85,8 +85,12 @@ class Citas extends Component {
 //Se accede al storo de postlantec.
 const mapStateToProps = state => {
   return {
-    postulante: state.postulante
+    postulante: state.postulante,
+    auth: state.auth
   };
 };
 
-export default connect(mapStateToProps, null)(Citas);
+export default connect(
+  mapStateToProps,
+  null
+)(Citas);

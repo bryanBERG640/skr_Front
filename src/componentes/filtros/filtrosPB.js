@@ -5,6 +5,7 @@ import { setPostulante } from "../../actions/postulanteB";
 import { setPostulanteC } from "../../actions/postulanteB";
 import { getPostulanteTodo } from "../../request/request";
 import { setRadioButton } from "../../actions/postulanteB";
+import Cargando from "../paginas/Loading"
 
 class filtrosPB extends React.Component {
   state = {
@@ -14,25 +15,25 @@ class filtrosPB extends React.Component {
     postulanteC: []
   };
 
-  componentDidUpdate(previousProps, previousState) {
-    if (previousProps !== this.props) {
+  componentDidMount() {
+    //if (previousProps !== this.props) {
       //console.log("actualizando por Props")
       this.getPostulanteB();
       this.getPostulanteTodo();
 
-    }
-    if (previousState === this.state) {
-      //console.log("actualizando por State")
-      this.getPostulanteB();
-      this.getPostulanteTodo();
-    }
+    // }
+    // if (previousState === this.state) {
+    //   //console.log("actualizando por State")
+    //   this.getPostulanteB();
+    //   this.getPostulanteTodo();
+    // }
   }
   getPostulanteB = async () => {
-    const nuevoGet = await getPostulanteB();
+    const nuevoGet = await getPostulanteB(this.props.auth);
     this.setState({ resp: nuevoGet.data });
   };
   getPostulanteTodo = async () => {
-    const nuevoGet = await getPostulanteTodo();
+    const nuevoGet = await getPostulanteTodo(this.props.auth);
     this.setState({ postulanteC: nuevoGet.data });
   };
   handleClick = e => {
@@ -61,25 +62,31 @@ class filtrosPB extends React.Component {
 
   render() {
     const { resp } = this.state;
-    
-    const groupPB = resp.map(postulante => {
-      const i = `${postulante.id_postulante_b}`;
-      const n = `${postulante.nombre || ""}`;
-      const a1 = `${postulante.apellido1 || ""}`;
-      const a2 = `${postulante.apellido2 || ""}`;
-      const t = `${postulante.telefono || ""}`;
-      const c = `${postulante.celular || ""}`;
-      const co = `${postulante.correo || ""}`;
-      const d = `${postulante.perfil.descripcion || ""}`;
-      const ver = `${postulante.estatuspostulante.descripcion || ""}`;
+
+    var groupPB=[]
+    var x
+
+    if(this.state.postulanteC.length===0 ) return <Cargando/>
+
+    for(x=0;x<resp.length; x++)
+    {
+      const i = resp[x].id_postulante_b;
+      const n = resp[x].nombre ;
+      const a1 = resp[x].apellido1;
+      const a2 = resp[x].apellido2 ;
+      const t = resp[x].telefono ;
+      const c = resp[x].celular;
+      const co = resp[x].correo ;
+      const d = resp[x].perfil.descripcion ;
+      const ver = resp[x].estatuspostulante.descripcion;
       if (
         this.props.perfil === "" &&
         this.props.nombre === "" &&
         this.props.apellido1 === ""
       ) {
         if (ver === "No Contactado") {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+          groupPB[x]=
+            <tr key={resp[x].id} style={{ whiteSpace: "nowrap" }}>
               <input
                 type="radio"
                 name="seleccionPB"
@@ -100,7 +107,6 @@ class filtrosPB extends React.Component {
               <td>{d}</td>
               <td>{ver}</td>
             </tr>
-          );
         }
       } else if (
         this.props.perfil === "" &&
@@ -108,8 +114,8 @@ class filtrosPB extends React.Component {
         this.props.apellido1 !== ""
       ) {
         if (this.props.apellido1 === a1) {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+          groupPB[x]=
+            <tr key={resp[x].id} style={{ whiteSpace: "nowrap" }}>
               <input
                 type="radio"
                 name="seleccionPB"
@@ -129,7 +135,7 @@ class filtrosPB extends React.Component {
               <td>{d}</td>
               <td>{ver}</td>
             </tr>
-          );
+          
         }
       } else if (
         this.props.perfil === "" &&
@@ -137,8 +143,8 @@ class filtrosPB extends React.Component {
         this.props.apellido1 === ""
       ) {
         if (this.props.nombre === n) {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+          groupPB[x]=
+            <tr key={resp[x].id} style={{ whiteSpace: "nowrap" }}>
               <input
                 type="radio"
                 name="seleccionPB"
@@ -158,7 +164,7 @@ class filtrosPB extends React.Component {
               <td>{d}</td>
               <td>{ver}</td>
             </tr>
-          );
+          
         }
       } else if (
         this.props.perfil === "" &&
@@ -166,8 +172,8 @@ class filtrosPB extends React.Component {
         this.props.apellido1 !== ""
       ) {
         if (this.props.nombre === n && this.props.apellido1 === a1) {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+          groupPB[x]=
+            <tr key={resp[x].id} style={{ whiteSpace: "nowrap" }}>
               <input
                 type="radio"
                 name="seleccionPB"
@@ -187,7 +193,7 @@ class filtrosPB extends React.Component {
               <td>{d}</td>
               <td>{ver}</td>
             </tr>
-          );
+          
         }
       } else if (
         this.props.perfil !== "" &&
@@ -195,8 +201,8 @@ class filtrosPB extends React.Component {
         this.props.apellido1 === ""
       ) {
         if (this.props.perfil === d) {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+          groupPB[x]=
+            <tr key={resp[x].id} style={{ whiteSpace: "nowrap" }}>
               <input
                 type="radio"
                 name="seleccionPB"
@@ -216,7 +222,7 @@ class filtrosPB extends React.Component {
               <td>{d}</td>
               <td>{ver}</td>
             </tr>
-          );
+          
         }
       } else if (
         this.props.perfil !== "" &&
@@ -224,8 +230,8 @@ class filtrosPB extends React.Component {
         this.props.apellido1 !== ""
       ) {
         if (this.props.perfil === d && this.props.apellido1 === a1) {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+          groupPB[x]=
+            <tr key={resp[x].id} style={{ whiteSpace: "nowrap" }}>
               <input
                 type="radio"
                 name="seleccionPB"
@@ -245,7 +251,7 @@ class filtrosPB extends React.Component {
               <td>{d}</td>
               <td>{ver}</td>
             </tr>
-          );
+          
         }
       } else if (
         this.props.perfil !== "" &&
@@ -253,8 +259,8 @@ class filtrosPB extends React.Component {
         this.props.apellido1 === ""
       ) {
         if (this.props.perfil === d && this.props.nombre === n) {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+          groupPB[x]=
+            <tr key={resp[x].id} style={{ whiteSpace: "nowrap" }}>
               <input
                 type="radio"
                 name="seleccionPB"
@@ -274,7 +280,7 @@ class filtrosPB extends React.Component {
               <td>{d}</td>
               <td>{ver}</td>
             </tr>
-          );
+          
         }
       } else if (
         this.props.perfil !== "" &&
@@ -286,8 +292,8 @@ class filtrosPB extends React.Component {
           this.props.nombre === n &&
           this.props.apellido1 === a1
         ) {
-          return (
-            <tr key={postulante.id} style={{ whiteSpace: "nowrap" }}>
+          groupPB[x]=
+            <tr key={resp[x].id} style={{ whiteSpace: "nowrap" }}>
               <input
                 type="radio"
                 name="seleccionPB"
@@ -307,11 +313,10 @@ class filtrosPB extends React.Component {
               <td>{d}</td>
               <td>{ver}</td>
             </tr>
-          );
+         
         }
       }
-       else return postulante
-    });
+    }
 
     return groupPB;
   }
@@ -324,7 +329,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  postulante: state.postulante
+  postulante: state.postulante,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(filtrosPB); //El segundo parametro del metodo connect permitira trabajar con las acciones.

@@ -17,7 +17,6 @@ import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 
 class MenuAppBar extends React.Component {
-
   state = {
     left: false,
     usuario: null,
@@ -89,16 +88,15 @@ class MenuAppBar extends React.Component {
         {this.props.usuario === null ? (
           <div align="center">
             <List>
-              {["    ", "   ", "     ", "     "].map(
-                (text, index) => (
-                  <ListItem button key={text} disabled>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                )
-              )}
+              {["    ", "   ", "     ", "     "].map((text, index) => (
+                <ListItem button key={text} disabled>
+                  <ListItemText primary={text} />
+                </ListItem>
+              ))}
             </List>
-            <Link to="/Login" className="btn btn-default"
-              width="200px">Debes Iniciar Sesion</Link>
+            <Link to="/Login" className="btn btn-default" width="200px">
+              Debes Iniciar Sesion
+            </Link>
             <Divider />
           </div>
         ) : (

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { putCita } from "../request/request";
 import { number } from "prop-types";
 import { ValidatorForm } from 'react-material-ui-form-validator';
+import { Grid } from "@material-ui/core";
 
 
 const ColoredLine = ({ color }) => (
@@ -75,7 +76,7 @@ class agrcom extends React.Component {
                 this.props.postulante.id_postulante_b,
                 this.props.cita.empresa.id_empresa,
                 this.props.cita.cliente.id_cliente,
-                this.state.cita.id_cita
+                this.state.cita.id_cita, this.props.auth
             )
                 .then(response => {
                     console.log(response);
@@ -93,36 +94,37 @@ class agrcom extends React.Component {
         return (
             <React.Fragment>
                 <br />
-                <div align="center">
-                    <td>
+                <Grid container direction="row" justify="center" alignItems="center">
+                    <Grid item>
                         <ColoredLine color="black" />
-                    </td>
-                    <td>
+                    </Grid>
+                    <Grid item>
                         <img className="agci" src={IconAge} alt="consultaCita" />
-                    </td>
-                    <td>
+                    </Grid>
+                    <Grid item>
                         <ColoredLine color="black" />
-                    </td>
-                </div>
+                    </Grid>
+                </Grid>
+
                 <br />
-                <div align="center">
-                    <td>
+                <Grid container direction="row" justify="center" alignItems="center">
+                    <Grid item>
                         <ColoredLine2 color="blue" />
-                    </td>
-                    <td>
+                    </Grid>
+                    <Grid item>
                         <h3 className="label1">
                             &nbsp;
-              {this.props.postulante.nombre +
+                            {this.props.postulante.nombre +
                                 " " +
                                 this.props.postulante.apellido1 +
                                 " " +
                                 this.props.postulante.apellido2}
                         </h3>
-                    </td>
-                    <td>
+                    </Grid>
+                    <Grid item>
                         <ColoredLine2 color="blue" />
-                    </td>
-                </div>
+                    </Grid>
+                </Grid>
 
                 <ValidatorForm className="form-agendar"
                     onSubmit={this.handleClick}
@@ -183,7 +185,7 @@ class agrcom extends React.Component {
                             Comentarios:
                             <div>
                                 <textarea
-                                    class="cajatext"
+                                    className="cajatext"
                                     rows="3"
                                     value={this.state.comentarios}
                                     onChange={this.handleChange}
@@ -212,7 +214,8 @@ class agrcom extends React.Component {
 const mapStateToProps = state => {
     return {
         cita: state.cita,
-        postulante: state.postulante
+        postulante: state.postulante,
+        auth: state.auth
     };
 };
 

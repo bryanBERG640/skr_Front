@@ -10,6 +10,7 @@ import Autocompletado from './Autocompletado/Autocommpletado';
 import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
 import {setPostulante, setPostulanteC} from '../actions/postulanteB'
 import Dropzone from "react-dropzone";
+import { Grid } from "@material-ui/core";
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -17,7 +18,7 @@ const ColoredLine = ({ color }) => (
             color: color,
             backgroundColor: color,
             height: 2,
-            width: 500,
+            width: 400,
             marginBottom: 10
         }}
     />
@@ -131,8 +132,8 @@ class Postulante extends React.Component {
         correo: this.props.postulante.correo,
         telefono: this.props.postulante.telefono,
         celular: this.props.postulante.celular,
-        observaciones: this.props.postulante.observaciones,
-        usuario_actualiza: "Bryan Ramirez",
+        comentarios: this.props.postulante.observaciones,
+        usuario_actualiza: this.props.usuario.displayName,
         fecha_actualizacion: date
         })
         this.setState({ id_perfil: per });
@@ -142,42 +143,42 @@ class Postulante extends React.Component {
     }
 
     getCarrera = async () => {
-        const nuevoGet = await getCarrera()
+        const nuevoGet = await getCarrera(this.props.auth)
         this.setState({ carrera: nuevoGet.data })
     }
 
     getEscuela = async () => {
-        const nuevoGet = await getEscuelas()
+        const nuevoGet = await getEscuelas(this.props.auth)
         this.setState({ escuelas: nuevoGet.data })
     }
 
     getEstatusAprobacion = async () => {
-        const nuevoGet = await getEstatusAprobacion()
+        const nuevoGet = await getEstatusAprobacion(this.props.auth)
         this.setState({ EstatusAprobacion: nuevoGet.data })
     }
 
     getEstatusCV = async () => {
-        const nuevoGet = await getEstatusCV()
+        const nuevoGet = await getEstatusCV(this.props.auth)
         this.setState({ EstatusCV: nuevoGet.data })
     }
 
     getEstatusPostulante = async () => {
-        const nuevoGet = await getEstatusPostulante()
+        const nuevoGet = await getEstatusPostulante(this.props.auth)
         this.setState({ EstatusPostulante: nuevoGet.data })
     }
 
     getEstatusTitulacion = async () => {
-        const nuevoGet = await getEstatusTitulacion()
+        const nuevoGet = await getEstatusTitulacion(this.props.auth)
         this.setState({ EstatusTitulacion: nuevoGet.data })
     }
 
     getSexo = async () => {
-        const nuevoGet = await getSexo()
+        const nuevoGet = await getSexo(this.props.auth)
         this.setState({ sexo: nuevoGet.data })
     }
 
     getPerfil = async () => {
-        const nuevoGet = await getPerfil()
+        const nuevoGet = await getPerfil(this.props.auth)
         this.setState({ perfil: nuevoGet.data })
     }
 
@@ -351,13 +352,13 @@ class Postulante extends React.Component {
                 telefono: this.state.telefono,
                 correo: this.state.correo,
                 observaciones: this.state.comentarios,
-                usuario_actualiza: "Bryan Ramirez",
+                usuario_actualiza: this.props.usuario.displayName,
                 fecha_actualizacion: date
             }
             const idEstatusPostulante = this.state.id_status_postulante;
             const IdPerfil = this.state.id_perfil;
             const idPostulanteB1 = this.state.id_postulante_b;
-            putPostulanteB(requestPostulanteB,idEstatusPostulante,IdPerfil,idPostulanteB1)
+            putPostulanteB(requestPostulanteB,idEstatusPostulante,IdPerfil,idPostulanteB1, this.props.auth)
             .then(response=>
                 {
                     console.log(response)
@@ -375,7 +376,7 @@ class Postulante extends React.Component {
                     tiempo_experiencia: this.state.experiencia,
                     acuerdo_economico: ae,
                     foto_perfil: this.state.imgSrc,
-                    usuario_actualiza: "Bryan Ramirez",
+                    usuario_actualiza: this.props.usuario.displayName,
                     fecha_actualizacion: date
                 }
                 
@@ -387,7 +388,7 @@ class Postulante extends React.Component {
                 const idAprobacion = this.state.id_estatus_aprobacion;
                 const idPostulanteComplemento = this.props.postulantec.id_postulante_c;
                 putPostulanteC(requestPut, idPostulanteB1, idEscuela, idTitulacion, idCarrera,
-                    idSexo, idCv, idAprobacion, idPostulanteComplemento)
+                    idSexo, idCv, idAprobacion, idPostulanteComplemento, this.props.auth)
                     .then(response=>
                         {
                             console.log(response)
@@ -405,7 +406,7 @@ class Postulante extends React.Component {
                     tiempo_experiencia: this.state.experiencia,
                     acuerdo_economico: ae,
                     foto_perfil: this.state.imgSrc,
-                    usuario_actualiza: "Bryan Ramirez",
+                    usuario_actualiza: this.props.usuario.displayName,
                     fecha_actualizacion: date
                 }
                 const idPostulanteB = this.props.postulante.id_postulante_b;
@@ -417,7 +418,7 @@ class Postulante extends React.Component {
                 const idEstatusAprobacion = this.state.id_estatus_aprobacion;
     
                 postPostulanteC(request, idPostulanteB, idEscuela,
-                    idTitulacion, idCarrera, idSexo, idCv, idEstatusAprobacion)
+                    idTitulacion, idCarrera, idSexo, idCv, idEstatusAprobacion, this.props.auth)
                     .then(response=>
                         {
                             console.log(response)
@@ -435,8 +436,58 @@ class Postulante extends React.Component {
     render() {
         
         //console.log(this.state.imgSrc)
+        const {EstatusAprobacion, EstatusCV, EstatusPostulante, EstatusTitulacion, sexo, perfil}= this.state
+        var i;
+        var EstatusAprobaciones=[]
+        var CV=[]
+        var EstPost=[]
+        var EstTit=[]
+        var sexos=[]
+        var perfiles=[]
+
+        for(i=0; i<EstatusAprobacion.length; i++)
+        {
+            EstatusAprobaciones[i]=<option value={EstatusAprobacion[i].id_estatus_aprobacion} key={EstatusAprobacion[i].id_estatus_aprobacion}>
+                {EstatusAprobacion[i].descripcion}
+            </option>
+        }
+
+        for(i=0; i<EstatusCV.length; i++)
+        {
+            CV[i]=<option value={EstatusCV[i].id_estatus_cv} key={EstatusCV[i].id_estatus_cv}>
+                {EstatusCV[i].descripcion}
+            </option>
+        }
+
+        for(i=0; i<EstatusPostulante.length; i++)
+        {
+            EstPost[i]=<option value={EstatusPostulante[i].id_estatus_postulante} key={EstatusPostulante[i].id_estatus_postulante}>
+                {EstatusPostulante[i].descripcion}
+            </option>
+        }
+
+        for(i=0; i<EstatusTitulacion.length; i++)
+        {
+            EstTit[i]=<option value={EstatusTitulacion[i].id_estatus_titulacion} key={EstatusTitulacion[i].id_estatus_titulacion}>
+                {EstatusTitulacion[i].descripcion}
+            </option>
+        }
+
+        for(i=0; i<sexo.length; i++)
+        {
+            sexos[i]=<option value={sexo[i].id_sexo} key={sexo[i].id_sexo}>
+                {sexo[i].descripcion}
+            </option>
+        }
+
+        for(i=0; i<perfil.length; i++)
+        {
+            perfiles[i]=<option value={perfil[i].id_perfil} key={perfil[i].id_perfil}>
+                {perfil[i].descripcion}
+            </option>
+        }
         
-        const EstatusAprobaciones = this.state.EstatusAprobacion.map(EA => {
+        /*const EstatusAprobaciones = this.state.EstatusAprobacion.map(EA => {
             return <option value={EA.id_estatus_aprobacion}>{EA.descripcion}</option>
         })
         const CV = this.state.EstatusCV.map(estcv => {
@@ -453,39 +504,41 @@ class Postulante extends React.Component {
         })
         const perfiles = this.state.perfil.map(per => {
             return <option value={per.id_perfil}>{per.descripcion}</option>
-        })
+        })*/
 
         return (
-            <React.Fragment className="cuerpo">
-                <br />
+            <React.Fragment>
+               
                 <div align="center">
-                    <div align="center">
-                        <td className="lineaEspacioDerecha">
-                            <ColoredLine color="black" />
-                        </td>
-                        <td>
-                            {this.state.imgSrc===null ? (
-                                <img className="agciAvatar" 
-                                    src={IconoExamen} 
-                                    alt="Examen" 
-                                    style={{marginTop:0}}
+                <br/>
+                <Grid container direction="row" justify="center" alignItems="center">
+                    <Grid item>
+                        <ColoredLine color="black" />
+                    </Grid>
+                    <Grid item>
+                        {"    "}
+                        {this.state.imgSrc===null ? (
+                            <img className="agciAvatar" 
+                                src={IconoExamen} 
+                                alt="Examen" 
+                                style={{marginTop:0}}
+                            />
+                            ):("")}
+                            
+                        {this.state.imgSrc !== null ? (
+                            <img
+                                className="agciAvatar"
+                                src={this.state.imgSrc}
+                                alt="Foto de Postulante"
+                                style={{ marginTop:0, width:160, height:160}}
                                 />
-                                ):("")}
-                                
-                            {this.state.imgSrc !== null ? (
-                                <img
-                                    className="agciAvatar"
-                                    src={this.state.imgSrc}
-                                    alt="Foto de Postulante"
-                                    style={{ marginTop:0, width:160, height:160}}
-                                    />
-                                ):("")}
-                        </td>
-                        <td className="lineaEspacioIzquierda">
-                            <ColoredLine color="black" />
-                        </td>
-                        
-                    </div>
+                            ):("")}
+                        {"    "}
+                    </Grid>
+                    <Grid item>
+                        <ColoredLine color="black" />
+                    </Grid>
+                </Grid>
                     <br/>
                     <div className="container">
                     <div className="row">
@@ -637,12 +690,13 @@ class Postulante extends React.Component {
                                 <label align="left">
                                     Comentarios:
                                     <textarea
-                                        class="textArea form-control"
+                                        className="textArea form-control"
                                         rows="3"
                                         cols="50"
                                         name="comentarios"
                                         onChange={this.handleWrite}
-                                        defaultValue={this.props.postulante.observaciones}/>
+                                        
+                                        value={this.state.comentarios}/>
                                 </label>
                             </div>
                         </div>
@@ -736,20 +790,19 @@ class Postulante extends React.Component {
                         <br/>
                         
                     </div>
-                    <div className="row" style={{width:1000, marginLeft: 70}}>
-                            <div className="" align="center">
-                                <td className="lineaEspacioDerecha">
-                                    <ColoredLine color="blue" />
-                                </td>
-                                <td>
-                                    <h2>Datos Academicos</h2>
-                                </td>
-                                <td className="lineaEspacioIzquierda">
-                                    <ColoredLine color="blue" />
-                                </td>
-                            </div>
-                        </div>
-                        <br />  
+                    <br/>
+                    <Grid container direction="row" justify="center" alignItems="center">
+                        <Grid item>
+                            <ColoredLine color="blue" />
+                        </Grid>
+                        <Grid item>
+                            <h2>Datos Academicos</h2>
+                        </Grid>
+                        <Grid item>
+                            <ColoredLine color="blue" />
+                        </Grid>
+                    </Grid>
+                    <br />  
                     <div className="container">
                         <div className="row">
                             <div style={{marginRight:55}} align="left">
@@ -757,7 +810,8 @@ class Postulante extends React.Component {
                                     valores={this.state.escuelas} 
                                     valor={this.state.escuel}
                                     etiqueta="Escuela"
-                                    nombre="id_escuela"
+                                    nombre="escuela"
+                                    id="id_escuela"
                                 />
                             </div>
                             <div style={{marginRight:55}} align="center">
@@ -765,7 +819,8 @@ class Postulante extends React.Component {
                                     valores={this.state.carrera} 
                                     valor={this.state.carr} 
                                     etiqueta="Carrera"
-                                    nombre="id_carrera"
+                                    nombre="carrera"
+                                    id="id_carrera"
                                 />
                             </div>
                             <div  style={{marginRight:55}} align="right">
@@ -810,19 +865,18 @@ class Postulante extends React.Component {
                         </div>
                     </div>
                     <br/>
-                    <div className="row" style={{width:1000, marginLeft: 70}}>
-                        <div className="" align="center">
-                            <td className="lineaEspacioDerecha">
-                                <ColoredLine color="blue" />
-                            </td>
-                            <td>
-                                <h2>Datos Economicos</h2>
-                            </td>
-                            <td className="lineaEspacioIzquierda">
-                                <ColoredLine color="blue" />
-                            </td>
-                        </div>
-                    </div>
+                    <Grid container direction="row" justify="center" alignItems="center">
+                        <Grid item>
+                            <ColoredLine color="blue" />
+                        </Grid>
+                        <Grid item>
+                            <h2>Datos Economicos</h2>
+                        </Grid>
+                        <Grid item>
+                            <ColoredLine color="blue" />
+                        </Grid>
+                    </Grid>
+                    
                     <br/>
                     <div className="container">
                         <div className="row">
@@ -901,7 +955,9 @@ const mapStateToProps = state => {
         postulante: state.postulante,
         carrera: state.carrera,
         escuela: state.escuela,
-        postulantec: state.postulantec
+        postulantec: state.postulantec,
+        usuario: state.usuario,
+        auth: state.auth
     }
 }
 

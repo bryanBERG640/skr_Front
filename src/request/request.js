@@ -1,11 +1,16 @@
 import axios from "axios";
 
-function getPostulanteC(idPostulante) {
+function getPostulanteC(idPostulante, auth) {
   return fetch(
     "http://192.168.1.230:8088/skr_v1/postulanteComplemento/get/" +
       idPostulante,
     {
-      method: "GET"
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Authorization":auth
+      }
     }
   )
     .then(response => {
@@ -15,43 +20,123 @@ function getPostulanteC(idPostulante) {
 }
 
 //Se crea una función para consultar todos los datos de postulanteC.
-function getPostulanteTodo() {
-  const postulantesCT = axios.get(
+function getPostulanteTodo(auth) {
+  /*const postulantesCT = axios.get(
     "http://192.168.1.230:8088/skr_v1/postulanteComplemento/get/"
   );
-  return postulantesCT;
+  return postulantesCT;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/postulanteComplemento/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });  
 }
 
-function getPostulanteB() {
-  const postulantes = axios.get(
-    "http://192.168.1.230:8088/skr_v1/postulanteB/get"
-  );
-  return postulantes;
+function getPostulanteB(auth) {
+
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/postulanteB/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });  
 }
 
-function getPostulanteBId(id) {
-  const postulante = axios.get(
+function getPostulanteBId(id, auth) {
+  /*const postulante = axios.get(
     "http://192.168.1.230:8088/skr_v1/postulanteB/get/" + id
   );
-  return postulante;
+  return postulante;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/postulanteB/get/" + id, 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });  
 }
 
-function getEmpresa() {
-  const empresa = axios.get("http://192.168.1.230:8088/skr_v1/empresa/get");
-  return empresa;
+function getEmpresa(auth) {
+  /*const empresa = axios.get("http://192.168.1.230:8088/skr_v1/empresa/get");
+  return empresa;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/empresa/get", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });  
 }
 
-function getCita() {
-  const citas = axios.get("http://192.168.1.230:8088/skr_v1/cita/get/");
-  return citas;
+function getCita(auth) {
+  /*const citas = axios.get("http://192.168.1.230:8088/skr_v1/cita/get/");
+  return citas;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/cita/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });  
 }
 
-function getPerfil() {
-  const perfil = axios.get("http://192.168.1.230:8088/skr_v1/perfil/get/");
-  return perfil;
+function getPerfil(auth) {
+  /*const perfil = axios.get("http://192.168.1.230:8088/skr_v1/perfil/get/");
+  return perfil;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/perfil/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+      console.log(response)
+          return response
+      }); 
+     
 }
 
-function postSeccion(jsonRequest, estatus, perfil) {
+function postLogin(usuario, password) {
+  return axios.post("http://192.168.1.230:8088/skr_v1/login",
+ {
+   usuario,
+   password
+ })
+
+}
+
+function postSeccion(jsonRequest, estatus, perfil, auth) {
   /*console.log(jsonRequest);
   console.log(estatus);
   console.log(perfil);*/
@@ -66,7 +151,8 @@ function postSeccion(jsonRequest, estatus, perfil) {
       body: JSON.stringify(jsonRequest),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization":auth
       }
     }
   )
@@ -76,7 +162,7 @@ function postSeccion(jsonRequest, estatus, perfil) {
     .catch(console.log);
 }
 
-function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
+function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente, auth) {
   /*console.log(estatusCita);
   console.log(idPostulanteB);*/
   return fetch(
@@ -94,7 +180,8 @@ function postCita(jsonRequest, estatusCita, idPostulanteB, empresa, cliente) {
       body: JSON.stringify(jsonRequest),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization":auth
       }
     }
   )
@@ -113,7 +200,7 @@ function putPostulanteC(
   idSexo,
   idCv,
   idAprobacion,
-  idPostulanteComplemento
+  idPostulanteComplemento, auth
 ) {
   // debugger
   // console.log("Dentro de la funcion putPostulanteC");
@@ -150,7 +237,8 @@ function putPostulanteC(
     body: JSON.stringify(jsonRequest),
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization":auth
     }
   })
     .then(response => {
@@ -163,7 +251,7 @@ function putPostulanteB(
   requestPostulanteB,
   idEstatusPostulante,
   idPerfil,
-  idPostulanteB
+  idPostulanteB, auth
 ) {
   // debugger;
   //console.log( requestPostulanteB);
@@ -176,7 +264,8 @@ function putPostulanteB(
     body: JSON.stringify(requestPostulanteB),
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization":auth
     }
   })
     .then(response2 => {
@@ -193,7 +282,7 @@ function postPostulanteC(
   idCarrera,
   idSexo,
   idCv,
-  idAprobacion
+  idAprobacion, auth
 ) {
   return fetch(
     "http://192.168.1.230:8088/skr_v1/postulanteComplemento/" +
@@ -216,7 +305,8 @@ function postPostulanteC(
       body: JSON.stringify(jsonRequest),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization":auth
       }
     }
   )
@@ -228,11 +318,23 @@ function postPostulanteC(
     });
 }
 
-function getEstatusPostulante() {
-  const estatusPostulante = axios.get(
+function getEstatusPostulante(auth) {
+  /*const estatusPostulante = axios.get(
     "http://192.168.1.230:8088/skr_v1/estatusPostulante/get/"
   );
-  return estatusPostulante;
+  return estatusPostulante;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/estatusPostulante/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      }); 
 }
 
 function putCita(
@@ -241,7 +343,7 @@ function putCita(
   idPostulanteB,
   idEmpresa,
   idCliente,
-  idCita
+  idCita, auth
 ) {
   /*console.log(estatusCita);
   console.log(idPostulanteB);
@@ -262,7 +364,8 @@ function putCita(
       body: JSON.stringify(jsonRequest),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization":auth
       }
     }
   )
@@ -272,91 +375,239 @@ function putCita(
     .catch(console.log);
 }
 
-function getEstatusTitulacion() {
-  const EstatusTitulacion = axios.get(
+function getEstatusTitulacion(auth) {
+  /*const EstatusTitulacion = axios.get(
     "http://192.168.1.230:8088/skr_v1/estatusTitulacion/get/"
   );
-  return EstatusTitulacion;
+  return EstatusTitulacion;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/estatusTitulacion/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      }); 
 }
 
-function getEscuelas() {
-  const escuela = axios.get("http://192.168.1.230:8088/skr_v1/escuela/get/");
+function getEscuelas(auth) {
+  /*const escuela = axios.get("http://192.168.1.230:8088/skr_v1/escuela/get/");
   //console.log(escuela);
-  return escuela;
+  return escuela;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/escuela/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      }); 
 }
 
-function getCliente() {
-  const cliente = axios.get("http://192.168.1.230:8088/skr_v1/cliente/get");
-  return cliente;
+function getCliente(auth) {
+  /*const cliente = axios.get("http://192.168.1.230:8088/skr_v1/cliente/get");
+  return cliente;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/cliente/get", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      }); 
 }
 
-function getCarrera() {
-  const carrera = axios.get("http://192.168.1.230:8088/skr_v1/carrera/get/");
-  return carrera;
+function getCarrera(auth) {
+  /*const carrera = axios.get("http://192.168.1.230:8088/skr_v1/carrera/get/");
+  return carrera;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/carrera/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      }); 
 }
 
-function getSexo() {
-  const sexo = axios.get("http://192.168.1.230:8088/skr_v1/sexo/get/");
-  return sexo;
+function getSexo(auth) {
+  /*const sexo = axios.get("http://192.168.1.230:8088/skr_v1/sexo/get/");
+  return sexo;*/
+
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/sexo/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      }); 
 }
 
-function getEstatusCV() {
-  const estatusCV = axios.get(
+function getEstatusCV(auth) {
+  /*const estatusCV = axios.get(
     "http://192.168.1.230:8088/skr_v1/estatusCV/get/"
   );
-  return estatusCV;
+  return estatusCV;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/estatusCV/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      }); 
 }
 
-function getEstatusAprobacion() {
-  const EstatusAprobacion = axios.get(
+function getEstatusAprobacion(auth) {
+  /*const EstatusAprobacion = axios.get(
     "http://192.168.1.230:8088/skr_v1/estatusAprobacion/get/"
   );
-  return EstatusAprobacion;
+  return EstatusAprobacion;*/
+
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/estatusAprobacion/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      }); 
 }
 
-function getExamenes() {
-  const examenes = axios.get("http://192.168.1.230:8088/skr_v1/examen/get/");
-  return examenes;
+function getExamenes(auth) {
+  /*const examenes = axios.get("http://192.168.1.230:8088/skr_v1/examen/get/");
+  return examenes;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/examen/get/", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });
 }
 
-function getEntrevista() {
-  const entrevistas = axios.get(
+function getEntrevista(auth) {
+  /*const entrevistas = axios.get(
     "http://192.168.1.230:8088/skr_v1/entrevista/get"
   );
-  return entrevistas;
+  return entrevistas;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/entrevista/get", 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });
 }
 
-function getCitaId(id) {
-  const cita = axios.get("http://192.168.1.230:8088/skr_v1/cita/get/" + id);
-  return cita;
+function getCitaId(id, auth) {
+  /*const cita = axios.get("http://192.168.1.230:8088/skr_v1/cita/get/" + id);
+  return cita;*/
+
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/cita/get/" + id, 
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });
 }
 
-function getTipoExamen() {
-  const tipoExamenes = axios.get(
+function getTipoExamen(auth) {
+  /*const tipoExamenes = axios.get(
     "http://192.168.1.230:8088/skr_v1/tipoExamen/get"
   );
-  return tipoExamenes;
+  return tipoExamenes;*/
+
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/tipoExamen/get" ,
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });
 }
 
-function getSecciones() {
-  const secciones = axios.get("http://192.168.1.230:8088/skr_v1/seccion/get");
-  return secciones;
+function getSecciones(auth) {
+  /*const secciones = axios.get("http://192.168.1.230:8088/skr_v1/seccion/get");
+  return secciones;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/seccion/get" ,
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });
 }
 
-function postExamen(jsonRequest, idCita, idTipoExamen) {
+function postExamen(jsonRequest, idCita, idTipoExamen, auth) {
   return fetch(
     "http://192.168.1.230:8088/skr_v1/examen/" +
       idCita +
       "/" +
       idTipoExamen +
-      "/" +
       "/post",
     {
       method: "POST",
       body: JSON.stringify(jsonRequest),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization":auth
       }
     }
   )
@@ -366,7 +617,7 @@ function postExamen(jsonRequest, idCita, idTipoExamen) {
     .catch(console.log);
 }
 
-function postSecciones(jsonRequest, idExamen) {
+function postSecciones(jsonRequest, idExamen, auth) {
   return fetch(
     "http://192.168.1.230:8088/skr_v1/seccion/" + idExamen + "/post",
     {
@@ -374,7 +625,8 @@ function postSecciones(jsonRequest, idExamen) {
       body: JSON.stringify(jsonRequest),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization":auth
       }
     }
   )
@@ -384,7 +636,7 @@ function postSecciones(jsonRequest, idExamen) {
     .catch(console.log);
 }
 
-function putSeccion(jsonRequest, idExamen, idSeccion) {
+function putSeccion(jsonRequest, idExamen, idSeccion, auth) {
   return fetch(
     "http://192.168.1.230:8088/skr_v1/seccion/" +
       idExamen +
@@ -395,7 +647,8 @@ function putSeccion(jsonRequest, idExamen, idSeccion) {
       body: JSON.stringify(jsonRequest),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization":auth
       }
     }
   )
@@ -405,7 +658,7 @@ function putSeccion(jsonRequest, idExamen, idSeccion) {
     .catch(console.log);
 }
 
-async function deleteSeccion(idSeccion) {
+async function deleteSeccion(idSeccion, auth) {
   //debugger;
   //console.log(idSeccion);
   try {
@@ -416,7 +669,8 @@ async function deleteSeccion(idSeccion) {
         body: JSON.stringify(idSeccion),
         headers: {
           Accept: "application/json",
-          "Content-Type": "text/plain"
+          "Content-Type": "text/plain",
+          "Authorization":auth
         }
       }
     );
@@ -426,14 +680,26 @@ async function deleteSeccion(idSeccion) {
   }
 }
 
-function getTipoEntrevista() {
-  const tipoEntrevistas = axios.get(
+function getTipoEntrevista(auth) {
+  /*const tipoEntrevistas = axios.get(
     "http://192.168.1.230:8088/skr_v1/tipoEntrevista/get"
   );
-  return tipoEntrevistas;
+  return tipoEntrevistas;*/
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/tipoEntrevista/get" ,
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });
 }
 
-function postEntrevista(jsonRequest, idTipoEntrevista, idCita) {
+function postEntrevista(jsonRequest, idTipoEntrevista, idCita, auth) {
   const url = "http://192.168.1.230:8088/skr_v1/entrevista/";
   const path = idTipoEntrevista + "/" + idCita + "/post";
 
@@ -442,7 +708,8 @@ function postEntrevista(jsonRequest, idTipoEntrevista, idCita) {
     body: JSON.stringify(jsonRequest),
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization":auth
     }
   })
     .then(response => {
@@ -452,6 +719,119 @@ function postEntrevista(jsonRequest, idTipoEntrevista, idCita) {
     .catch(console.log);
 }
 
+function getRoles(auth)
+{
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/roles/get" ,
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });
+}
+
+function postUsuario(rol, jsonRequest, auth)
+{
+  return fetch(
+    //"http://localhost:8080/usuario/"+rol+"/post",
+    
+    "http://192.168.1.230:8088/skr_v1/usuario/" + rol + "/post",
+    {
+      method: "POST",
+      body: JSON.stringify(jsonRequest),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Authorization":auth
+      }
+    }
+  )
+    .then(response => {
+      return response.json();
+    })
+    .catch(console.log);
+}
+
+function getUsuario(usuario, auth)
+{
+  //"http://192.168.1.230:8088/skr_v1/usuario/get"
+  return axios({ 
+    method: 'GET',
+    url: "http://localhost:8080/usuario/get/"+usuario ,
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });
+}
+
+function getUsuarios(auth)
+{
+  return axios({ 
+    method: 'GET',
+    url: "http://192.168.1.230:8088/skr_v1/usuario/get/",
+    headers: {  
+      "Content-Type": "application/json",
+      "Authorization": auth,
+      "Accept": "application/json"
+      },                   
+    })
+    .then(response => {
+          return response
+      });
+}
+
+function putUsuario(idRol, jsonRequest, IdUsuario, auth)
+{
+  //"http://localhost:8080/usuario/"+idRol+"/put/"+IdUsuario,
+  return fetch(
+    "http://192.168.1.230:8088/skr_v1/usuario/" + idRol + "/put/"+IdUsuario,
+    
+    {
+      method: "PUT",
+      body: JSON.stringify(jsonRequest),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Authorization":auth
+      }
+    }
+  )
+    .then(response => {
+      return response.json();
+    })
+    .catch(console.log);
+}
+
+async function deleteUsuario(id_usuario, auth)
+{
+  try {
+    await fetch(
+      "http://192.168.1.230:8088/skr_v1/usuario/delete/" + id_usuario,
+      {
+        method: "DELETE",
+        body: JSON.stringify(id_usuario),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "text/plain",
+          "Authorization":auth
+        }
+      }
+    );
+    console.log("eliminado");
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export {
   getTipoEntrevista,
@@ -486,4 +866,11 @@ export {
   postEntrevista,
   getCitaId,
   putSeccion,
+  postLogin,
+  getRoles,
+  getUsuario,
+  getUsuarios,
+  postUsuario,
+  putUsuario,
+  deleteUsuario
 };

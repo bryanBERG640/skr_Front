@@ -7,8 +7,10 @@ import salir from "../../Imagenes/salir.png";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
-import { setUsuario, setRol } from "../../actions/postulanteB";
+import { setUsuario, setRol, setAuth } from "../../actions/postulanteB";
 import { watcherUser } from "../Login/watcher";
+import { postLogin } from "../../request/request";
+
 
 class Login extends Component {
   state = {
@@ -26,6 +28,9 @@ class Login extends Component {
         this.setState({ auth: true });
         this.setState({ usuario: user.displayName });
         this.setState({ fotoUsuario: user.providerData[0].photoURL });
+        watcherUser(usuarios => {
+          this.setState({ usuarios });
+        });
       } else {
         this.setState({ auth: false });
         this.setState({ usuario: null });
@@ -37,15 +42,23 @@ class Login extends Component {
   }
 
   verificacion = () => {
-    watcherUser(usuarios => {
-      this.setState({ usuarios });
-    });
+    //console.log("verificando...");
+    // watcherUser(usuarios => {
+    //   this.setState({ usuarios });
+    // });
 
     this.state.usuarios.map(us => {
       //console.log(us);
 
       if (us.correo === this.props.usuario.email) {
         this.props.dispatchSetRol(us.rol);
+
+        postLogin(us.nombre, us.correo)
+          .then(response => {
+            this.props.dispatchSetAuth(response.headers.authorization);
+          })
+          .catch(console.log);
+        this.setState({ isLoading: false });
       }
       return us;
     });
@@ -110,7 +123,7 @@ class Login extends Component {
 
         {this.state.auth === true ? (
           <div className="row">
-            {this.props.rol === "admin" || this.props.rol === "SuperAdmin" ? (
+            {this.props.rol === "Admin" || this.props.rol === "SuperAdmin" ? (
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -161,7 +174,8 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => ({
   dispatchSetUsuario: value => dispatch(setUsuario(value)),
-  dispatchSetRol: value => dispatch(setRol(value))
+  dispatchSetRol: value => dispatch(setRol(value)),
+  dispatchSetAuth: value => dispatch(setAuth(value))
 });
 
 const mapStateToProps = state => ({

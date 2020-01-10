@@ -38,6 +38,9 @@ class Citas extends React.Component {
                 {cit.cliente.descripcion}
               </TableCell>
               <TableCell style={{ fontSize: "12px" }}>
+                {exa.entrevistador}
+              </TableCell>
+              <TableCell style={{ fontSize: "12px" }}>
                 {exa.observaciones}
               </TableCell>
             </TableRow>
