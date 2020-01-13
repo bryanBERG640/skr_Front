@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import consulta_PB from "./componentes/consulta_PB";
 import Layout from "./componentes/Layout";
 import FichaPostulante from "./componentes/FichaPostulante";
@@ -24,7 +24,10 @@ import HomeView from "./componentes/paginas/Home";
 function App() {
   return (
     <React.Fragment>
-      <Router history={history}>
+      <BrowserRouter
+        basename={process.env.REACT_APP_ROUTER_BASE || ""}
+        history={history}
+      >
         <AuthContextProvider>
           <Layout>
             <Root>
@@ -135,7 +138,7 @@ function App() {
             </Root>
           </Layout>
         </AuthContextProvider>
-      </Router>
+      </BrowserRouter>
     </React.Fragment>
   );
 }

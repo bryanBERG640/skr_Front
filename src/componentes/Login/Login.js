@@ -51,6 +51,8 @@ class Login extends Component {
       //console.log(us);
 
       if (us.correo === this.props.usuario.email) {
+        
+
         this.props.dispatchSetRol(us.rol);
 
         postLogin(us.nombre, us.correo)
