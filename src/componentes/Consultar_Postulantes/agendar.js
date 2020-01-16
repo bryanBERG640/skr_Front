@@ -1,15 +1,20 @@
+//LIBRERIAS
 import React from "react";
-import IconoAgendar from "../Imagenes/agendarcita.png";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { postCita, putCita, putPostulanteB } from "../request/request";
-import { setCita } from "../actions/postulanteB";
-import { getEmpresa, getCliente } from "../request/request";
-import { clickCompletarDatos } from "../actions/postulanteB";
-import Autocompletado from "./Autocompletado/Autocommpletado";
-import { number } from "prop-types";
-import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
 import { Grid } from "@material-ui/core";
+import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
+
+//RUTAS
+import IconoAgendar from "../../Imagenes/agendarcita.png";
+
+import { postCita, putCita, putPostulanteB } from "../../request/request";
+import { setCita } from "../../actions/postulanteB";
+import { getEmpresa, getCliente } from "../../request/request";
+import { clickCompletarDatos } from "../../actions/postulanteB";
+import Autocompletado from "../Autocompletado/Autocommpletado";
+import { number } from "prop-types";
+
 
 const ColoredLine = ({ color }) => (
     <hr

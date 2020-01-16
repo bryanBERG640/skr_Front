@@ -1,28 +1,27 @@
+//LIBRERIAS
 import React from "react";
-import "../App.css";
-import "./styles/agregar_PB.css";
-import "./styles/Formatos.css";
-import "./styles/FormatoImagenes.css";
-import agregar from "../Imagenes/agregar.png";
-import {
-  getPerfil,
-  postSeccion,
-  getEstatusPostulante,
-  putPostulanteB
-} from "../request/request";
-import agrP from "../Imagenes/agregar-postulante.png";
 import { Link } from "react-router-dom";
-import {
-  ValidatorForm,
-  TextValidator,
-  SelectValidator
-} from "react-material-ui-form-validator";
-import { connect } from "react-redux";
-import { setPostulante } from "../actions/postulanteB";
-import Dropzone from "react-dropzone";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Grid } from "@material-ui/core";
+import { ValidatorForm, TextValidator, SelectValidator } from "react-material-ui-form-validator";
+import { connect } from "react-redux";
+import Dropzone from "react-dropzone";
+
+//RUTAS
+import agregar from "../../Imagenes/agregar.png";
+import agrP from "../../Imagenes/agregar-postulante.png";
+
+import "../../App.css";
+import "../styles/agregar_PB.css";
+import "../styles/Formatos.css";
+import "../styles/FormatoImagenes.css";
+
+import { getPerfil, postSeccion, getEstatusPostulante, putPostulanteB } from "../../request/request";
+
+import { setPostulante } from "../../actions/postulanteB";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -318,21 +317,19 @@ class agregar_PB extends React.Component {
     //console.log(this.state.FileSrc);
     const { respPerf, respEstatus } = this.state;
     var i
-    var perfiles=[]
-    var estatus=[]
+    var perfiles = []
+    var estatus = []
 
-    for(i=0; i<respPerf.length; i++)
-    {
-      perfiles[i]=<option value={respPerf[i].id_perfil} style={{ textAlign: "left" }} key={respPerf[i].id_perfil}>
-      {respPerf[i].descripcion}
-    </option>
+    for (i = 0; i < respPerf.length; i++) {
+      perfiles[i] = <option value={respPerf[i].id_perfil} style={{ textAlign: "left" }} key={respPerf[i].id_perfil}>
+        {respPerf[i].descripcion}
+      </option>
     }
 
-    for(i=0; i<respEstatus.length; i++)
-    {
-      estatus[i]=<option value={respEstatus[i].id_estatus_postulante} style={{ textAlign: "left" }} key={respEstatus[i].id_estatus_postulante}>
-      {respEstatus[i].descripcion}
-    </option>
+    for (i = 0; i < respEstatus.length; i++) {
+      estatus[i] = <option value={respEstatus[i].id_estatus_postulante} style={{ textAlign: "left" }} key={respEstatus[i].id_estatus_postulante}>
+        {respEstatus[i].descripcion}
+      </option>
     }
 
     /*const perfiles = respPerf.map(perf => {
@@ -367,7 +364,7 @@ class agregar_PB extends React.Component {
             <ColoredLine color="black" />
           </Grid>
           <Grid item>
-          <img className="agregarP" src={agrP} alt="agregarP" />
+            <img className="agregarP" src={agrP} alt="agregarP" />
           </Grid>
           <Grid item>
             <ColoredLine color="black" />
@@ -546,8 +543,8 @@ class agregar_PB extends React.Component {
                     </a>
                   </div>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
                 {this.state.FileSrc === null ? (
                   <div>
                     <img
@@ -557,8 +554,8 @@ class agregar_PB extends React.Component {
                     />
                   </div>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </div>
               <br />
               <Dropzone

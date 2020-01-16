@@ -1,15 +1,24 @@
+//LIBRERIAS 
 import React from "react";
 import PropTypes from "prop-types";
+
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import NoSsr from "@material-ui/core/NoSsr";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import Datos from "./ficha.postulantes/Datos";
-import Citas from "./ficha.postulantes/Citas";
-import Entrevistas from "./ficha.postulantes/Entrevistas";
-import Examenes from "./ficha.postulantes/Examenes";
+
+//RUTAS
+import Datos from "./Datos";
+import Citas from "./Citas";
+import Entrevistas from "./Entrevistas";
+import Examenes from "./Examenes";
+
+
+
+
+
 
 function TabContainer(props) {
   return (

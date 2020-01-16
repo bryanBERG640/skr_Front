@@ -1,22 +1,20 @@
+//LIBRERIAS
 import React, { Component } from "react";
-import Icono from "../Imagenes/consultarcita.png";
-import Agenda from "../Imagenes/agenda.png";
+import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import "./styles/Formatos.css";
-import { connect } from "react-redux";
-import FiltroFechas from "./filtros/filtroFechas";
-import {
-  setCita,
-  setPostulante,
-  setRadioButton,
-  setCliente,
-  setExamen,
-  setSeccion,
-  setEntrevista,
-  changeValor
-} from "../actions/postulanteB";
 import { Grid } from "@material-ui/core";
+
+
+//RUTAS
+import Icono from "../../Imagenes/consultarcita.png";
+import Agenda from "../../Imagenes/agenda.png";
+
+import "../styles/Formatos.css";
+
+import FiltroFechas from "../filtros/filtroFechas";
+import { setCita, setPostulante, setRadioButton, setCliente, setExamen, setSeccion, setEntrevista,
+  changeValor } from "../../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
   <hr

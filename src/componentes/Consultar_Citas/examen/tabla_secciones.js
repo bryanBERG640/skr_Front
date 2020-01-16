@@ -1,7 +1,10 @@
+//LIBRERIAS
 import React from "react";
 import { connect } from "react-redux";
-import { getSecciones, getExamenes } from "../../request/request";
-import { setSeccion, changeValor } from "../../actions/postulanteB";
+
+//RUTAS
+import { getSecciones, getExamenes } from "../../../request/request";
+import { setSeccion, changeValor } from "../../../actions/postulanteB";
 
 class TablaSeccion extends React.Component {
   state = {

@@ -1,11 +1,16 @@
+//LIBRERIAS
 import React from "react";
-import IconAge from "../Imagenes/agenda.png";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { putCita } from "../request/request";
+import { Link } from "react-router-dom";
 import { number } from "prop-types";
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import { Grid } from "@material-ui/core";
+
+//RUTAS
+import IconAge from "../../Imagenes/agenda.png";
+import { putCita } from "../../request/request";
+
+
 
 
 const ColoredLine = ({ color }) => (

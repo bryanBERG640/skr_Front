@@ -1,13 +1,16 @@
+//LIBRERIAS
 import React from "react";
-import Ficha from "./Ficha";
-import { Container, Grid } from "@material-ui/core";
-import IconoExamen from "../Imagenes/avatar.png";
+import { connect } from "react-redux";import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
-import { Link } from "react-router-dom";
-import "../App.css";
-import { progresBar } from "./progress";
-import FiltrosFichaPostulante from "./filtros/FiltrosFichaPostulante";
-import { connect } from "react-redux";
+import { Container, Grid } from "@material-ui/core";
+
+//RUTAS
+import Ficha from "./Ficha";
+import IconoExamen from "../../../Imagenes/avatar.png";
+import "../../../App.css";
+import { progresBar } from "../../progress";
+import FiltrosFichaPostulante from "../../filtros/FiltrosFichaPostulante";
+
 
 const ColoredLine = ({ color }) => (
   <hr

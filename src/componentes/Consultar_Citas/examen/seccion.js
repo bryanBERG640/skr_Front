@@ -1,18 +1,14 @@
+//LIBRERIAS
 import React from "react";
-import {
-  postSecciones,
-  getTipoExamen,
-  getExamenes,
-  getSecciones,
-  deleteSeccion,
-  putSeccion
-} from "../../request/request";
 import { connect } from "react-redux";
-import TablaSecciones from "./tabla_secciones";
-import { setSeccion, changeValor } from "../../actions/postulanteB";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { Grid } from "@material-ui/core";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
+//RUTAS
+import { postSecciones, getTipoExamen, getExamenes, getSecciones, deleteSeccion, 
+  putSeccion } from "../../../request/request";
+import TablaSecciones from "./tabla_secciones";
+import { setSeccion, changeValor } from "../../../actions/postulanteB";
 
 const ColoredLine = ({ color }) => (
   <hr

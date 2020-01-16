@@ -1,13 +1,8 @@
+//LIBRERIAS 
 import React from "react";
-import {
-  TableHead,
-  TableBody,
-  Table,
-  TableCell,
-  TableRow,
-  Paper
-} from "@material-ui/core";
 import { connect } from "react-redux";
+import { TableHead, TableBody, Table, TableCell, TableRow, Paper } from "@material-ui/core";
+
 
 class Entrevistas extends React.Component {
   state = {

@@ -1,6 +1,5 @@
 import React from "react";
-import Navbar from "./NavBar";
-
+import Navbar from "../Global/NavBar";
 function layout(props) {
   return (
     <React.Fragment>

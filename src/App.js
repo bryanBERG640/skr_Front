@@ -1,26 +1,33 @@
 import React from "react";
+import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import consulta_PB from "./componentes/consulta_PB";
-import Layout from "./componentes/Layout";
-import FichaPostulante from "./componentes/FichaPostulante";
-import consultarCita from "./componentes/consultarCita";
-import Agregar_PB from "./componentes/agregar_PB";
-import agendar from "./componentes/agendar";
-import agregar_comentario from "./componentes/agrcom";
-import Examen from "./componentes/examen/Examen";
-import Postulante from "./componentes/Postulante";
+
 import NotFound from "./componentes/paginas/NotFound";
 import Entrevista from "./componentes/Entrevistas/Entrevista";
 import Login from "./componentes/Login/LoginView";
-import "./App.css";
 import history from "./history";
 import PrivateRoute from "./componentes/paginas/PrivateRoute";
 import { AuthContextProvider } from "./componentes/Login/auth";
 import Root from "./componentes/filtros/Root";
-import Usuarios from "./componentes/admin/consultaUsuarios";
-import HomeView from "./componentes/paginas/Home";
-// import Filter from "./componentes/filtros/general";
 
+//RUTAS
+import Usuarios from "./componentes/Administrador/consultaUsuarios";
+import HomeView from "./Global/Home";
+import Layout from "./Global/Layout";
+
+//RUTA POSTULANTE
+import Agregar_PB from "./componentes/Agregar_Postulante/agregar_PB";
+import Postulante from "./componentes/Consultar_Postulantes/Postulante";
+import agendar from "./componentes/Consultar_Postulantes/agendar";
+import FichaPostulante from "./componentes/Consultar_Postulantes/Ficha_Postulante/FichaPostulante";
+import consulta_PB from "./componentes/Consultar_Postulantes/consulta_PB";
+
+//RUTA CITA
+import consultarCita from "./componentes/Consultar_Citas/consultarCita";
+import Examen from "./componentes/Consultar_Citas/examen/Examen";
+import agregar_comentario from "./componentes/Consultar_Citas/agrcom";
+
+// import Filter from "./componentes/filtros/general";
 function App() {
   return (
     <React.Fragment>

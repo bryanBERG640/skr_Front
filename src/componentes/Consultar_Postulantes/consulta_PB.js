@@ -1,33 +1,25 @@
+//LIBRERIAS
 import React, { Component } from "react";
 import { connect } from "react-redux"; //Sirve para conectar las librerias de react y redux, se utiliza para cada componente que se quiera dar acceso al store.
-import Icono from "../Imagenes/postulantes.png";
-import "./styles/Formatos.css";
-import "./styles/FormatoImagenes.css";
-import lupa from "../Imagenes/lupa.png";
-import FiltrosPB from "./filtros/filtrosPB";
-import { getPerfil } from "../request/request";
-//Se agregan las librerias necesarias para usar redux.
-import {
-  clickAgendar,
-  clickBuscar,
-  clickAgregarPostulante,
-  clickCompletarDatos,
-  clickMostrarFicha
-} from "../actions/postulanteB";
-import { filtrosPBReducer } from "../reducers/filtrosPBReducer";
-import {
-  setCita,
-  setPostulante,
-  setPostulanteC,
-  setCliente,
-  setExamen,
-  setSeccion,
-  setEntrevista,
-  setRadioButton
-} from "../actions/postulanteB";
-import "./styles/Formatos.css";
-import Loading from "./paginas/Loading";
 import { Grid } from "@material-ui/core";
+
+//RUTAS
+import Icono from "../../Imagenes/postulantes.png";
+import lupa from "../../Imagenes/lupa.png";
+
+import "../styles/Formatos.css";
+import "../styles/FormatoImagenes.css";
+import "../styles/Formatos.css";
+
+import FiltrosPB from "../filtros/filtrosPB";
+import { getPerfil } from "../../request/request";
+//Se agregan las librerias necesarias para usar redux.
+import { clickAgendar, clickBuscar, clickAgregarPostulante, clickCompletarDatos,
+   clickMostrarFicha } from "../../actions/postulanteB";
+import { filtrosPBReducer } from "../../reducers/filtrosPBReducer";
+import { setCita, setPostulante, setPostulanteC, setCliente, setExamen, setSeccion, setEntrevista,
+   setRadioButton } from "../../actions/postulanteB";
+import Loading from "../paginas/Loading";
 
 const ColoredLine = ({ color }) => (
   <hr

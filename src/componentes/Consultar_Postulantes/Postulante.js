@@ -1,16 +1,19 @@
+//LIBRERIAS
 import React from "react";
 import { Link } from "react-router-dom";
-import IconoExamen from "../Imagenes/avatar.png";
-import { connect } from "react-redux";
-import {
-    getCarrera, getEscuelas, getEstatusAprobacion, getEstatusTitulacion, getSexo, getEstatusCV, getPerfil, getEstatusPostulante, putPostulanteC,
-    postPostulanteC, putPostulanteB
-} from "../request/request";
-import Autocompletado from './Autocompletado/Autocommpletado';
-import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
-import {setPostulante, setPostulanteC} from '../actions/postulanteB'
 import Dropzone from "react-dropzone";
+import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
+import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
+
+//RUTAS
+import IconoExamen from "../../Imagenes/avatar.png";
+
+import Autocompletado from '../Autocompletado/Autocommpletado';
+import { getCarrera, getEscuelas, getEstatusAprobacion, getEstatusTitulacion, getSexo, 
+    getEstatusCV, getPerfil, getEstatusPostulante, putPostulanteC, postPostulanteC, putPostulanteB
+} from "../../request/request";
+import {setPostulante, setPostulanteC} from '../../actions/postulanteB'
 
 const ColoredLine = ({ color }) => (
     <hr
@@ -556,7 +559,7 @@ class Postulante extends React.Component {
                                 className="btn btn-secondary"
                                 {...getRootProps()}>
                                     <input {...getInputProps()} />
-                                    {!isDragActive && "Click aqui o arrastra tu Imagen!"}
+                                    {!isDragActive && "Click aqui o arrastra tu Imagen"}
                                     {isDragActive && "Suelta la imagen aqui"}
                                 </div>
                                 );

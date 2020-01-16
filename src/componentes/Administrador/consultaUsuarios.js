@@ -1,8 +1,13 @@
+//LIBRERIAS
 import React from "react";
-import { watcherUser } from "../Login/watcher";
 import { connect } from "react-redux";
 import { Grid, Button } from "@material-ui/core";
-import Icono from "../../Imagenes/admin.png";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,15 +15,15 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+
+
+//RUTAS
+import Icono from "../../Imagenes/admin.png";
+
+import { watcherUser } from "../Login/watcher";
 import Editor from "./editor";
 import { setOpen } from "../../actions/postulanteB";
 import { deleteUser } from "../Login/api";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Slide from "@material-ui/core/Slide";
 import { getUsuarios, deleteUsuario } from "../../request/request";
 
 const ColoredLine = ({ color }) => (

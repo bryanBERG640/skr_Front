@@ -1,10 +1,14 @@
+//LIBRERIAS
 import React from "react";
-import Postulantes from "../../Imagenes/postulantes.png";
-import Agenda from "../../Imagenes/agenda.png";
-import agregar from "../../Imagenes/agregar-postulante.png";
 import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import "../styles/FormatoImagenes.css";
+
+//RUTAS
+import Postulantes from "../Imagenes/postulantes.png";
+import Agenda from "../Imagenes/agenda.png";
+import agregar from "../Imagenes/agregar-postulante.png";
+
+import "../componentes/styles/FormatoImagenes.css";
 
 export default class Home extends React.Component {
   render() {

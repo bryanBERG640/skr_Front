@@ -9,12 +9,14 @@ import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import logo from "../Imagenes/logo.png";
-import "./styles/NavBarLogo.css";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import Login from "./Login/Login";
 import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
+
+//Rutas
+import Login from "../componentes/Login/Login";
+import logo from "../Imagenes/logo.png";
+import "../componentes/styles/NavBarLogo.css";
 
 class MenuAppBar extends React.Component {
   state = {
@@ -43,6 +45,10 @@ class MenuAppBar extends React.Component {
 
   render() {
     const sideList = side => (
+
+
+
+
       <div
         role="presentation"
         onClick={this.toggleDrawer(side, false)}
@@ -83,8 +89,8 @@ class MenuAppBar extends React.Component {
             </List>
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
         {this.props.usuario === null ? (
           <div align="center">
             <List>
@@ -100,13 +106,19 @@ class MenuAppBar extends React.Component {
             <Divider />
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
+
     );
     return (
+
+
+
       <React.Fragment>
         <div>
+
+
           <AppBar position="static">
             <Toolbar>
               <Grid item xs={6}>

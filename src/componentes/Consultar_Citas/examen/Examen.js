@@ -1,14 +1,19 @@
+//LIBRERIAS
 import React from "react";
-import IconoExamen from "../../Imagenes/examen.png";
-import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import {connect} from 'react-redux'
-import Seccion from "../examen/seccion";
-import {getTipoExamen} from "../../request/request"
-import {postExamen} from '../../request/request'
-import {setExamen, setCita, setPostulante, setSeccion, changeValor} from '../../actions/postulanteB'
 import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
+import TextField from "@material-ui/core/TextField";
 import { Grid } from "@material-ui/core";
+
+//RUTAS
+import IconoExamen from "../../../Imagenes/examen.png";
+
+import Seccion from "../examen/seccion";
+import {getTipoExamen} from "../../../request/request"
+import {postExamen} from '../../../request/request'
+import {setExamen, setCita, setPostulante, setSeccion, changeValor} from '../../../actions/postulanteB'
+
 
 const ColoredLine = ({ color }) => (
     <hr

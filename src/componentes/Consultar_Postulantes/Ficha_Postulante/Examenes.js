@@ -1,13 +1,8 @@
+//RUTAS
 import React from "react";
-import {
-  TableHead,
-  TableBody,
-  Table,
-  TableRow,
-  TableCell,
-  Paper
-} from "@material-ui/core";
 import { connect } from "react-redux";
+import { TableHead, TableBody, Table, TableRow, TableCell, Paper } from "@material-ui/core";
+
 
 class Citas extends React.Component {
   state = {

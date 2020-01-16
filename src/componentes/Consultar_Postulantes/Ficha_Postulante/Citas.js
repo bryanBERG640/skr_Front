@@ -1,14 +1,13 @@
+//LIBRERIAS
 import React, { Component } from "react";
-import {
-  TableHead,
-  TableBody,
-  Table,
-  TableCell,
-  TableRow
-} from "@material-ui/core";
-import { getPostulanteBId } from "../../request/request";
-import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
+import Paper from "@material-ui/core/Paper";
+import { TableHead, TableBody, Table, TableCell, TableRow } from "@material-ui/core";
+
+//RUTAS
+import { getPostulanteBId } from "../../../request/request";
+
+
 
 class Citas extends Component {
   state = {

@@ -1,29 +1,25 @@
+//LIBRERIAS
 import React from "react";
-import {
-  ValidatorForm,
-  TextValidator,
-  SelectValidator
-} from "react-material-ui-form-validator";
+import { connect } from "react-redux";
+import { ValidatorForm, TextValidator, SelectValidator } from "react-material-ui-form-validator";
 import { Grid, Button } from "@material-ui/core";
 import ReactDOM from "react-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Loading from "../paginas/Loading";
-import { connect } from "react-redux";
-import { setOpen } from "../../actions/postulanteB";
-import { createUser, updateUser } from "../Login/api";
-import {
-  postUsuario,
-  putUsuario,
-  getRoles,
-  getUsuarios
-} from "../../request/request";
-import Slide from "@material-ui/core/Slide";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import Slide from "@material-ui/core/Slide";
+
+//RUTAS
 import aprobado from "../../Imagenes/palomita_verde.png";
 import rechazado from "../../Imagenes/cancelado.png";
+
+import Loading from "../paginas/Loading";
+import { setOpen } from "../../actions/postulanteB";
+import { createUser, updateUser } from "../Login/api";
+import { postUsuario, putUsuario, getRoles, getUsuarios } from "../../request/request";
+
 
 const fecha = new Date();
 const dia = fecha.getDate();

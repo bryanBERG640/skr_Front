@@ -1,7 +1,10 @@
+//LIBRERIAS
 import React, { Component } from "react";
-import { Typography } from "@material-ui/core";
-import "../../App.css";
 import { connect } from "react-redux"; //Se utiliza para conectar al store.
+import { Typography } from "@material-ui/core";
+
+//RUTAS
+import "../../../App.css";
 
 class Datos extends Component {
   render() {
