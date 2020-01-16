@@ -1,22 +1,20 @@
+//LIBRERIAS
 import React from "react";
-import IconoEntrevista from "../../Imagenes/entrevista.png";
-import TextField from "@material-ui/core/TextField";
-import {
-  getTipoEntrevista,
-  getCliente,
-  postEntrevista
-} from "../../request/request";
 import { Link } from "react-router-dom";
-import TablaEntrevista from "./TablaEntrevista";
+
 import { connect } from "react-redux";
 import { number } from "prop-types";
-import { setEntrevista } from "../../actions/postulanteB";
-import {
-  ValidatorForm,
-  TextValidator,
-  SelectValidator
-} from "react-material-ui-form-validator";
+import TextField from "@material-ui/core/TextField";
 import { Grid } from "@material-ui/core";
+import { ValidatorForm, TextValidator, SelectValidator } from "react-material-ui-form-validator";
+
+
+//RUTAS
+import IconoEntrevista from "../../../Imagenes/entrevista.png";
+
+import { getTipoEntrevista, getCliente, postEntrevista } from "../../../request/request";
+import { setEntrevista } from "../../../actions/postulanteB";
+import TablaEntrevista from "../Entrevistas/TablaEntrevista";
 
 const ColoredLine = ({ color }) => (
   <hr

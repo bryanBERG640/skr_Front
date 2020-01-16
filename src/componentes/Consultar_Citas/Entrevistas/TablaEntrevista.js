@@ -1,7 +1,12 @@
+//LIBRERIAS
 import React, { Component } from "react";
-import "../styles/Formatos.css";
-import { getEntrevista, getCitaId } from "../../request/request";
 import { connect } from "react-redux";
+
+//RUTAS
+
+import "../../styles/Formatos.css";
+import { getEntrevista, getCitaId } from "../../../request/request";
+
 
 class TablaEntrevista extends Component {
   constructor(props) {

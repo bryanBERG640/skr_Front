@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import NotFound from "./componentes/paginas/NotFound";
-import Entrevista from "./componentes/Entrevistas/Entrevista";
+
 import Login from "./componentes/Login/LoginView";
 import history from "./history";
 import PrivateRoute from "./componentes/paginas/PrivateRoute";
@@ -26,6 +26,9 @@ import consulta_PB from "./componentes/Consultar_Postulantes/consulta_PB";
 import consultarCita from "./componentes/Consultar_Citas/consultarCita";
 import Examen from "./componentes/Consultar_Citas/examen/Examen";
 import agregar_comentario from "./componentes/Consultar_Citas/agrcom";
+import Entrevista from "./componentes/Consultar_Citas/Entrevistas/Entrevista";
+
+
 
 // import Filter from "./componentes/filtros/general";
 function App() {
