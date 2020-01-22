@@ -90,3 +90,13 @@
   border-radius: 50%;
   background-size: 100% auto;
 }
+
+.actualizar{
+  width: 50;
+  height: 50;
+  margin-top: 25px;
+  margin-left: 2%;
+  margin-right: 0%;
+  background: white;
+  display: flex;
+}

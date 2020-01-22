@@ -3,7 +3,8 @@ import firebase from "./Firebase";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
-import salir from "../../Imagenes/salir.png";
+//import salir from "../../Imagenes/salir.png";
+import cerrar from "../../Imagenes/cerrar_sesion.webp"
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
@@ -162,7 +163,7 @@ class Login extends Component {
               color="inherit"
             >
               <Link to="/Login" onClick={this.logOut}>
-                <Avatar src={salir} alt="Logo" />
+                <Avatar src={cerrar} alt="Logo" />
               </Link>
             </IconButton>
           </div>

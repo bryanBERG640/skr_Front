@@ -135,27 +135,6 @@ function postLogin(usuario, password) {
    usuario,
    password
  })
-// const jsonRequest=
-// {
-//   usuario,
-//   password
-// }
-// return fetch(
-//   "http://192.168.1.230:8088/skr_v1/login",
-//   {
-//     method: "POST",
-//     body: JSON.stringify(jsonRequest),
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json"
-//     }
-//   }
-// )
-//   .then(response => {
-//     console.log(response)
-//     return response
-//   })
-//   .catch(console.log);
 
 }
 

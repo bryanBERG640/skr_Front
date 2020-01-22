@@ -6,6 +6,7 @@ import { Grid } from "@material-ui/core";
 //RUTAS
 import Icono from "../../Imagenes/postulantes.png";
 import lupa from "../../Imagenes/lupa.png";
+import Actualizar from "../../Imagenes/refresh.png"
 
 import "../styles/Formatos.css";
 import "../styles/FormatoImagenes.css";
@@ -15,11 +16,13 @@ import FiltrosPB from "../filtros/filtrosPB";
 import { getPerfil } from "../../request/request";
 //Se agregan las librerias necesarias para usar redux.
 import { clickAgendar, clickBuscar, clickAgregarPostulante, clickCompletarDatos,
-   clickMostrarFicha } from "../../actions/postulanteB";
+   clickMostrarFicha, 
+   setOpen} from "../../actions/postulanteB";
 import { filtrosPBReducer } from "../../reducers/filtrosPBReducer";
 import { setCita, setPostulante, setPostulanteC, setCliente, setExamen, setSeccion, setEntrevista,
    setRadioButton } from "../../actions/postulanteB";
 import Loading from "../paginas/Loading";
+import {AuthContext} from "../Login/auth"
 
 const ColoredLine = ({ color }) => (
   <hr
@@ -33,13 +36,17 @@ const ColoredLine = ({ color }) => (
 );
 
 class consulta_PB extends Component {
+
+  static contextType=AuthContext;
+
   state = {
     respPerf: [],
     perfil: "",
     nombre: "null",
     apellido1: "",
     apellido2: "",
-    isLoading: false
+    isLoading: false,
+    auth:this.context.token
   };
 
   handleSelect = e => {
@@ -80,7 +87,7 @@ class consulta_PB extends Component {
   };
 
   getPerfil = async () => {
-    const nuevoGet = await getPerfil(this.props.auth);
+    const nuevoGet = await getPerfil(this.state.auth);
     this.setState({
       respPerf: nuevoGet.data
     });
@@ -126,6 +133,11 @@ class consulta_PB extends Component {
   handleClickMostrarFicha = e => {
     this.props.dispatchClickMostrarFicha("MostrarFicha"); //Se almacena en el store una función.
   };
+
+  handleClickActualizar=()=>
+  {
+    this.props.dispatchSetOpen(true)
+  }
 
   render() {
     const { respPerf } = this.state;
@@ -251,6 +263,16 @@ class consulta_PB extends Component {
                 Mostrar Ficha
               </button>
             </Grid>
+            <Grid item>
+              <button
+                onClick={this.handleClickActualizar}
+                name="actualizarTabla"
+                type="button"
+                className="btn btn-button-transparent"
+              >
+                <img style={{width:40, height:40}} src={Actualizar} alt="actualizar"/>
+              </button>
+          </Grid>
           </Grid>
         </form>
 
@@ -286,7 +308,8 @@ const mapStateToProps = state => {
     cita: state.cita,
     radiobutton: state.radiobutton,
     postulantec: state.postulantec,
-    auth: state.auth
+    auth: state.auth,
+    open: state.open
   };
 };
 
@@ -305,7 +328,8 @@ const mapDispatchProps = dispatch => ({
   dispatchSetExamen: value => dispatch(setExamen(value)),
   dispatchSetSeccion: value => dispatch(setSeccion(value)),
   dispatchSetEntrevista: value => dispatch(setEntrevista(value)),
-  dispatchSetRadioButton: value => dispatch(setRadioButton(value))
+  dispatchSetRadioButton: value => dispatch(setRadioButton(value)),
+  dispatchSetOpen: value=> dispatch(setOpen(value))
 });
 
 export default connect(mapStateToProps, mapDispatchProps)(consulta_PB); //El segundo parametro del metodo connect permitira trabajar con las acciones.

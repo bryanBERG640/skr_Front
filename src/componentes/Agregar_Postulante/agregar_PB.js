@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Grid } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import { ValidatorForm, TextValidator, SelectValidator } from "react-material-ui-form-validator";
 import { connect } from "react-redux";
 import Dropzone from "react-dropzone";
@@ -583,9 +583,9 @@ class agregar_PB extends React.Component {
 
               <br />
               <br />
-              <Link to="/consultar-Postulantes" className="btn btn-primary">
+              <Button variant="contained" href="/consultar-Postulantes">
                 Salir
-              </Link>
+              </Button>
             </div>
           </ValidatorForm>
         </div>

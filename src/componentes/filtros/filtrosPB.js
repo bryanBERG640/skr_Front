@@ -1,41 +1,60 @@
 import React from "react";
 import { connect } from "react-redux"; //Sirve para conectar las librerias de react y redux, se utiliza para cada componente que se quiera dar acceso al store.
 import { getPostulanteB } from "../../request/request";
-import { setPostulante } from "../../actions/postulanteB";
+import { setPostulante, setOpen } from "../../actions/postulanteB";
 import { setPostulanteC } from "../../actions/postulanteB";
 import { getPostulanteTodo } from "../../request/request";
 import { setRadioButton } from "../../actions/postulanteB";
 import Cargando from "../paginas/Loading"
+import {AuthContext} from "../Login/auth"
+
+// const Auth=props=>(
+//   (
+//         <div>
+//           <AuthContext.Consumer>
+//             {
+//              (context)=>
+//              (return context.state.token)
+//             }
+//           </AuthContext.Consumer>
+//         </div>
+//       )
+// )
+
+
 
 class filtrosPB extends React.Component {
+
+  static contextType=AuthContext;
+
+
   state = {
     
     resp: [],
     pos: [],
-    postulanteC: []
+    postulanteC: [],
+    auth:this.context.token
   };
 
   componentDidMount() {
-    //if (previousProps !== this.props) {
-      //console.log("actualizando por Props")
+    //console.log("didmountFiltros")
+      //if(this.context) this.setState({auth:this.context.token})
       this.getPostulanteB();
       this.getPostulanteTodo();
 
-    // }
-    // if (previousState === this.state) {
-    //   //console.log("actualizando por State")
-    //   this.getPostulanteB();
-    //   this.getPostulanteTodo();
-    // }
   }
+
   getPostulanteB = async () => {
-    const nuevoGet = await getPostulanteB(this.props.auth);
+    //console.log(this.state.auth)
+    const nuevoGet = await getPostulanteB(this.state.auth);
     this.setState({ resp: nuevoGet.data });
   };
+
   getPostulanteTodo = async () => {
-    const nuevoGet = await getPostulanteTodo(this.props.auth);
+    const nuevoGet = await getPostulanteTodo(this.state.auth);
     this.setState({ postulanteC: nuevoGet.data });
   };
+
   handleClick = e => {
     // debugger
     let verdadero = false;
@@ -60,8 +79,20 @@ class filtrosPB extends React.Component {
     this.props.dispatchSetRadioButton("Pulsado");
   };
 
+  actualizar()
+  {
+    this.getPostulanteB();
+    this.getPostulanteTodo();
+    this.props.dispatchSetOpen(false)
+  }
+
   render() {
     const { resp } = this.state;
+
+    //console.log(this.state.auth)
+
+    if(this.props.open===true)
+      this.actualizar()
 
     var groupPB=[]
     var x
@@ -325,12 +356,14 @@ class filtrosPB extends React.Component {
 const mapDispatchToProps = dispatch => ({
   dispatchSetPostulante: value => dispatch(setPostulante(value)),
   dispatchSetPostulantC: value => dispatch(setPostulanteC(value)),
-  dispatchSetRadioButton: value => dispatch(setRadioButton(value))
+  dispatchSetRadioButton: value => dispatch(setRadioButton(value)),
+  dispatchSetOpen: value=> dispatch(setOpen(value))
 });
 
 const mapStateToProps = state => ({
   postulante: state.postulante,
-  auth: state.auth
+  auth: state.auth,
+  open:state.open
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(filtrosPB); //El segundo parametro del metodo connect permitira trabajar con las acciones.

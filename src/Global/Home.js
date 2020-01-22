@@ -25,13 +25,13 @@ export default class Home extends React.Component {
             alignItems="center"
           >
             <Grid item>
-              <Link to="/consultar-Postulantes">
+              <a href="/consultar-Postulantes">
                 <img
                   className="postulantesHome"
                   src={Postulantes}
                   alt="postulantes"
                 />
-              </Link>
+              </a>
               <h2>Consultar Postulantes</h2>
             </Grid>
             <Grid item>

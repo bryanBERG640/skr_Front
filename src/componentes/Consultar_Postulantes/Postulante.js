@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
 import { connect } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 
 //RUTAS
 import IconoExamen from "../../Imagenes/avatar.png";
@@ -936,11 +936,9 @@ class Postulante extends React.Component {
                                 </button>
                             </div>
                             <div >
-                                <Link to="/consultar-Postulantes" 
-                                    className="btn btn-secondary"
-                                >
+                                <Button variant="contained" href="/consultar-Postulantes">
                                     Cancelar
-                                </Link>
+                                </Button>
                             </div>
                             <br/>
                         </div>
