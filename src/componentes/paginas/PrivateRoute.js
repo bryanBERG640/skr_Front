@@ -10,16 +10,6 @@ class PrivateRoute extends React.Component {
     autorizado: null
   };
 
-  // componentDidMount() {
-  //   this.Autorizacion();
-  // }
-
-  // Autorizacion = async () => {
-  //   const autorizado = await Autorizacion(this.props.allowed, this.props.rol);
-  //   console.log("autorizado?: " + autorizado);
-  //   this.setState({ autorizado });
-  // };
-
   render() {
     const { isLoggedIn } = this.context;
     const { allowed, type, ...rest } = this.props;

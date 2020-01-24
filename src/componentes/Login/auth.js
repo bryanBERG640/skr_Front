@@ -42,9 +42,6 @@ export class AuthContextProvider extends React.Component {
 
   verificacion = () => {
     //console.log("verificando...");
-    // watcherUser(usuarios => {
-    //   this.setState({ usuarios });
-    // });
 
     this.state.usuarios.map(us => {
       //console.log(us);
@@ -61,8 +58,6 @@ export class AuthContextProvider extends React.Component {
           })
           .catch(console.log);
       }
-      // else
-      //   this.setState({token:"denegado"})
 
       return us;
     });
