@@ -1,6 +1,5 @@
 //LIBRERIAS
 import React from "react";
-import { Link } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import {ValidatorForm, TextValidator, SelectValidator} from 'react-material-ui-form-validator'
 import { connect } from "react-redux";

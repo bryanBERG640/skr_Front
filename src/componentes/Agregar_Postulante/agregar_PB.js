@@ -1,6 +1,5 @@
 //LIBRERIAS
 import React from "react";
-import { Link } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Grid, Button } from "@material-ui/core";
 import { ValidatorForm, TextValidator, SelectValidator } from "react-material-ui-form-validator";
